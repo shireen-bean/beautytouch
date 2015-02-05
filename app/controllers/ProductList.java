@@ -1,9 +1,12 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import models.User;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.*;
-
 import views.html.*;
 
 public class ProductList extends Controller {
@@ -20,6 +23,16 @@ public class ProductList extends Controller {
     		return redirect("/");
     	}
     	return ok(productList.render());
+    }  
+
+    public static Result productListJson(){
+    	
+    	if(!loggedIn()){
+    		return redirect("/");
+    	}
+    	ArrayNode list = Database.getProductList();
+    	
+     	return ok(list);
     }  
     
 }

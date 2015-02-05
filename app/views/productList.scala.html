@@ -4,17 +4,36 @@
 	@sidebar()
 }{
 
-<script>
-$(document).ready(function(){
-	//set active tab in sidebar
-	$("#productList").addClass("active");
-});
-</script>
-
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/table.css")">
+        
+<div ng-app="" ng-controller="productListController"> 
 <div class="mainContent">
 <h1>Product List</h1>
-<!-- <div class="mainMessage"><i class="fa fa-info-circle"></i>View, edit, and export your completed reports.</div>
- -->
- </div>
+
+<table class="listTable" cellspacing='0'>
+  <thead>
+		<tr>
+			<th></th>
+			<th>sku#</th>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Description</th>
+			<th>PackageType</th>
+		</tr>
+  </thead>
+  <tr ng-click="loadProduct(product.itemSku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
+    <td><img class="productListImage" ng-src="assets/images/products/{{product.itemImg}}"></td>
+    <td>{{ product.itemSku }}</td>
+    <td>{{ product.itemName }}</td>
+    <td>{{ product.price | currency}}</td>
+    <td>{{ product.itemDescription }}</td>
+    <td>{{ product.packageType }}</td>
+  </tr>
+</table>
+
+
+</div>
+</div>
+<script src="@routes.Assets.at("javascripts/productListController.js")" type="text/javascript"></script>
 
 }

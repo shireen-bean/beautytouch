@@ -8,7 +8,7 @@
 
 	@loading()
 
-	<h1>Product - sku# {{itemSku}}</h1>
+	<h1>Product - sku# {{itemSkuLabel}}</h1>
 	
 	<div class="mainMessage">
 		<i class="fa fa-info-circle"></i>
@@ -17,40 +17,45 @@
 	
 	<h2>Product details
 	</h2>
-	<table class="formTable">
+	<table class="productTable">
 		<tr>
-			<td><span style="color:red">*</span>Product name:</td>
+			<td><span style="color:red">*</span>Product name:<br>
+			<font color="red">{{itemNameError}}</font>
+			</td>
 			<td>
 				<input style="" type="text" size="53" id="itemName" ng-model="itemName"/>
 			</td>
 		</tr>
 		<tr>
-			<td><span style="color:red">*</span>Image:</td>
+			<td><span style="color:red">*</span>Image:<br>
+			<font color="red">{{itemImgError}}</font>
+			</td>
 			<td>
 				<input id="fileupload" type="file" name="files[]" data-url="postProductImage" title="">
 				<img id="productImage">
 			</td>
 		</tr>
 		<tr>
-			<td><span style="color:red">*</span>Price:</td>
-			<td>
-				<input style="" type="text" size="53" id="price" ng-model="price"/>
+			<td><span style="color:red">*</span>Price:<span style="float:right;"></span><br>
+			<font color="red">{{priceError}}</font></td>
+			<td style="vertical-align: top;">
+				$ &nbsp;<input style="" type="text" size="10" id="price" ng-model="price"/>
 			</td>
 		</tr>
 		<tr>
 			<td>Description:</td>
 			<td>
-				<input style="" type="text" size="53" id="itemDescription" ng-model="itemDescription"/>
+				<textarea style="" type="text" rows="3" cols="38" id="itemDescription" ng-model="itemDescription"></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td><span style="color:red">*</span>Package type:</td>
 			<td>
-				<select ng-model="packageType" ng-options="opt as opt.label for opt in packageTypeOptions">></select>
-			</td> 
+					<select id="packageSelect" ng-model="packageType" ng-options="opt as opt.label for opt in packageTypeOptions"></select>																
+			 </td> 
 		</tr>
 	</table><br>
-		<button class="cleanButton greenButton" id="submit" onClick="button_click(this.id)">
+		<button class="cleanButton greenButton" id="submit" ng-click="submit()">
 		Save
 	</button>
 
