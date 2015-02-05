@@ -1,0 +1,75 @@
+@main("Dashbard"){ @topNav() }{ @sidebar() }{
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+<div ng-app="" ng-controller="machineController"> 
+
+<div class="mainContent">
+
+	<h1>Vending Machine - {{id}}</h1>
+	
+	<div class="mainMessage">
+		<i class="fa fa-info-circle"></i>
+		Register or update vending machine information.
+	</div>
+	
+	<h2>Inventory
+	<button class="cleanButton greenButton" id="submit" onClick="button_click(this.id)">
+		Save
+	</button>
+	</h2>
+	
+	<div class="containerWrapper"  ng-repeat="c in containers">
+
+		<div class="inventoryLevel">
+			&nbsp;{{c.position}}<br>
+			<div style="display:none;">{{c.levelTop = 100-c.numItems/c.totalCapacity*100}}</div>
+			<div style="display:none;">{{c.levelHeight = c.numItems/c.totalCapacity*100}}</div>
+<!-- 			<div style="display:none;">{{c.levelwidth = c.numItems/c.totalCapacity*100}}</div> -->
+			<div ng-style="{'top':c.levelTop+ '%','height':c.levelHeight+ '%'}" class="level" style="">
+ 		</div>
+		</div>
+		<br>
+		<div class="productType">
+			<img class="productImg" src="@routes.Assets.at("images/item{{c.itemSku}}.jpg")"></img><br>
+			<span class="blue">{{c.itemName}}</span>
+			<br>sku# {{c.itemSku}}<br>{{c.numItems}}/{{c.totalCapacity}}<br>${{c.price}}
+		</div>
+	</div>
+	
+	<div style="clear:both;"></div>
+	
+	
+	<h2>Location
+	<button class="cleanButton greenButton" id="submit" onClick="button_click(this.id)">
+		Save
+	</button>
+	</h2>
+	
+	<table>
+		<tr>
+			<td>Address:</td>
+			<td>
+				<input style="display:inline;" type="text" size="53" id="address" name="address" value=""/>
+			</td>
+		</tr>
+	</table><br>
+	
+	<button class="cleanButton" id="verify" onClick="button_click(this.id)">
+			Verify Address
+	</button><br><br>
+	
+	<div id="map_canvas" style="margin: 0px; width: 500px; height: 300px"></div>
+
+	<br>
+
+
+</div>
+
+</div>
+
+<script src="@routes.Assets.at("javascripts/machineController.js")" type="text/javascript"></script>
+
+}
+
+

@@ -1,0 +1,24 @@
+@(title: String)(topNav: Html)(sidebar: Html)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"><link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.11.1.min.js")" type="text/javascript"></script>
+    	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    </head>
+    <body>
+    	<div class="topNavContainer">
+			@topNav
+    	</div>
+    	<div class="sidebarContainer">
+    		@sidebar
+    	</div>
+    	<div class="mainContentContainer">
+        	@content
+        </div>
+    </body>
+</html>

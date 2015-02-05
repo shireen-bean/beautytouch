@@ -1,0 +1,31 @@
+@()
+<script>
+$(document).ready(function(){
+	//set sidebar height
+	var h = $( document ).height();
+	var hTopNav = $(".topNav").height();
+	var marginTop = 0;
+	var hToFill = h-hTopNav-marginTop+"px";
+	$(".sidebar").css("margin-top",marginTop);
+	$(".sidebar").height(hToFill);
+	
+	$(window).resize(function(){
+		//set sidebar height
+		h = $( document ).height();
+		var hToFill = h-hTopNav-marginTop+"px";
+		$(".sidebar").css("margin-top",marginTop);
+		$(".sidebar").height(hToFill);
+	});
+});
+</script>
+<div class="sidebar">
+	<br>
+	<ul>
+	<li><a class="sectionTitle"><i class="fa fa-bar-chart"></i>Vending Machines<i class="fa fa-chevron-down rightIcon"></i></a></li>
+	<li id="dashboard"><a href="dashboard"><i class="fa fa-list-ul subitem"></i>List view</a></li>
+	<li id="machine"><a href="machine"><i class="fa fa-plus-square subitem"></i>Create new</a></li>
+	<li><a class="sectionTitle"><i class="fa fa-dropbox"></i>Products<i class="fa fa-chevron-down rightIcon"></i></a></li>
+	<li id="productList"><a href="productList"><i class="fa fa-list-ul subitem"></i>List view</a></li>
+	<li id="product"><a href="product"><i class="fa fa-plus-square subitem"></i>Create new</a></li>
+	</ul>
+</div>

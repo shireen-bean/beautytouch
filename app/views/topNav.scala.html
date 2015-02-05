@@ -1,0 +1,20 @@
+@()
+<script>
+function accountDropdownClicked(){
+	$(".accountDropdown").fadeToggle("fast");
+}
+</script>
+<div class="topNav">
+	<img class="mainLogo" src="@routes.Assets.at("images/logoIncWhite.png")"></img>
+	<div class="rightLinks">
+		<div onclick="accountDropdownClicked()">
+			<a>
+			<i style="font-size:20px;" class="fa fa-user"></i>
+			&nbsp;&nbsp;@session.get("user")&nbsp;&nbsp;
+			<i class="fa fa-sort-desc"></i></a>
+		</div>
+</div>
+</div>
+<div class="accountDropdown">
+	<a href="/logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;logout</a>
+</div>

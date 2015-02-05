@@ -1,0 +1,72 @@
+@main("Dashbard"){ @topNav() }{ @sidebar() }{
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+<div ng-app="" ng-controller="productController"> 
+
+<div class="mainContent">
+
+	@loading()
+
+	<h1>Product - sku# {{itemSku}}</h1>
+	
+	<div class="mainMessage">
+		<i class="fa fa-info-circle"></i>
+		Create or edit product
+	</div>
+	
+	<h2>Product details
+	</h2>
+	<table class="formTable">
+		<tr>
+			<td><span style="color:red">*</span>Product name:</td>
+			<td>
+				<input style="" type="text" size="53" id="itemName" ng-model="itemName"/>
+			</td>
+		</tr>
+		<tr>
+			<td><span style="color:red">*</span>Image:</td>
+			<td>
+				<input id="fileupload" type="file" name="files[]" data-url="postProductImage" title="">
+				<img id="productImage">
+			</td>
+		</tr>
+		<tr>
+			<td><span style="color:red">*</span>Price:</td>
+			<td>
+				<input style="" type="text" size="53" id="price" ng-model="price"/>
+			</td>
+		</tr>
+		<tr>
+			<td>Description:</td>
+			<td>
+				<input style="" type="text" size="53" id="itemDescription" ng-model="itemDescription"/>
+			</td>
+		</tr>
+		<tr>
+			<td><span style="color:red">*</span>Package type:</td>
+			<td>
+				<select ng-model="packageType" ng-options="opt as opt.label for opt in packageTypeOptions">></select>
+			</td> 
+		</tr>
+	</table><br>
+		<button class="cleanButton greenButton" id="submit" onClick="button_click(this.id)">
+		Save
+	</button>
+
+</div>
+
+</div>
+
+<script src="@routes.Assets.at("javascripts/productController.js")" type="text/javascript"></script>
+
+<script src="@routes.Assets.at("javascripts/jquery.ui.widget.js")"></script>
+<script src="@routes.Assets.at("javascripts/jquery.iframe-transport.js")"></script>
+<script src="@routes.Assets.at("javascripts/jquery.fileupload.js")"></script>
+<script>
+
+</script>
+
+}
+
+
