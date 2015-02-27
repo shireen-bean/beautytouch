@@ -10,7 +10,7 @@
 <div class="mainContent">
 <h1>Product List</h1>
 
-<table class="listTable" cellspacing='0'>
+<table class="styledTable" cellspacing='0'>
   <thead>
 		<tr>
 			<th></th>
@@ -18,7 +18,7 @@
 			<th>Name</th>
 			<th>Price</th>
 			<th>Description</th>
-			<th>PackageType</th>
+			<th>Package</th>
 		</tr>
   </thead>
   <tr ng-click="loadProduct(product.itemSku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">

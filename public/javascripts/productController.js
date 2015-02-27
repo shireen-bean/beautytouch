@@ -54,7 +54,6 @@ function productController($scope,$http) {
     	$scope.itemSkuLabel="not assigned yet"
     }
     $scope.submit=function(){
-    	
     	//build product json object
     	 var jsonProduct = 
          {
@@ -70,13 +69,12 @@ function productController($scope,$http) {
     	
     	$http.post('/postProduct', jsonProduct).
 		  success(function(data, status, headers, config) {
-			console.log(data);
-			console.log(data.success);
 			if(data.success=="true"){
 				window.location="/productList";
 			}
 			
 			//show errors
+			$(".errorMessage").fadeIn();
 			$scope.itemNameError=data.itemNameError;
 			$scope.itemImgError=data.itemImgError;
 			$scope.priceError=data.priceError;
@@ -142,10 +140,5 @@ $(document).ready(function() {
 	$("#product").addClass("active");
 });
 
-function loadingAnimation(){
-	$("#loadingDiv").css('display','block');
-}
-function stopLoadingAnimation(){
-	$("#loadingDiv").css('display','none');
-}
+
 

@@ -47,8 +47,6 @@ public class Product extends Controller {
     	
     	JsonNode jn = request().body().asJson();
     	
-    	System.out.println(jn.toString());
-    	
     	String itemName = jn.get("itemName").asText();
     	String itemSku = jn.get("itemSku").asText();
     	String itemImg = jn.get("itemImg").asText();

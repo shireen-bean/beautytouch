@@ -27,7 +27,7 @@ public class Application extends Controller {
         
         if(Database.userLogin(username,password)){
         	session("user",username);
-        	return redirect("/dashboard");
+        	return redirect("/machineList");
         }else{
         	flash("error","login failed");
         	return redirect("/");

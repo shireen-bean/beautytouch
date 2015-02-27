@@ -12,8 +12,11 @@ POST    /postProduct		        controllers.Product.postProduct()
 GET     /productList                controllers.ProductList.productList()
 GET     /productListJson            controllers.ProductList.productListJson()
 GET     /logout                     controllers.Application.logout()
-GET     /dashboard                  controllers.Dashboard.dashboard()
+GET     /machineList                controllers.MachineList.machineList()
+GET     /machineListJson            controllers.MachineList.machineListJson()
 GET     /machine                    controllers.Machine.machine()
+GET     /machineJson                controllers.Machine.machineJson(id)
+POST    /postMachine		        controllers.Machine.postMachine()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

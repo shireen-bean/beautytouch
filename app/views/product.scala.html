@@ -15,9 +15,14 @@
 		Create or edit product
 	</div>
 	
+	<div class="errorMessage" style="display:none;">
+		<i class="fa fa-exclamation-triangle"></i>
+		Form contains errors.
+	</div>
+	
 	<h2>Product details
 	</h2>
-	<table class="productTable">
+	<table class="productTable" cellspacing='0'>
 		<tr>
 			<td><span style="color:red">*</span>Product name:<br>
 			<font color="red">{{itemNameError}}</font>
@@ -45,7 +50,7 @@
 		<tr>
 			<td>Description:</td>
 			<td>
-				<textarea style="" type="text" rows="3" cols="38" id="itemDescription" ng-model="itemDescription"></textarea>
+				<textarea style="height:60px;" type="text" rows="3" cols="38" id="itemDescription" ng-model="itemDescription"></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -64,7 +69,6 @@
 </div>
 
 <script src="@routes.Assets.at("javascripts/productController.js")" type="text/javascript"></script>
-
 <script src="@routes.Assets.at("javascripts/jquery.ui.widget.js")"></script>
 <script src="@routes.Assets.at("javascripts/jquery.iframe-transport.js")"></script>
 <script src="@routes.Assets.at("javascripts/jquery.fileupload.js")"></script>

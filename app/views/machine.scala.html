@@ -1,65 +1,110 @@
 @main("Dashbard"){ @topNav() }{ @sidebar() }{
 
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/table.css")">
 
 <div ng-app="" ng-controller="machineController"> 
 
+<div id="chooseItemDiv">
+	<div style="padding:20px;background:white;border-radius:10px; margin:10px 20% 0px 20%;">
+		<h1>Choose an item</h1>
+		<a href="javascript:$('#chooseItemDiv').css('display','none')">
+		<i class="fa fa-times" style="float: right;text-align: right;padding: 20px;margin-top: -80px;font-size: 30px;color: #444;"></i>
+		</a>
+		<table class="styledTable modal" cellspacing='0'>
+		  <thead>
+				<tr>
+					<th></th>
+					<th>sku#</th>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Description</th>
+					<th>Package</th>
+				</tr>
+		  </thead>
+		  <tr ng-click="selectedProduct(product.itemSku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
+		    <td><img class="productListImage" ng-src="assets/images/products/{{product.itemImg}}"></td>
+		    <td>{{ product.itemSku }}</td>
+		    <td>{{ product.itemName }}</td>
+		    <td>{{ product.price | currency}}</td>
+		    <td>{{ product.itemDescription }}</td>
+		    <td>{{ product.packageType }}</td>
+		  </tr>
+		</table>
+
+
+	</div>
+</div>
+
 <div class="mainContent">
 
-	<h1>Vending Machine - {{id}}</h1>
+	@loading()
+	
+	<h1>Vending Machine - {{itemIDLabel}}</h1>
 	
 	<div class="mainMessage">
 		<i class="fa fa-info-circle"></i>
-		Register or update vending machine information.
+		Register or update vending machine.
+	</div>
+	
+	<div class="errorMessage" style="display:none;">
+		<i class="fa fa-exclamation-triangle"></i>
+		verify address to continue
 	</div>
 	
 	<h2>Inventory
-	<button class="cleanButton greenButton" id="submit" onClick="button_click(this.id)">
+	<button class="cleanButton greenButton" id="submit" ng-click="saveClicked()">
 		Save
 	</button>
 	</h2>
 	
-	<div class="containerWrapper"  ng-repeat="c in containers">
-
-		<div class="inventoryLevel">
-			&nbsp;{{c.position}}<br>
-			<div style="display:none;">{{c.levelTop = 100-c.numItems/c.totalCapacity*100}}</div>
-			<div style="display:none;">{{c.levelHeight = c.numItems/c.totalCapacity*100}}</div>
-<!-- 			<div style="display:none;">{{c.levelwidth = c.numItems/c.totalCapacity*100}}</div> -->
-			<div ng-style="{'top':c.levelTop+ '%','height':c.levelHeight+ '%'}" class="level" style="">
- 		</div>
+	<div class="containerWrapper"  ng-repeat="c in machine.containers">
+		<div  ng-click="changeItem($index)">
+			<div class="inventoryLevel"><div class="levelNum">{{c.position}}</div><br>
+				<div style="display:none;">{{c.levelTop = 100-c.numItems/c.totalCapacity*100}}</div>
+				<div style="display:none;">{{c.levelHeight = c.numItems/c.totalCapacity*100}}</div>
+	<!-- 			<div style="display:none;">{{c.levelwidth = c.numItems/c.totalCapacity*100}}</div> -->
+				<div ng-style="{'top':c.levelTop+ '%','height':c.levelHeight+ '%'}" class="level" style="">
+	 		</div>
+			</div>
+			<br>
+			<div class="productType">
+				<img class="productImg" src="@routes.Assets.at("images/products/{{c.product.itemImg}}")"></img><br>
+				<span class="blue">{{c.product.itemName}}</span>
+				<br>sku# {{c.product.itemSku}}<br>{{c.numItems}}/{{c.totalCapacity}}<br>${{c.product.price}}
+			</div>
+			<font style="color:#0582CA">edit</font>
 		</div>
-		<br>
-		<div class="productType">
-			<img class="productImg" src="@routes.Assets.at("images/item{{c.itemSku}}.jpg")"></img><br>
-			<span class="blue">{{c.itemName}}</span>
-			<br>sku# {{c.itemSku}}<br>{{c.numItems}}/{{c.totalCapacity}}<br>${{c.price}}
-		</div>
+		
 	</div>
 	
 	<div style="clear:both;"></div>
 	
 	
 	<h2>Location
-	<button class="cleanButton greenButton" id="submit" onClick="button_click(this.id)">
+	<button class="cleanButton greenButton" id="submit" ng-click="saveClicked()">
 		Save
 	</button>
 	</h2>
 	
-	<table>
+	<table style="display:inline;">
 		<tr>
 			<td>Address:</td>
 			<td>
-				<input style="display:inline;" type="text" size="53" id="address" name="address" value=""/>
+				<input ng-model="machine.address" style="display:inline;" type="text" size="53" id="address" name="address" value="">
+			</td>
+			<td>
+			<td>
+				<button style="display:inline;" class="cleanButton" id="verify" onClick="button_click(this.id)">
+				Verify Address
+				</button>
 			</td>
 		</tr>
-	</table><br>
+	</table>
+	<br>
+
 	
-	<button class="cleanButton" id="verify" onClick="button_click(this.id)">
-			Verify Address
-	</button><br><br>
-	
-	<div id="map_canvas" style="margin: 0px; width: 500px; height: 300px"></div>
+	<div id="map_canvas" style="margin: 0px; width: 100%; height: 300px"></div>
 
 	<br>
 
