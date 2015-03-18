@@ -1,62 +1,61 @@
-@(userForm: Form[User])
-@import helper._
 
+<!doctype html>
 <html>
-<head>
-        <script src="@routes.Assets.at("javascripts/jquery-1.11.1.min.js")"></script>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/index.css")">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"><link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-		<script>
-		
-/* 		$(document).ready(function(){
-			var widthDoc = $( document ).width();
-			$('.mainBackground').css("background-position-x",widthDoc);
-			var margins = (widthDoc-1000)/2;
-			var margins = Math.max(margins,0);
-			var marginLeft = 500;
-			var marginLeftTotal = marginLeft + margins;
-			var marginString = marginLeftTotal + "px";
-			$('#mainText').fadeIn("fast",function(){});
-			$('.mainBackground').animate({
-				  'background-position-x': marginString
-			}, 300, 'linear');
-			
-		}); */
-		
-/* 		$( window ).resize(function() {
-			  //fix background image position
-				var widthDoc = $( document ).width();
-				var margins = (widthDoc-1000)/2;
-				var margins = Math.max(margins,0);
-				var marginLeft = 500;
-				var marginLeftTotal = marginLeft + margins;
-				var marginString = marginLeftTotal + "px";
-			$('#mainText').fadeIn("slow",function(){});
-			$('.mainBackground').css("background-position-x",marginString);
-		}); */
-		
-		</script>
-</head>
-<body>
-	<div class="topBar mainColorTop">
-		<div id="topInnerDiv" class="innerDiv">
-			<img class="mainLogo" src="@routes.Assets.at("images/logoInc.png")"></img>
-			<div id="topLinks">
-   				@form(routes.Application.login()) {
-					<input placeholder="username" type="text" name="username" id="username" value="">
-					<input placeholder="password" type="password" name="password" id="password" value="">
-					<button style="vertical-align:top;">login</button>
-				}
-				<div class="loginLabel">@flash.get("error")</div>
-			</div>
-		</div>
-	</div>
-	<div class="mainBackground">
-		<div style="text-align:center;padding-top:40px;">
-<!-- 			<i class="fa fa-user" style="font-size:30px;color:white;"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-			<a class="whiteButton">Sign Up</a> -->
-		</div>
-	</div>
-</body>
+  <head>
+  
+	@linksLanding()
+    <meta charset="utf-8">
+    	<title>Oasys</title>
+            
+            <style>
+			body, html{
+			     border:0px;margin:0px;
+			     width: 100%;
+			     height: 100%;
+			     font-family:calibri,helvetica,arial;
+			     font-size:20px;
+			     line-height:24px;
+			}
+			#content{
+			     text-align:center;
+			     padding-top:15%;
+			     opacity:0;
+			}
+			#content img{
+		      max-width:90%;
+		    }
+		    #logo{
+		      width:700px;
+		    }
+            </style>
+            <script type="text/javascript">
+
+            $(document).ready(function(){
+               //$("#content").fadeIn( "slow", function() {});
+                  $( "#content" ).animate({
+				    opacity: "1",
+				    paddingTop: "20%"
+				  }, 1000, function() {
+				    // Animation complete.
+				  });
+            });
+            
+            
+            </script>
+  </head>
+  <body>
+    <div id="content">
+        <img id="logo" src="/assets/images/logoIncMain.png"></img>
+        <br>
+        info&nbsp;<img src="/assets/images/at.png" style="width:12px;"></img>&nbsp;oasysventures.com
+    	
+    	<div class="footerLinks" style="margin:20px;position:fixed;bottom:10px;">
+	    	<a href="contactus">Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<a href="terms">Terms and Conditions</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<a target="_blank" href="https://angel.co/oasys-ventures-1/jobs/56937-senior-full-stack-developer">Apply</a>
+    	</div>
+    
+    </div>
+  </body>
 </html>
+

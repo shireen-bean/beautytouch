@@ -1,0 +1,30 @@
+<html>
+<head>
+@linksVending()
+</head>
+
+<body class="">
+<div ng-app="" ng-controller="checkoutProductSelect"> 
+
+		  <div class="availableListDiv" ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts">
+		  	<div class="availableProduct" id="product{{product.itemSku}}">
+			    <div class="moreInfo"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;more info</div>
+			    <img class="availableListImage" ng-src="assets/images/products/{{product.itemImg}}">
+			    <br>
+			    <div class="btn">
+			    <span class="priceAvailableList">{{ product.price | currency}}<br> </span>
+			    <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Buy Now
+			    </div>
+		    </div>
+		    <div style="clear:both;"></div>
+		  </div>
+	
+	<div id="disclaimer" style="font-size:20px;">Please visit us at www.Oasysventures.com for our refund, privacy and pricing policy.</div>
+</div>
+
+
+
+<script src="@routes.Assets.at("javascripts/checkoutProductSelect.js")" type="text/javascript"></script>
+
+</body>
+</html>

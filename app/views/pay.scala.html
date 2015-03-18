@@ -1,0 +1,37 @@
+<html>
+<head>
+@linksVending()
+</head>
+
+<body class="yellowBody">
+<div ng-app="" ng-controller="payController"> 
+
+
+<!-- <img src="assets/images/blueBackground.jpg" class="blueBackground"/>  -->
+<div class="blueBackground"></div>
+	<div style="position:relative;">
+		<h2 style="font-size:70px;">
+		<br>
+		<i style="font-size:80px;"class="fa fa-credit-card"></i>
+		&nbsp;&nbsp;Swipe card to purchase item&nbsp;&nbsp;<br>
+		</h2>
+			<div class="back" onClick="back()">
+			<i class="fa fa-chevron-left"></i>&nbsp;&nbsp;back
+			</div>
+		<div class="whiteModal">
+			<br><br>
+			<h2 style="margin:20px 0px;">{{product.itemName}}</h2>
+			
+			<img style="display:none;" class="completePurchaseImage" ng-src="assets/images/products/{{product.itemImg}}"/>
+			<div style="clear:both;"></div><br><br><br>
+			{{product.itemDescription}}</br>
+			<h2>{{product.price | currency}}</h2><br>
+			
+		</div>
+	</div>
+</div>
+
+<script src="@routes.Assets.at("javascripts/payController.js")" type="text/javascript"></script>
+
+</body>
+</html>

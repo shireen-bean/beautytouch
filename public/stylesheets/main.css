@@ -215,6 +215,46 @@ a:active {
 	color: white;
 	text-decoration: none;
 }
+.backButton{
+	color:rgb(0, 158, 255);
+	text-align:left;
+	font-size:20px;
+	margin:20px;
+}
+.termsMain{
+	margin:20px;
+	text-align:left;
+}
+
+.showScroll html, .showScroll body{
+	overflow:scroll;
+}
+
+.footerLinks a, .blueLink{
+	color: rgb(0, 158, 255);
+	text-decoration: none;
+}
+.footerLinks a:link, .blueLink:link{
+	color: rgb(0, 158, 255);
+	text-decoration: none;
+}
+
+.footerLinks a:visited,.blueLink:visited {
+	color: rgb(0, 158, 255);
+	text-decoration: none;
+}
+
+.footerLinks a:hover,.blueLink:hover {
+	color: rgb(0, 158, 255);
+	text-decoration: none;
+}
+
+.footerLinks a:active,.blueLink:active {
+	color: rgb(0, 158, 255);
+	text-decoration: none;
+}
+
+
 
 .mainLogo {
 	width: 250px;

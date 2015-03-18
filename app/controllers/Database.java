@@ -452,6 +452,23 @@ public class Database {
        statement.close();
 		
 	}
+
+	public static ArrayList<ProductModel> getAvailableProducts(String machineId) {
+		
+//	    String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
+//	    		"containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
+//	    		"products.itemName, products.itemImg, products.price, products.itemDescription, products.packageType "+
+//	             "FROM machines, containers, products " +
+//	             "WHERE " +
+//	             "machines.id='"+idMachine+"' "+
+//	             "AND machines.id = containers.machineId "+
+//	             "AND containers.itemSku = products.itemSku";
+//	    
+//	    
+	    
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

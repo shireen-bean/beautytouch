@@ -39,12 +39,17 @@ public class Product extends Controller {
     }
     
     public static Result productJson(String sku){
+//    	if(!loggedIn()){
+//    		return redirect("/");
+//    	}
     	ObjectNode product = Database.getProduct(sku);
     	return ok(product);
     }
     
     public static Result postProduct(){
-    	
+    	if(!loggedIn()){
+    		return redirect("/");
+    	}
     	JsonNode jn = request().body().asJson();
     	
     	String itemName = jn.get("itemName").asText();
@@ -101,6 +106,7 @@ public class Product extends Controller {
     }
     
     public static Result postProductImage(){
+
 	    	if(!loggedIn()){
 	    		return redirect("/");
 	    	}

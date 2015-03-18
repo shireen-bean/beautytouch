@@ -20,7 +20,7 @@ function machineController($scope,$http) {
 			      	  mapSetLocation();
 			  	  });
 		    }else{
-		    	$http.get('/machineJson?id=-1'+id).
+		    	$http.get('/machineJson?id=-1').
 			  	  success(function(data, status, headers, config) {
 			  		  $scope.machine = data;
 			  		  
@@ -30,16 +30,16 @@ function machineController($scope,$http) {
 			        $scope.machine.lat = "";
 			      	$scope.machine.lon = "";
 			      	
-			  		for(var i=0;i<2;i++){
-			      		$scope.machine.containers[i].position=i+1;
-			      		$scope.machine.containers[i].numItems="0";
-			      		$scope.machine.containers[i].totalCapacity="40";
-			  			$scope.machine.containers[i].product.itemName=$scope.products[0].itemName;
-			  			$scope.machine.containers[i].product.itemSku=$scope.products[0].itemSku;
-			  			$scope.machine.containers[i].product.itemImg=$scope.products[0].itemImg;
-			  			$scope.machine.containers[i].product.price=$scope.products[0].price;
-			  		}
-			  		for(var i=2;i<8;i++){
+//			  		for(var i=0;i<2;i++){
+//			      		$scope.machine.containers[i].position=i+1;
+//			      		$scope.machine.containers[i].numItems="0";
+//			      		$scope.machine.containers[i].totalCapacity="40";
+//			  			$scope.machine.containers[i].product.itemName=$scope.products[0].itemName;
+//			  			$scope.machine.containers[i].product.itemSku=$scope.products[0].itemSku;
+//			  			$scope.machine.containers[i].product.itemImg=$scope.products[0].itemImg;
+//			  			$scope.machine.containers[i].product.price=$scope.products[0].price;
+//			  		}
+			  		for(var i=0;i<$scope.machine.containers.length;i++){
 			      		$scope.machine.containers[i].position=i+1;
 			      		$scope.machine.containers[i].numItems="0";
 			      		$scope.machine.containers[i].totalCapacity="7";

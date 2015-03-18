@@ -25,7 +25,7 @@ public class Machine extends Controller {
 		}
 		return true;
 	}
-    
+	
     public static Result machine(){
     	if(!loggedIn()){
     		return redirect("/");
@@ -35,6 +35,10 @@ public class Machine extends Controller {
     
 
     public static Result postMachine(){
+
+    	if(!loggedIn()){
+    		return redirect("/");
+    	}
     	
     	JsonNode jn = request().body().asJson();
     	
@@ -72,6 +76,7 @@ public class Machine extends Controller {
     }
     
     public static Result machineJson(String id){
+
     	MachineModel machine = new MachineModel();
     	
     	if(id.equals("-1")){
@@ -81,7 +86,7 @@ public class Machine extends Controller {
         		container.product=new ProductModel();
         		machine.containers.add(container);
         	}
-        	for(int i=2; i<8; i++){
+        	for(int i=2; i<10; i++){
         		Container container= new Container();
         		container.product=new ProductModel();
         		machine.containers.add(container);
