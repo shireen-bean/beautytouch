@@ -1,0 +1,62 @@
+@(userForm: Form[User])
+@import helper._
+
+<html>
+<head>
+        <script src="@routes.Assets.at("javascripts/jquery-1.11.1.min.js")"></script>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/index.css")">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"><link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+		<script>
+		
+/* 		$(document).ready(function(){
+			var widthDoc = $( document ).width();
+			$('.mainBackground').css("background-position-x",widthDoc);
+			var margins = (widthDoc-1000)/2;
+			var margins = Math.max(margins,0);
+			var marginLeft = 500;
+			var marginLeftTotal = marginLeft + margins;
+			var marginString = marginLeftTotal + "px";
+			$('#mainText').fadeIn("fast",function(){});
+			$('.mainBackground').animate({
+				  'background-position-x': marginString
+			}, 300, 'linear');
+			
+		}); */
+		
+/* 		$( window ).resize(function() {
+			  //fix background image position
+				var widthDoc = $( document ).width();
+				var margins = (widthDoc-1000)/2;
+				var margins = Math.max(margins,0);
+				var marginLeft = 500;
+				var marginLeftTotal = marginLeft + margins;
+				var marginString = marginLeftTotal + "px";
+			$('#mainText').fadeIn("slow",function(){});
+			$('.mainBackground').css("background-position-x",marginString);
+		}); */
+		
+		</script>
+</head>
+<body>
+	<div class="topBar mainColorTop">
+		<div id="topInnerDiv" class="innerDiv">
+			<img class="mainLogo" src="@routes.Assets.at("images/logoInc.png")"></img>
+			<div id="topLinks">
+   				@form(routes.Application.login()) {
+					<input placeholder="username" type="text" name="username" id="username" value="">
+					<input placeholder="password" type="password" name="password" id="password" value="">
+					<button style="vertical-align:top;">login</button>
+				}
+				<div class="loginLabel">@flash.get("error")</div>
+			</div>
+		</div>
+	</div>
+	<div class="mainBackground">
+		<div style="text-align:center;padding-top:40px;">
+<!-- 			<i class="fa fa-user" style="font-size:30px;color:white;"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a class="whiteButton">Sign Up</a> -->
+		</div>
+	</div>
+</body>
+</html>

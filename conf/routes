@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET     /admin                      controllers.Application.admin()
 GET     /login                      controllers.Application.login()
 GET     /product                    controllers.Product.product()
 GET     /productJson                controllers.Product.productJson(sku)

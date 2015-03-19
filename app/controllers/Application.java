@@ -22,6 +22,11 @@ public class Application extends Controller {
         return ok(index.render());
     }
     
+    public static Result admin() {
+    	Form<User> userForm = Form.form(User.class);
+        return ok(admin.render(userForm));
+    }
+    
     public static Result login() {
     	//get username and password from query string
         String username = request().getQueryString("username");
@@ -32,7 +37,7 @@ public class Application extends Controller {
         	return redirect("/machineList");
         }else{
         	flash("error","login failed");
-        	return redirect("/");
+        	return redirect("/admin");
         }
         
     }
