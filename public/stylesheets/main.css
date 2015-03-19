@@ -53,6 +53,7 @@ padding-top: 20px;
 }
 
 #chooseItemDiv {
+	overflow:scroll;
 	display: none;
 	position: fixed;
 	z-index: 3000;
