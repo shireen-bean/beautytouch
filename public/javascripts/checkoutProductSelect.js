@@ -61,22 +61,22 @@ function checkoutProductSelect($scope,$http) {
 			var slot = 0;
 	    	switch(columnWithProduct){
 	        case 1:
-	            slot= 1;
+	            slot= 2;
 	            break;
 	        case 2:
-	        	slot=  3;
-	            break;
-	        case 3:
-	        	slot=  5;
-	            break;
-	        case 4:
 	        	slot=  7;
 	            break;
+	        case 3:
+	        	slot=  12;
+	            break;
+	        case 4:
+	        	slot=  17;
+	            break;
 	        case 5:
-	        	slot=  9;
+	        	slot=  22;
 	            break;
 	        case 6:
-	        	slot=  11;
+	        	slot=  26;
 	            break;
 	    	}
 	    	
