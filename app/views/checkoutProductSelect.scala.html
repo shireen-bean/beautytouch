@@ -3,22 +3,26 @@
 @linksVending()
 </head>
 
-<body class="">
-<div ng-app="" ng-controller="checkoutProductSelect"> 
-
-		  <div class="availableListDiv" ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts">
-		  	<div class="availableProduct" id="product{{product.itemSku}}">
-			    <div class="moreInfo"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;more info</div>
-			    <img class="availableListImage" ng-src="assets/images/products/{{product.itemImg}}">
+<body class="" style=""><!-- 
+<div style='width:100%;height:100%;position:absolute;background:rgb(56, 151, 186);'></div> -->
+<div ng-app="" ng-controller="checkoutProductSelect" style="position:relative;"> 
+		
+		<div  ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts"></a>
+		  <div class="availableListDiv" ng-click="productSelected(product.itemSku)" >
+		  	<div ng-click="productSelected(product.itemSku)" class="availableProduct" id="product{{product.itemSku}}">
+			    <div ng-click="productSelected(product.itemSku)" class="moreInfo"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;more info</div>
+			    <img ng-click="productSelected(product.itemSku)" class="availableListImage" ng-src="assets/images/products/{{product.itemImg}}">
 			    <br>
-			    <div class="btn">
-			    <span class="priceAvailableList">{{ product.price | currency}}<br> </span>
-			    <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Buy Now
+			    <div ng-click="productSelected(product.itemSku)" class="btn">
+			    <span ng-click="productSelected(product.itemSku)" class="priceAvailableList">{{ product.price | currency}}<br> </span>
+			    <span ng-click="productSelected(product.itemSku)"><i ng-click="productSelected(product.itemSku)" class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Buy Now</span>
+			    
 			    </div>
 		    </div>
 		    <div style="clear:both;"></div>
 		  </div>
-	
+		</div>
+	<div style="clear:both;"></div>
 	<div id="disclaimer" style="font-size:20px;">Please visit us at www.Oasysventures.com for our refund, privacy and pricing policy.</div>
 </div>
 

@@ -192,6 +192,29 @@ public class Database {
 		}
 	}
 
+	public static String getProductPrice(String sku) {
+		try {
+			if(connection==null){
+				connection = DB.getConnection();
+			}
+			if(connection.isClosed()){
+				connection = DB.getConnection();
+			}
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT itemName,itemSku,itemImg,itemDescription,packageType,price FROM products WHERE itemSku="+sku);
+
+			if (resultSet.next()) {
+				return resultSet.getString("price");
+			}
+			
+			return null;
+
+		} catch (Exception e) {
+			Logger.error("getAll users and emails error:" + e.getMessage());
+			return null;
+		}
+	}
+	
 	public static void addMachineAndContainers(JsonNode jn) throws SQLException{
 		if(connection==null){
 			connection = DB.getConnection();
@@ -468,6 +491,20 @@ public class Database {
 	    
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static void removeItem(String machineId, String column) throws SQLException {
+		//UPDATE Orders SET Quantity = Quantity + 1 WHERE ...
+		if(connection==null){
+			connection = DB.getConnection();
+		}
+		if(connection.isClosed()){
+			connection = DB.getConnection();
+		}
+		Statement statement = connection.createStatement();
+		statement.executeUpdate("UPDATE containers SET "
+		+"numItems=numItems-1 "
+		+"WHERE machineId='"+machineId+"' AND position='"+column+"'");
 	}
 	
 	
