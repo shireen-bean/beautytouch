@@ -1,7 +1,7 @@
 function checkoutProductSelect($scope,$http) {
 	setTimeout(function() {
 		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
-	}, 30000);
+	}, 3600000);
 	
 	$scope.availableProducts=[];
 	
