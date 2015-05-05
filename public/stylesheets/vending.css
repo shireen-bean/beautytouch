@@ -8,16 +8,25 @@ html, body{
   font-family: 'Open Sans', Arial, sans-serif;
 /* 	font-family:proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif; */
 	overflow:hidden;
+ 	/*background:url('../images/marbleShelf.jpg'); */
+	background-size:100% 100%;
 }
-
+#productView{
+	position:absolute;
+	width:100%;
+	top:0;
+	left:0;
+	height:100%;
+}
 .yellowBody{
    background-color: rgb(255, 184, 0);  
 }
 .completePurchaseImage{
-  width: 30%;
+  max-width: 30%;
+  max-height: 30%;
   position: absolute;
   top: 27%;
-  right: 15%;
+  left: 65%;
 }
 .moreInfo{
 	color:rgb(0, 139, 255);
@@ -25,7 +34,7 @@ html, body{
 }
 .whiteModal{
   background: white;
-  background:#f1f1f1;
+  background:#ddd;
   width: 45%;
   height: 50%;
   margin-top: 10%;
@@ -57,7 +66,7 @@ html, body{
   /* bottom: 0; */
  }
 .back{
-  color: #777;
+  color: #444;
   position: absolute;
   top: 60%;
   left: 3%;
@@ -78,16 +87,23 @@ html, body{
 	right:0;
 	bottom:0;
 }
+#mainDivAvailableList{
+	padding-left:10%;
+	padding-top:5%;
+}
 .availableListDiv{
   display: inline;
   float: left;
-  margin: 1%;
-  margin-bottom:0%;
-  width: 31%;
+  /* margin: 1%; */
+  /* margin-bottom: 2%; */
+  width: 13%;
+  padding:1%;
+  height: 38%;
+  padding-top:2%;
   text-align: center;
 }
 .availableProduct{
-  display: inline;
+/*   display: inline;
   float: left;
   margin: 5%;
   width: 85%;
@@ -95,11 +111,14 @@ html, body{
   background: #f1f1f1;
   padding:5%;
   border: 4px solid #ddd;
-  border-radius: 10px;
+  border-radius: 10px; */
 }
 .availableListImage{
-  height: 21%;
-  width: 60%;
+  height:70%;
+  padding-top:5%;
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-size:contain;
 }
 .priceAvailableList{
 	margin-top:10px;
@@ -183,7 +202,8 @@ a{
 	border:none;
 	color:black;
 	font-size:40px;
-	color:#444;
+	color:black;
+/* 	color:white; */
 }
 
 

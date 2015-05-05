@@ -37,6 +37,15 @@ public class Checkout extends Controller {
     	return ok(checkoutProductSelect.render());
     }
     
+    public static Result vendingMain(String machineId){
+    	MachineModel machine = new MachineModel();
+    	
+        	machine = Database.getMachine(machineId);
+    	JsonNode jsonMachine = Json.toJson(machine);
+    	String jsonString = jsonMachine.toString();
+    	return ok(vendingMain.render(jsonString));
+    }
+    
     public static Result thankYou(String productId){
     	return ok(thankYou.render());
     }
@@ -51,6 +60,10 @@ public class Checkout extends Controller {
 
     public static Result vending(){
     	return ok(vending.render());
+    }
+
+    public static Result paymentFailed(){
+    	return ok(paymentFailed.render());
     }
     
     public static Result getTokenBT(){
@@ -95,4 +108,5 @@ public class Checkout extends Controller {
     	
      	return ok(response);
     }
+    
 }

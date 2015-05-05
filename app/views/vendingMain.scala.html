@@ -1,0 +1,60 @@
+@(jsonString: String)
+<html>
+<head>
+@linksVending()
+</head>
+<body class="" style="">
+<div id="machineJsonVariable" style="display:none;">@jsonString</div>
+
+<div id="mainDivAvailableList" ng-app="" ng-controller="vendingMain" style=""> 
+
+
+	<div id="productList">
+		<div  ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts"></a>
+				  <div class="availableListDiv" >
+				  	<div class="availableProduct" id="product{{product.itemSku}}">
+		<!-- 			    <div ng-click="productSelected(product.itemSku)" class="moreInfo"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;more info</div> -->
+					    <div class="availableListImage" style="background-image:url('assets/images/products/{{product.itemImg}}')">
+					    </div>
+					    <br>
+					    <div class="btn">
+					    <span class="priceAvailableList">{{ product.price | currency}}<br> </span>
+		<!-- 			    <span ng-click="productSelected(product.itemSku)"><i ng-click="productSelected(product.itemSku)" class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Buy Now</span>
+					     --></div>
+				    </div>
+				    <div style="clear:both;"></div>
+				  </div>
+				</div> 
+			<div style="clear:both;"></div>
+			<div id="disclaimer" style="font-size:20px;">Please visit us at www.Oasysventures.com for our refund, privacy and pricing policy.</div>
+	</div>
+
+	<div id="productView" style="display:none;">
+		<div style="position:relative;">
+		<h2 style="font-size:70px;">
+		<br>
+		<i style="color:black;font-size:80px;" class="fa fa-credit-card"></i>
+		&nbsp;&nbsp;<span style="color:black;">Swipe card to purchase item</span>&nbsp;&nbsp;<br>
+		</h2>
+			<div ng-click="closeProduct()" class="back" style="color:#444;">
+			<i class="fa fa-chevron-left"></i>&nbsp;&nbsp;back
+			</div>
+		<div class="whiteModal">
+			<br><br>
+			<h2 id="itemName" style="margin:20px 0px;">{{selectedName}}</h2>
+			
+			<img style="" class="completePurchaseImage" ng-src="assets/images/products/{{selectedImg}}"/> 
+			<div style="clear:both;"></div><br><br><br>
+			<span id="productDescription">{{selectedDescription}}</span></br>
+			<h2 id="productPrice">{{selectedPrice | currency}}</h2><br>
+			
+		</div>
+		</div>
+	</div>
+	
+</div>
+
+<script src="@routes.Assets.at("javascripts/vendingMain.js")" type="text/javascript"></script>
+
+</body>
+</html>

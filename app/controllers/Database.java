@@ -375,7 +375,7 @@ public class Database {
 
 	
 	public static MachineModel getMachine(String idMachine) {
-		System.out.println(idMachine);
+		//System.out.println(idMachine);
 		try {
 			if(connection==null){
 				connection = DB.getConnection();
