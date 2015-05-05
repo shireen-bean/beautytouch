@@ -20,6 +20,7 @@ import models.Container;
 import models.MachineModel;
 import models.ProductModel;
 import models.User;
+import play.cache.Cache;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.*;
@@ -27,8 +28,18 @@ import views.html.*;
 
 	public class FileService extends Controller {
 	       public static Result getProductImage(String file){
-		       	  String path = "/public/dynamicFiles/products/";
-	              File myfile = new File (System.getenv("PWD")+path+file);
-	              return ok(myfile);
+	    	   	  Object fileObj = Cache.get(file);
+	    	   	  File c =(File)fileObj;
+	    	   	  if(fileObj!=null){
+	    	   		  //System.out.println("cachedd!");
+	    	   		  return ok(c);
+	    	   	  }
+	    	   	  else{
+	    	   		  //System.out.println("not cached!");
+			       	  String path = "/public/dynamicFiles/products/";
+		              File myfile = new File (System.getenv("PWD")+path+file);
+		              Cache.set(file, myfile);
+		              return ok(myfile);
+	    	   	  }
 	       }
 	}
