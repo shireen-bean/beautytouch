@@ -31,11 +31,9 @@ import views.html.*;
 	    	   	  Object fileObj = Cache.get(file);
 	    	   	  File c =(File)fileObj;
 	    	   	  if(fileObj!=null){
-	    	   		  //System.out.println("cachedd!");
 	    	   		  return ok(c);
 	    	   	  }
 	    	   	  else{
-	    	   		  //System.out.println("not cached!");
 			       	  String path = "/public/dynamicFiles/products/";
 		              File myfile = new File (System.getenv("PWD")+path+file);
 		              Cache.set(file, myfile);
