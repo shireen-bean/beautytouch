@@ -22,7 +22,7 @@
 		</tr>
   </thead>
   <tr ng-click="loadProduct(product.itemSku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
-    <td><img class="productListImage" ng-src="assets/images/products/{{product.itemImg}}"></td>
+    <td><img class="productListImage" ng-src="productImage/{{product.itemImg}}"></td>
     <td>{{ product.itemSku }}</td>
     <td>{{ product.itemName }}</td>
     <td>{{ product.price | currency}}</td>

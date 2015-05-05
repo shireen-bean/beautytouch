@@ -23,7 +23,7 @@
 				</tr>
 		  </thead>
 		  <tr ng-click="selectedProduct(product.itemSku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
-		    <td><img class="productListImage" ng-src="assets/images/products/{{product.itemImg}}"></td>
+		    <td><img class="productListImage" ng-src="productImage/{{product.itemImg}}"></td>
 		    <td>{{ product.itemSku }}</td>
 		    <td>{{ product.itemName }}</td>
 		    <td>{{ product.price | currency}}</td>
@@ -69,7 +69,7 @@
 			</div>
 			<br>
 			<div class="productType">
-				<img class="productImg" src="@routes.Assets.at("images/products/{{c.product.itemImg}}")"></img><br>
+				<img class="productImg" src="productImage/{{c.product.itemImg}}"></img><br>
 				<span class="blue">{{c.product.itemName}}</span>
 				<br>sku# {{c.product.itemSku}}<br>{{c.numItems}}/{{c.totalCapacity}}<br>${{c.product.price}}
 			</div>

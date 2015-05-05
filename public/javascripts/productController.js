@@ -42,7 +42,7 @@ function productController($scope,$http) {
 	  	    });
 	  	    
 	  	    //load image
-        	srcLink = "assets/images/products/"+$scope.itemImg;
+        	srcLink = "/productImage/"+$scope.itemImg;
         	showImageOnceLoaded(srcLink);
 
       	  	$scope.itemSkuLabel=$scope.itemSku;
