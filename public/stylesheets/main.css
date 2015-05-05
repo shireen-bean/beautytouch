@@ -48,8 +48,8 @@ padding-top: 20px;
 }
 
 .productListImage {
-	width: 30px;
-	height: 30px;
+	max-width: 30px;
+	max-height: 30px;
 }
 
 #chooseItemDiv {
@@ -151,8 +151,10 @@ h2 {
 }
 
 .productImg {
-	width: 40px;
-	height: 40px;
+/* 	width: 40px;
+	height: 40px; */
+	  max-width: 40px;
+  max-height: 40px;
 }
 
 .cleanButton {
