@@ -124,13 +124,14 @@ public class Product extends Controller {
             String uidString = uid.randomUUID().toString();    
         	
 //     	   	if(!file.renameTo(new File("public/images/products/"+uidString+extension))){
-     	   	if(!file.renameTo(new File("../oasysFiles/"+uidString+extension))){
+     	   	if(!file.renameTo(new File("public/dynamicFiles/products/"+uidString+extension))){
        			//error
     	     	ObjectNode resultFailed = Json.newObject();
     	     	resultFailed.put("success", "false");
     	     	return ok(resultFailed);
      	   	}
-     	   	
+     	   	System.out.println("successfull upload"+uidString);
+     	   	System.out.println(Play.application().path());
 	     	ObjectNode result = Json.newObject();
 	     	result.put("success", "true");
 	     	result.put("filename", uidString+extension);

@@ -24,7 +24,7 @@ GET     /thankYou                   controllers.Checkout.thankYou(productId)
 GET     /paymentFailed              controllers.Checkout.paymentFailed()
 GET     /pay	                    controllers.Checkout.pay(productId)
 GET     /processing 		        controllers.Checkout.processing()
-GET     /vending 		        controllers.Checkout.vending()
+GET     /vending 		        	controllers.Checkout.vending()
 GET     /getTokenBT                 controllers.Checkout.getTokenBT()
 GET     /processNonce               controllers.Checkout.processNonce(nonce,name,productId,machineId,column)
 GET     /contactus	                controllers.Landing.contactUs()
@@ -34,3 +34,4 @@ POST    /loginVending		        controllers.Application.loginVending()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /productImage/:file         controllers.FileService.getProductImage(file: String)

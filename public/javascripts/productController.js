@@ -94,7 +94,8 @@ function productController($scope,$http) {
             	$scope.itemImg=data.result.filename;
             	$scope.$apply();
             	d = new Date();
-            	srcLink = "assets/images/products/"+$scope.itemImg;
+//            	srcLink = "assets/images/products/"+$scope.itemImg;
+            	srcLink = "/productImage/"+$scope.itemImg;
             	loadingAnimation();
             	showImageOnceLoaded(srcLink);
             }
