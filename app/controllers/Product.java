@@ -123,7 +123,8 @@ public class Product extends Controller {
             // checking the value of random UUID
             String uidString = uid.randomUUID().toString();    
         	
-     	   	if(!file.renameTo(new File("public/images/products/"+uidString+extension))){
+//     	   	if(!file.renameTo(new File("public/images/products/"+uidString+extension))){
+     	   	if(!file.renameTo(new File("../oasysFiles/"+uidString+extension))){
        			//error
     	     	ObjectNode resultFailed = Json.newObject();
     	     	resultFailed.put("success", "false");
