@@ -11,6 +11,9 @@ html, body{
  	/*background:url('../images/marbleShelf.jpg'); */
 	background-size:100% 100%;
 }
+
+
+
 #productView{
 	position:absolute;
 	width:100%;
@@ -234,4 +237,26 @@ input[type="text"], textarea, [contenteditable]
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
+}
+
+.disclaimer{
+}
+
+
+.bodyMain{
+	
+	background:url('http://freehddesktopwallpaper.info/wp-content/uploads/2013/09/abstract-wallpaper-hd-green-141.jpg');
+background:url('http://www.freelargeimages.com/wp-content/uploads/2014/12/Cool_background-3.jpg');
+/*  	background:url('../images/marbleShelf.jpg'); */
+}
+.btn{
+	color:white;
+	  background: black;
+  border-radius: 5px;
+}
+body.bodyMain i, body.bodyMain .back, body.bodyMain span{
+	color:white !important;
+}
+body.bodyMain #productDescription{
+	color:black !important;
 }
