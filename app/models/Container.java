@@ -19,4 +19,5 @@ public class Container{
     public int totalCapacity;
     public ProductModel product;
     public String status;
+    public int slot;
 }

@@ -47,6 +47,7 @@ function machineController($scope,$http) {
 			  			$scope.machine.containers[i].product.itemSku=$scope.products[1].itemSku;
 			  			$scope.machine.containers[i].product.itemImg=$scope.products[1].itemImg;
 			  			$scope.machine.containers[i].product.price=$scope.products[1].price;
+			  			$scope.machine.containers[i].slot="0";
 			  		}
 			  		
 			  	  });

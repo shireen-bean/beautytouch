@@ -75,9 +75,11 @@ padding-top: 20px;
 	left: 0;
 	text-align: center;
 }
-
+.refillNum{
+	width:40px;
+}
 .containerWrapper {
-	height:290px;
+	height:auto;
 	display: inline;
 	width:100px;
 	float: left;

@@ -42,6 +42,7 @@ function vendingMain($scope,$http) {
 		for(var i=0; i<lengthContainers;i++){
 			var currentSku = $scope.machine.containers[i].product.itemSku;
 			if(currentSku==id){
+				var slotWithProduct = $scope.machine.containers[i].slot-1;
 		    	var columnWithProduct = i+1;
 		    	break;
 			}else{
@@ -50,27 +51,27 @@ function vendingMain($scope,$http) {
 		}
 		
 		if(columnWithProduct!=0){
-			var slot = 0;
-	    	switch(columnWithProduct){
-	        case 1:
-	            slot= 2;
-	            break;
-	        case 2:
-	        	slot=  7;
-	            break;
-	        case 3:
-	        	slot=  12;
-	            break;
-	        case 4:
-	        	slot=  17;
-	            break;
-	        case 5:
-	        	slot=  22;
-	            break;
-	        case 6:
-	        	slot=  26;
-	            break;
-	    	}
+//			var slot = 0;
+//	    	switch(columnWithProduct){
+//	        case 1:
+//	            slot= 2;
+//	            break;
+//	        case 2:
+//	        	slot=  7;
+//	            break;
+//	        case 3:
+//	        	slot=  12;
+//	            break;
+//	        case 4:
+//	        	slot=  17;
+//	            break;
+//	        case 5:
+//	        	slot=  22;
+//	            break;
+//	        case 6:
+//	        	slot=  26;
+//	            break;
+//	    	}
 
 	    	//find product details and display checkout window
 	    	$("#productList").css('opacity','.1');
@@ -89,7 +90,7 @@ function vendingMain($scope,$http) {
 				}
 			}
 			
-			console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct+"?");
+			console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+id+"&slot="+slotWithProduct+"&column="+columnWithProduct+"?");
 	    	
 			
 	    	//window.location="/pay?machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct;

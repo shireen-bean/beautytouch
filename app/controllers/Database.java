@@ -258,11 +258,13 @@ public class Database {
     	   String numItems=jnContainer.get("numItems").asText();
     	   String totalCapacity=jnContainer.get("totalCapacity").asText();
     	   String itemSku=jnContainer.get("product").get("itemSku").asText();
+    	   String slot=jnContainer.get("slot").asText();
     	   
     	   PreparedStatement insertContainer = connection.prepareStatement("INSERT INTO containers "
-    					+ "(machineId,position,numItems,totalCapacity,itemSku) VALUES ("
+    					+ "(machineId,position,slot,numItems,totalCapacity,itemSku) VALUES ("
     					+ "'" + machineId + "'," 
     					+ "'" + position + "'," 
+    	    	    	+ "'"+slot+"',"
     					+ "'" + numItems + "',"
     					+ "'" + totalCapacity + "'," 
     					+ "'" + itemSku + "')");
@@ -297,7 +299,6 @@ public class Database {
 			ArrayList<MachineModel> machines = new ArrayList<MachineModel>();
 			
 			while (resultSet.next()) {
-				System.out.println("new result");
 				//check if machine already exists
 				boolean machineCreated=false;
 				Long idTemp = resultSet.getLong("id");
@@ -388,7 +389,7 @@ public class Database {
 			
 			
 		    String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
-		    		"containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
+		    		"containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, containers.slot, "+
 		    		"products.itemName, products.itemImg, products.price, products.itemDescription, products.packageType "+
 		             "FROM machines, containers, products " +
 		             "WHERE " +
@@ -416,6 +417,7 @@ public class Database {
 					container.totalCapacity=resultSet.getInt("totalCapacity");
 					container.product = product;
 					container.machineId=resultSet.getInt("machineId");
+					container.slot=resultSet.getInt("slot");
 					
 					machine.id = resultSet.getLong("id");
 					machine.address = resultSet.getString("address");
@@ -460,12 +462,14 @@ public class Database {
     	   String numItems=jnContainer.get("numItems").asText();
     	   String totalCapacity=jnContainer.get("totalCapacity").asText();
     	   String itemSku=jnContainer.get("product").get("itemSku").asText();
+    	   String slot=jnContainer.get("slot").asText();
     	   
     	   statement.addBatch("UPDATE containers "
     					+ "SET machineId='"+jn.get("id")+"',"
     					+"position='"+position+"',"
     	    			+"numItems='"+numItems+"',"
     	    	    	+"totalCapacity='"+totalCapacity+"',"
+    	    	    	+"slot='"+slot+"',"
     	    	    	+"itemSku='"+itemSku+"'"
     					+ " WHERE machineId='"+jn.get("id")+"' "
     					+ " AND position='"+position+"'");
