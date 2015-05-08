@@ -25,19 +25,39 @@ import play.mvc.*;
 import views.html.*;
 
 public class Checkout extends Controller {
-	
-    private static BraintreeGateway gateway = new BraintreeGateway(
-            Environment.SANDBOX,
-            "twxn6752pgdz9t5w",
-            "8c6fj7fj2zv7s4cv",
-            "7ca3fbd88b4afe21357d170ad5b6cd03"
-        );
+	private static boolean gatewayIsSetup = false;
+    private static BraintreeGateway gateway;// 
+    
+    public static void setupGateway(){
+    	String mode = play.api.Play.current().mode().toString();
+    	if(mode.equals("Dev")){
+    		gateway = new BraintreeGateway(
+                Environment.SANDBOX,
+                "twxn6752pgdz9t5w",
+                "8c6fj7fj2zv7s4cv",
+                "7ca3fbd88b4afe21357d170ad5b6cd03"
+            );
+    	}else{
+    		gateway = new BraintreeGateway(
+    				  Environment.PRODUCTION,
+    				  "4s2q3wpqv7czv643",
+    				  "d7759v5wt29n6jw5",
+    				  "8a68d2bedf0a15fe57740b33ff4ef337"
+    				);
+    	}
+    	gatewayIsSetup=true;
+    }
     
     public static Result productSelect(){
     	return ok(checkoutProductSelect.render());
     }
     
     public static Result vendingMain(String machineId){
+    	gatewayIsSetup=false;
+    	if(!gatewayIsSetup){
+    		setupGateway();
+    	}
+    	
     	MachineModel machine = new MachineModel();
     	
         	machine = Database.getMachine(machineId);

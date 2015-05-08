@@ -33,6 +33,8 @@ public class Machine extends Controller {
     	return ok(machine.render());
     }
     
+    
+    
 
     public static Result postMachine(){
 
