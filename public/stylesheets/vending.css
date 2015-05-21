@@ -247,7 +247,8 @@ input[type="text"], textarea, [contenteditable]
 	
 /* 	background:url('http://freehddesktopwallpaper.info/wp-content/uploads/2013/09/abstract-wallpaper-hd-green-141.jpg'); */
 /* background:url('http://www.freelargeimages.com/wp-content/uploads/2014/12/Cool_background-3.jpg'); */
-background:url('../images/swirlBackground.jpg')
+/* background:url('../images/swirlBackground.jpg') */
+background:black;
 /*  	background:url('../images/marbleShelf.jpg'); */
 }
 .btn{

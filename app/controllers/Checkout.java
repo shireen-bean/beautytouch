@@ -53,7 +53,6 @@ public class Checkout extends Controller {
     }
     
     public static Result vendingMain(String machineId){
-    	gatewayIsSetup=false;
     	if(!gatewayIsSetup){
     		setupGateway();
     	}
