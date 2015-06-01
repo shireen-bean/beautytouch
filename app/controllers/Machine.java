@@ -77,6 +77,13 @@ public class Machine extends Controller {
      	return ok(response);
     }
     
+    public static Result logStatus(){
+    	//get data
+    	JsonNode jn = request().body().asJson();
+    	System.out.println(jn);
+    	//write it to database
+        return ok();
+    }
     public static Result machineJson(String id){
 
     	MachineModel machine = new MachineModel();
