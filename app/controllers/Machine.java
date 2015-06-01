@@ -79,9 +79,10 @@ public class Machine extends Controller {
     
     public static Result logStatus(){
     	//get data
-    	JsonNode jn = request().body().asJson();
-    	System.out.println(jn);
+    	int traffic = Integer.parseInt(request().body().asFormUrlEncoded().get("traffic")[0]);
+    	int jammed = Integer.parseInt(request().body().asFormUrlEncoded().get("jammed")[0]);
     	//write it to database
+    	System.out.println("traffic: " + traffic + ", jammed: " + jammed);
         return ok();
     }
     public static Result machineJson(String id){
