@@ -97,7 +97,7 @@ html, body{
 .availableListDiv{
   display: inline;
   float: left;
-  min-height: 615px;
+  min-height: 515px;
   /* margin: 1%; */
   /* margin-bottom: 2%; */
   /*width: 13%;
@@ -108,7 +108,7 @@ html, body{
 }
 .availableProduct {
     position: relative;
-    height: 320px;
+    height: 280px;
     width: 250px;
 }
 
@@ -260,6 +260,7 @@ input[type="text"], textarea, [contenteditable]
   border-radius: 5px;
 }
 body.bodyMain i, body.bodyMain .back, body.bodyMain span{
+	color: #888 !important;
 }
 body.bodyMain #productDescription{
 	color:black !important;
