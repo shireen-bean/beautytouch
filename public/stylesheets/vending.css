@@ -97,7 +97,7 @@ html, body{
 .availableListDiv{
   display: inline;
   float: left;
-  min-height: 525px;
+  min-height: 615px;
   /* margin: 1%; */
   /* margin-bottom: 2%; */
   /*width: 13%;
@@ -108,7 +108,7 @@ html, body{
 }
 .availableProduct {
     position: relative;
-    height: 250px;
+    height: 320px;
     width: 250px;
 }
 
