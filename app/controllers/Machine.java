@@ -83,8 +83,9 @@ public class Machine extends Controller {
     	int jammed = Integer.parseInt(request().body().asFormUrlEncoded().get("jammed")[0]);
     	//write it to database
     	System.out.println("traffic: " + traffic + ", jammed: " + jammed);
-        return ok();
+        return ok("traffic: " + traffic + ", jammed: " + jammed);
     }
+    
     public static Result machineJson(String id){
 
     	MachineModel machine = new MachineModel();
