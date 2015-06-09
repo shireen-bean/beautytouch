@@ -82,6 +82,7 @@ public class Machine extends Controller {
     	//TODO: write to DB
     	return ok();
     }
+
     public static Result machineJson(String id){
 
     	MachineModel machine = new MachineModel();
