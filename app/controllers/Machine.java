@@ -25,30 +25,30 @@ public class Machine extends Controller {
 		}
 		return true;
 	}
-	
+
     public static Result machine(){
     	if(!loggedIn()){
     		return redirect("/");
     	}
     	return ok(machine.render());
     }
-    
-    
-    
+
+
+
 
     public static Result postMachine(){
 
     	if(!loggedIn()){
     		return redirect("/");
     	}
-    	
+
     	JsonNode jn = request().body().asJson();
-    	
+
     	String id = jn.get("id").asText();
 
     	boolean errorsFlag=false;
     	ObjectNode response = Json.newObject();
-    	
+
     	if(id.length()>0){
     		try {
 				Database.editMachineAndContainers(jn);
@@ -66,29 +66,26 @@ public class Machine extends Controller {
 				response.put("mainError","Database error");
 			}
     	}
-	
+
 
     	if(errorsFlag){
     		response.put("success", "false");
     	}else{
     		response.put("success", "true");
     	}
-    	
+
      	return ok(response);
     }
-    
+
     public static Result logStatus(){
-    	//get data
-    	int traffic = Integer.parseInt(request().body().asFormUrlEncoded().get("traffic")[0]);
-    	int jammed = Integer.parseInt(request().body().asFormUrlEncoded().get("jammed")[0]);
-    	//write it to database
-    	System.out.println("traffic: " + traffic + ", jammed: " + jammed);
-        return ok();
+    	System.out.println(request().body().asJson());
+    	//TODO: write to DB
+    	return ok();
     }
     public static Result machineJson(String id){
 
     	MachineModel machine = new MachineModel();
-    	
+
     	if(id.equals("-1")){
         	machine.containers=new ArrayList<Container>();
         	for(int i=0;i<2;i++){
@@ -104,10 +101,10 @@ public class Machine extends Controller {
     	}else{
         	machine = Database.getMachine(id);
     	}
-    	
-    	
+
+
 		return ok(Json.toJson(machine));
     }
-    
-    
+
+
 }
