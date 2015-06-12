@@ -12,10 +12,14 @@
 	<div id="productList">
 		<div  ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts"></a>
 				  <div class="availableListDiv" >
+				    <span class="cornerPrice">
+				      <p> ${{product.price}}</p>
+				    </span>
 				  	<div class="availableProduct" id="product{{product.itemSku}}">
 					    <img class="productImage" src='productImage/{{product.itemImg}}'>
 					    <br>
 				    </div>
+				    <button class="productBuyButton">Buy Now</button>
 				    <div style="clear:both;"></div>
 				  </div>
 				</div> 
@@ -25,10 +29,10 @@
 
 	<div id="productView" style="display:none;">
 		<div style="position:relative;">
-		<h2 style="font-size:70px;">
+		<h2 class="swipeMessage">
 		<br>
-		<i style="color:black;font-size:80px;" class="fa fa-credit-card"></i>
-		&nbsp;&nbsp;<span style="color:black;">Swipe card to purchase item</span>&nbsp;&nbsp;<br>
+		<i class="fa fa-credit-card"></i>
+		&nbsp;&nbsp;<span>Swipe card to purchase item</span>&nbsp;&nbsp;<br>
 		</h2>
 			<div ng-click="closeProduct()" class="back">
 			<i class="fa fa-chevron-left"></i>&nbsp;&nbsp;back

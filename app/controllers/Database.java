@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 
 import models.Container;
@@ -21,7 +23,6 @@ import play.Logger;
 import play.Play;
 import play.db.DB;
 import play.libs.Json;
-
 //Create account
 //insert into Users (username,password) VALUES ('andres@oasysventures.com',ENCRYPT('O@s!s15!?',concat(_utf8'$1$',right(md5(rand()),8),_utf8'$')));
 
@@ -111,12 +112,10 @@ public class Database {
 			String price, String itemDescription, String packageType)
 			throws SQLException {
 
-		if(connection==null){
+		if(connection==null || connection.isClosed()){
 			connection = DB.getConnection();
 		}
-		if(connection.isClosed()){
-			connection = DB.getConnection();
-		}
+		
 		Statement statement = connection.createStatement();
 		statement
 				.executeUpdate("INSERT INTO products "
@@ -126,6 +125,20 @@ public class Database {
 						+ packageType + "'" + ")");
 	}
 
+	public static void logMachineStatus(int machine_id, int jammed, int traffic) 
+	    throws SQLException {
+		if (connection == null || connection.isClosed()) {
+			connection = DB.getConnection();
+		}
+		
+		Date date = new Date();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate("INSERT INTO machine_log "
+				+ "(machine_id, jammed, traffic, time) VALUES ( "
+				+ machine_id + ", " + jammed + ", " + traffic 
+				+ ", '" + new Timestamp(date.getTime()) +"')");
+	}
+	
 	public static ArrayNode getProductList() {
 		try {
 			if(connection==null){

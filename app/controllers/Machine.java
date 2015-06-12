@@ -2,6 +2,7 @@ package controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -78,8 +79,16 @@ public class Machine extends Controller {
     }
 
     public static Result logStatus(){
-    	System.out.println(request().body().asJson());
-    	//TODO: write to DB
+    	//System.out.println(request().body().asJson().toString() + new Timestamp(System.currentTimeMillis()));
+    	JsonNode jn = request().body().asJson();
+        int machine_id = jn.get("machine_id").asInt();
+        int traffic = jn.get("traffic").asInt();
+    	int jammed = jn.get("jammed").asInt();
+    	try {
+    		Database.logMachineStatus(machine_id, jammed, traffic);
+    	} catch (SQLException e) {
+      	  System.out.println(e.toString());
+    	}
     	return ok();
     }
 
