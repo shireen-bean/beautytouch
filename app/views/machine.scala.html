@@ -1,4 +1,4 @@
-@main("Dashbard"){ @topNav() }{ @sidebar() }{
+@main("Dashboard"){ @topNav() }{ @sidebar() }{
 
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
 <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/table.css")">
@@ -79,12 +79,23 @@
 		<input type="number" class="refillNum" ng-model="c.numItems"></input>
 		<br>Slot<br>
 		<input type="number" class="refillNum" ng-model="c.slot"></input>
-		<br><br><br>
+		<br>
 	</div>
 	
 			<div style="clear:both;"></div>
-	<br><br>
+	<br>
 	
+	<h2>Machine Status
+	    <table>
+	        <tr>
+	            <th>Time</th>
+	            <th>Traffic</th>
+	            <th>Jammed?</th>
+	        </tr>
+	    </table>
+	</h2>
+	
+	<br>
 	
 	<h2>Location
 	<button class="cleanButton greenButton" id="submit" ng-click="saveClicked()">

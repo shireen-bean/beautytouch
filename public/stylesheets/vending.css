@@ -28,16 +28,19 @@ html, body{
   max-width: 30%;
   max-height: 30%;
   position: absolute;
-  top: 27%;
-  left: 65%;
+  top: 35%;
+  left: 60%;
 }
 .moreInfo{
 	color:rgb(0, 139, 255);
 	text-align:right;
 }
 .whiteModal{
-  background: white;
-  background:#ddd;
+  /* background: white;
+  background:#ddd; */
+  background: #ff3e96;
+  opacity: .75;
+  color: white;
   width: 45%;
   height: 50%;
   margin-top: 10%;
@@ -68,13 +71,28 @@ html, body{
   height: 100%;
   /* bottom: 0; */
  }
-.back{
-  color: #444;
-  position: absolute;
-  top: 60%;
-  left: 3%;
-  font-size: 80px;
+ 
+ .swipeMessage {
+  font-size: 70px;
+  background-color: white;
+  padding-bottom: 60px;
+  margin-top: -20px;
+  opacity: .75;
+  color: #ff3e96;
 }
+
+.back{
+  color: #ff3e96;
+  background-color: white;
+  position: absolute;
+  top: 70%;
+  left: 7%;
+  font-size: 55px;
+  padding: 22px;
+  border-radius: 20px;
+  opacity: .75;
+}
+
 .yellowDiv{
    display: block;
   position: absolute;
@@ -91,31 +109,110 @@ html, body{
 	bottom:0;
 }
 #mainDivAvailableList{
-	padding-left:10%;
-	padding-top:5%;
 }
-.availableListDiv{
+.availableListDiv {
+  position:relative;
   display: inline;
   float: left;
-  /* margin: 1%; */
-  /* margin-bottom: 2%; */
-  width: 13%;
-  padding:1%;
-  height: 38%;
-  padding-top:2%;
   text-align: center;
+  width: 470px;
+  height: 500px;
+  border: solid white 5px;
 }
-.availableProduct{
-/*   display: inline;
-  float: left;
-  margin: 5%;
-  width: 85%;
-  text-align: center;
-  background: #f1f1f1;
-  padding:5%;
-  border: 4px solid #ddd;
-  border-radius: 10px; */
+
+
+.cornerPrice {
+  position: absolute;
+  left: -75px;
+  top: 5px;
+  display: block;
+  width: 245px;
+  font-size: 22;
+ /* border-top: 2px black solid;
+  border-bottom: 2px black solid;*/
+  
+  background: #fb6096;
+  opacity: .85;
+  font-weight: bold;
+  color: white;
+  transform: rotate(-45deg);
+  -moz-transform:rotate(-45deg);
+  /* Safari and Chrome */
+  -webkit-transform:rotate(-45deg);
+  /* Opera */
+  -o-transform:rotate(-45deg);
+  /* IE9 */
+  -ms-transform:rotate(-45deg);
+  
 }
+
+.cornerPrice p:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -13px;
+  right: -11px;
+  z-index: -1;
+  border: 55px solid;
+  border-color: #ceffff #ceffff transparent transparent;
+}
+
+.cornerPrice p:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute; 
+  top: -3px;
+  right: 165px;
+  z-index: -1;
+  border: 55px solid;
+  /* border-color: #caffdd transparent transparent #caffdd; 
+  border-color: #e1fbfb transparent transparent #e1fbfb; */
+  border-color: #ceffff transparent transparent #ceffff;
+}
+
+
+.bodyMain{
+    background-color:#ceffff;
+}
+
+.productBuyButton {
+  font-size: 30px;
+  border: 0px;
+  background-color: #fb6096;
+  opacity: .85;
+  width: 200px;
+  border-radius: 15px;
+  height: 81px;
+  z-index: 1;
+  color: white;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+  position: absolute;
+  top: 390px;
+  left: 140px;
+}
+
+.productBuyButton:clicked {
+	
+}
+
+.availableProduct {
+    position: relative;
+}
+
+.productImage {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	margin-top: 14%;
+}
+
+#itemName {
+	max-width: 500px;
+}
+
 .availableListImage{
   height:70%;
   padding-top:5%;
@@ -142,10 +239,6 @@ html, body{
 	margin-right:auto;
 	margin-top:10%;
 	height:300px;
-}
-.productImage{
-	width:100%;
-	margin-bottom:10%;
 }
 h1{
 	font-weight:400;
@@ -242,22 +335,13 @@ input[type="text"], textarea, [contenteditable]
 .disclaimer{
 }
 
-
-.bodyMain{
-	
-/* 	background:url('http://freehddesktopwallpaper.info/wp-content/uploads/2013/09/abstract-wallpaper-hd-green-141.jpg'); */
-/* background:url('http://www.freelargeimages.com/wp-content/uploads/2014/12/Cool_background-3.jpg'); */
-/* background:url('../images/swirlBackground.jpg') */
-background:black;
-/*  	background:url('../images/marbleShelf.jpg'); */
-}
 .btn{
 	color:white;
 	  background: black;
   border-radius: 5px;
 }
 body.bodyMain i, body.bodyMain .back, body.bodyMain span{
-	color:white !important;
+	/* color: #888 !important; */
 }
 body.bodyMain #productDescription{
 	color:black !important;
