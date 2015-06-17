@@ -127,7 +127,6 @@ public class Database {
 
 	public static void logMachineStatus(int machine_id, int jammed, int traffic) 
 	    throws SQLException {
-		System.out.println("logging status");
 		if (connection == null || connection.isClosed()) {
 			connection = DB.getConnection();
 		}

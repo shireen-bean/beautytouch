@@ -101,7 +101,7 @@ function vendingMain($scope,$http) {
     	               "content-type": "application/json"
     	            },
     	        });
-	    	}, 10000)
+	    	}, 60000)
 	    
 			var lengthContainers = $scope.machine.containers.length;
 			for(var i=0; i<lengthContainers;i++){
