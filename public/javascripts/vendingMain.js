@@ -34,6 +34,7 @@ function vendingMain($scope,$http) {
 	//get list of available products
 	var machineID=getParameterByName("machineId");
 	
+    var timeoutHandle;
     
     $scope.productSelected=function(id){
 		var divNameSelected = "#product"+id;
@@ -76,13 +77,31 @@ function vendingMain($scope,$http) {
 	    	//find product details and display checkout window
 	    	$("#productList").css('opacity','.1');
 	    	$("#productView").show();
+	    	$.ajax({
+	        	type: "POST",
+	        	url: "/logEvent",
+	        	data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_product", "product_sku": id}),
+	        	dataType: "json",
+	        	headers: {
+	               "content-type": "application/json"
+	            },
+	        });
 	    	
-	    	setTimeout(function() {
+	    	timeoutHandle = setTimeout(function() {
 	    		console.log("%OASYS,screen=list&?");
     	        $("#productView").hide();
     	        $("#productList").css('opacity','1');
     	        $("#productList").show();
-	    	}, 60000)
+    	        $.ajax({
+    	        	type: "POST",
+    	        	url: "/logEvent",
+    	        	data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout", "product_sku": 0}),
+    	        	dataType: "json",
+    	        	headers: {
+    	               "content-type": "application/json"
+    	            },
+    	        });
+	    	}, 10000)
 	    
 			var lengthContainers = $scope.machine.containers.length;
 			for(var i=0; i<lengthContainers;i++){
@@ -111,6 +130,16 @@ function vendingMain($scope,$http) {
     	$("#productView").hide();
     	$("#productList").css('opacity','1');
     	$("#productList").show();
+    	$.ajax({
+        	type: "POST",
+        	url: "/logEvent",
+        	data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_back", "product_sku": 0}),
+        	dataType: "json",
+        	headers: {
+               "content-type": "application/json"
+            },
+        });
+    	clearTimeout(timeoutHandle);
     };
 
 }

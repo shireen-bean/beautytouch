@@ -127,6 +127,7 @@ public class Database {
 
 	public static void logMachineStatus(int machine_id, int jammed, int traffic) 
 	    throws SQLException {
+		System.out.println("logging status");
 		if (connection == null || connection.isClosed()) {
 			connection = DB.getConnection();
 		}
@@ -137,6 +138,20 @@ public class Database {
 				+ "(machine_id, jammed, traffic, time) VALUES ( "
 				+ machine_id + ", " + jammed + ", " + traffic 
 				+ ", '" + new Timestamp(date.getTime()) +"')");
+	}
+	
+	public static void logEvent(String machine_id, String event_type, String product_sku) 
+	    throws SQLException {
+		if (connection == null || connection.isClosed()) {
+			connection = DB.getConnection();
+		}
+		
+		if (product_sku == "0") product_sku = null;
+		Statement statement = connection.createStatement();
+		statement.executeUpdate("INSERT INTO events "
+				+ "(machine_id, event, product_sku) VALUES ( "
+				+ machine_id + ", '" + event_type + "', " + product_sku + ")"
+				);
 	}
 	
 	public static ArrayNode getProductList() {
