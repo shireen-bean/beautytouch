@@ -76,6 +76,13 @@ function vendingMain($scope,$http) {
 	    	//find product details and display checkout window
 	    	$("#productList").css('opacity','.1');
 	    	$("#productView").show();
+	    	
+	    	setTimeout(function() {
+	    		console.log("%OASYS,screen=list&?");
+    	        $("#productView").hide();
+    	        $("#productList").css('opacity','1');
+    	        $("#productList").show();
+	    	}, 60000)
 	    
 			var lengthContainers = $scope.machine.containers.length;
 			for(var i=0; i<lengthContainers;i++){
