@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 
 import models.Container;
 import models.MachineModel;
@@ -579,6 +580,30 @@ public class Database {
 				+ salesId + "', '" + email + "', '" + phone +"')");
 	}
 	
+	public static void recordSale(String machineId, String productId, BigDecimal productPrice) throws SQLException {
+		if (connection == null || connection.isClosed()){
+			connection = DB.getConnection();
+		}
+		
+		//log sale
+		Date date = new Date();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate("INSERT INTO sales "
+				+ "(machine_id, sales_total, time) VALUES ( "
+				+ machineId + ", " + productPrice 
+				+ ", '" + new Timestamp(date.getTime()) + "')",
+				Statement.RETURN_GENERATED_KEYS);
+		
+		ResultSet results = statement.getGeneratedKeys();
+		//log products
+		if (results.next()) {
+			int salesId = results.getInt(1);
+			statement.executeUpdate("INSERT INTO sales_products "
+					+ "(sales_id, product_sku, product_price) VALUES ( "
+					+ salesId + ", " + productId + ", " + productPrice + ")");
+		}
+	
+	}
 	
 	
 
