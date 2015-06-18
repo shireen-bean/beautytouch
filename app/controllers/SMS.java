@@ -80,7 +80,7 @@ import play.mvc.*;
 		       	    }
 		       	   
 		       	   messageBody+=productRows;
-		       	   messageBody+="\n\nTotal: "+formatter.format(receipt.total);
+		       	   messageBody+="\n\nTotal: "+formatter.format(Double.parseDouble(receipt.total));
 		           
 		          
 		           params.add(new BasicNameValuePair("Body", messageBody));

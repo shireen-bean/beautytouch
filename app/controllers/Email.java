@@ -86,7 +86,7 @@ import play.mvc.Http.RequestBody;
 	    				"<table>"+
 	    				"<tr><th>Product</th><th></th><th>Total</th></tr>"+
 	    				productRows+
-	    				" <td></td><td><b>Total:</b></td><td>"+formatter.format(receipt.total)+"</td>"+
+	    				" <td></td><td><b>Total:</b></td><td>"+formatter.format(Double.parseDouble(receipt.total))+"</td>"+
 	    				"</tr>"+
 	    				"</table>"+
 	    				"<br><br>"+

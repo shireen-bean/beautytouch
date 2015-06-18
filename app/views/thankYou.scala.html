@@ -3,30 +3,13 @@
 @linksVending()
 </head>
 
-<body class="bodyMain receipt">
-<div ng-app="" ng-controller="thankYouController"> 
+<body>
+<div> 
 	<div id="message" style="display:none;" class="productContainer productContainerMessage">
-		<h2>Thank you for your purchase!
-			<button class="contactDoneButton" ng-click="skipReceipt()" >Skip Receipt</button>
+		<h1>Thank you!
+		<h2><!-- <i class="fa fa-cube" style="font-size:50px;"></i> -->&nbsp;&nbsp; <!-- Your confirmation number is 325502 -->
 		</h2>
-		<div class="contactInfo">
-			<span class="cornerLabel"><p>Email<br>Receipt</p></span><br>
-			<h3>Enter your email address:</h3><br>
-			<h3 class="receiptError">{{emailError}}</h3>
-			<input class="contactInput" type="text" ng-model="emailAddress"/>
-			<br>
-			<button class="contactButton" ng-click="submitEmail()">Send</button>
-		</div>
-		
-		<div class="contactInfo" style="left:50%;">
-			<span class="cornerLabel"><p>Text<br>Receipt</p></span><br>
-			<h3>Enter your phone number:</h3><br>
-			<h3 class="receiptError">{{phoneError}}</h3>
-			<input type="text" class="contactInput" ng-model="phoneNumber"/>
-			<br>
-			<button class="contactButton" ng-click="submitPhoneNumber()">Send</button>
-		</div>
-		
+		</h1>
 		<br>
 <!-- 		<a class="doneButton" href="checkoutProductSelect"><i class="fa fa-check-circle-o"></i>&nbsp;&nbsp;Done</a>
 	 --></div>

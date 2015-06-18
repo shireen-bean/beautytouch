@@ -553,7 +553,7 @@ public class Database {
 			
 			while (resultSet.next()) {
 				receipt.machineAddress = resultSet.getString("address");
-				receipt.total = resultSet.getInt("sales_total");
+				receipt.total = resultSet.getString("sales_total");
 				
 				ProductModel pm = new ProductModel();
 				pm.itemName = resultSet.getString("itemName");
@@ -580,7 +580,7 @@ public class Database {
 				+ salesId + "', '" + email + "', '" + phone +"')");
 	}
 	
-	public static void recordSale(String machineId, String productId, BigDecimal productPrice) throws SQLException {
+	public static int recordSale(String machineId, String productId, BigDecimal productPrice) throws SQLException {
 		if (connection == null || connection.isClosed()){
 			connection = DB.getConnection();
 		}
@@ -601,7 +601,9 @@ public class Database {
 			statement.executeUpdate("INSERT INTO sales_products "
 					+ "(sales_id, product_sku, product_price) VALUES ( "
 					+ salesId + ", " + productId + ", " + productPrice + ")");
+			return salesId;
 		}
+		return -1;
 	
 	}
 	

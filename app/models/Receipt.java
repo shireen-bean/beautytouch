@@ -16,5 +16,5 @@ import javax.persistence.Id;
 public class Receipt{
     public ArrayList<ProductModel> products;
     public String machineAddress;
-    public int total;
+    public String total;
 }
