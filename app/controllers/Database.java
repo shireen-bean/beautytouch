@@ -139,6 +139,20 @@ public class Database {
 				+ ", '" + new Timestamp(date.getTime()) +"')");
 	}
 	
+	public static void logEvent(String machine_id, String event_type, String product_sku) 
+	    throws SQLException {
+		if (connection == null || connection.isClosed()) {
+			connection = DB.getConnection();
+		}
+		
+		if (product_sku == "0") product_sku = null;
+		Statement statement = connection.createStatement();
+		statement.executeUpdate("INSERT INTO events "
+				+ "(machine_id, event, product_sku) VALUES ( "
+				+ machine_id + ", '" + event_type + "', " + product_sku + ")"
+				);
+	}
+	
 	public static ArrayNode getProductList() {
 		try {
 			if(connection==null){
