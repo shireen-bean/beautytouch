@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import models.Container;
 import models.MachineModel;
 import models.ProductModel;
+import models.Receipt;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -522,6 +523,60 @@ public class Database {
 		statement.executeUpdate("UPDATE containers SET "
 		+"numItems=numItems-1 "
 		+"WHERE machineId='"+machineId+"' AND position='"+column+"'");
+	}
+
+	public static Receipt getReceiptDetails(int salesId) {
+		//System.out.println(idMachine);
+		try {
+			if(connection==null){
+				connection = DB.getConnection();
+			}
+			if(connection.isClosed()){
+				connection = DB.getConnection();
+			}
+
+			Statement statement = connection.createStatement();
+			
+			
+		    String query = "SELECT sales.id, products.itemSku, machines.address, products.itemName, sales.sales_total, sales_products.product_price "+
+		             "FROM machines, products, sales, sales_products " +
+		             "WHERE " +
+		             "sales.id='"+salesId+"' "+
+		             "AND sales.machine_id = machines.id "+
+		             "AND sales_products.sales_id = sales.id "+
+		             "AND products.itemSku = sales_products.product_sku ";
+	
+			ResultSet resultSet = statement.executeQuery(query);
+			Receipt receipt = new Receipt();
+			receipt.products = new ArrayList<ProductModel>();
+			
+			while (resultSet.next()) {
+				receipt.machineAddress = resultSet.getString("address");
+				receipt.total = resultSet.getInt("sales_total");
+				
+				ProductModel pm = new ProductModel();
+				pm.itemName = resultSet.getString("itemName");
+				pm.price = resultSet.getString("product_price");
+				receipt.products.add(pm);
+			}
+			
+			return receipt;
+
+		} catch (Exception e) {
+			Logger.error("********Error" + e.toString());
+			return null;
+		}
+	}
+
+	public static void addCustomer(String phone, String email, int salesId) throws SQLException {
+		if (connection == null || connection.isClosed()) {
+			connection = DB.getConnection();
+		}
+		
+		Statement statement = connection.createStatement();
+		statement.executeUpdate("INSERT INTO sales_customer "
+				+ "(sales_id, customer_email, customer_phone) VALUES ( '"
+				+ salesId + "', '" + email + "', '" + phone +"')");
 	}
 	
 	

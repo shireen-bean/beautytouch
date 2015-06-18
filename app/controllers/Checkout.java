@@ -65,7 +65,7 @@ public class Checkout extends Controller {
     	return ok(vendingMain.render(jsonString));
     }
     
-    public static Result thankYou(String productId){
+    public static Result thankYou(){
     	return ok(thankYou.render());
     }
 
