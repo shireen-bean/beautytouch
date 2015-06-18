@@ -92,6 +92,19 @@ public class Machine extends Controller {
     	return ok();
     }
 
+    public static Result logEvent() {
+    	JsonNode jn = request().body().asJson();
+    	String machine_id = jn.get("machine_id").asText();
+    	String event_type = jn.get("event_type").asText();
+    	String product_sku = jn.get("product_sku").asText();
+    	try {
+    		Database.logEvent(machine_id, event_type, product_sku);
+    	} catch (SQLException e) {
+    		System.out.println(e.toString());
+    	}
+    	return ok();
+    }
+    
     public static Result machineJson(String id){
 
     	MachineModel machine = new MachineModel();
