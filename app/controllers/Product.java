@@ -53,6 +53,7 @@ public class Product extends Controller {
     	JsonNode jn = request().body().asJson();
     	
     	String itemName = jn.get("itemName").asText();
+    	String category = jn.get("category").asText();
     	String itemSku = jn.get("itemSku").asText();
     	String itemImg = jn.get("itemImg").asText();
     	String price = jn.get("price").asText();
@@ -66,6 +67,9 @@ public class Product extends Controller {
     	if(itemName.length()==0){
     		response.put("itemNameError", "name required");
       	  	errorsFlag= true;
+    	} if (category.length() == 0 ){
+    		response.put("categoryError",  "category required");
+    		errorsFlag = true;
     	}if(itemImg.length()==0){
     		response.put("itemImgError", "image required");
       	  	errorsFlag= true;
@@ -80,7 +84,7 @@ public class Product extends Controller {
     	if(!errorsFlag){
 	    	if(itemSku.length()>0){
 	    		try {
-					Database.editProduct(itemSku,itemName,itemImg,price,itemDescription,packageType);
+					Database.editProduct(itemSku,itemName, category, itemImg,price,itemDescription,packageType);
 				} catch (SQLException e) {
 					System.out.println(e.toString());
 					errorsFlag=true;
@@ -88,7 +92,7 @@ public class Product extends Controller {
 				}
 	    	}else{
 	    		try {
-					Database.addProduct(itemName,itemImg,price,itemDescription,packageType);
+					Database.addProduct(itemName, category, itemImg,price,itemDescription,packageType);
 				} catch (SQLException e) {
 					errorsFlag=true;
 					response.put("mainError","Database error");

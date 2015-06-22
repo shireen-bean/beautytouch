@@ -10,6 +10,7 @@ function productController($scope,$http) {
     
 	//populate defaults
     $scope.itemName = "";
+    $scope.category = "";
     $scope.itemSku = "";
     $scope.itemImg = "";
     $scope.price = "";
@@ -23,6 +24,7 @@ function productController($scope,$http) {
 	  	  success(function(data, status, headers, config) {
 	  		  console.log(data);
 	  	    $scope.itemName = data.itemName;
+	  	    $scope.category = data.category;
 	  	    $scope.itemSku = data.itemSku;
 	  	    $scope.itemImg = data.itemImg;
 	  	    $scope.price = data.price;
@@ -58,6 +60,7 @@ function productController($scope,$http) {
     	 var jsonProduct = 
          {
              "itemName": $scope.itemName,
+             "category": $scope.category,
              "itemSku": $scope.itemSku,
              "itemImg":$scope.itemImg,
              "price":$scope.price,
@@ -76,6 +79,7 @@ function productController($scope,$http) {
 			//show errors
 			$(".errorMessage").fadeIn();
 			$scope.itemNameError=data.itemNameError;
+			$scope.categoryError = data.categoryError;
 			$scope.itemImgError=data.itemImgError;
 			$scope.priceError=data.priceError;
 			

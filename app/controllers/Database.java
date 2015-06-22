@@ -89,6 +89,7 @@ public class Database {
 	}
 
 	public static void editProduct(String itemSku, String itemName,
+			String category,
 			String itemImg, String price, String itemDescription,
 			String packageType) throws SQLException {
 
@@ -101,6 +102,7 @@ public class Database {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate("UPDATE products SET "
 			+"itemName='"+itemName+"',"
+			+"category='"+category+"',"
 			+"itemImg='"+itemImg+"',"
 			+"price='"+price+"',"
 			+"itemDescription='"+itemDescription+"',"
@@ -108,7 +110,7 @@ public class Database {
 			+" WHERE itemSku='"+itemSku+"'");
 	}
 
-	public static void addProduct(String itemName, String itemImg,
+	public static void addProduct(String itemName, String category, String itemImg,
 			String price, String itemDescription, String packageType)
 			throws SQLException {
 
@@ -119,8 +121,8 @@ public class Database {
 		Statement statement = connection.createStatement();
 		statement
 				.executeUpdate("INSERT INTO products "
-						+ "(itemName,itemImg,price,itemDescription,packageType) VALUES ("
-						+ "'" + itemName + "'," + "'" + itemImg + "'," + "'"
+						+ "(itemName,category,itemImg,price,itemDescription,packageType) VALUES ("
+						+ "'" + itemName + "','"+ category + "','"+ itemImg + "'," + "'"
 						+ price + "'," + "'" + itemDescription + "'," + "'"
 						+ packageType + "'" + ")");
 	}
@@ -160,6 +162,7 @@ public class Database {
 				ObjectNode result = Json.newObject();
 				result.put("itemSku",resultSet.getString("itemSku"));
 				result.put("itemName",resultSet.getString("itemName"));
+				result.put("category",  resultSet.getString("category"));
 				result.put("itemImg",resultSet.getString("itemImg"));
 				result.put("itemDescription", resultSet.getString("itemDescription"));
 				result.put("price", resultSet.getString("price"));
@@ -184,16 +187,18 @@ public class Database {
 				connection = DB.getConnection();
 			}
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT itemName,itemSku,itemImg,itemDescription,packageType,price FROM products WHERE itemSku="+sku);
+			ResultSet resultSet = statement.executeQuery("SELECT itemName, category, itemSku,itemImg,itemDescription,packageType,price FROM products WHERE itemSku="+sku);
 
 			if (resultSet.next()) {
 				ObjectNode result = Json.newObject();
 				result.put("itemSku",resultSet.getString("itemSku"));
 				result.put("itemName",resultSet.getString("itemName"));
+				result.put("category", resultSet.getString("category"));
 				result.put("itemImg",resultSet.getString("itemImg"));
 				result.put("itemDescription", resultSet.getString("itemDescription"));
 				result.put("packageType", resultSet.getString("packageType"));
 				result.put("price", resultSet.getString("price"));
+				System.out.println(result);
 				return(result);
 			}
 			
@@ -301,7 +306,7 @@ public class Database {
 			
 		    String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
 		    		"containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
-		    		"products.itemName, products.itemImg, products.price, products.itemDescription, products.packageType "+
+		    		"products.itemName, products.category, products.itemImg, products.price, products.itemDescription, products.packageType "+
 		             "FROM machines, containers, products " +
 		             "WHERE " +
 		             "machines.id = containers.machineId "+
@@ -329,6 +334,7 @@ public class Database {
 				if(machineCreated){					
 					ProductModel product = new ProductModel();
 					product.itemName=resultSet.getString("itemName");
+					product.category=resultSet.getString("category");
 					product.itemSku=resultSet.getInt("itemSku");
 					product.itemImg=resultSet.getString("itemImg");
 					product.price=resultSet.getString("price");
@@ -352,6 +358,7 @@ public class Database {
 				else{
 					ProductModel product = new ProductModel();
 					product.itemName=resultSet.getString("itemName");
+					product.category= resultSet.getString("category");
 					product.itemSku=resultSet.getInt("itemSku");
 					product.itemImg=resultSet.getString("itemImg");
 					product.price=resultSet.getString("price");
@@ -403,7 +410,7 @@ public class Database {
 			
 		    String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
 		    		"containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, containers.slot, "+
-		    		"products.itemName, products.itemImg, products.price, products.itemDescription, products.packageType "+
+		    		"products.itemName, products.category, products.itemImg, products.price, products.itemDescription, products.packageType "+
 		             "FROM machines, containers, products " +
 		             "WHERE " +
 		             "machines.id='"+idMachine+"' "+
@@ -417,6 +424,7 @@ public class Database {
 			while (resultSet.next()) {
 					ProductModel product = new ProductModel();
 					product.itemName=resultSet.getString("itemName");
+					product.category=resultSet.getString("category");
 					product.itemSku=resultSet.getInt("itemSku");
 					product.itemImg=resultSet.getString("itemImg");
 					product.price=resultSet.getString("price");
@@ -497,7 +505,7 @@ public class Database {
 		
 //	    String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
 //	    		"containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
-//	    		"products.itemName, products.itemImg, products.price, products.itemDescription, products.packageType "+
+//	    		"products.itemName, products.category, products.itemImg, products.price, products.itemDescription, products.packageType "+
 //	             "FROM machines, containers, products " +
 //	             "WHERE " +
 //	             "machines.id='"+idMachine+"' "+

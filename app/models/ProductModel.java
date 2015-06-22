@@ -14,6 +14,7 @@ import javax.persistence.Id;
 public class ProductModel{
     public int itemSku;
     public String itemName;
+    public String category;
     public String itemImg;
     public String price;
     public String itemDescription;
