@@ -34,6 +34,8 @@ POST    /loginVending		        controllers.Application.loginVending()
 #GET	    /status      		        controllers.Machine.status(jammed, people)
 POST    /machineStatus              controllers.Machine.logStatus
 POST    /logEvent                   controllers.Machine.logEvent
+GET		/activityLog				controllers.Machine.activityLog(machineId)
+GET		/activityLogData			controllers.Machine.activityLogData(machineId,startDate,endDate)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

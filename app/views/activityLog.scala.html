@@ -1,0 +1,93 @@
+@main("Dashboard"){ @topNav() }{ @sidebar() }{
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+
+
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/tableActivityLog.css")">
+<link href="@routes.Assets.at("stylesheets/jquery-ui.css")" rel="stylesheet">
+<script src="@routes.Assets.at("javascripts/jquery-ui.min.js")" type="text/javascript"></script>
+
+
+<div ng-app="" ng-controller="activityLogController"> 
+
+<div id="chooseItemDiv">
+	<div style="padding:20px;background:white;border-radius:10px; margin:10px 20% 0px 20%;">
+		<h1>Activity Log</h1>
+
+	</div>
+</div>
+
+<div class="mainContent">
+
+	@loading()
+	
+	<h1>Activity Log - {{machineId}}</h1>
+
+	<p>Start Date: <input type="text" id="datepickerStart" ng-model="dateStart"></p>
+	<p>End Date: <input type="text" id="datepickerEnd" ng-model="dateEnd"></p>
+	<button ng-click="reloadData()" class="cleanButton greenButton">Refresh</button>
+	<input type="checkbox" checked ng-model="actionsCheck"></input>UI Actions
+	<input type="checkbox" checked ng-model="salesCheck"></input>Sales
+	<input type="checkbox" checked ng-model="trafficCheck"></input>Traffic
+	<input type="checkbox" ng-model="statusCheck"></input>Status
+
+<br><br>
+
+<section class="">
+  <div class="container">
+	<table class="styledTable modal machineListTable" cellspacing='0'>
+		  <thead>
+				<tr class="header">
+					<th><div>Entry Type</div></th>
+					<th><div>Date</div></th>
+					<th><div>Event</div></th>
+					<th><div style="padding-left:80px;">Sku</div></th>
+					<th><div>Sales Id</div></th>
+					<th><div>Sales Price</div></th>
+					<th><div>Traffic</div></th>
+					<th><div>Jammed</div></th>
+				</tr>
+		  </thead>
+		  
+		  <tr ng-class-odd="'odd'" ng-class-even="'even'" 
+		  ng-repeat="entry in entries" ng-class=""
+		  ng-show="(entry.entryType=='sale' && salesCheck) || 
+		  (entry.entryType=='action' && actionsCheck) || 
+		  (entry.entryType=='status' && trafficCheck && entry.traffic>0) || 
+		  (entry.entryType=='status' && statusCheck)"
+		  >
+		  
+		    <td>
+		    <i ng-show="entry.entryType=='sale'" class="fa fa-money green">&nbsp;&nbsp;</i>
+		    <i ng-show="entry.entryType=='action'" class="fa fa-eye blue">&nbsp;&nbsp;</i>
+		    <i ng-show="entry.entryType=='status' && entry.traffic==0" class="fa fa-users white">&nbsp;&nbsp;</i>
+		    <i ng-show="entry.entryType=='status' && entry.traffic>0" class="fa fa-users red">&nbsp;&nbsp;</i>
+		    {{ entry.entryType }}
+		    </td>
+		    <td>{{ entry.date  | date:"MM/dd/yyyy 'at' h:mma"}}</td>
+		    <td>{{ entry.event }}</td>
+		    <td><div ng-show="entry.entryType=='sale' || entry.entryType=='action'">{{ entry.productSku }}</div></td>
+		    <td><div ng-show="entry.entryType=='sale'">{{ entry.salesId }}</div></td>
+		    <td>{{ entry.salesPrice | currency }}</td>
+		    <td><div ng-show="entry.entryType=='status'">{{ entry.traffic }}</div></td>
+		    <td><div ng-show="entry.entryType=='status'">
+		    <i ng-show="!entry.jammed" class="fa fa-check green">&nbsp;&nbsp;</i>
+		    <i ng-show="entry.jammed" class="fa fa-times red">&nbsp;&nbsp;</i>
+		    {{ entry.jammed }}
+		    </div></td>
+
+		  </tr>
+	 </table>
+	</div>
+</section>
+
+</div>
+
+</div>
+
+<script src="@routes.Assets.at("javascripts/activityLogController.js")" type="text/javascript"></script>
+
+}
+
+
