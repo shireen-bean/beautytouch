@@ -40,6 +40,13 @@
 		  </td>
 		</tr>
 		<tr>
+		  <td>Brand:<br>
+		  </td>
+		  <td>
+		      <select id="brandSelect" ng-model="brandId" ng-options="opt as opt.name for opt in brandList track by opt.id"></select>																
+		  </td> 
+		</tr>
+		<tr>
 			<td><span style="color:red">*</span>Image:<br>
 			<font color="red">{{itemImgError}}</font>
 			</td>
