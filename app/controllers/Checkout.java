@@ -97,9 +97,9 @@ public class Checkout extends Controller {
     
     public static Result processNonce(String nonce, String name, String productId, String machineId, String column){
     	
-    	
+    	BigDecimal productPrice = new BigDecimal(Database.getProductPrice(productId));
     	TransactionRequest request = new TransactionRequest()
-        .amount(new BigDecimal(Database.getProductPrice(productId)))
+        .amount(productPrice)
         .paymentMethodNonce(nonce)
         .customer()
         .firstName(name)
@@ -115,7 +115,11 @@ public class Checkout extends Controller {
     	System.out.println("response"+result.isSuccess());
     	if(result.isSuccess()){
     		try{
-    		Database.removeItem(machineId,column);
+    	      //log purchase
+    	      //TODO: update when selling multiple items per purchase
+    	      Database.recordSale(machineId, productId, productPrice);
+    		  //decrement inventory
+    		  Database.removeItem(machineId,column);
     		}catch(Exception e){
     			
     		}
