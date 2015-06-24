@@ -14,13 +14,59 @@ html, body{
 
 
 
-#productView{
-	position:absolute;
-	width:100%;
-	top:0;
-	left:0;
-	height:100%;
+#productView {
+  position: fixed;
+  width: 1500px;
+  height: 1000px;
+  top: 26px;
+  left: 215px;
+  display: block;
+  background-color: white;
 }
+
+#productInfo {
+  width: 100%;
+  padding-top: 50px;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+  display: inline-block;
+}
+
+.productImageDetail {
+
+	margin-left: auto;
+	margin-right: auto;
+	height: 100%;
+	display: block;
+}
+
+.productImageContainer {
+	height: 25%;
+	width: 50%;
+	float: left;
+	display: inline-block;
+}
+
+.productDetails {
+	float: right;
+	width: 50%;
+}
+
+#brandInfo {
+	width: 100%;
+}
+
+#leftBlock {
+	float: left;
+	width: 50%;
+}
+
+#rightBlock {
+	float: right;
+	width:50%
+}
+
 .yellowBody{
    background-color: rgb(255, 184, 0);  
 }
@@ -84,9 +130,6 @@ html, body{
 .back{
   color: #ff3e96;
   background-color: white;
-  position: absolute;
-  top: 70%;
-  left: 7%;
   font-size: 55px;
   padding: 22px;
   border-radius: 20px;
