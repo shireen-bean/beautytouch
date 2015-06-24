@@ -1,7 +1,6 @@
 function receiptController($scope,$http) {
 	$scope.emailAddress="";
 	$scope.phoneNumber="";
-
 	$scope.skipReceipt=function(){
 		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
 	}
@@ -24,7 +23,6 @@ function receiptController($scope,$http) {
 			window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
 		}
 	}
-
 	$scope.addNumber=function(number){
 		if($scope.phoneNumber.length<10){
 			$scope.phoneNumber=$scope.phoneNumber+number;
@@ -34,7 +32,6 @@ function receiptController($scope,$http) {
 	$scope.deleteNumber=function(){
 		$scope.phoneNumber=$scope.phoneNumber.substring(0,$scope.phoneNumber.length-1);
 	}
-
 	$scope.reload=function(){
 		location.reload();
 	}
@@ -43,11 +40,9 @@ $(document).ready(function(){
 	$("#message").fadeIn();
 	$("#emailInput").focus();
 
-  /*
 	setTimeout(function() {
 		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
 	}, 300000);
-  */
 });
 
 

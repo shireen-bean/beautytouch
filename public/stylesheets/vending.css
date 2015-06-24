@@ -11,8 +11,160 @@ html, body{
  	/*background:url('../images/marbleShelf.jpg'); */
 	background-size:100% 100%;
 }
-
-
+.phoneButton{
+  float: left;
+  width: 100px;
+  line-height: 100px;
+  height: 100px;
+  display: inline;
+  color: #666;
+  border: 4px solid #FFF;
+  font-size: 30px;
+}
+.deleteKey{
+  height: 40px;
+  margin-top: 20px;
+}
+.receiptError{
+	color:red;
+}
+.receipt h2{
+	color:#666;
+	font-size:100px;
+	padding:0px;margin:0px;margin-top:-100px;margin-bottom:100px;
+}
+.receipt{
+	color:#666;
+}
+.contactInput{
+	line-height:50px;
+	width:450px;
+	font-size: 30px;
+  	text-align: center;
+}
+.phoneInput{
+	line-height:50px;
+	width:320px;
+	font-size: 30px;
+  	text-align: center;
+ }
+.contactInfo h3{
+	margin-top:-50px;
+	text-align:left;
+	width:500px;
+	font-size:30px;
+}
+.contactDoneButton{
+  font-size: 30px;
+  border: 0px;
+  background-color: #fb6096;
+  opacity: .85;
+  margin-top:-40px;
+  width:200px;
+  top:-30px;
+  border-radius: 15px;
+  height: 61px;
+  z-index: 1;
+  color: white;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+#phoneKeyPad{
+  margin-left:25px;	
+}
+.contactButton {
+  font-size: 30px;
+  border: 0px;
+  background-color: #fb6096;
+  opacity: .85;
+  width: 450px;
+  border-radius: 15px;
+  height: 81px;
+  z-index: 1;
+  color: white;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+  position: absolute;
+  top: 350px;
+  left: 190px;
+}
+.contactInfo.noReceipt{
+	top:580px;
+	padding-top:4%;
+	padding-bottom:10%;
+}
+.noReceipt .contactButton{
+	top:150px;
+}
+.phoneSend {
+  font-size: 30px;
+  border: 0px;
+  background-color: #fb6096;
+  opacity: .85;
+  width: 450px;
+  border-radius: 15px;
+  height: 81px;
+  z-index: 1;
+  color: white;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+  position: absolute;
+  top: 750px;
+  left: 170px;
+}
+.cornerLabel {
+  position: absolute;
+  left: -75px;
+  top: -3px;
+  display: block;
+  width: 245px;
+  font-size: 22;
+ /* border-top: 2px black solid;
+  border-bottom: 2px black solid;*/
+  
+  background: #fb6096;
+  opacity: .85;
+  font-weight: bold;
+  color: white;
+  transform: rotate(-45deg);
+  -moz-transform:rotate(-45deg);
+  /* Safari and Chrome */
+  -webkit-transform:rotate(-45deg);
+  /* Opera */
+  -o-transform:rotate(-45deg);
+  /* IE9 */
+  -ms-transform:rotate(-45deg);
+  
+}
+.cornerLabel p:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -0px;
+  right: -11px;
+  z-index: -1;
+  border: 55px solid;
+  border-color: #ceffff #ceffff transparent transparent;
+}
+.cornerLabel p:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -3px;
+  right: 140px;
+  z-index: -1;
+  border: 55px solid;
+  border-color: #ceffff transparent transparent #ceffff;
+}
+.contactInfo{
+	position:absolute;
+	border:5px solid white;
+	padding:10%;
+	width:20%;
+	margin:3%;
+}
 
 #productView {
   position: fixed;
@@ -162,6 +314,7 @@ html, body{
   height: 500px;
   border: solid white 5px;
 }
+
 
 
 .cornerPrice {

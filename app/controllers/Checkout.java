@@ -65,10 +65,14 @@ public class Checkout extends Controller {
     	return ok(vendingMain.render(jsonString));
     }
     
-    public static Result thankYou(String productId){
+    public static Result thankYou(){
     	return ok(thankYou.render());
     }
 
+    public static Result receipt(){
+    	return ok(receipt.render());
+    }
+    
     public static Result pay(String productId){
     	return ok(pay.render());
     }
@@ -97,9 +101,9 @@ public class Checkout extends Controller {
     
     public static Result processNonce(String nonce, String name, String productId, String machineId, String column){
     	
-    	
+    	BigDecimal productPrice = new BigDecimal(Database.getProductPrice(productId));
     	TransactionRequest request = new TransactionRequest()
-        .amount(new BigDecimal(Database.getProductPrice(productId)))
+        .amount(productPrice)
         .paymentMethodNonce(nonce)
         .customer()
         .firstName(name)
@@ -114,15 +118,22 @@ public class Checkout extends Controller {
     	ObjectNode response = Json.newObject();
     	System.out.println("response"+result.isSuccess());
     	if(result.isSuccess()){
+    		int salesId=-1;
     		try{
-    		Database.removeItem(machineId,column);
+    	      //log purchase
+    	      //TODO: update when selling multiple items per purchase
+    	      salesId = Database.recordSale(machineId, productId, productPrice);
+    		  //decrement inventory
+    		  Database.removeItem(machineId,column);
     		}catch(Exception e){
     			
     		}
-        	response.put("result", "success");
+    		response.put("result","success");
+        	response.put("salesId", Integer.toString(salesId));
     	}
     	else{
-        	response.put("result", "failed");
+    		response.put("result","failure");
+        	response.put("salesId", "-1");
     	}
     	
      	return ok(response);

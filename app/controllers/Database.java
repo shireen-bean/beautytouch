@@ -9,10 +9,12 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 
 import models.Container;
 import models.MachineModel;
 import models.ProductModel;
+import models.Receipt;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -213,7 +215,6 @@ public class Database {
         result.put("logo", resultSet.getString("logo"));
         nodeArray.add(result);
       }
-
       return nodeArray;
 
     } catch (Exception e) {
@@ -635,7 +636,85 @@ public class Database {
         +"WHERE machineId='"+machineId+"' AND position='"+column+"'");
   }
 
+  public static Receipt getReceiptDetails(int salesId) {
+    //System.out.println(idMachine);
+    try {
+      if(connection==null){
+        connection = DB.getConnection();
+      }
+      if(connection.isClosed()){
+        connection = DB.getConnection();
+      }
+
+      Statement statement = connection.createStatement();
 
 
+      String query = "SELECT sales.id, products.itemSku, machines.address, products.itemName, sales.sales_total, sales_products.product_price "+
+        "FROM machines, products, sales, sales_products " +
+        "WHERE " +
+        "sales.id='"+salesId+"' "+
+        "AND sales.machine_id = machines.id "+
+        "AND sales_products.sales_id = sales.id "+
+        "AND products.itemSku = sales_products.product_sku ";
+
+      ResultSet resultSet = statement.executeQuery(query);
+      Receipt receipt = new Receipt();
+      receipt.products = new ArrayList<ProductModel>();
+
+      while (resultSet.next()) {
+        receipt.machineAddress = resultSet.getString("address");
+        receipt.total = resultSet.getString("sales_total");
+
+        ProductModel pm = new ProductModel();
+        pm.itemName = resultSet.getString("itemName");
+        pm.price = resultSet.getString("product_price");
+        receipt.products.add(pm);
+      }
+
+      return receipt;
+
+    } catch (Exception e) {
+      Logger.error("********Error" + e.toString());
+      return null;
+    }
+  }
+
+  public static void addCustomer(String phone, String email, int salesId) throws SQLException {
+    if (connection == null || connection.isClosed()) {
+      connection = DB.getConnection();
+    }
+
+    Statement statement = connection.createStatement();
+    statement.executeUpdate("INSERT INTO sales_customer "
+        + "(sales_id, customer_email, customer_phone) VALUES ( '"
+        + salesId + "', '" + email + "', '" + phone +"')");
+  }
+
+  public static int recordSale(String machineId, String productId, BigDecimal productPrice) throws SQLException {
+    if (connection == null || connection.isClosed()){
+      connection = DB.getConnection();
+    }
+
+    //log sale
+    Date date = new Date();
+    Statement statement = connection.createStatement();
+    statement.executeUpdate("INSERT INTO sales "
+        + "(machine_id, sales_total, time) VALUES ( "
+        + machineId + ", " + productPrice
+        + ", '" + new Timestamp(date.getTime()) + "')",
+        Statement.RETURN_GENERATED_KEYS);
+
+    ResultSet results = statement.getGeneratedKeys();
+    //log products
+    if (results.next()) {
+      int salesId = results.getInt(1);
+      statement.executeUpdate("INSERT INTO sales_products "
+          + "(sales_id, product_sku, product_price) VALUES ( "
+          + salesId + ", " + productId + ", " + productPrice + ")");
+      return salesId;
+    }
+    return -1;
+
+  }
 
 }
