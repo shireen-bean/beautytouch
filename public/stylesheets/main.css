@@ -94,6 +94,11 @@ padding-top: 20px;
 	display: block;
 }
 
+.brandLogo {
+	width: 150px;
+	display: block;
+}
+
 #map_canvas {
 	width: 100%;
 }

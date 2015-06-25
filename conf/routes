@@ -17,10 +17,16 @@ GET     /machineList                controllers.MachineList.machineList()
 GET     /machineListJson            controllers.MachineList.machineListJson()
 GET     /machine                    controllers.Machine.machine()
 GET     /machineJson                controllers.Machine.machineJson(id)
-#GET     /checkoutProductSelect      controllers.Checkout.productSelect()
+GET     /brand                      controllers.Brand.brand()
+GET     /brandJson                  controllers.Brand.brandJson(id)
+GET     /brandList                  controllers.BrandList.brandList()
+GET     /brandListJson              controllers.BrandList.brandListJson()
+POST    /postBrandLogo              controllers.Brand.postBrandLogo()
+POST    /postBrand                  controllers.Brand.postBrand()
 GET     /checkoutProductSelect      controllers.Checkout.vendingMain(machineId)
 GET     /vendingMain		        controllers.Checkout.vendingMain(machineId)
-GET     /thankYou                   controllers.Checkout.thankYou(productId)
+GET     /thankYou                   controllers.Checkout.thankYou()
+GET     /receipt                    controllers.Checkout.receipt()
 GET     /paymentFailed              controllers.Checkout.paymentFailed()
 GET     /pay	                    controllers.Checkout.pay(productId)
 GET     /processing 		        controllers.Checkout.processing()
@@ -31,10 +37,12 @@ GET     /contactus	                controllers.Landing.contactUs()
 GET     /terms		                controllers.Landing.terms()
 POST    /postMachine		        controllers.Machine.postMachine()
 POST    /loginVending		        controllers.Application.loginVending()
-#GET	    /status      		        controllers.Machine.status(jammed, people)
 POST    /machineStatus              controllers.Machine.logStatus
+POST     /sendEmailReceipt           controllers.Email.sendReceipt
+POST     /sendSMSReceipt             controllers.SMS.sendReceipt
 POST    /logEvent                   controllers.Machine.logEvent
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /productImage/:file         controllers.FileService.getProductImage(file: String)
+GET     /brandLogo/:file            controllers.FileService.getBrandLogo(file: String)
