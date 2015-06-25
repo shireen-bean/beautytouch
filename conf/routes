@@ -23,7 +23,6 @@ GET     /brandList                  controllers.BrandList.brandList()
 GET     /brandListJson              controllers.BrandList.brandListJson()
 POST    /postBrandLogo              controllers.Brand.postBrandLogo()
 POST    /postBrand                  controllers.Brand.postBrand()
-GET     /checkoutProductSelect      controllers.Checkout.productSelect()
 GET     /checkoutProductSelect      controllers.Checkout.vendingMain(machineId)
 GET     /vendingMain		        controllers.Checkout.vendingMain(machineId)
 GET     /thankYou                   controllers.Checkout.thankYou()
@@ -38,7 +37,6 @@ GET     /contactus	                controllers.Landing.contactUs()
 GET     /terms		                controllers.Landing.terms()
 POST    /postMachine		        controllers.Machine.postMachine()
 POST    /loginVending		        controllers.Application.loginVending()
-#GET	    /status      		        controllers.Machine.status(jammed, people)
 POST    /machineStatus              controllers.Machine.logStatus
 POST     /sendEmailReceipt           controllers.Email.sendReceipt
 POST     /sendSMSReceipt             controllers.SMS.sendReceipt

@@ -145,7 +145,7 @@ html, body{
   right: -11px;
   z-index: -1;
   border: 55px solid;
-  border-color: #ceffff #ceffff transparent transparent;
+  border-color: white white transparent transparent;
 }
 .cornerLabel p:after {
   content: "";
@@ -156,7 +156,7 @@ html, body{
   right: 140px;
   z-index: -1;
   border: 55px solid;
-  border-color: #ceffff transparent transparent #ceffff;
+  border-color: white transparent transparent white;
 }
 .contactInfo{
 	position:absolute;
@@ -167,6 +167,8 @@ html, body{
 }
 
 #productView {
+  border: solid 5px #bbb;
+  border-radius: 25px;
   position: fixed;
   width: 1500px;
   height: 1000px;
@@ -179,44 +181,78 @@ html, body{
 #productInfo {
   width: 100%;
   padding-top: 50px;
-  padding-left: 50px;
   padding-bottom: 50px;
   margin-bottom: 50px;
   display: inline-block;
 }
 
 .productImageDetail {
-
-	margin-left: auto;
-	margin-right: auto;
-	height: 100%;
 	display: block;
+	position: absolute;
+    left: 50%;
+    right: -50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .productImageContainer {
-	height: 25%;
-	width: 50%;
-	float: left;
-	display: inline-block;
+  height: 475px;
+  width: 50%;
+  float: left;
+  display: inline-block;
+  position: relative;
 }
 
 .productDetails {
 	float: right;
-	width: 50%;
+	width: 45%;
+	height: 475px;
+	margin-left: 20px;
 }
 
 #brandInfo {
-	width: 100%;
+  width: 100%;
+  padding-top: 50px;
+  padding-left: 50px;
+  display: inline-block;
+}
+
+#brandText {
+	float: right;
+	width: 66%;
+}
+
+.brandLogo {
+  width: 200px;
+  float: right;
+  padding-left: 20px;
+  margin-top: 50px;
+}
+
+.brandName {
+  font-size: 30px;
+  text-align: left;
+  float: left;
+}
+
+.brandDescription {
+  text-align: left;
+  font-size: 20px;
+  color: #777;
+  margin-right: 20px;
+  float: left;
 }
 
 #leftBlock {
 	float: left;
-	width: 50%;
+	width: 53%;
+	padding-left: 50px;
 }
 
 #rightBlock {
 	float: right;
-	width:50%
+	width: 33%;
+	padding-right: 50px;
 }
 
 .yellowBody{
@@ -270,22 +306,34 @@ html, body{
   /* bottom: 0; */
  }
  
- .swipeMessage {
+ #swipeMessage {
   font-size: 70px;
-  background-color: white;
-  padding-bottom: 60px;
-  margin-top: -20px;
-  opacity: .75;
-  color: #ff3e96;
+  color: white;
+  display: inline-block;
+  padding-left: 50px;
+  padding-top: 200px;
+  padding-right: 50px;
+  margin-top: 50px;
+  background-color: #ba3c3c;
+  border-radius: 25px;
+  margin-right: 50px;
+  margin-bottom: 22px;
+  height: 550px;
 }
 
-.back{
-  color: #ff3e96;
+.fa-credit-card {
+	font-size: 72px;
+}
+
+.back {
+  color: #ba3c3c;
   background-color: white;
+  margin-right: 50px;
+  margin-top: 12px;
   font-size: 55px;
   padding: 22px;
-  border-radius: 20px;
-  opacity: .75;
+  border-radius: 25px;
+  border: 5px solid #ba3c3c;
 }
 
 .yellowDiv{
@@ -312,7 +360,7 @@ html, body{
   text-align: center;
   width: 470px;
   height: 500px;
-  border: solid white 5px;
+  border: solid #bbb 5px;
 }
 
 
@@ -327,8 +375,7 @@ html, body{
  /* border-top: 2px black solid;
   border-bottom: 2px black solid;*/
   
-  background: #fb6096;
-  opacity: .85;
+  background: #bbb;
   font-weight: bold;
   color: white;
   transform: rotate(-45deg);
@@ -351,7 +398,7 @@ html, body{
   right: -11px;
   z-index: -1;
   border: 55px solid;
-  border-color: #ceffff #ceffff transparent transparent;
+  border-color: white white transparent transparent;
 }
 
 .cornerPrice p:after {
@@ -359,35 +406,36 @@ html, body{
   width: 0;
   height: 0;
   position: absolute; 
-  top: -3px;
+  top: -2px;
   right: 165px;
   z-index: -1;
   border: 55px solid;
   /* border-color: #caffdd transparent transparent #caffdd; 
   border-color: #e1fbfb transparent transparent #e1fbfb; */
-  border-color: #ceffff transparent transparent #ceffff;
+  border-color: white transparent transparent white;
 }
 
 
 .bodyMain{
-    background-color:#ceffff;
+    background-color:white;
 }
 
 .productBuyButton {
-  font-size: 30px;
+  font-size: 24px;
   border: 0px;
-  background-color: #fb6096;
-  opacity: .85;
-  width: 200px;
+  background-color: #ba3c3c;
+  width: 50%;
   border-radius: 15px;
   height: 81px;
   z-index: 1;
   color: white;
+  text-transform: uppercase;
   letter-spacing: 1.5px;
-  font-weight: bold;
-  position: absolute;
   top: 390px;
-  left: 140px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  right: -50%;
+  position: absolute;
 }
 
 .productBuyButton:clicked {
@@ -406,9 +454,16 @@ html, body{
 }
 
 #itemName {
-	max-width: 500px;
+	text-align: left;
+	font-size: 40px;
 }
 
+#productPrice {
+	text-align: left;
+	font-size: 30px;
+	margin: 0 0 0 0;
+	color: #333;
+}
 .availableListImage{
   height:70%;
   padding-top:5%;
@@ -540,5 +595,8 @@ body.bodyMain i, body.bodyMain .back, body.bodyMain span{
 	/* color: #888 !important; */
 }
 body.bodyMain #productDescription{
-	color:black !important;
+	color: #777 !important;
+	text-align: left;
+	width: 100%;
+	font-size: 20px;
 }

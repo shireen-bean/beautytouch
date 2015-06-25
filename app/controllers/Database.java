@@ -15,6 +15,7 @@ import models.Container;
 import models.MachineModel;
 import models.ProductModel;
 import models.Receipt;
+import models.Brand;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -170,7 +171,9 @@ public class Database {
 
       Statement statement = connection.createStatement();
 
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM products");
+      ResultSet resultSet = statement.executeQuery("SELECT products.*, "
+      	  + "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription"
+          + " FROM products LEFT JOIN brands on products.brand_id = brands.id ");
 
       ObjectMapper mapper = new ObjectMapper();
       ArrayNode nodeArray=mapper.createArrayNode();
@@ -234,7 +237,10 @@ public class Database {
       Statement statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery(""
           + "SELECT itemName, category, itemSku,"
-          + "itemImg, itemDescription, packageType, price, brand_id FROM products WHERE itemSku="+sku);
+          + "itemImg, itemDescription, packageType, price, brand_id "
+          + "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription"
+          + " FROM products JOIN brands on products.brand_id = brands.id "
+          + "WHERE itemSku="+sku);
 
       if (resultSet.next()) {
         ObjectNode result = Json.newObject();
@@ -514,18 +520,29 @@ public class Database {
 
       String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
         "containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, containers.slot, "+
-        "products.itemName, products.category, products.itemImg, products.price, products.itemDescription, products.packageType "+
+        "products.itemName, products.category, products.itemImg, products.price, products.itemDescription, products.packageType, products.brand_id,"+
+        "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription " +
         "FROM machines, containers, products " +
+        "LEFT JOIN brands on products.brand_id = brands.id " +
         "WHERE " +
         "machines.id='"+idMachine+"' "+
         "AND machines.id = containers.machineId "+
         "AND containers.itemSku = products.itemSku";
+      
+      
 
       ResultSet resultSet = statement.executeQuery(query);
       MachineModel machine = new MachineModel();
       machine.containers = new ArrayList<Container>();
       machine.totalCapacity=0;
       while (resultSet.next()) {
+    	  
+    	Brand brand = new Brand();
+    	brand.name = resultSet.getString("brandName");
+    	brand.logo = resultSet.getString("brandLogo");
+    	brand.description = resultSet.getString("brandDescription");
+    	brand.id = resultSet.getInt("products.brand_id");
+    	
         ProductModel product = new ProductModel();
         product.itemName=resultSet.getString("itemName");
         product.category=resultSet.getString("category");
@@ -534,6 +551,7 @@ public class Database {
         product.price=resultSet.getString("price");
         product.itemDescription=resultSet.getString("itemDescription");
         product.packageType=resultSet.getString("packageType");
+        product.brand = brand;
 
         Container container = new Container();
         container.id=resultSet.getInt("containerId");
