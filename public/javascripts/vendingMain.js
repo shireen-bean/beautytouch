@@ -4,6 +4,10 @@ function vendingMain($scope,$http) {
 	$scope.seletedImg="";
 	$scope.selectedPrice="0.00";
 	$scope.selectedDescrition="Description";
+	$scope.selectedBrandName = "Brand Name";
+	$scope.selectedBrandDescription = "Brand Description";
+	$scope.selectedBrandLogo = "";
+		
 
 	$(document).ready(function(){
 		$scope.machine=JSON.parse($("#machineJsonVariable").html());
@@ -34,6 +38,7 @@ function vendingMain($scope,$http) {
 	//get list of available products
 	var machineID=getParameterByName("machineId");
 	
+    var timeoutHandle;
     
     $scope.productSelected=function(id){
 		var divNameSelected = "#product"+id;
@@ -76,16 +81,47 @@ function vendingMain($scope,$http) {
 	    	//find product details and display checkout window
 	    	$("#productList").css('opacity','.1');
 	    	$("#productView").show();
+	    	$.ajax({
+	        	type: "POST",
+	        	url: "/logEvent",
+	        	data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_product", "product_sku": id}),
+	        	dataType: "json",
+	        	headers: {
+	               "content-type": "application/json"
+	            },
+	        });
+	    	
+	    	timeoutHandle = setTimeout(function() {
+	    		console.log("%OASYS,screen=list&?");
+    	        $("#productView").hide();
+    	        $("#productList").css('opacity','1');
+    	        $("#productList").show();
+    	        $.ajax({
+    	        	type: "POST",
+    	        	url: "/logEvent",
+    	        	data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout", "product_sku": 0}),
+    	        	dataType: "json",
+    	        	headers: {
+    	               "content-type": "application/json"
+    	            },
+    	        });
+	    	}, 60000)
 	    
 			var lengthContainers = $scope.machine.containers.length;
 			for(var i=0; i<lengthContainers;i++){
 				var iSku = $scope.machine.containers[i].product.itemSku;
 				if(iSku==currentSku){
+					
 					var productCurrent = $scope.machine.containers[i].product;
+					console.log(productCurrent);
 					$scope.selectedPrice=productCurrent.price;
 					$scope.selectedDescription= productCurrent.itemDescription;
 					$scope.selectedImg = productCurrent.itemImg;
 					$scope.selectedName= productCurrent.itemName;
+					$scope.selectedBrandName = productCurrent.brand.name;
+					$scope.selectedBrandLogo = productCurrent.brand.logo;
+					$scope.selectedBrandDescription = productCurrent.brand.description;
+					$scope.selectedBrandId = productCurrent.brand.id;
 					break;
 				}
 			}
@@ -104,6 +140,16 @@ function vendingMain($scope,$http) {
     	$("#productView").hide();
     	$("#productList").css('opacity','1');
     	$("#productList").show();
+    	$.ajax({
+        	type: "POST",
+        	url: "/logEvent",
+        	data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_back", "product_sku": 0}),
+        	dataType: "json",
+        	headers: {
+               "content-type": "application/json"
+            },
+        });
+    	clearTimeout(timeoutHandle);
     };
 
 }

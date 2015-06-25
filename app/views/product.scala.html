@@ -32,6 +32,21 @@
 			</td>
 		</tr>
 		<tr>
+		  <td><span style="color:red">*</span>Category:<br>
+		  <font color="red">{{categoryError}}</font>
+		  </td>
+		  <td>
+		      <input style="" type="text" size="53" id="category" ng-model="category"/>
+		  </td>
+		</tr>
+		<tr>
+		  <td>Brand:<br>
+		  </td>
+		  <td>
+		      <select id="brandSelect" ng-model="brandId" ng-options="opt as opt.name for opt in brandList track by opt.id"></select>																
+		  </td> 
+		</tr>
+		<tr>
 			<td><span style="color:red">*</span>Image:<br>
 			<font color="red">{{itemImgError}}</font>
 			</td>

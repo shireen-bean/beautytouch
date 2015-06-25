@@ -14,5 +14,6 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "mysql" % "mysql-connector-java" % "5.1.21"
+  "mysql" % "mysql-connector-java" % "5.1.21",
+  "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.1"
 )

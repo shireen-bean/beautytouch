@@ -1,10 +1,10 @@
 package models;
 
+import java.util.ArrayList;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import models.Brand;
 
 /**
  * This declares a model object for persistence usage. Model objects are generally anaemic structures that represent
@@ -13,13 +13,8 @@ import models.Brand;
  * Play Java will synthesise getter and setter methods for us and therefore keep JPA happy (JPA expects them).
  */
 @Entity
-public class ProductModel{
-    public int itemSku;
-    public String itemName;
-    public String category;
-    public String itemImg;
-    public String price;
-    public String itemDescription;
-    public String packageType;
-    public Brand brand;
+public class Receipt{
+    public ArrayList<ProductModel> products;
+    public String machineAddress;
+    public String total;
 }
