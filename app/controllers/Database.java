@@ -237,7 +237,7 @@ public class Database {
       Statement statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery(""
           + "SELECT itemName, category, itemSku,"
-          + "itemImg, itemDescription, packageType, price, brand_id "
+          + "itemImg, itemDescription, packageType, price, brand_id, "
           + "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription"
           + " FROM products JOIN brands on products.brand_id = brands.id "
           + "WHERE itemSku="+sku);
@@ -252,6 +252,7 @@ public class Database {
         result.put("packageType", resultSet.getString("packageType"));
         result.put("price", resultSet.getString("price"));
         result.put("brandId", resultSet.getString("brand_id"));
+        System.out.println(result);
         return(result);
       }
 
