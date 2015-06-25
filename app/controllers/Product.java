@@ -30,14 +30,14 @@ public class Product extends Controller {
 		}
 		return true;
 	}
-	
+
     public static Result product() {
     	if(!loggedIn()){
     		return redirect("/");
     	}
         return ok(product.render());
     }
-    
+
     public static Result productJson(String sku){
 //    	if(!loggedIn()){
 //    		return redirect("/");
@@ -45,27 +45,32 @@ public class Product extends Controller {
     	ObjectNode product = Database.getProduct(sku);
     	return ok(product);
     }
-    
+
     public static Result postProduct(){
     	if(!loggedIn()){
     		return redirect("/");
     	}
     	JsonNode jn = request().body().asJson();
-    	
+
     	String itemName = jn.get("itemName").asText();
+    	String category = jn.get("category").asText();
+    	String brand_id = jn.get("brand_id").asText();
     	String itemSku = jn.get("itemSku").asText();
     	String itemImg = jn.get("itemImg").asText();
     	String price = jn.get("price").asText();
     	String itemDescription = jn.get("itemDescription").asText();
     	String packageType = jn.get("packageType").asText();
-    	
-    	
+
+
     	//validation
     	boolean errorsFlag = false;
     	ObjectNode response = Json.newObject();
     	if(itemName.length()==0){
     		response.put("itemNameError", "name required");
       	  	errorsFlag= true;
+    	} if (category.length() == 0 ){
+    		response.put("categoryError",  "category required");
+    		errorsFlag = true;
     	}if(itemImg.length()==0){
     		response.put("itemImgError", "image required");
       	  	errorsFlag= true;
@@ -76,11 +81,11 @@ public class Product extends Controller {
     		response.put("priceError", "invalid price");
       	  	errorsFlag= true;
     	}
-    	
+
     	if(!errorsFlag){
 	    	if(itemSku.length()>0){
 	    		try {
-					Database.editProduct(itemSku,itemName,itemImg,price,itemDescription,packageType);
+					Database.editProduct(itemSku, itemName, category, brand_id, itemImg, price, itemDescription, packageType);
 				} catch (SQLException e) {
 					System.out.println(e.toString());
 					errorsFlag=true;
@@ -88,7 +93,7 @@ public class Product extends Controller {
 				}
 	    	}else{
 	    		try {
-					Database.addProduct(itemName,itemImg,price,itemDescription,packageType);
+					Database.addProduct(itemName, category, brand_id, itemImg, price, itemDescription, packageType);
 				} catch (SQLException e) {
 					errorsFlag=true;
 					response.put("mainError","Database error");
@@ -101,10 +106,10 @@ public class Product extends Controller {
     	}else{
     		response.put("success", "true");
     	}
-    	
+
      	return ok(response);
     }
-    
+
     public static Result postProductImage(){
 
 	    	if(!loggedIn()){
@@ -112,17 +117,17 @@ public class Product extends Controller {
 	    	}
     	  MultipartFormData body = request().body().asMultipartFormData();
     	  FilePart picture = body.getFile("files[]");
-    	  
+
     	  if (picture != null) {
     	    String fileName = picture.getFilename();
     	    String extension = fileName.substring(fileName.length() - 4);
     	    File file = picture.getFile();
-    	   
-        	UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");     
-            
+
+        	UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
+
             // checking the value of random UUID
-            String uidString = uid.randomUUID().toString();    
-        	
+            String uidString = uid.randomUUID().toString();
+
 //     	   	if(!file.renameTo(new File("public/images/products/"+uidString+extension))){
      	   	if(!file.renameTo(new File("public/dynamicFiles/products/"+uidString+extension))){
        			//error
@@ -140,7 +145,7 @@ public class Product extends Controller {
     		    //error
 	  	     	ObjectNode resultFailed = Json.newObject();
 	  	     	resultFailed.put("success", "false");
-	  	     	return ok(resultFailed);   
+	  	     	return ok(resultFailed);
     	  }
     }
 }

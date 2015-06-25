@@ -1,0 +1,68 @@
+@main("Dashbard"){ @topNav() }{ @sidebar() }{
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+<div ng-app="" ng-controller="brandController">
+
+<div class="mainContent">
+
+	@loading()
+
+	<h1>Brand - {{brandLabel}}</h1>
+
+	<div class="mainMessage">
+		<i class="fa fa-info-circle"></i>
+		Create or edit brand
+	</div>
+
+	<div class="errorMessage" style="display:none;">
+		<i class="fa fa-exclamation-triangle"></i>
+		Form contains errors.
+	</div>
+
+	<h2>Brand details
+	</h2>
+	<table class="brandTable" cellspacing='0'>
+		<tr>
+			<td><span style="color:red">*</span>Brand name:<br>
+			<font color="red">{{nameError}}</font>
+			</td>
+			<td>
+				<input style="" type="text" size="53" id="name" ng-model="name"/>
+			</td>
+		</tr>
+		<tr>
+			<td><span style="color:red">*</span>Logo:<br>
+			<font color="red">{{logoError}}</font>
+			</td>
+			<td>
+				<input id="fileupload" type="file" name="files[]" data-url="postBrandLogo" title="">
+				<img id="brandLogo">
+			</td>
+		</tr>
+		<tr>
+			<td>Description:</td>
+			<td>
+				<textarea style="height:60px;" type="text" rows="3" cols="38" id="description" ng-model="description"></textarea>
+			</td>
+		</tr>
+	</table><br>
+		<button class="cleanButton greenButton" id="submit" ng-click="submit()">
+		Save
+	</button>
+
+</div>
+
+</div>
+
+<script src="@routes.Assets.at("javascripts/brandController.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/jquery.ui.widget.js")"></script>
+<script src="@routes.Assets.at("javascripts/jquery.iframe-transport.js")"></script>
+<script src="@routes.Assets.at("javascripts/jquery.fileupload.js")"></script>
+<script>
+
+</script>
+
+}
+
+
