@@ -252,7 +252,6 @@ public class Database {
         result.put("packageType", resultSet.getString("packageType"));
         result.put("price", resultSet.getString("price"));
         result.put("brandId", resultSet.getString("brand_id"));
-        System.out.println(result);
         return(result);
       }
 
