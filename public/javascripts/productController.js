@@ -67,6 +67,10 @@ function productController($scope,$http) {
     });
   }else{
     $scope.itemSkuLabel="not assigned yet"
+    $http.get('/brandListJson')
+      .success( function(data) {
+        $scope.brandList = data;
+      });
   }
   $scope.submit=function(){
     //build product json object
