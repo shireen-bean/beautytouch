@@ -48,7 +48,6 @@ public class Brand extends Controller {
       return redirect("/");
     }
     JsonNode jn = request().body().asJson();
-    System.out.println(jn);
 
     String name = jn.get("name").asText();
     String logo = jn.get("logo").asText();
