@@ -38,25 +38,25 @@
 			    <h2 id="productPrice">{{selectedPrice | currency}}</h2>
 			    <p id="productDescription">{{selectedDescription}}</p>
 			  </div>
-			</div>
-		    <div ng-hide="selectedBrandId == 0" id="brandInfo">
-		      <img class="brandLogo" ng-src="brandLogo/{{selectedBrandLogo}}"/>
-		      <div id="brandText">
-		        <h2 class="brandName">{{selectedBrandName}}</h2>
-		        <div ng-hide="selectedBrandDescription == ''">
-		          <p class="brandDescription">{{selectedBrandDescription}}</p>
+			
+		      <div ng-hide="selectedBrandId == 0" id="brandInfo">
+		        <img class="brandLogo" ng-src="brandLogo/{{selectedBrandLogo}}"/>
+		        <div ng-hide="selectedBrandDescription ==''" id="brandText">
+		            <p class="brandDescription">{{selectedBrandDescription}}</p>
 		        </div>
 		      </div>
+		    </div>
+		    <div ng-click="closeProduct()" class="back">
+		      <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;back
 		    </div>
 		  </div>
 		  <div id="rightBlock">
 		    <div id="swipeMessage">
 		      <i class="fa fa-credit-card"></i>
 		      <h2>Swipe card to purchase for {{selectedPrice | currency}}</h2>
+		      <i class="fa fa-hand-o-right"></i>
 		    </div>
-		    <div ng-click="closeProduct()" class="back">
-			<i class="fa fa-chevron-left"></i>&nbsp;&nbsp;back
-			</div>
+		    
 		  </div>
       <div style="clear:both;"></div>
 	</div>
