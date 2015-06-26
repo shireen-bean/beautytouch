@@ -370,6 +370,8 @@ html, body{
   width: 45%;
   height: 475px;
   margin-left: 20px;
+  display: inline-block;
+  padding-bottom: 50px;
 }
 
 #brandInfo {
