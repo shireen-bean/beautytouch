@@ -43,7 +43,9 @@
 		      <img class="brandLogo" ng-src="brandLogo/{{selectedBrandLogo}}"/>
 		      <div id="brandText">
 		        <h2 class="brandName">{{selectedBrandName}}</h2>
-		        <p class="brandDescription">Brand Description: {{selectedBrandDescription}}</p>
+		        <div ng-hide="selectedBrandDescription == ''">
+		          <p class="brandDescription">{{selectedBrandDescription}}</p>
+		        </div>
 		      </div>
 		    </div>
 		  </div>
