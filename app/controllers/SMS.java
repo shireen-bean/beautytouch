@@ -90,4 +90,28 @@ import play.mvc.*;
 	    	   }
 	    	   return ok();
 	       }
+	       
+	       public static Result reportProblem() {
+	    	   System.out.println("REPORTING PROBLEM");
+	    	   
+	    	   JsonNode jn = request().body().asJson();
+	    	   String machineId = jn.get("machineId").asText();
+	    	   try {
+	    		   TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
+	    		   Account account = client.getAccount();
+	    		   
+	    		   MessageFactory messageFactory = account.getMessageFactory();
+	    		   List<NameValuePair> params = new ArrayList<NameValuePair>();
+	    		   params.add(new BasicNameValuePair("To", "+16095779836"));
+	    		   params.add(new BasicNameValuePair("From", "+18597590660")); 
+	    		   
+	    		   String messageBody = "Problem reported with machine: " + machineId;
+	    		   
+	    		   params.add(new BasicNameValuePair("Body", messageBody));
+	    		   Message sms = messageFactory.create(params);
+	    	   }catch (Exception e) {
+	    		   System.out.println(e.toString());
+	    	   }
+	    	   return ok();
+	       }
 	}

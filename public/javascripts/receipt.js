@@ -35,6 +35,10 @@ function receiptController($scope,$http) {
 	$scope.reload=function(){
 		location.reload();
 	}
+	$scope.reportProblem = function() {
+		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId"));
+		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
+	}
 }
 $(document).ready(function(){
 	$("#message").fadeIn();
@@ -65,6 +69,15 @@ function validateNumber(inputtxt)
           return false;
         }
 }
+
+$('#receipt-options :button').not('#no-receipt').click( function() {
+	$('#receipt-options').children('.selected').toggleClass('selected');
+	element = event.target;
+	$(element).addClass('selected');
+	$('.contactInfo').hide();
+	$('#' +element.id +'-form').removeClass("hidden").show();
+	
+});
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

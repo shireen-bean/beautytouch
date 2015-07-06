@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.text.NumberFormat;
+import java.math.BigDecimal;
 
 import models.ProductModel;
 import models.Receipt;
@@ -19,6 +20,16 @@ import play.mvc.Http.RequestBody;
 //}
 
 	public class Email extends Controller {
+		
+		public static Result alertSale(String machineId, String productId, BigDecimal productPrice) {
+			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+			mail.setSubject("Oasys Sale");
+			mail.setRecipient("alina@oasysventures.com");
+			mail.setFrom("Oasys <service@oasysventures.com>");
+			
+			mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + productId + "' sold for " + productPrice.toString() + ".</p>");
+			return ok();
+		}
 	       public static Result sendReceipt(){
 	    	   
 	    	   //get sales id and customer info
@@ -99,4 +110,6 @@ import play.mvc.Http.RequestBody;
 	    	   	mail.sendHtml(htmlString);
        	   	    return ok();
 	       }
+	       
+	       
 	}
