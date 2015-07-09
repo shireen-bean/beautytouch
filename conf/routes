@@ -40,6 +40,7 @@ POST    /loginVending		        controllers.Application.loginVending()
 POST    /machineStatus              controllers.Machine.logStatus
 POST     /sendEmailReceipt           controllers.Email.sendReceipt
 POST     /sendSMSReceipt             controllers.SMS.sendReceipt
+POST     /reportProblem             controllers.SMS.reportProblem
 POST    /logEvent                   controllers.Machine.logEvent
 
 # Map static resources from the /public folder to the /assets URL path

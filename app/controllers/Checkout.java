@@ -125,6 +125,8 @@ public class Checkout extends Controller {
     	      salesId = Database.recordSale(machineId, productId, productPrice);
     		  //decrement inventory
     		  Database.removeItem(machineId,column);
+    		  //send email alert
+    		  Email.alertSale(machineId, productId, productPrice);
     		}catch(Exception e){
     			
     		}
