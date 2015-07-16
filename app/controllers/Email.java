@@ -22,10 +22,12 @@ import play.mvc.Http.RequestBody;
 	public class Email extends Controller {
 		
 		public static Result alertSale(String machineId, String productId, BigDecimal productPrice) {
+			System.out.println("alertSale");
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-			mail.setSubject("Oasys Sale");
-			mail.setRecipient("alina@oasysventures.com");
-			mail.setFrom("Oasys <service@oasysventures.com>");
+    	   	mail.setSubject("Oasys Sale");
+    	   	mail.setRecipient("alina@oasysventures.com");
+    	   	mail.setFrom("Oasys <service@oasysventures.com>");
+    	   	System.out.println(mail);
 			
 			mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + productId + "' sold for " + productPrice.toString() + ".</p>");
 			return ok();

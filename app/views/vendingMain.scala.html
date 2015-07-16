@@ -24,7 +24,18 @@
 				  </div>
 				</div> 
 			<div style="clear:both;"></div>
-			<div id="disclaimer" style="font-size:20px;margin-left:-200px;">Please visit us at www.Oasysventures.com for our refund, privacy and pricing policy.</div>
+			
+	</div>
+	<div id="report-problem" class="report-problem">
+	  <h3>Problem with this machine?
+	     <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
+       </h3>
+	</div>
+	<div class="thank-you-report" id="thank-you-report">
+	  <h3>Thank you for reporting an issue with this machine.</h3>
+	</div>
+	<div id="disclaimer-text">
+	<p>Please visit us at www.Oasysventures.com for our refund, privacy and pricing policy.</p>
 	</div>
 
 	<div id="productView" style="display:none;">
@@ -50,6 +61,14 @@
 		      <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;back
 		    </div>
 		  </div>
+		  <div class="report-problem" id="report-problem-pdp">
+	        <h3>Problem with this machine?
+	          <button class="contactButton secondary" ng-click="reportProblemPdp()">Report</button>
+	        </h3>
+	      </div>
+	      <div id="thank-you-report-pdp" class="thank-you-report">
+	        <h3>Thank you for reporting an issue with this machine.</h3>
+	      </div>
 		  <div id="rightBlock">
 		    <div id="swipeMessage">
 		      <i class="fa fa-credit-card"></i>

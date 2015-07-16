@@ -59,10 +59,22 @@ html, body{
 	font-size: 30px;
 }
 
-#report-problem {
+.report-problem {
   position: absolute;
-  right: 25px;
-  bottom: 0px;
+  right: 0px;
+  top: 900px;
+}
+
+.thank-you-report {
+	display:none;
+	position: absolute;
+	right:57px;
+	top: 944px;
+}
+
+#disclaimer-text {
+  float: left;
+  margin-left: 25px;
 }
 
 .receipt{
@@ -140,12 +152,12 @@ html, body{
 }
 
 .contactButton.secondary {
-	  font-size: 30px;
+  font-size: 30px;
   border: 5px solid #bbb;
   /* background-color: #ff0000; */
   background-color: white;
   opacity: .85;
-  width: 450px;
+  width: 350px;
   border-radius: 15px;
   height: 81px;
   z-index: 1;
@@ -397,14 +409,14 @@ background-image:url('/assets/images/blueBackground.jpg');
   color: white;
   display: inline-block;
   padding-left: 50px;
-  padding-top: 150px;
+  padding-top: 100px;
   padding-right: 50px;
   margin-top: 50px;
   background-color: #ff0000;
   border-radius: 25px;
   margin-right: 50px;
   margin-bottom: 22px;
-  height: 800px;
+  height: 750px;
 }
 
 .fa-credit-card {
@@ -453,7 +465,7 @@ background-image:url('/assets/images/blueBackground.jpg');
   float: left;
   text-align: center;
   width: 470px;
-  height: 500px;
+  height: 450px;
   border: solid #bbb 5px;
 }
 
@@ -524,14 +536,10 @@ background-image:url('/assets/images/blueBackground.jpg');
   color: white;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  top: 390px;
+  top: 340px;
   left: 50%;
   transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
-  right: -50%;
-  top: 390px;
-  left: 50%;
-  transform: translate(-50%, 0);
   right: -50%;
   position: absolute;
 }
