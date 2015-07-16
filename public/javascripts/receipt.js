@@ -35,10 +35,17 @@ function receiptController($scope,$http) {
 	$scope.reload=function(){
 		location.reload();
 	}
-	$scope.reportProblem = function() {
-		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId"));
-		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
-	}
+	$scope.reportProblemReceipt = function() {
+		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=receipt");
+        //hide report button
+		$('#report-problem-receipt').hide();
+		$('#thank-you-report-receipt').show();
+		//show thank you message
+		setTimeout(function() {
+			$('#thank-you-report-receipt').hide();
+			$('#report-problem-receipt').show();
+		}, 5000);
+    };
 }
 $(document).ready(function(){
 	$("#message").fadeIn();

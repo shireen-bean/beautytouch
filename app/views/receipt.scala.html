@@ -14,11 +14,14 @@
 	    <button class="contactButton" id="sms">Text Message</button>
 	    <button class="contactButton" ng-click="skipReceipt()" id="no-receipt">No Receipt</button>
 	  </div>
-	  <div id="report-problem">
+	  <div id="report-problem-receipt" class="report-problem">
 	    <h3>Problem with this machine?
-	    <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
+	    <button class="contactButton secondary" ng-click="reportProblemReceipt()">Report</button>
 	    </h3>
 	  </div>
+	  <div class="thank-you-report" id="thank-you-report-receipt">
+	  <h3>Thank you for reporting an issue with this machine.</h3>
+	</div>
 	  <div class="contactInfo" id="email-form" style="position: absolute;">
 		<h3 class="email-prompt">Enter your email address:</h3>
 		<h3 class="receiptError">{{emailError}}</h3>

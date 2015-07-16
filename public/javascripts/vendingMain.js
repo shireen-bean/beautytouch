@@ -134,7 +134,28 @@ function vendingMain($scope,$http) {
     	$scope.selectedId=id;
     	
     };
-    
+    $scope.reportProblem = function() {
+		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=main");
+        //hide report button
+		$('#report-problem').hide();
+		$('#thank-you-report').show();
+		//show thank you message
+		setTimeout(function() {
+			$('#thank-you-report').hide();
+			$('#report-problem').show();
+		}, 5000);
+    };
+    $scope.reportProblemPdp = function() {
+		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=pdp");
+        //hide report button
+		$('#report-problem-pdp').hide();
+		$('#thank-you-report-pdp').show();
+		//show thank you message
+		setTimeout(function() {
+			$('#thank-you-report-pdp').hide();
+			$('#report-problem-pdp').show();
+		}, 5000);
+    };
     $scope.closeProduct = function(){
     	console.log("%OASYS,screen=list&?");
     	$("#productView").hide();
