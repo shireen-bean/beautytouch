@@ -26,7 +26,7 @@ public class Email extends Controller {
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
     mail.setSubject("Oasys Sale");
     mail.setRecipient("jackie@oasysventures.com");
-    mail.addCC("alina@oasysventures.com");
+    mail.setCc("alina@oasysventures.com");
     mail.setFrom("Oasys <service@oasysventures.com>");
     System.out.println(mail);
 
