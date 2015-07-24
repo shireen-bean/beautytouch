@@ -2,13 +2,17 @@ package controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import models.ActivityLogModel;
 import models.Container;
 import models.MachineModel;
 import models.ProductModel;
@@ -34,6 +38,89 @@ public class Machine extends Controller {
     	return ok(machine.render());
     }
 
+    public static Result activityLog(String machineId){
+    	if(!loggedIn()){
+    		return redirect("/");
+    	}
+    	return ok(activityLog.render());
+    }
+    
+    public static Result activityLogData(String machineId, String startDate, String endDate){
+    	if(!loggedIn()){
+    		return redirect("/");
+    	}
+    	ArrayList<ActivityLogModel> statusLogEntries = Database.getStatusUpdates(machineId,startDate,endDate);
+    	ArrayList<ActivityLogModel> actionLogEntries = Database.getUIEvents(machineId,startDate,endDate);
+    	ArrayList<ActivityLogModel> salesLogEntries = Database.getSales(machineId,startDate,endDate);
+    	
+    	ArrayList<ActivityLogModel> combinedEntries = new ArrayList<ActivityLogModel>();
+    	
+    	int statusIndex = 0;
+    	int actionIndex = 0;
+    	int salesIndex = 0;
+    	
+    	int statusLength = statusLogEntries.size();
+    	int actionLength = actionLogEntries.size();
+    	int salesLength = salesLogEntries.size();
+    	
+    	boolean useStatus, useAction, useSales;
+    	
+    	try{
+	    	while(statusIndex<statusLength || actionIndex<statusLength || salesIndex<statusLength){
+	    		//find next event chronologically
+	    		useStatus=false;
+	    		useAction=false;
+	    		useSales=false;
+	    		
+	    		String string ="2200-01-01 00:00:00.000";
+	    		
+	    		Date statusDate= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(string);
+				Date actionDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(string);
+	    		Date salesDate= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(string);
+	    	
+	    		if(statusIndex<statusLength){
+	    			statusDate = statusLogEntries.get(statusIndex).date;
+	    		}
+	    		if(actionIndex<actionLength){
+	    			actionDate = actionLogEntries.get(actionIndex).date;
+	    		}
+	    		if(salesIndex<salesLength){
+	    			salesDate = salesLogEntries.get(salesIndex).date;
+	    		}
+	    		
+	    		String nextEvent = "";
+	    		
+    			if(statusDate.before(actionDate) && statusDate.before(salesDate)){
+    				nextEvent="status";
+    			}else if(actionDate.before(statusDate) && actionDate.before(salesDate)){
+    				nextEvent="action";
+    			}else{
+    				nextEvent="sales";
+    			}
+	    		
+    			if(nextEvent.equals("status")){
+    				combinedEntries.add(statusLogEntries.get(statusIndex));
+    				statusIndex++;
+    			}else if(nextEvent.equals("action")){
+    				combinedEntries.add(actionLogEntries.get(actionIndex));
+    				actionIndex++;
+    			}else{
+    				combinedEntries.add(salesLogEntries.get(salesIndex));
+    				salesIndex++;
+    			}
+    			
+	    		
+	    	}
+    	}catch(Exception e){
+    		
+    	}
+    	
+//    	for(int i=0;i<combinedEntries.size(); i++){
+//    		System.out.println(combinedEntries.get(i).date+"  "+combinedEntries.get(i).entryType);
+//    	}
+    	
+    	return ok(Json.toJson(combinedEntries));
+    }
 
 
 

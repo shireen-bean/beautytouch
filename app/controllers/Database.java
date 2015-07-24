@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.math.BigDecimal;
 
+import models.ActivityLogModel;
 import models.Container;
 import models.MachineModel;
 import models.ProductModel;
@@ -172,7 +173,7 @@ public class Database {
       Statement statement = connection.createStatement();
 
       ResultSet resultSet = statement.executeQuery("SELECT products.*, "
-      	  + "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription"
+          + "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription"
           + " FROM products LEFT JOIN brands on products.brand_id = brands.id ");
 
       ObjectMapper mapper = new ObjectMapper();
@@ -527,21 +528,21 @@ public class Database {
         "machines.id='"+idMachine+"' "+
         "AND machines.id = containers.machineId "+
         "AND containers.itemSku = products.itemSku";
-      
-      
+
+
 
       ResultSet resultSet = statement.executeQuery(query);
       MachineModel machine = new MachineModel();
       machine.containers = new ArrayList<Container>();
       machine.totalCapacity=0;
       while (resultSet.next()) {
-    	  
-    	Brand brand = new Brand();
-    	brand.name = resultSet.getString("brandName");
-    	brand.logo = resultSet.getString("brandLogo");
-    	brand.description = resultSet.getString("brandDescription");
-    	brand.id = resultSet.getInt("products.brand_id");
-    	
+
+        Brand brand = new Brand();
+        brand.name = resultSet.getString("brandName");
+        brand.logo = resultSet.getString("brandLogo");
+        brand.description = resultSet.getString("brandDescription");
+        brand.id = resultSet.getInt("products.brand_id");
+
         ProductModel product = new ProductModel();
         product.itemName=resultSet.getString("itemName");
         product.category=resultSet.getString("category");
@@ -734,4 +735,166 @@ public class Database {
 
   }
 
+  public static ArrayList<ActivityLogModel> getStatusUpdates(String machineId, String startDate,
+      String endDate) {
+
+
+    ArrayList<ActivityLogModel> almList = new ArrayList<ActivityLogModel>();
+
+    try {
+      if(connection==null){
+        connection = DB.getConnection();
+      }
+      if(connection.isClosed()){
+        connection = DB.getConnection();
+      }
+
+      Statement statement = connection.createStatement();
+
+      String startDateMonth = startDate.substring(0,2);
+      String startDateDay = startDate.substring(3,5);
+      String startDateYear = startDate.substring(6,10);
+      startDate = startDateYear+"-"+startDateMonth+"-"+startDateDay;
+
+      String endDateMonth = endDate.substring(0,2);
+      String endDateDay = endDate.substring(3,5);
+      String endDateYear = endDate.substring(6,10);
+      endDate = endDateYear+"-"+endDateMonth+"-"+endDateDay;
+
+
+      String query = "SELECT jammed, traffic, time "+
+        "FROM machine_log " +
+        "WHERE machine_id = '"+machineId+"' AND " +
+        "time "+
+        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time";
+
+      ResultSet resultSet = statement.executeQuery(query);
+
+
+      while (resultSet.next()) {
+        ActivityLogModel alm = new ActivityLogModel();
+        alm.entryType = "status";
+        alm.date = resultSet.getTimestamp("time");
+        alm.jammed = resultSet.getBoolean("jammed");
+        alm.traffic = resultSet.getInt("traffic");
+        almList.add(alm);
+      }
+
+      return almList;
+
+    } catch (Exception e) {
+      System.out.println(e.toString());
+      return almList;
+    }
+  }
+
+
+  public static ArrayList<ActivityLogModel> getUIEvents(String machineId, String startDate,
+      String endDate) {
+
+
+    ArrayList<ActivityLogModel> almList = new ArrayList<ActivityLogModel>();
+
+    try {
+      if(connection==null){
+        connection = DB.getConnection();
+      }
+      if(connection.isClosed()){
+        connection = DB.getConnection();
+      }
+
+      Statement statement = connection.createStatement();
+
+      String startDateMonth = startDate.substring(0,2);
+      String startDateDay = startDate.substring(3,5);
+      String startDateYear = startDate.substring(6,10);
+      startDate = startDateYear+"-"+startDateMonth+"-"+startDateDay;
+
+      String endDateMonth = endDate.substring(0,2);
+      String endDateDay = endDate.substring(3,5);
+      String endDateYear = endDate.substring(6,10);
+      endDate = endDateYear+"-"+endDateMonth+"-"+endDateDay;
+
+
+      String query = "SELECT event, product_sku, time "+
+        "FROM events " +
+        "WHERE machine_id = '"+machineId+"' AND " +
+        "time "+
+        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time";
+
+      ResultSet resultSet = statement.executeQuery(query);
+
+
+      while (resultSet.next()) {
+        ActivityLogModel alm = new ActivityLogModel();
+        alm.entryType = "action";
+        alm.date = resultSet.getTimestamp("time");
+        alm.event = resultSet.getString("event");
+        alm.productSku = resultSet.getInt("product_sku");
+        almList.add(alm);
+      }
+
+      return almList;
+
+    } catch (Exception e) {
+      System.out.println(e.toString());
+      return almList;
+    }
+  }
+
+
+
+  public static ArrayList<ActivityLogModel> getSales(String machineId, String startDate,
+      String endDate) {
+
+    ArrayList<ActivityLogModel> almList = new ArrayList<ActivityLogModel>();
+
+    try {
+      if(connection==null){
+        connection = DB.getConnection();
+      }
+      if(connection.isClosed()){
+        connection = DB.getConnection();
+      }
+
+      Statement statement = connection.createStatement();
+
+      String startDateMonth = startDate.substring(0,2);
+      String startDateDay = startDate.substring(3,5);
+      String startDateYear = startDate.substring(6,10);
+      startDate = startDateYear+"-"+startDateMonth+"-"+startDateDay;
+
+      String endDateMonth = endDate.substring(0,2);
+      String endDateDay = endDate.substring(3,5);
+      String endDateYear = endDate.substring(6,10);
+      endDate = endDateYear+"-"+endDateMonth+"-"+endDateDay;
+
+
+      String query = "SELECT sales.id, sales_products.product_price, sales_products.product_sku, sales.time "+
+        "FROM sales, sales_products " +
+        "WHERE machine_id = '"+machineId+"' AND " +
+        "sales.id=sales_products.sales_id AND " +
+        "sales.time "+
+        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY sales.time";
+
+      ResultSet resultSet = statement.executeQuery(query);
+
+
+      while (resultSet.next()) {
+        ActivityLogModel alm = new ActivityLogModel();
+        alm.entryType = "sale";
+        alm.date = resultSet.getTimestamp("time");
+        alm.salesId = resultSet.getInt("id");
+        alm.productSku = resultSet.getInt("product_sku");
+        alm.salesPrice = resultSet.getString("product_price");
+        almList.add(alm);
+      }
+
+      return almList;
+
+    } catch (Exception e) {
+      System.out.println(e.toString());
+      return almList;
+    }
+  }
 }

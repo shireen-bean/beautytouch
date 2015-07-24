@@ -4,6 +4,10 @@ function machineController($scope,$http) {
 	//populate defaults if this is a new machine
     $scope.levelTop,
     $scope.levelHeight,
+    
+    $scope.loadActivityLog=function(){
+    	window.location="/activityLog?machineId="+getParameterByName("id");
+    }
 	
 	
 	$http.get('/productListJson').

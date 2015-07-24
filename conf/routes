@@ -42,6 +42,8 @@ POST     /sendEmailReceipt           controllers.Email.sendReceipt
 POST     /sendSMSReceipt             controllers.SMS.sendReceipt
 POST     /reportProblem             controllers.SMS.reportProblem
 POST    /logEvent                   controllers.Machine.logEvent
+GET		/activityLog				controllers.Machine.activityLog(machineId)
+GET		/activityLogData			controllers.Machine.activityLogData(machineId,startDate,endDate)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
