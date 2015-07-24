@@ -13,6 +13,8 @@ function productController($scope,$http) {
   $scope.category = "";
   $scope.itemSku = "";
   $scope.itemImg = "";
+  $scope.detailImg = "";
+  $scope.thumbnail = "";
   $scope.price = "";
   $scope.brandId = "";
   $scope.itemDescription = "";
@@ -27,6 +29,8 @@ function productController($scope,$http) {
         $scope.category = data.category;
         $scope.itemSku = data.itemSku;
         $scope.itemImg = data.itemImg;
+        $scope.detailImg = data.detailImg;
+        $scope.thumbnail = data.thumbnail;
         $scope.price = data.price;
         $scope.itemDescription = data.itemDescription;
         $scope.packageType = data.packageType;
@@ -58,7 +62,13 @@ function productController($scope,$http) {
 
         //load image
         srcLink = "/productImage/"+$scope.itemImg;
-        showImageOnceLoaded(srcLink);
+        showImageOnceLoaded(srcLink, "main");
+        
+        detailSrcLink = "/productImage/"+$scope.detailImg;
+        showImageOnceLoaded(detailSrcLink, "detail");
+        
+        thumnailLink = "/productImage/"+$scope.thumbnail;
+        showImageOnceLoaded(thumbnailLink, "thumbnail");
 
         $scope.itemSkuLabel=$scope.itemSku;
 
@@ -80,6 +90,8 @@ function productController($scope,$http) {
       "category": $scope.category,
       "itemSku": $scope.itemSku,
       "itemImg":$scope.itemImg,
+      "detailImg":$scope.detailImg,
+      "thumbnail":$scope.thumbnail,
       "price":$scope.price,
       "itemDescription":$scope.itemDescription,
       "packageType":$scope.packageType.value,
@@ -119,21 +131,53 @@ function productController($scope,$http) {
         //srcLink = "assets/images/products/"+$scope.itemImg;
         srcLink = "/productImage/"+$scope.itemImg;
         loadingAnimation();
-        showImageOnceLoaded(srcLink);
+        showImageOnceLoaded(srcLink, "main");
+      }
+    });
+  });
+  
+
+  $(function () {
+    $('#fileupload-detail').fileupload({
+      dataType: 'json',
+      done: function (e, data) {
+        $scope.detailImg=data.result.filename;
+        $scope.$apply();
+        d = new Date();
+        //srcLink = "assets/images/products/"+$scope.itemImg;
+        srcLink = "/productImage/"+$scope.detailImg;
+        loadingAnimation();
+        showImageOnceLoaded(srcLink, "detail");
+      }
+    });
+  });
+  
+
+  $(function () {
+    $('#fileupload-thumbnail').fileupload({
+      dataType: 'json',
+      done: function (e, data) {
+        $scope.thumbnail=data.result.filename;
+        $scope.$apply();
+        d = new Date();
+        //srcLink = "assets/images/products/"+$scope.itemImg;
+        srcLink = "/productImage/"+$scope.thumbnail;
+        loadingAnimation();
+        showImageOnceLoaded(srcLink, "thumbnail");
       }
     });
   });
 
-  function showImageOnceLoaded(srcLink){
+  function showImageOnceLoaded(srcLink, type){
     if(imageExists(srcLink)){
-      $("#productImage").attr("src", srcLink);
+      $("#productImage-" + type).attr("src", srcLink);
       stopLoadingAnimation();
     }
     else{
       setTimeout(
           function()
           {
-            showImageOnceLoaded(srcLink);
+            showImageOnceLoaded(srcLink, type);
           }, 500);
     }
 

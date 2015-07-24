@@ -117,6 +117,8 @@ function vendingMain($scope,$http) {
 					$scope.selectedPrice=productCurrent.price;
 					$scope.selectedDescription= productCurrent.itemDescription;
 					$scope.selectedImg = productCurrent.itemImg;
+					$scope.selectedDetailImg = productCurrent.detailImg;
+					$scope.selectedThumbnail = productCurrent.thumbnail;
 					$scope.selectedName= productCurrent.itemName;
 					$scope.selectedBrandName = productCurrent.brand.name;
 					$scope.selectedBrandLogo = productCurrent.brand.logo;

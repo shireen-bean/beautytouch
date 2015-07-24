@@ -57,6 +57,8 @@ public class Product extends Controller {
     	String brand_id = jn.get("brand_id").asText();
     	String itemSku = jn.get("itemSku").asText();
     	String itemImg = jn.get("itemImg").asText();
+    	String detailImg = jn.get("detailImg").asText();
+    	String thumbnail = jn.get("thumbnail").asText();
     	String price = jn.get("price").asText();
     	String itemDescription = jn.get("itemDescription").asText();
     	String packageType = jn.get("packageType").asText();
@@ -85,7 +87,7 @@ public class Product extends Controller {
     	if(!errorsFlag){
 	    	if(itemSku.length()>0){
 	    		try {
-					Database.editProduct(itemSku, itemName, category, brand_id, itemImg, price, itemDescription, packageType);
+					Database.editProduct(itemSku, itemName, category, brand_id, itemImg, detailImg, thumbnail, price, itemDescription, packageType);
 				} catch (SQLException e) {
 					System.out.println(e.toString());
 					errorsFlag=true;
@@ -93,7 +95,7 @@ public class Product extends Controller {
 				}
 	    	}else{
 	    		try {
-					Database.addProduct(itemName, category, brand_id, itemImg, price, itemDescription, packageType);
+					Database.addProduct(itemName, category, brand_id, itemImg, detailImg, thumbnail, price, itemDescription, packageType);
 				} catch (SQLException e) {
 					errorsFlag=true;
 					response.put("mainError","Database error");
