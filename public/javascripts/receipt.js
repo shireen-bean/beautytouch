@@ -35,15 +35,32 @@ function receiptController($scope,$http) {
 	$scope.reload=function(){
 		location.reload();
 	}
-	$scope.reportProblemReceipt = function() {
-		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=receipt");
-        //hide report button
-		$('#report-problem-receipt').hide();
-		$('#thank-you-report-receipt').show();
+    $scope.reportProblem = function(issue, screen) {
+    	$('.problem-dialog').show();
+    };
+    $scope.reportBack = function() {
+    	$('.problem-dialog').hide();
+    	$('#problem-email').val("");
+    };
+    $scope.submitReport = function() {
+    	console.log($scope.formData);
+    	$('.problem-dialog').hide();
+    	$('#problem-email').val("");
+    	$('.report-problem').hide();
+		$('.thank-you-report').show();
+    	$.ajax({
+    		type: "POST",
+    		url: "/reportProblem",
+    		data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
+    		dataType: "json",
+    		headers: {
+    			"content-type": "application/json"
+    		},
+    	});
 		//show thank you message
 		setTimeout(function() {
-			$('#thank-you-report-receipt').hide();
-			$('#report-problem-receipt').show();
+			$('.thank-you-report').hide();
+			$('.report-problem').show();
 		}, 5000);
     };
 }

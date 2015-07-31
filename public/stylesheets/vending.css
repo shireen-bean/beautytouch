@@ -44,7 +44,7 @@ input[type="radio"]{
   vertical-align:middle;
   margin-right: 10px;
 }
-input[type="text"]{
+.problem-dialog input[type="text"]{
   height: 45px;
   border: 2px solid #bbb;
   margin-left: 20px;
@@ -91,7 +91,6 @@ input[type="text"]{
 	margin-bottom:50px;
 }
 
-<<<<<<< HEAD
 .email-prompt {
 	text-align: left;
 	margin: 0px;f
