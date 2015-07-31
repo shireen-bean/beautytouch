@@ -14,11 +14,26 @@
 	    <button class="contactButton" id="sms">Text Message</button>
 	    <button class="contactButton" ng-click="skipReceipt()" id="no-receipt">No Receipt</button>
 	  </div>
-	  <div id="report-problem-receipt" class="report-problem">
-	    <h3>Problem with this machine?
-	    <button class="contactButton secondary" ng-click="reportProblemReceipt()">Report</button>
-	    </h3>
-	  </div>
+	  <div id="report-problem" class="report-problem">
+	  <h3>Problem with this machine?
+	     <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
+       </h3>
+	</div>
+	<div id="problem-dialog" class="problem-dialog">
+	 <h3>Report a Problem</h3>
+	 <form id="report-form" ng-init="formData.problem='vending'" action="">
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="vending">Product didn't vend<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="product">Received incorrect or damaged product<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="machine">Machine is damaged or vandalized<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="other">Other:<input ng-model="formData.other" type="text" name="other"><br></label>
+     <p class="contact-info">If you would like to be contacted about this issue please enter your email address:</p>
+     <input id="problem-email" ng-model="formData.email" type="text" name="email">
+     </form>
+	 <button class="contactButton problem-button secondary" style="float: left; margin-left:175px;" ng-click="reportBack()">Back</button>
+	 <button class="contactButton problem-button" style="float:right;margin-right:175px;" ng-click="submitReport()">Submit</button>
+	</div>
 	  <div class="thank-you-report" id="thank-you-report-receipt">
 	  <h3>Thank you for reporting an issue with this machine.</h3>
 	</div>

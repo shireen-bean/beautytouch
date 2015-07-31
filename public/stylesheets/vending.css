@@ -11,6 +11,49 @@ html, body{
   /*background:url('../images/marbleShelf.jpg'); */
   background-size:100% 100%;
 }
+.problem-dialog {
+	  position: absolute;
+  width: 1000px;
+  height: 800px;
+  top: 50px;
+  border: 5px black solid;
+  background-color: white;
+  z-index: 100;
+  right: 400px;
+  border-radius: 25px;
+  display:none;
+  font-size:30px;
+  line-height:55px;
+}
+.contact-info {
+	line-height:40px;
+	margin-top:20px;
+	font-size:25px;
+	margin-left:25px;
+	margin-right:25px;
+}
+.problem-button {
+	width: 300px !important;
+}
+#report-form {
+  text-align: left;
+  padding-left: 130px;
+  padding-right:100px;
+}
+input[type="radio"]{
+  vertical-align:middle;
+  margin-right: 10px;
+}
+.problem-dialog input[type="text"]{
+  height: 45px;
+  border: 2px solid #bbb;
+  margin-left: 20px;
+  width: 500px;
+  font-size:25px;
+  padding-left:10px;
+  vertical-align: middle;
+  margin-top: -8px;
+}
 .phoneButton{
   float: left;
   width: 90px;
@@ -48,7 +91,6 @@ html, body{
 	margin-bottom:50px;
 }
 
-<<<<<<< HEAD
 .email-prompt {
 	text-align: left;
 	margin: 0px;f
@@ -250,18 +292,6 @@ html, body{
 
 }
 
-#productView {
-  border: solid 5px #bbb;
-  border-radius: 25px;
-  position: fixed;
-  width: 1500px;
-  height: 1000px;
-  top: 26px;
-  left: 215px;
-  display: block;
-  background-color: white;
-}
-
 #productInfo {
   width: 100%;
   padding-top: 50px;
@@ -315,14 +345,16 @@ html, body{
   width: 66%;
 }
 
-=======
->>>>>>> 2f54d596e0a0b4a21c62f2e58c8d6c30f9b28ef8
 #productView{
   position:absolute;
   width:100%;
   top:0;
   left:0;
   height:100%;
+  border: solid 5px #bbb;
+  border-radius: 25px;
+  display: block;
+  background-color: white;
 }
 
 .brandLogo {
