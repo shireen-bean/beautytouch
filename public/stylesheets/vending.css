@@ -14,7 +14,7 @@ html, body{
 .problem-dialog {
 	  position: absolute;
   width: 1000px;
-  height: 750px;
+  height: 800px;
   top: 50px;
   border: 5px black solid;
   background-color: white;
@@ -293,18 +293,6 @@ input[type="text"]{
 
 }
 
-#productView {
-  border: solid 5px #bbb;
-  border-radius: 25px;
-  position: fixed;
-  width: 1500px;
-  height: 1000px;
-  top: 26px;
-  left: 215px;
-  display: block;
-  background-color: white;
-}
-
 #productInfo {
   width: 100%;
   padding-top: 50px;
@@ -358,14 +346,16 @@ input[type="text"]{
   width: 66%;
 }
 
-=======
->>>>>>> 2f54d596e0a0b4a21c62f2e58c8d6c30f9b28ef8
 #productView{
   position:absolute;
   width:100%;
   top:0;
   left:0;
   height:100%;
+  border: solid 5px #bbb;
+  border-radius: 25px;
+  display: block;
+  background-color: white;
 }
 
 .brandLogo {
