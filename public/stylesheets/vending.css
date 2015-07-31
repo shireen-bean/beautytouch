@@ -11,6 +11,49 @@ html, body{
   /*background:url('../images/marbleShelf.jpg'); */
   background-size:100% 100%;
 }
+.problem-dialog {
+	  position: absolute;
+  width: 1000px;
+  height: 750px;
+  top: 50px;
+  border: 5px black solid;
+  background-color: white;
+  z-index: 100;
+  right: 400px;
+  border-radius: 25px;
+  display:none;
+  font-size:30px;
+  line-height:55px;
+}
+.contact-info {
+	line-height:40px;
+	margin-top:20px;
+	font-size:25px;
+	margin-left:25px;
+	margin-right:25px;
+}
+.problem-button {
+	width: 300px !important;
+}
+#report-form {
+  text-align: left;
+  padding-left: 130px;
+  padding-right:100px;
+}
+input[type="radio"]{
+  vertical-align:middle;
+  margin-right: 10px;
+}
+input[type="text"]{
+  height: 45px;
+  border: 2px solid #bbb;
+  margin-left: 20px;
+  width: 500px;
+  font-size:25px;
+  padding-left:10px;
+  vertical-align: middle;
+  margin-top: -8px;
+}
 .phoneButton{
   float: left;
   width: 90px;
