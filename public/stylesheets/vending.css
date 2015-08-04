@@ -15,7 +15,7 @@ html, body{
 	border-bottom: 5px solid #bbb;
 }
 .problem-dialog {
-	  position: absolute;
+  position: absolute;
   width: 1000px;
   height: 800px;
   top: 50px;
@@ -295,18 +295,6 @@ input[type="radio"]{
 
 }
 
-#productView {
-  border: solid 5px #bbb;
-  border-radius: 25px;
-  position: fixed;
-  width: 1500px;
-  height: 1000px;
-  top: 26px;
-  left: 215px;
-  display: block;
-  background-color: white;
-}
-
 #productInfo {
   width: 100%;
   padding-top: 50px;
@@ -369,6 +357,10 @@ input[type="radio"]{
   top:0;
   left:0;
   height:100%;
+  border: solid 5px #bbb;
+  border-radius: 25px;
+  display: block;
+  background-color: white;
 }
 
 .brandLogo {

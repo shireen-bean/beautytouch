@@ -66,7 +66,7 @@ public class Machine extends Controller {
     	boolean useStatus, useAction, useSales;
     	
     	try{
-	    	while(statusIndex<statusLength || actionIndex<statusLength || salesIndex<statusLength){
+	    	while(statusIndex<statusLength || actionIndex<actionLength || salesIndex<salesLength){
 	    		//find next event chronologically
 	    		useStatus=false;
 	    		useAction=false;

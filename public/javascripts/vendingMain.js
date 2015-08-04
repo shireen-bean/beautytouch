@@ -1,5 +1,7 @@
 function vendingMain($scope,$http) {
 	
+
+    $scope.formData = {};
 	$scope.selectedName="Item Name";
 	$scope.seletedImg="";
 	$scope.selectedPrice="0.00";
@@ -39,7 +41,6 @@ function vendingMain($scope,$http) {
 	var machineID=getParameterByName("machineId");
 	
     var timeoutHandle;
-    
     $scope.productSelected=function(id){
 		var divNameSelected = "#product"+id;
 		
@@ -112,26 +113,32 @@ function vendingMain($scope,$http) {
     	$scope.selectedId=id;
     	
     };
-    $scope.reportProblem = function() {
-		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=main");
-        //hide report button
-		$('#report-problem').hide();
-		$('#thank-you-report').show();
-		//show thank you message
-		setTimeout(function() {
-			$('#thank-you-report').hide();
-			$('#report-problem').show();
-		}, 5000);
+    $scope.reportProblem = function(issue, screen) {
+    	$('.problem-dialog').show();
     };
-    $scope.reportProblemPdp = function() {
-		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=pdp");
-        //hide report button
-		$('#report-problem-pdp').hide();
-		$('#thank-you-report-pdp').show();
+    $scope.reportBack = function() {
+    	$('.problem-dialog').hide();
+    	$('#problem-email').val("");
+    };
+    $scope.submitReport = function() {
+    	console.log($scope.formData);
+    	$.ajax({
+    		type: "POST",
+    		url: "/reportProblem",
+    		data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
+    		dataType: "json",
+    		headers: {
+    			"content-type": "application/json"
+    		},
+    	});
+    	$('.problem-dialog').hide();
+    	$('#problem-email').val("");
+    	$('.report-problem').hide();
+		$('.thank-you-report').show();
 		//show thank you message
 		setTimeout(function() {
-			$('#thank-you-report-pdp').hide();
-			$('#report-problem-pdp').show();
+			$('.thank-you-report').hide();
+			$('.report-problem').show();
 		}, 5000);
     };
     $scope.closeProduct = function(){
@@ -152,7 +159,6 @@ function vendingMain($scope,$http) {
     };
 
 }
-
 
 
 function getParameterByName(name) {
