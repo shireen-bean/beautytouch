@@ -12,14 +12,11 @@
 	<div id="productList">
 		<div  ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts"></a>
 				  <div class="availableListDiv" >
-				    <span class="cornerPrice">
-				      <p> ${{product.price}}</p>
-				    </span>
 				  	<div class="availableProduct" id="product{{product.itemSku}}">
 					    <img class="productImage" src='productImage/{{product.itemImg}}'>
 					    <br>
 				    </div>
-				    <button class="productBuyButton">Buy {{product.category}}</button>
+				    <button class="productBuyButton"><span id="category">{{product.category}}</span><span id="price">${{product.price}}</span></button>
 				    <div style="clear:both;"></div>
 				  </div>
 				</div> 
@@ -47,7 +44,7 @@
 			  <div class="productDetails">
 			    <h2 id="itemName" style="margin:20px 0px;">{{selectedName}}</h2>
 			    <h2 id="productPrice">{{selectedPrice | currency}}</h2>
-			    <p id="productDescription">{{selectedDescription}}</p>
+			    <p id="productDescription" ng-bind-html-unsafe="selectedDescription"></p>
 			  </div>
 			
 		      <div ng-hide="selectedBrandId == 0" id="brandInfo">

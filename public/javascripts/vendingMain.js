@@ -56,28 +56,6 @@ function vendingMain($scope,$http) {
 		}
 		
 		if(columnWithProduct!=0){
-//			var slot = 0;
-//	    	switch(columnWithProduct){
-//	        case 1:
-//	            slot= 2;
-//	            break;
-//	        case 2:
-//	        	slot=  7;
-//	            break;
-//	        case 3:
-//	        	slot=  12;
-//	            break;
-//	        case 4:
-//	        	slot=  17;
-//	            break;
-//	        case 5:
-//	        	slot=  22;
-//	            break;
-//	        case 6:
-//	        	slot=  26;
-//	            break;
-//	    	}
-
 	    	//find product details and display checkout window
 	    	$("#productList").css('opacity','.1');
 	    	$("#productView").show();

@@ -11,6 +11,52 @@ html, body{
   /*background:url('../images/marbleShelf.jpg'); */
   background-size:100% 100%;
 }
+#productList {
+	border-bottom: 5px solid #bbb;
+}
+.problem-dialog {
+	  position: absolute;
+  width: 1000px;
+  height: 800px;
+  top: 50px;
+  border: 5px black solid;
+  background-color: white;
+  z-index: 100;
+  right: 400px;
+  border-radius: 25px;
+  display:none;
+  font-size:30px;
+  line-height:55px;
+}
+.contact-info {
+	line-height:40px;
+	margin-top:20px;
+	font-size:25px;
+	margin-left:25px;
+	margin-right:25px;
+}
+.problem-button {
+	width: 300px !important;
+}
+#report-form {
+  text-align: left;
+  padding-left: 130px;
+  padding-right:100px;
+}
+input[type="radio"]{
+  vertical-align:middle;
+  margin-right: 10px;
+}
+.problem-dialog input[type="text"]{
+  height: 45px;
+  border: 2px solid #bbb;
+  margin-left: 20px;
+  width: 500px;
+  font-size:25px;
+  padding-left:10px;
+  vertical-align: middle;
+  margin-top: -8px;
+}
 .phoneButton{
   float: left;
   width: 90px;
@@ -48,7 +94,6 @@ html, body{
 	margin-bottom:50px;
 }
 
-<<<<<<< HEAD
 .email-prompt {
 	text-align: left;
 	margin: 0px;f
@@ -102,7 +147,7 @@ html, body{
 .contactDoneButton{
   font-size: 30px;
   border: 0px;
-  background-color: #ff0000;
+  background-color: #87b643;
   opacity: .85;
   margin-top:-40px;
   width:200px;
@@ -118,7 +163,7 @@ html, body{
   margin-left:25px;
 }
 .contactButton.selected {
-  background-color: #ff0000;
+  background-color: #87b643;
 
   color: white;
 
@@ -132,8 +177,8 @@ html, body{
 
 .contactButton {
   background-color: white;
-  border: 5px solid #f00;
-  color: #f00;
+  border: 5px solid #87b643;
+  color: #87b643;
   font-size: 30px;
   width: 450px;
   border-radius: 15px;
@@ -155,14 +200,14 @@ html, body{
 .contactButton.secondary {
   font-size: 30px;
   border: 5px solid #bbb;
-  /* background-color: #ff0000; */
+  /* background-color: #f87b64300; */
   background-color: white;
   opacity: .85;
   width: 350px;
   border-radius: 15px;
   height: 81px;
   z-index: 1;
-  color: #f00;
+  color: #87b643;
   letter-spacing: 1.5px;
   font-weight: bold;
   margin: 15px;
@@ -174,7 +219,7 @@ html, body{
 .phoneSend {
   font-size: 30px;
   border: 0px;
-  background-color: #ff0000;
+  background-color: #87b643;
   opacity: .85;
   width: 450px;
   border-radius: 15px;
@@ -202,7 +247,7 @@ html, body{
   /* border-top: 2px black solid;
   border-bottom: 2px black solid;*/
 
-  background: #ff0000;
+  background: #87b643;
   opacity: .85;
   font-weight: bold;
   color: white;
@@ -284,7 +329,7 @@ html, body{
 
 .productImageContainer {
   /*height: 400px; */
-  width: 30%; 
+  width: 30%;
   float: left;
   display: inline-block;
   position: relative;
@@ -295,19 +340,22 @@ html, body{
 .productDetails {
   float: right;
   width: 45%;
-  height: 475px;
   margin-left: 20px;
   display: inline-block;
-  padding-bottom: 50px;
+  padding: 50px;
+  border: 3px solid #bbb;
+  border-radius: 25px;
+  margin:20px;
 }
 
 #brandInfo {
-  width: 100%;
-  height: 340px;
-  padding-top: 50px;
-  padding-left: 50px;
   display: inline-block;
   position: relative;
+  border: 3px solid #bbb;
+  border-radius: 25px;
+  margin: 50px;
+  padding: 50px;
+  width: 846px;
 }
 
 #brandText {
@@ -315,8 +363,6 @@ html, body{
   width: 66%;
 }
 
-=======
->>>>>>> 2f54d596e0a0b4a21c62f2e58c8d6c30f9b28ef8
 #productView{
   position:absolute;
   width:100%;
@@ -328,7 +374,6 @@ html, body{
 .brandLogo {
   width: 200px;
   float: left;
-  padding-left: 100px;
 }
 
 .brandName {
@@ -353,8 +398,7 @@ html, body{
 
 #rightBlock {
 	float: right;
-	width: 33%;
-	padding-right: 50px;
+	width: 35%;
 }
 
 .yellowBody{
@@ -408,18 +452,14 @@ background-image:url('/assets/images/blueBackground.jpg');
     /* bottom: 0; */
  }
  #swipeMessage {
-  font-size: 70px;
-  color: white;
-  display: inline-block;
-  padding-left: 50px;
-  padding-top: 100px;
-  padding-right: 50px;
-  margin-top: 50px;
-  background-color: #ff0000;
-  border-radius: 25px;
-  margin-right: 50px;
-  margin-bottom: 22px;
-  height: 750px;
+    font-size: 70px;
+    color: #87b643;
+    display: inline-block;
+    padding-left: 50px;
+    padding-top: 150px;
+    padding-right: 50px;
+    background-color: black;
+    height: 100%;
 }
 
 .fa-credit-card {
@@ -432,7 +472,7 @@ background-image:url('/assets/images/blueBackground.jpg');
 
 .back {
   display: block;
-  color: #ff0000;
+  color: #f87b64300;
   background-color: white;
   margin-right: 50px;
   margin-top: 50px;
@@ -440,7 +480,7 @@ background-image:url('/assets/images/blueBackground.jpg');
   font-size: 45px;
   padding: 22px;
   border-radius: 25px;
-  border: 5px solid #ff0000;
+  border: 5px solid #f87b64300;
   position: absolute;
   bottom: 5%;
 }
@@ -529,22 +569,31 @@ background-image:url('/assets/images/blueBackground.jpg');
 }
 
 .productBuyButton {
-  font-size: 24px;
+  font-size: 30px;
   border: 0px;
-  background-color: #ff0000;
-  width: 50%;
-  border-radius: 15px;
+  background-color: black;
+  width: 100%;
   height: 81px;
   z-index: 1;
-  color: white;
+  color: #87b643;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  top: 340px;
+  letter-spacing: 2.5px;
+  bottom: 0px;
   left: 50%;
   transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
   right: -50%;
   position: absolute;
+}
+
+.productBuyButton #price {
+	float: right;
+	padding-right: 15px;
+}
+
+.productBuyButton #category {
+	float: left;
+	padding-left: 15px;
 }
 
 
