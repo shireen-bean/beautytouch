@@ -59,7 +59,9 @@
 			  <div class="productDetails">
 			    <h2 id="itemName" style="margin:20px 0px;">{{selectedName}}</h2>
 			    <h2 id="productPrice">{{selectedPrice | currency}}</h2>
-			    <p id="productDescription" ng-bind-html-unsafe="selectedDescription"></p>
+			    <ul id="productDescription">
+			      <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
+			    </ul>
 			  </div>
 			
 		      <div ng-hide="selectedBrandId == 0" id="brandInfo">

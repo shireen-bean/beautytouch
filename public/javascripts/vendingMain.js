@@ -5,7 +5,7 @@ function vendingMain($scope,$http) {
 	$scope.selectedName="Item Name";
 	$scope.seletedImg="";
 	$scope.selectedPrice="0.00";
-	$scope.selectedDescrition="Description";
+	$scope.selectedDescription="Description";
 	$scope.selectedBrandName = "Brand Name";
 	$scope.selectedBrandDescription = "Brand Description";
 	$scope.selectedBrandLogo = "";
@@ -94,7 +94,8 @@ function vendingMain($scope,$http) {
 					var productCurrent = $scope.machine.containers[i].product;
 					console.log(productCurrent);
 					$scope.selectedPrice=productCurrent.price;
-					$scope.selectedDescription= productCurrent.itemDescription;
+					$scope.selectedDescription= productCurrent.itemDescription.split("//");
+					console.log($scope.selectedDescription);
 					$scope.selectedImg = productCurrent.itemImg;
 					$scope.selectedName= productCurrent.itemName;
 					$scope.selectedBrandName = productCurrent.brand.name;
