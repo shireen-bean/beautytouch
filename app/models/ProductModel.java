@@ -16,6 +16,7 @@ import models.Brand;
 public class ProductModel{
     public int itemSku;
     public String itemName;
+    public String subtitle;
     public String category;
     public String itemImg;
     public String price;

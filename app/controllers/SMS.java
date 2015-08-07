@@ -92,7 +92,6 @@ public class SMS extends Controller {
   }
 
   public static Result reportProblem() {
-    System.out.println("REPORTING PROBLEM");
 
     JsonNode jn = request().body().asJson();
     String machineId = jn.get("machine_id").asText();
@@ -106,16 +105,13 @@ public class SMS extends Controller {
     if (fd.has("other")) {
     	other = fd.get("other").asText();
     }
-    System.out.println(problem);
-    System.out.println(machineId);
-    System.out.println(email);
     try {
       TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
       Account account = client.getAccount();
 
       MessageFactory messageFactory = account.getMessageFactory();
       List<NameValuePair> params = new ArrayList<NameValuePair>();
-      params.add(new BasicNameValuePair("To", "+16095779836"));
+      params.add(new BasicNameValuePair("To", "+15617063230"));
       params.add(new BasicNameValuePair("From", "+18597590660"));
 
       String messageBody = "Problem reported with machine: " + machineId + ". Issue: " + problem + ". ";

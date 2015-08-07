@@ -3,6 +3,7 @@ function vendingMain($scope,$http) {
 
     $scope.formData = {};
 	$scope.selectedName="Item Name";
+	$scope.selectedSubtitle = "";
 	$scope.seletedImg="";
 	$scope.selectedPrice="0.00";
 	$scope.selectedDescription="Description";
@@ -98,6 +99,7 @@ function vendingMain($scope,$http) {
 					console.log($scope.selectedDescription);
 					$scope.selectedImg = productCurrent.itemImg;
 					$scope.selectedName= productCurrent.itemName;
+					$scope.selectedSubtitle = productCurrent.subtitle;
 					$scope.selectedBrandName = productCurrent.brand.name;
 					$scope.selectedBrandLogo = productCurrent.brand.logo;
 					$scope.selectedBrandDescription = productCurrent.brand.description;

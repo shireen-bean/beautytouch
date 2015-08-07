@@ -52,7 +52,9 @@ public class Product extends Controller {
     	}
     	JsonNode jn = request().body().asJson();
 
+    	System.out.println(jn);
     	String itemName = jn.get("itemName").asText();
+    	String subtitle = jn.get("subtitle").asText();
     	String category = jn.get("category").asText();
     	String brand_id = jn.get("brand_id").asText();
     	String itemSku = jn.get("itemSku").asText();
@@ -85,7 +87,7 @@ public class Product extends Controller {
     	if(!errorsFlag){
 	    	if(itemSku.length()>0){
 	    		try {
-					Database.editProduct(itemSku, itemName, category, brand_id, itemImg, price, itemDescription, packageType);
+					Database.editProduct(itemSku, itemName, subtitle, category, brand_id, itemImg, price, itemDescription, packageType);
 				} catch (SQLException e) {
 					System.out.println(e.toString());
 					errorsFlag=true;
@@ -93,7 +95,7 @@ public class Product extends Controller {
 				}
 	    	}else{
 	    		try {
-					Database.addProduct(itemName, category, brand_id, itemImg, price, itemDescription, packageType);
+					Database.addProduct(itemName, subtitle, category, brand_id, itemImg, price, itemDescription, packageType);
 				} catch (SQLException e) {
 					errorsFlag=true;
 					response.put("mainError","Database error");
