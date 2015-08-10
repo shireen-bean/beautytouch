@@ -10,6 +10,7 @@ function productController($scope,$http) {
 
   //populate defaults
   $scope.itemName = "";
+  $scope.subtitle = "";
   $scope.category = "";
   $scope.itemSku = "";
   $scope.itemImg = "";
@@ -26,6 +27,7 @@ function productController($scope,$http) {
     $http.get('/productJson?sku='+sku).
       success(function(data, status, headers, config) {
         $scope.itemName = data.itemName;
+        $scope.subtitle = data.subtitle;
         $scope.category = data.category;
         $scope.itemSku = data.itemSku;
         $scope.itemImg = data.itemImg;
@@ -87,6 +89,7 @@ function productController($scope,$http) {
     var jsonProduct =
     {
       "itemName": $scope.itemName,
+      "subtitle": $scope.subtitle,
       "category": $scope.category,
       "itemSku": $scope.itemSku,
       "itemImg":$scope.itemImg,

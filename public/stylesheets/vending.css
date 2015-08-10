@@ -11,6 +11,53 @@ html, body{
   /*background:url('../images/marbleShelf.jpg'); */
   background-size:100% 100%;
 }
+#productList {
+	border-bottom: 5px solid #bbb;
+}
+.problem-dialog {
+    position: absolute;
+    width: 1000px;
+    height: 800px;
+    top: 50px;
+    /* border: 5px black solid; */
+    background-color: white;
+    z-index: 100;
+    right: 465px;
+    /* border-radius: 25px; */
+    display: none;
+    font-size: 30px;
+    line-height: 55px;
+    box-shadow: 7px 5px 20px 5px;
+}
+.contact-info {
+	line-height:40px;
+	margin-top:20px;
+	font-size:25px;
+	margin-left:25px;
+	margin-right:25px;
+}
+.problem-button {
+	width: 300px !important;
+}
+#report-form {
+  text-align: left;
+  padding-left: 130px;
+  padding-right:100px;
+}
+input[type="radio"]{
+  vertical-align:middle;
+  margin-right: 10px;
+}
+.problem-dialog input[type="text"]{
+  height: 45px;
+  border: 2px solid #bbb;
+  margin-left: 20px;
+  width: 500px;
+  font-size:25px;
+  padding-left:10px;
+  vertical-align: middle;
+  margin-top: -8px;
+}
 .phoneButton{
   float: left;
   width: 90px;
@@ -101,7 +148,7 @@ html, body{
 .contactDoneButton{
   font-size: 30px;
   border: 0px;
-  background-color: #ff0000;
+  background-color: #87b643;
   opacity: .85;
   margin-top:-40px;
   width:200px;
@@ -117,7 +164,7 @@ html, body{
   margin-left:25px;
 }
 .contactButton.selected {
-  background-color: #ff0000;
+  background-color: #87b643;
 
   color: white;
 
@@ -131,8 +178,8 @@ html, body{
 
 .contactButton {
   background-color: white;
-  border: 5px solid #f00;
-  color: #f00;
+  border: 5px solid #87b643;
+  color: #87b643;
   font-size: 30px;
   width: 450px;
   border-radius: 15px;
@@ -154,14 +201,14 @@ html, body{
 .contactButton.secondary {
   font-size: 30px;
   border: 5px solid #bbb;
-  /* background-color: #ff0000; */
+  /* background-color: #f87b64300; */
   background-color: white;
   opacity: .85;
   width: 350px;
   border-radius: 15px;
   height: 81px;
   z-index: 1;
-  color: #f00;
+  color: #87b643;
   letter-spacing: 1.5px;
   font-weight: bold;
   margin: 15px;
@@ -173,7 +220,7 @@ html, body{
 .phoneSend {
   font-size: 30px;
   border: 0px;
-  background-color: #ff0000;
+  background-color: #87b643;
   opacity: .85;
   width: 450px;
   border-radius: 15px;
@@ -201,7 +248,7 @@ html, body{
   /* border-top: 2px black solid;
   border-bottom: 2px black solid;*/
 
-  background: #ff0000;
+  background: #87b643;
   opacity: .85;
   font-weight: bold;
   color: white;
@@ -249,18 +296,6 @@ html, body{
 
 }
 
-#productView {
-  border: solid 5px #bbb;
-  border-radius: 25px;
-  position: fixed;
-  width: 1500px;
-  height: 1000px;
-  top: 26px;
-  left: 215px;
-  display: block;
-  background-color: white;
-}
-
 #productInfo {
   width: 100%;
   padding-top: 50px;
@@ -289,29 +324,36 @@ html, body{
   position: relative;
   margin-left: 100px;
   margin-top: 50px;
+  padding-top: 120px;
 }
 
 .productDetails {
-  float: right;
-  width: 45%;
-  height: 475px;
-  margin-left: 20px;
-  display: inline-block;
-  padding-bottom: 50px;
+     float: right;
+    width: 46%;
+    margin-left: 20px;
+    display: inline-block;
+    padding: 50px 50px 0px 50px;
+    margin: 20px 20px 0px 20px;
 }
 
 #brandInfo {
-  width: 100%;
-  height: 340px;
-  padding-top: 50px;
-  padding-left: 50px;
-  display: inline-block;
-  position: relative;
+    display: inline-block;
+    position: absolute;
+    /* border: 3px solid #bbb; */
+    /* border-radius: 25px; */
+    padding: 50px;
+    margin-top: 50px;
+    width: 1148px;
+    background-color: #ddd;
+    z-index: 0;
+    left: 0;
+    bottom: 0;
 }
 
 #brandText {
-  float: right;
-  width: 66%;
+    width: 66%;
+    margin-left: 100px;
+    display: inline-block;
 }
 
 #productView{
@@ -320,12 +362,19 @@ html, body{
   top:0;
   left:0;
   height:100%;
+  display: block;
+  background-color: white;
 }
 
 .brandLogo {
-  width: 200px;
-  float: left;
-  padding-left: 100px;
+width: 200px;
+    float: left;
+    position: absolute;
+    left: 50;
+    top: 50%;
+    bottom: -50%;
+    transform: translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
 }
 
 .brandName {
@@ -335,23 +384,21 @@ html, body{
 }
 
 .brandDescription {
-  text-align: left;
-  font-size: 20px;
-  color: #777;
-  margin-right: 20px;
-  float: left;
+text-align: left;
+    font-size: 24px;
+    color: #777;
+    margin-right: 20px;
+    float: left;
 }
 
 #leftBlock {
-	float: left;
-	width: 53%;
-	padding-left: 50px;
+    float: left;
+    width: 65%;
 }
 
 #rightBlock {
 	float: right;
-	width: 33%;
-	padding-right: 50px;
+	width: 35%;
 }
 
 .yellowBody{
@@ -405,18 +452,14 @@ background-image:url('/assets/images/blueBackground.jpg');
     /* bottom: 0; */
  }
  #swipeMessage {
-  font-size: 70px;
-  color: white;
-  display: inline-block;
-  padding-left: 50px;
-  padding-top: 100px;
-  padding-right: 50px;
-  margin-top: 50px;
-  background-color: #ff0000;
-  border-radius: 25px;
-  margin-right: 50px;
-  margin-bottom: 22px;
-  height: 750px;
+    font-size: 70px;
+    color: #87b643;
+    display: inline-block;
+    padding-left: 50px;
+    padding-top: 150px;
+    padding-right: 50px;
+    background-color: black;
+    height: 100%;
 }
 
 .fa-credit-card {
@@ -428,18 +471,20 @@ background-image:url('/assets/images/blueBackground.jpg');
 }
 
 .back {
-  display: block;
-  color: #ff0000;
-  background-color: white;
-  margin-right: 50px;
-  margin-top: 50px;
-  margin-left: 150px;
-  font-size: 45px;
-  padding: 22px;
-  border-radius: 25px;
-  border: 5px solid #ff0000;
-  position: absolute;
-  bottom: 5%;
+    display: block;
+    color: #f87b64300;
+    background-color: white;
+    margin-right: 50px;
+    margin-top: 50px;
+    margin-left: 50px;
+    font-size: 30px;
+    padding: 22px;
+    border-radius: 25px;
+    border: 5px solid #f87b64300;
+    position: absolute;
+    top: 0%;
+    /* bottom: 5%; */
+
 }
 
 .yellowDiv{
@@ -458,15 +503,19 @@ background-image:url('/assets/images/blueBackground.jpg');
   bottom:0;
 }
 #mainDivAvailableList{
+  background-color: #bbb;
 }
 .availableListDiv {
-  position:relative;
+  position: relative;
   display: inline;
   float: left;
   text-align: center;
-  width: 470px;
-  height: 450px;
-  border: solid #bbb 5px;
+  width: 457px;
+  height: 439px;
+  /* border: solid #bbb 5px; */
+  box-shadow: 10px 10px 5px #888;
+  background-color: white;
+  margin: 11px;
 }
 
 
@@ -526,22 +575,34 @@ background-image:url('/assets/images/blueBackground.jpg');
 }
 
 .productBuyButton {
-  font-size: 24px;
-  border: 0px;
-  background-color: #ff0000;
-  width: 50%;
-  border-radius: 15px;
-  height: 81px;
-  z-index: 1;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  top: 340px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  -webkit-transform: translate(-50%, 0);
-  right: -50%;
-  position: absolute;
+    font-size: 30px;
+    border: 0px;
+    background-color: black;
+    width: 100%;
+    height: 75px;
+    color: #87b643;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.65;
+    position: absolute;
+}
+
+#subtitle {
+  text-align: left;
+  font-weight: normal;
+  font-size: 30px;
+}
+
+.productBuyButton #price {
+	float: right;
+	padding-right: 15px;
+}
+
+.productBuyButton #category {
+	float: left;
+	padding-left: 15px;
 }
 
 
@@ -564,8 +625,11 @@ background-image:url('/assets/images/blueBackground.jpg');
 #productPrice {
 	text-align: left;
 	font-size: 30px;
-	margin: 0 0 0 0;
+	margin: 30px 0 30px 0;
 	color: #333;
+	border-top: 3px solid black;
+	border-bottom: 3px solid black;
+	padding: 30px;
 }
 .availableListImage{
   height:70%;
@@ -612,41 +676,7 @@ a{
   border:none;
   height:100px;
 }
-/* .btn {
-position: relative;
-display: block;
-margin-left: 5%;
-width: 100%;
-border-bottom-left-radius: 20px;
-border-bottom-right-radius: 20px;
-line-height: 80px;
-padding: 20px 0px;
-color: #fff;
-font-size: 60px;
-line-height: 1;
-text-align: center;
-text-decoration: none;
-background-color: #2da3ee;
-box-shadow: inset 0 0 7px 0 rgba(white, 0.5);
-} */
-  /* .btn{
-  position: relative;
-  display: block;
-  margin-left: 5%;
-  width: 100%;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  border-radius: 10px;
-  line-height: 80px;
-  padding: 20px 0px;
-  color: #fff;
-  font-size: 60px;
-  line-height: 1;
-  text-align: center;
-  text-decoration: none;
-  background-color: rgb(255, 47, 47);
-  box-shadow: inset 0 0 7px 0 rgba(white, 0.5);
-} */
+
   .btn{
     background:none;
     border:none;
@@ -698,8 +728,12 @@ body.bodyMain i, body.bodyMain .back, body.bodyMain span{
   /* color: #888 !important; */
 }
 body.bodyMain #productDescription{
-	color: #777 !important;
-	text-align: left;
-	width: 100%;
-	font-size: 20px;
+  text-align: left;
+  width: 94%;
+  font-size: 24px;
+  margin: 0px 0px 0px -11px;
+}
+
+.description-bullet {
+  padding-top: 15px;	
 }

@@ -1,9 +1,12 @@
 function vendingMain($scope,$http) {
 	
+
+    $scope.formData = {};
 	$scope.selectedName="Item Name";
+	$scope.selectedSubtitle = "";
 	$scope.seletedImg="";
 	$scope.selectedPrice="0.00";
-	$scope.selectedDescrition="Description";
+	$scope.selectedDescription="Description";
 	$scope.selectedBrandName = "Brand Name";
 	$scope.selectedBrandDescription = "Brand Description";
 	$scope.selectedBrandLogo = "";
@@ -39,7 +42,6 @@ function vendingMain($scope,$http) {
 	var machineID=getParameterByName("machineId");
 	
     var timeoutHandle;
-    
     $scope.productSelected=function(id){
 		var divNameSelected = "#product"+id;
 		
@@ -56,28 +58,6 @@ function vendingMain($scope,$http) {
 		}
 		
 		if(columnWithProduct!=0){
-//			var slot = 0;
-//	    	switch(columnWithProduct){
-//	        case 1:
-//	            slot= 2;
-//	            break;
-//	        case 2:
-//	        	slot=  7;
-//	            break;
-//	        case 3:
-//	        	slot=  12;
-//	            break;
-//	        case 4:
-//	        	slot=  17;
-//	            break;
-//	        case 5:
-//	        	slot=  22;
-//	            break;
-//	        case 6:
-//	        	slot=  26;
-//	            break;
-//	    	}
-
 	    	//find product details and display checkout window
 	    	$("#productList").css('opacity','.1');
 	    	$("#productView").show();
@@ -115,11 +95,13 @@ function vendingMain($scope,$http) {
 					var productCurrent = $scope.machine.containers[i].product;
 					console.log(productCurrent);
 					$scope.selectedPrice=productCurrent.price;
-					$scope.selectedDescription= productCurrent.itemDescription;
+					$scope.selectedDescription= productCurrent.itemDescription.split("//");
+					console.log($scope.selectedDescription);
 					$scope.selectedImg = productCurrent.itemImg;
 					$scope.selectedDetailImg = productCurrent.detailImg;
 					$scope.selectedThumbnail = productCurrent.thumbnail;
 					$scope.selectedName= productCurrent.itemName;
+					$scope.selectedSubtitle = productCurrent.subtitle;
 					$scope.selectedBrandName = productCurrent.brand.name;
 					$scope.selectedBrandLogo = productCurrent.brand.logo;
 					$scope.selectedBrandDescription = productCurrent.brand.description;
@@ -136,26 +118,32 @@ function vendingMain($scope,$http) {
     	$scope.selectedId=id;
     	
     };
-    $scope.reportProblem = function() {
-		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=main");
-        //hide report button
-		$('#report-problem').hide();
-		$('#thank-you-report').show();
-		//show thank you message
-		setTimeout(function() {
-			$('#thank-you-report').hide();
-			$('#report-problem').show();
-		}, 5000);
+    $scope.reportProblem = function(issue, screen) {
+    	$('.problem-dialog').show();
     };
-    $scope.reportProblemPdp = function() {
-		console.log("%OASYS,screen=reportProblem&machineId="+getParameterByName("machineId")+"&screen=pdp");
-        //hide report button
-		$('#report-problem-pdp').hide();
-		$('#thank-you-report-pdp').show();
+    $scope.reportBack = function() {
+    	$('.problem-dialog').hide();
+    	$('#problem-email').val("");
+    };
+    $scope.submitReport = function() {
+    	console.log($scope.formData);
+    	$.ajax({
+    		type: "POST",
+    		url: "/reportProblem",
+    		data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
+    		dataType: "json",
+    		headers: {
+    			"content-type": "application/json"
+    		},
+    	});
+    	$('.problem-dialog').hide();
+    	$('#problem-email').val("");
+    	$('.report-problem').hide();
+		$('.thank-you-report').show();
 		//show thank you message
 		setTimeout(function() {
-			$('#thank-you-report-pdp').hide();
-			$('#report-problem-pdp').show();
+			$('.thank-you-report').hide();
+			$('.report-problem').show();
 		}, 5000);
     };
     $scope.closeProduct = function(){
@@ -176,7 +164,6 @@ function vendingMain($scope,$http) {
     };
 
 }
-
 
 
 function getParameterByName(name) {

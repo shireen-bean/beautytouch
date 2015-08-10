@@ -12,14 +12,11 @@
 	<div id="productList">
 		<div  ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts"></a>
 				  <div class="availableListDiv" >
-				    <span class="cornerPrice">
-				      <p> ${{product.price}}</p>
-				    </span>
 				  	<div class="availableProduct" id="product{{product.itemSku}}">
 					    <img class="productImage" src='productImage/{{product.itemImg}}'>
 					    <br>
 				    </div>
-				    <button class="productBuyButton">Buy {{product.category}}</button>
+				    <button class="productBuyButton"><span id="category">{{product.category}}</span><span id="price">${{product.price}}</span></button>
 				    <div style="clear:both;"></div>
 				  </div>
 				</div> 
@@ -30,6 +27,21 @@
 	  <h3>Problem with this machine?
 	     <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
        </h3>
+	</div>
+	<div id="problem-dialog" class="problem-dialog">
+	 <h3>Report a Problem</h3>
+	 <form id="report-form" ng-init="formData.problem='vending'" action="">
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="vending">Product didn't vend<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="product">Received incorrect or damaged product<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="machine">Machine is damaged or vandalized<br></label>
+     <label><input ng-model="formData.problem" type="radio" name="problem" value="other">Other:<input ng-model="formData.other" type="text" name="other"><br></label>
+     <p class="contact-info">If you would like to be contacted about this issue please enter your email address:</p>
+     <input id="problem-email" ng-model="formData.email" type="text" name="email">
+     </form>
+	 <button class="contactButton problem-button secondary" style="float: left; margin-left:175px;" ng-click="reportBack()">Back</button>
+	 <button class="contactButton problem-button" style="float:right;margin-right:175px;" ng-click="submitReport()">Submit</button>
 	</div>
 	<div class="thank-you-report" id="thank-you-report">
 	  <h3>Thank you for reporting an issue with this machine.</h3>
@@ -46,8 +58,11 @@
 			  </div>
 			  <div class="productDetails">
 			    <h2 id="itemName" style="margin:20px 0px;">{{selectedName}}</h2>
+			    <h3 id="subtitle">{{selectedSubtitle}}</h3>
 			    <h2 id="productPrice">{{selectedPrice | currency}}</h2>
-			    <p id="productDescription">{{selectedDescription}}</p>
+			    <ul id="productDescription">
+			      <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
+			    </ul>
 			  </div>
 			
 		      <div ng-hide="selectedBrandId == 0" id="brandInfo">
@@ -63,7 +78,7 @@
 		  </div>
 		  <div class="report-problem" id="report-problem-pdp">
 	        <h3>Problem with this machine?
-	          <button class="contactButton secondary" ng-click="reportProblemPdp()">Report</button>
+	          <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
 	        </h3>
 	      </div>
 	      <div id="thank-you-report-pdp" class="thank-you-report">
@@ -97,6 +112,7 @@
 	</div>
 	
 </div>
+
 
 <script src="@routes.Assets.at("javascripts/vendingMain.js")" type="text/javascript"></script>
 <script type="text/javascript">

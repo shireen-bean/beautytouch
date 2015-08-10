@@ -1,13 +1,12 @@
-# New productimages
+# Product subtitle
 
 # --- !Ups
 
 ALTER TABLE `products`
-  ADD `thumbnail` varchar(255),
-  ADD `detailImg` varchar(255);
+  ADD `subtitle` varchar(255);
+
 
 # --- !Downs
 
 ALTER TABLE `products`
-  DROP COLUMN `thumbnail`,
-  DROP COLUMN `detailImg`;
+  DROP COLUMN `subtitle`;
