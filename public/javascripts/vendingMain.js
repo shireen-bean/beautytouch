@@ -98,6 +98,7 @@ function vendingMain($scope,$http) {
 					$scope.selectedPrice=productCurrent.price;
 					$scope.selectedDescription= productCurrent.itemDescription.split("//");
 					console.log($scope.selectedDescription);
+					$scope.mainImg = productCurrent.itemImg;
 					$scope.selectedImg = productCurrent.itemImg;
 					$scope.selectedDetailImg = productCurrent.detailImg;
 					$scope.selectedThumbnail = productCurrent.thumbnail;
@@ -119,6 +120,15 @@ function vendingMain($scope,$http) {
 		}
     	$scope.selectedId=id;
     	
+    };
+    $scope.changeImage = function(img) {
+    	if (img == 'selectedImg') {
+    	  $('#main-image').attr('src','/productImage/' + $scope.selectedImg);
+    	} else if (img == 'selectedDetailImg') {
+    		$('#main-image').attr('src','/productImage/' + $scope.selectedDetailImg);
+     	} else if (img == 'thumbnail') {
+    		$('#main-image').attr('src','/productImage/' + $scope.selectedThumbnail);
+    	}
     };
     $scope.reportProblem = function(issue, screen) {
     	$('.problem-dialog').show();
@@ -172,6 +182,7 @@ function vendingMain($scope,$http) {
     };
     $scope.closeProduct = function(){
     	console.log("%OASYS,screen=list&?");
+    	$('#main-image').attr('src','/productImage/' + $scope.selectedImg);
     	$("#productView").hide();
     	$("#productList").css('opacity','1');
     	$("#productList").show();

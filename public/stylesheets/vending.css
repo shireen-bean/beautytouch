@@ -669,6 +669,15 @@ background-image:url('/assets/images/blueBackground.jpg');
   margin-top: 14%;
 }
 
+.thumbnail {
+	width: 100px;
+}
+#thumbnails {
+	display: inline-block;
+    margin-top: 40px;
+    margin-left: 50px;
+}
+
 #itemName {
 	text-align: left;
 	font-size: 40px;

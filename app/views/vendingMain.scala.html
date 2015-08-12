@@ -56,11 +56,16 @@
 		  <div id="leftBlock">
 		    <div id="productInfo">
 		      <div class="productImageContainer">
-			  <img class="productImageDetail" ng-src="productImage/{{selectedImg}}"/> 
-			  </div>
+			    <img class="productImageDetail" id="main-image" src="productImage/{{mainImg}}"/> 			    
+			    <div id="thumbnails">
+			      <img ng-hide="selectedDetailImg == null && selectedThumbnail == null" ng-click="changeImage('selectedImg')" class="thumbnail selected" src='/productImage/{{selectedImg}}'>
+		          <img ng-hide="selectedDetailImg == null" ng-click="changeImage('selectedDetailImg')" class="thumbnail" src='/productImage/{{selectedDetailImg}}'>
+		          <img ng-hide="selectedThumbnail == null" ng-click="changeImage('thumbnail')" class="thumbnail" src='/productImage/{{selectedThumbnail}}'>
+		        </div>
+		      </div>
 			  <div class="productDetails">
 			    <h2 id="itemName" style="margin:20px 0px;">{{selectedName}}</h2>
-			    <h3 id="subtitle">{{selectedSubtitle}}</h3>
+			    <h3 ng-hide="selectedSubtitle == null" id="subtitle">{{selectedSubtitle}}</h3>
 			    <h2 id="productPrice">{{selectedPrice | currency}}</h2>
 			    <ul id="productDescription">
 			      <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
