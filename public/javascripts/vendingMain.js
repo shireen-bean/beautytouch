@@ -2,6 +2,7 @@ function vendingMain($scope,$http) {
 	
 
     $scope.formData = {};
+    $scope.suggestion = "";
 	$scope.selectedName="Item Name";
 	$scope.selectedSubtitle = "";
 	$scope.seletedImg="";
@@ -97,7 +98,10 @@ function vendingMain($scope,$http) {
 					$scope.selectedPrice=productCurrent.price;
 					$scope.selectedDescription= productCurrent.itemDescription.split("//");
 					console.log($scope.selectedDescription);
+					$scope.mainImg = productCurrent.itemImg;
 					$scope.selectedImg = productCurrent.itemImg;
+					$scope.selectedDetailImg = productCurrent.detailImg;
+					$scope.selectedThumbnail = productCurrent.thumbnail;
 					$scope.selectedName= productCurrent.itemName;
 					$scope.selectedSubtitle = productCurrent.subtitle;
 					$scope.selectedBrandName = productCurrent.brand.name;
@@ -107,6 +111,7 @@ function vendingMain($scope,$http) {
 					break;
 				}
 			}
+			console.log(productCurrent);
 			
 			console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+id+"&slot="+slotWithProduct+"&column="+columnWithProduct+"?");
 	    	
@@ -116,13 +121,44 @@ function vendingMain($scope,$http) {
     	$scope.selectedId=id;
     	
     };
+    $scope.changeImage = function(img) {
+    	if (img == 'selectedImg') {
+    	  $('#main-image').attr('src','/productImage/' + $scope.selectedImg);
+    	} else if (img == 'selectedDetailImg') {
+    		$('#main-image').attr('src','/productImage/' + $scope.selectedDetailImg);
+     	} else if (img == 'thumbnail') {
+    		$('#main-image').attr('src','/productImage/' + $scope.selectedThumbnail);
+    	}
+    };
     $scope.reportProblem = function(issue, screen) {
     	$('.problem-dialog').show();
     };
+    $scope.howItWorks = function() {
+    	$('.how-it-works').show();
+    }
+    $scope.closeHowItWorks = function() {
+    	$('.suggestion-input').val("");
+    	$('.how-it-works').hide();
+    }
     $scope.reportBack = function() {
     	$('.problem-dialog').hide();
     	$('#problem-email').val("");
     };
+    $scope.submitSuggestion = function() {
+    	console.log($scope.suggestion);
+    	if ($scope.suggestion != "") {
+    	  $.ajax({
+    		  type: "POST",
+    		  url: "/sendSuggestion",
+    		  data: JSON.stringify({"machine_id": machineID, "suggestion": $scope.suggestion }),
+    		  dataType: "json",
+    	      headers: {
+    			  "content-type": "application/json"
+    		  },
+    	  });
+    	}
+    	$scope.closeHowItWorks();
+    }
     $scope.submitReport = function() {
     	console.log($scope.formData);
     	$.ajax({
@@ -146,6 +182,7 @@ function vendingMain($scope,$http) {
     };
     $scope.closeProduct = function(){
     	console.log("%OASYS,screen=list&?");
+    	$('#main-image').attr('src','/productImage/' + $scope.selectedImg);
     	$("#productView").hide();
     	$("#productList").css('opacity','1');
     	$("#productList").show();

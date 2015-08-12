@@ -38,9 +38,10 @@ GET     /terms		                controllers.Landing.terms()
 POST    /postMachine		        controllers.Machine.postMachine()
 POST    /loginVending		        controllers.Application.loginVending()
 POST    /machineStatus              controllers.Machine.logStatus
-POST     /sendEmailReceipt           controllers.Email.sendReceipt
-POST     /sendSMSReceipt             controllers.SMS.sendReceipt
-POST     /reportProblem             controllers.SMS.reportProblem
+POST    /sendSuggestion             controllers.Email.sendSuggestion()
+POST    /sendEmailReceipt           controllers.Email.sendReceipt
+POST    /sendSMSReceipt             controllers.SMS.sendReceipt
+POST    /reportProblem              controllers.SMS.reportProblem
 POST    /logEvent                   controllers.Machine.logEvent
 GET		/activityLog				controllers.Machine.activityLog(machineId)
 GET		/activityLogData			controllers.Machine.activityLogData(machineId,startDate,endDate)

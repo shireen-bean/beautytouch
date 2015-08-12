@@ -19,6 +19,8 @@ public class ProductModel{
     public String subtitle;
     public String category;
     public String itemImg;
+    public String detailImg;
+    public String thumbnail;
     public String price;
     public String itemDescription;
     public String packageType;

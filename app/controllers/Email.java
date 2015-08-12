@@ -30,11 +30,24 @@ public class Email extends Controller {
     mail.setFrom("Oasys <service@oasysventures.com>");
     System.out.println(mail);
 
-    mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + productId + "' sold for " + productPrice.toString() + ".</p>");
+    mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + productId + "' sold for $" + productPrice.toString() + ".</p>");
     return ok();
   }
+  
+  public static Result sendSuggestion() {
+	  JsonNode jn = request().body().asJson();
+	  String machineId = jn.get("machine_id").asText();
+	  String suggestion = jn.get("suggestion").asText();
+	  MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+	  mail.setSubject("Product Recommendation");
+	  mail.setRecipient("alina@oasysventures.com");
+	  mail.setFrom("Oasys <service@oasysventures.com>");
+	  
+	  mail.sendHtml("<p>Oasys product recommendation from machine " + machineId + ". Product/Idea: " + suggestion + "</p>");
+      return ok();
+  }
+  
   public static Result sendReceipt(){
-
     //get sales id and customer info
     JsonNode jn = request().body().asJson();
     int salesId = jn.get("sales_id").asInt();

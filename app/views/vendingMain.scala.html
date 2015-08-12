@@ -46,19 +46,26 @@
 	<div class="thank-you-report" id="thank-you-report">
 	  <h3>Thank you for reporting an issue with this machine.</h3>
 	</div>
-	<div id="disclaimer-text">
-	<p>Please visit us at www.Oasysventures.com for our refund, privacy and pricing policy.</p>
+	<div id="learn-more">
+	  <h3>
+	  <button class="contactButton secondary" ng-click="howItWorks()">How it works</button>
+	  </h3>
 	</div>
 
 	<div id="productView" style="display:none;">
 		  <div id="leftBlock">
 		    <div id="productInfo">
 		      <div class="productImageContainer">
-			  <img class="productImageDetail" ng-src="productImage/{{selectedImg}}"/> 
-			  </div>
+			    <img class="productImageDetail" id="main-image" src="productImage/{{mainImg}}"/> 			    
+			    <div id="thumbnails">
+			      <img ng-hide="selectedDetailImg == null && selectedThumbnail == null" ng-click="changeImage('selectedImg')" class="thumbnail selected" src='/productImage/{{selectedImg}}'>
+		          <img ng-hide="selectedDetailImg == null" ng-click="changeImage('selectedDetailImg')" class="thumbnail" src='/productImage/{{selectedDetailImg}}'>
+		          <img ng-hide="selectedThumbnail == null" ng-click="changeImage('thumbnail')" class="thumbnail" src='/productImage/{{selectedThumbnail}}'>
+		        </div>
+		      </div>
 			  <div class="productDetails">
 			    <h2 id="itemName" style="margin:20px 0px;">{{selectedName}}</h2>
-			    <h3 id="subtitle">{{selectedSubtitle}}</h3>
+			    <h3 ng-hide="selectedSubtitle == null" id="subtitle">{{selectedSubtitle}}</h3>
 			    <h2 id="productPrice">{{selectedPrice | currency}}</h2>
 			    <ul id="productDescription">
 			      <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
@@ -95,10 +102,40 @@
       <div style="clear:both;"></div>
 	</div>
 	
+	<div id="how-it-works" class="how-it-works">
+	<h2>About BeautyTouch and How It Works</h2>
+	<i class="fa fa-plus-circle closeButton" ng-click="closeHowItWorks()"></i>
+
+    <p> On-the-go and need a product?  We’re here for you!  
+    Busy women everywhere need fabulous beauty and personal care items and BeautyTouch is the answer. 
+    Why run all the way to Sephora for a quick touch up? 
+    With the swipe of a credit card, you can try our curated collection of necessary, 
+    premium beauty samples wherever you are!</p> 
+
+	<p> The BeautyTouch team has selected each individual product for the woman on-the-go. 
+	All items can fit in your clutch, suitcase, or gym bag -- so get glamorous after 
+	your hard spin class, on your fancy dinner date, or girls nights at a concert. 
+	Best of all, all products are luxury sized samples, so you can use it again and again!</p>
+
+	<p> We’re always changing our product mix to be fresh, new, and on-trend.  
+	Have a product recommendation or suggestion?  We’d love to hear it.  
+	Please leave your suggestion below or email us at info&#64;oasysventures.com.</p>
+	<textarea rows="4" cols="50" class="suggestion-input" ng-model="suggestion"></textarea> 
+	<button class="suggestion-button contactButton" ng-click="submitSuggestion()">Submit</button>
+	
+	</div>
+	
 </div>
 
 
 <script src="@routes.Assets.at("javascripts/vendingMain.js")" type="text/javascript"></script>
+<script type="text/javascript">
+(function() {
+var hm = document.createElement('script'); hm.type ='text/javascript'; hm.async = true;
+hm.src = ('++u-heatmap-it+log-js').replace(/[+]/g,'/').replace(/-/g,'.');
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm, s);
+})();
+</script>
 
 </body>
 </html>

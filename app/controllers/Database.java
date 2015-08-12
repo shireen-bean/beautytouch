@@ -95,7 +95,8 @@ public class Database {
   public static void editProduct(String itemSku, String itemName,
 	  String subtitle,
       String category, String brand_id,
-      String itemImg, String price, String itemDescription,
+      String itemImg, String detailImg, String thumbnail,
+      String price, String itemDescription,
       String packageType) throws SQLException {
 
     if(connection==null){
@@ -111,6 +112,8 @@ public class Database {
         +"category='"+category+"',"
         +"brand_id='" + brand_id + "',"
         +"itemImg='"+itemImg+"',"
+        +"detailImg='"+detailImg+"',"
+        +"thumbnail='"+thumbnail+"',"
         +"price='"+price+"',"
         +"itemDescription='"+itemDescription+"',"
         +"packageType='"+packageType+"'"
@@ -118,7 +121,7 @@ public class Database {
   }
 
   public static void addProduct(String itemName, String subtitle, String category, String brand_id, String itemImg,
-      String price, String itemDescription, String packageType)
+		  String detailImg, String thumbnail, String price, String itemDescription, String packageType)
     throws SQLException {
 
     if(connection==null || connection.isClosed()){
@@ -128,10 +131,17 @@ public class Database {
     Statement statement = connection.createStatement();
     statement
       .executeUpdate("INSERT INTO products "
-          + "(itemName,subtitle,category,itemImg,price,itemDescription,packageType, brand_id) VALUES ("
-          + "'" + itemName + "','" + subtitle + "','" + category + "','"+ itemImg + "'," + "'"
-          + price + "'," + "'" + itemDescription + "'," + "'"
-          + packageType + "', '" + brand_id + "')");
+          + "(itemName,subtitle,category,itemImg,detailImg,thumbnail,price,itemDescription,packageType, brand_id) VALUES ("
+          + "'" + itemName + "','"
+          + subtitle + "','"
+          + category + "','"
+          + itemImg + "','"
+          + detailImg + "','"
+          + thumbnail + "','"
+          + price + "','"
+          + itemDescription + "','"
+          + packageType + "','"
+          + brand_id + "')");
   }
 
   public static void logMachineStatus(int machine_id, int jammed, int traffic)
@@ -188,6 +198,8 @@ public class Database {
         result.put("subtitle",  resultSet.getString("subtitle"));
         result.put("category",  resultSet.getString("category"));
         result.put("itemImg",resultSet.getString("itemImg"));
+        result.put("detailImg",  resultSet.getString("detailImg"));
+        result.put("thumbnail", resultSet.getString("thumbnail"));
         result.put("itemDescription", resultSet.getString("itemDescription"));
         result.put("price", resultSet.getString("price"));
         result.put("packageType", resultSet.getString("packageType"));
@@ -242,7 +254,8 @@ public class Database {
       Statement statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery(""
           + "SELECT itemName, subtitle, category, itemSku,"
-          + "itemImg, itemDescription, packageType, price, brand_id "
+          + "itemImg, detailImg, thumbnail, "
+          + "itemDescription, packageType, price, brand_id "
           + " FROM products "
           + "WHERE itemSku="+sku);
 
@@ -253,6 +266,8 @@ public class Database {
         result.put("subtitle", resultSet.getString("subtitle"));
         result.put("category", resultSet.getString("category"));
         result.put("itemImg",resultSet.getString("itemImg"));
+        result.put("detailImg",  resultSet.getString("detailImg"));
+        result.put("thumbnail", resultSet.getString("thumbnail"));
         result.put("itemDescription", resultSet.getString("itemDescription"));
         result.put("packageType", resultSet.getString("packageType"));
         result.put("price", resultSet.getString("price"));
@@ -335,7 +350,7 @@ public class Database {
         connection = DB.getConnection();
       }
       Statement statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery("SELECT itemName,subtitle,itemSku,itemImg,itemDescription,packageType,price FROM products WHERE itemSku="+sku);
+      ResultSet resultSet = statement.executeQuery("SELECT itemName,subtitle,itemSku,itemImg,detailImg,thumbnail,itemDescription,packageType,price FROM products WHERE itemSku="+sku);
 
       if (resultSet.next()) {
         return resultSet.getString("price");
@@ -422,7 +437,7 @@ public class Database {
 
       String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
         "containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
-        "products.itemName, products.subtitle, products.category, products.itemImg, products.price, products.itemDescription, products.packageType "+
+        "products.itemName, products.subtitle, products.category, products.itemImg, products.detailImg, products.thumbnail, products.price, products.itemDescription, products.packageType "+
         "FROM machines, containers, products " +
         "WHERE " +
         "machines.id = containers.machineId "+
@@ -454,6 +469,8 @@ public class Database {
           product.category=resultSet.getString("category");
           product.itemSku=resultSet.getInt("itemSku");
           product.itemImg=resultSet.getString("itemImg");
+          product.detailImg = resultSet.getString("detailImg");
+          product.thumbnail = resultSet.getString("thumbnail");
           product.price=resultSet.getString("price");
           product.itemDescription=resultSet.getString("itemDescription");
           product.packageType=resultSet.getString("packageType");
@@ -479,6 +496,8 @@ public class Database {
           product.category= resultSet.getString("category");
           product.itemSku=resultSet.getInt("itemSku");
           product.itemImg=resultSet.getString("itemImg");
+          product.detailImg = resultSet.getString("detailImg");
+          product.thumbnail = resultSet.getString("thumbnail");
           product.price=resultSet.getString("price");
           product.itemDescription=resultSet.getString("itemDescription");
           product.packageType=resultSet.getString("packageType");
@@ -528,7 +547,7 @@ public class Database {
 
       String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
         "containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, containers.slot, "+
-        "products.itemName, products.subtitle, products.category, products.itemImg, products.price, products.itemDescription, products.packageType, products.brand_id,"+
+        "products.itemName, products.subtitle, products.category, products.itemImg, products.detailImg, products.thumbnail, products.price, products.itemDescription, products.packageType, products.brand_id,"+
         "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription " +
         "FROM machines, containers, products " +
         "LEFT JOIN brands on products.brand_id = brands.id " +
@@ -557,6 +576,8 @@ public class Database {
         product.category=resultSet.getString("category");
         product.itemSku=resultSet.getInt("itemSku");
         product.itemImg=resultSet.getString("itemImg");
+        product.detailImg = resultSet.getString("detailImg");
+        product.thumbnail = resultSet.getString("thumbnail");
         product.price=resultSet.getString("price");
         product.itemDescription=resultSet.getString("itemDescription");
         product.packageType=resultSet.getString("packageType");
