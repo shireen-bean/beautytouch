@@ -69,7 +69,7 @@ function productController($scope,$http) {
         detailSrcLink = "/productImage/"+$scope.detailImg;
         showImageOnceLoaded(detailSrcLink, "detail");
         
-        thumnailLink = "/productImage/"+$scope.thumbnail;
+        thumbnailLink = "/productImage/"+$scope.thumbnail;
         showImageOnceLoaded(thumbnailLink, "thumbnail");
 
         $scope.itemSkuLabel=$scope.itemSku;

@@ -2,6 +2,7 @@ function vendingMain($scope,$http) {
 	
 
     $scope.formData = {};
+    $scope.suggestion = "";
 	$scope.selectedName="Item Name";
 	$scope.selectedSubtitle = "";
 	$scope.seletedImg="";
@@ -109,6 +110,7 @@ function vendingMain($scope,$http) {
 					break;
 				}
 			}
+			console.log(productCurrent);
 			
 			console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+id+"&slot="+slotWithProduct+"&column="+columnWithProduct+"?");
 	    	
@@ -121,10 +123,32 @@ function vendingMain($scope,$http) {
     $scope.reportProblem = function(issue, screen) {
     	$('.problem-dialog').show();
     };
+    $scope.howItWorks = function() {
+    	$('.how-it-works').show();
+    }
+    $scope.closeHowItWorks = function() {
+    	$('.suggestion-input').val("");
+    	$('.how-it-works').hide();
+    }
     $scope.reportBack = function() {
     	$('.problem-dialog').hide();
     	$('#problem-email').val("");
     };
+    $scope.submitSuggestion = function() {
+    	console.log($scope.suggestion);
+    	if ($scope.suggestion != "") {
+    	  $.ajax({
+    		  type: "POST",
+    		  url: "/sendSuggestion",
+    		  data: JSON.stringify({"machine_id": machineID, "suggestion": $scope.suggestion }),
+    		  dataType: "json",
+    	      headers: {
+    			  "content-type": "application/json"
+    		  },
+    	  });
+    	}
+    	$scope.closeHowItWorks();
+    }
     $scope.submitReport = function() {
     	console.log($scope.formData);
     	$.ajax({

@@ -437,7 +437,7 @@ public class Database {
 
       String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
         "containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
-        "products.itemName, products.subtitle, products.category, products.itemImg, products.price, products.itemDescription, products.packageType "+
+        "products.itemName, products.subtitle, products.category, products.itemImg, products.detailImg, products.thumbnail, products.price, products.itemDescription, products.packageType "+
         "FROM machines, containers, products " +
         "WHERE " +
         "machines.id = containers.machineId "+
@@ -469,6 +469,8 @@ public class Database {
           product.category=resultSet.getString("category");
           product.itemSku=resultSet.getInt("itemSku");
           product.itemImg=resultSet.getString("itemImg");
+          product.detailImg = resultSet.getString("detailImg");
+          product.thumbnail = resultSet.getString("thumbnail");
           product.price=resultSet.getString("price");
           product.itemDescription=resultSet.getString("itemDescription");
           product.packageType=resultSet.getString("packageType");
@@ -494,6 +496,8 @@ public class Database {
           product.category= resultSet.getString("category");
           product.itemSku=resultSet.getInt("itemSku");
           product.itemImg=resultSet.getString("itemImg");
+          product.detailImg = resultSet.getString("detailImg");
+          product.thumbnail = resultSet.getString("thumbnail");
           product.price=resultSet.getString("price");
           product.itemDescription=resultSet.getString("itemDescription");
           product.packageType=resultSet.getString("packageType");
@@ -543,7 +547,7 @@ public class Database {
 
       String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
         "containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, containers.slot, "+
-        "products.itemName, products.subtitle, products.category, products.itemImg, products.price, products.itemDescription, products.packageType, products.brand_id,"+
+        "products.itemName, products.subtitle, products.category, products.itemImg, products.detailImg, products.thumbnail, products.price, products.itemDescription, products.packageType, products.brand_id,"+
         "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription " +
         "FROM machines, containers, products " +
         "LEFT JOIN brands on products.brand_id = brands.id " +
@@ -572,6 +576,8 @@ public class Database {
         product.category=resultSet.getString("category");
         product.itemSku=resultSet.getInt("itemSku");
         product.itemImg=resultSet.getString("itemImg");
+        product.detailImg = resultSet.getString("detailImg");
+        product.thumbnail = resultSet.getString("thumbnail");
         product.price=resultSet.getString("price");
         product.itemDescription=resultSet.getString("itemDescription");
         product.packageType=resultSet.getString("packageType");
