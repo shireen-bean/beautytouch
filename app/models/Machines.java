@@ -1,10 +1,13 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import play.db.ebean.Model.Finder;
 
 /**
  * This declares a model object for persistence usage. Model objects are generally anaemic structures that represent
@@ -13,7 +16,9 @@ import javax.persistence.Id;
  * Play Java will synthesise getter and setter methods for us and therefore keep JPA happy (JPA expects them).
  */
 @Entity
-public class MachineModel{
+public class Machines{
+	
+	@Id
     public Long id;
     
     public Double lat;
@@ -22,8 +27,11 @@ public class MachineModel{
     public String address;
     public String status;
     
-    public int totalCapacity;
-    public int numItems;
+    public int total_capacity;
+    public int num_items;
     
-    public ArrayList<Container> containers;
+    public List<Containers> containers;
+    
+    public static Finder<Long,Machines> find = new Finder<Long,Machines>(
+    	    Long.class, Machines.class);
 }

@@ -1,6 +1,5 @@
 package controllers;
 
-import models.User;
 import play.Play;
 import play.api.libs.Codecs;
 import play.data.Form;
@@ -11,8 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import models.Products;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.text.json.JsonContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -20,6 +24,7 @@ import play.libs.Json;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.twirl.api.Content;
 import views.html.*;
 
 public class Product extends Controller {
@@ -42,8 +47,10 @@ public class Product extends Controller {
     //    	if(!loggedIn()){
     //    		return redirect("/");
     //    	}
-    ObjectNode product = Database.getProduct(sku);
-    return ok(product);
+    Products product = Database.getProduct(sku);
+    JsonContext json = Ebean.createJsonContext();
+    String p = json.toJsonString(product);
+    return ok(p);
   }
 
   public static Result postProduct(){

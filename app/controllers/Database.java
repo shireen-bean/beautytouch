@@ -9,15 +9,18 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.math.BigDecimal;
 
 import models.ActivityLogModel;
-import models.Container;
-import models.MachineModel;
-import models.ProductModel;
+import models.Containers;
+import models.Machines;
+import models.Products;
 import models.Receipt;
-import models.Brand;
+import models.Brands;
 
+import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -33,38 +36,6 @@ import play.libs.Json;
 public class Database {
 
   static Connection connection;
-  //
-  //	public static ArrayList<MachineModel> getMachines(){
-  //		try {
-  //
-  //			if(connection==null){
-  //				connection = DB.getConnection();
-  //			}
-  //			if(connection.isClosed()){
-  //				connection = DB.getConnection();
-  //			}
-  //
-  //			Statement statement = connection.createStatement();
-  //			ResultSet resultSet;
-  //			resultSet = statement
-  //					.executeQuery("SELECT * FROM Machines");
-  //
-  //			ArrayList<MachineModel> machines = new ArrayList<MachineModel>();
-  //
-  //			if (resultSet.next()) {
-  //				MachineModel m = new MachineModel();
-  //				m.id=resultSet.getLong("id");
-  //				m.lat=resultSet.getDouble("lat");
-  //				m.lon=resultSet.getDouble("lon");
-  //				m.address=resultSet.getString("address");
-  //				m.status=resultSet.getString("status");
-  //				System.out.println(m.id.toString()+","+m.lat.toString()+","+m.lon.toString()+","+m.address.toString()+","+m.status.toString());
-  //			}
-  //		} catch (SQLException e) {
-  //		}
-  //
-  //		return null;
-  //	}
 
   public static boolean userLogin(String username, String password) {
     try {
@@ -92,12 +63,12 @@ public class Database {
     }
   }
 
-  public static void editProduct(String itemSku, String itemName,
+  public static void editProduct(String item_sku, String item_name,
 	  String subtitle,
       String category, String brand_id,
-      String itemImg, String detailImg, String thumbnail,
-      String price, String itemDescription,
-      String packageType) throws SQLException {
+      String item_img, String detail_img, String thumbnail,
+      String price, String item_description,
+      String package_type) throws SQLException {
 
     if(connection==null){
       connection = DB.getConnection();
@@ -107,21 +78,21 @@ public class Database {
     }
     Statement statement = connection.createStatement();
     statement.executeUpdate("UPDATE products SET "
-        +"itemName='"+itemName+"',"
+        +"item_name='"+item_name+"',"
         +"subtitle='"+subtitle+"',"
         +"category='"+category+"',"
         +"brand_id='" + brand_id + "',"
-        +"itemImg='"+itemImg+"',"
-        +"detailImg='"+detailImg+"',"
+        +"item_img='"+item_img+"',"
+        +"detail_img='"+detail_img+"',"
         +"thumbnail='"+thumbnail+"',"
         +"price='"+price+"',"
-        +"itemDescription='"+itemDescription+"',"
-        +"packageType='"+packageType+"'"
-        +" WHERE itemSku='"+itemSku+"'");
+        +"item_description='"+item_description+"',"
+        +"package_type='"+package_type+"'"
+        +" WHERE item_sku='"+item_sku+"'");
   }
 
-  public static void addProduct(String itemName, String subtitle, String category, String brand_id, String itemImg,
-		  String detailImg, String thumbnail, String price, String itemDescription, String packageType)
+  public static void addProduct(String item_name, String subtitle, String category, String brand_id, String item_img,
+		  String detail_img, String thumbnail, String price, String item_description, String package_type)
     throws SQLException {
 
     if(connection==null || connection.isClosed()){
@@ -131,16 +102,16 @@ public class Database {
     Statement statement = connection.createStatement();
     statement
       .executeUpdate("INSERT INTO products "
-          + "(itemName,subtitle,category,itemImg,detailImg,thumbnail,price,itemDescription,packageType, brand_id) VALUES ("
-          + "'" + itemName + "','"
+          + "(item_name,subtitle,category,item_img,detail_img,thumbnail,price,item_description,package_type, brand_id) VALUES ("
+          + "'" + item_name + "','"
           + subtitle + "','"
           + category + "','"
-          + itemImg + "','"
-          + detailImg + "','"
+          + item_img + "','"
+          + detail_img + "','"
           + thumbnail + "','"
           + price + "','"
-          + itemDescription + "','"
-          + packageType + "','"
+          + item_description + "','"
+          + package_type + "','"
           + brand_id + "')");
   }
 
@@ -172,78 +143,21 @@ public class Database {
         );
   }
 
-  public static ArrayNode getProductList() {
-    try {
-      if(connection==null){
-        connection = DB.getConnection();
-      }
-      if(connection.isClosed()){
-        connection = DB.getConnection();
-      }
-
-
-      Statement statement = connection.createStatement();
-
-      ResultSet resultSet = statement.executeQuery("SELECT products.*, "
-          + "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription"
-          + " FROM products LEFT JOIN brands on products.brand_id = brands.id ");
-
-      ObjectMapper mapper = new ObjectMapper();
-      ArrayNode nodeArray=mapper.createArrayNode();
-
-      while (resultSet.next()) {
-        ObjectNode result = Json.newObject();
-        result.put("itemSku",resultSet.getString("itemSku"));
-        result.put("itemName",resultSet.getString("itemName"));
-        result.put("subtitle",  resultSet.getString("subtitle"));
-        result.put("category",  resultSet.getString("category"));
-        result.put("itemImg",resultSet.getString("itemImg"));
-        result.put("detailImg",  resultSet.getString("detailImg"));
-        result.put("thumbnail", resultSet.getString("thumbnail"));
-        result.put("itemDescription", resultSet.getString("itemDescription"));
-        result.put("price", resultSet.getString("price"));
-        result.put("packageType", resultSet.getString("packageType"));
-        nodeArray.add(result);
-      }
-      System.out.println(nodeArray);
-
-      return nodeArray;
-
-    } catch (Exception e) {
-      Logger.error("********Error" + e.toString());
-      return null;
-    }
+  public static List<Products> getProductList() {
+	  List<Products> products = Ebean.find(Products.class).findList();
+	  return products;
   }
 
-  public static ArrayNode getBrandList() {
-    try {
-      if (connection == null || connection.isClosed()) {
-        connection = DB.getConnection();
-      }
-
-      Statement statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM brands");
-
-      ObjectMapper mapper = new ObjectMapper();
-      ArrayNode nodeArray = mapper.createArrayNode();
-
-      while (resultSet.next()) {
-        ObjectNode result = Json.newObject();
-        result.put("id",  resultSet.getString("id"));
-        result.put("name",  resultSet.getString("name"));
-        result.put("description",  resultSet.getString("description"));
-        result.put("logo", resultSet.getString("logo"));
-        nodeArray.add(result);
-      }
-      return nodeArray;
-
-    } catch (Exception e) {
-      Logger.error("********Error: " + e.toString());
-      return null;
-    }
+  public static List<Brands> getBrandList() {
+	  List<Brands> brands = Ebean.find(Brands.class).findList();
+	  return brands;
   }
 
-  public static ObjectNode getProduct(String sku) {
+  public static Products getProduct(String sku) {
+	  
+	  Products product = Ebean.find(Products.class, sku);
+	  return product;
+/*
     try {
       if(connection==null){
         connection = DB.getConnection();
@@ -253,23 +167,23 @@ public class Database {
       }
       Statement statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery(""
-          + "SELECT itemName, subtitle, category, itemSku,"
-          + "itemImg, detailImg, thumbnail, "
-          + "itemDescription, packageType, price, brand_id "
+          + "SELECT item_name, subtitle, category, item_sku,"
+          + "item_img, detail_img, thumbnail, "
+          + "item_description, package_type, price, brand_id "
           + " FROM products "
-          + "WHERE itemSku="+sku);
+          + "WHERE item_sku="+sku);
 
       if (resultSet.next()) {
         ObjectNode result = Json.newObject();
-        result.put("itemSku",resultSet.getString("itemSku"));
-        result.put("itemName",resultSet.getString("itemName"));
+        result.put("item_sku",resultSet.getString("item_sku"));
+        result.put("item_name",resultSet.getString("item_name"));
         result.put("subtitle", resultSet.getString("subtitle"));
         result.put("category", resultSet.getString("category"));
-        result.put("itemImg",resultSet.getString("itemImg"));
-        result.put("detailImg",  resultSet.getString("detailImg"));
+        result.put("item_img",resultSet.getString("item_img"));
+        result.put("detail_img",  resultSet.getString("detail_img"));
         result.put("thumbnail", resultSet.getString("thumbnail"));
-        result.put("itemDescription", resultSet.getString("itemDescription"));
-        result.put("packageType", resultSet.getString("packageType"));
+        result.put("item_description", resultSet.getString("item_description"));
+        result.put("package_type", resultSet.getString("package_type"));
         result.put("price", resultSet.getString("price"));
         result.put("brandId", resultSet.getString("brand_id"));
         System.out.println(result);
@@ -282,6 +196,7 @@ public class Database {
       Logger.error("getAll users and emails error:" + e.getMessage());
       return null;
     }
+    */
   }
 
   public static ObjectNode getBrand(String id) {
@@ -350,7 +265,7 @@ public class Database {
         connection = DB.getConnection();
       }
       Statement statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery("SELECT itemName,subtitle,itemSku,itemImg,detailImg,thumbnail,itemDescription,packageType,price FROM products WHERE itemSku="+sku);
+      ResultSet resultSet = statement.executeQuery("SELECT item_name,subtitle,item_sku,item_img,detail_img,thumbnail,item_description,package_type,price FROM products WHERE item_sku="+sku);
 
       if (resultSet.next()) {
         return resultSet.getString("price");
@@ -392,39 +307,44 @@ public class Database {
     insertMachine.execute();
 
     String query = "SELECT id FROM machines WHERE id=LAST_INSERT_ID()";
-    PreparedStatement getMachineId = connection.prepareStatement(query);
-    ResultSet rs = getMachineId.executeQuery();
+    PreparedStatement getmachine_id = connection.prepareStatement(query);
+    ResultSet rs = getmachine_id.executeQuery();
 
-    int machineId=0;
+    int machine_id=0;
     // extract data from the ResultSet
     if (rs.next()) {
-      machineId = rs.getInt(1);
+      machine_id = rs.getInt(1);
     }
 
     for(int i=0;i<containerArray.size();i++){
       JsonNode jnContainer = containerArray.get(i);
       String position=jnContainer.get("position").asText();
-      String numItems=jnContainer.get("numItems").asText();
-      String totalCapacity=jnContainer.get("totalCapacity").asText();
-      String itemSku=jnContainer.get("product").get("itemSku").asText();
+      String num_items=jnContainer.get("num_items").asText();
+      String total_capacity=jnContainer.get("total_capacity").asText();
+      String item_sku=jnContainer.get("product").get("item_sku").asText();
       String slot=jnContainer.get("slot").asText();
 
       PreparedStatement insertContainer = connection.prepareStatement("INSERT INTO containers "
-          + "(machineId,position,slot,numItems,totalCapacity,itemSku) VALUES ("
-          + "'" + machineId + "',"
+          + "(machine_id,position,slot,num_items,total_capacity,item_sku) VALUES ("
+          + "'" + machine_id + "',"
           + "'" + position + "',"
           + "'"+slot+"',"
-          + "'" + numItems + "',"
-          + "'" + totalCapacity + "',"
-          + "'" + itemSku + "')");
+          + "'" + num_items + "',"
+          + "'" + total_capacity + "',"
+          + "'" + item_sku + "')");
       insertContainer.execute();
     }
 
+    
     connection.commit();
     connection.setAutoCommit(true);
   }
 
-  public static ArrayList<MachineModel> getMachineList() {
+  public static List<Machines> getMachineList() {
+	  
+	  List<Machines> machines = Ebean.find(Machines.class).findList();
+	  return machines;
+	  /*
     try {
       if(connection==null){
         connection = DB.getConnection();
@@ -436,16 +356,16 @@ public class Database {
       Statement statement = connection.createStatement();
 
       String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
-        "containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
-        "products.itemName, products.subtitle, products.category, products.itemImg, products.detailImg, products.thumbnail, products.price, products.itemDescription, products.packageType "+
+        "containers.id AS containerId, containers.machine_id, containers.position, containers.num_items, containers.total_capacity, containers.item_sku, "+
+        "products.item_name, products.subtitle, products.category, products.item_img, products.detail_img, products.thumbnail, products.price, products.item_description, products.package_type "+
         "FROM machines, containers, products " +
         "WHERE " +
-        "machines.id = containers.machineId "+
-        "AND containers.itemSku = products.itemSku"+
+        "machines.id = containers.machine_id "+
+        "AND containers.item_sku = products.item_sku"+
         "";
 
       ResultSet resultSet = statement.executeQuery(query);
-      ArrayList<MachineModel> machines = new ArrayList<MachineModel>();
+      ArrayList<Machines> machines = new ArrayList<Machines>();
 
       while (resultSet.next()) {
         //check if machine already exists
@@ -463,62 +383,62 @@ public class Database {
 
         //if machine exists add container to machine
         if(machineCreated){
-          ProductModel product = new ProductModel();
-          product.itemName=resultSet.getString("itemName");
+          Products product = new Products();
+          product.item_name=resultSet.getString("item_name");
           product.subtitle = resultSet.getString("subtitle");
           product.category=resultSet.getString("category");
-          product.itemSku=resultSet.getInt("itemSku");
-          product.itemImg=resultSet.getString("itemImg");
-          product.detailImg = resultSet.getString("detailImg");
+          product.item_sku=resultSet.getInt("item_sku");
+          product.item_img=resultSet.getString("item_img");
+          product.detail_img = resultSet.getString("detail_img");
           product.thumbnail = resultSet.getString("thumbnail");
           product.price=resultSet.getString("price");
-          product.itemDescription=resultSet.getString("itemDescription");
-          product.packageType=resultSet.getString("packageType");
+          product.item_description=resultSet.getString("item_description");
+          product.package_type=resultSet.getString("package_type");
 
-          Container container = new Container();
+          Containers container = new Containers();
           container.id=resultSet.getInt("containerId");
           container.position=resultSet.getInt("position");
-          container.numItems=resultSet.getInt("numItems");
-          container.totalCapacity=resultSet.getInt("totalCapacity");
+          container.num_items=resultSet.getInt("num_items");
+          container.total_capacity=resultSet.getInt("total_capacity");
           container.product = product;
-          container.machineId=resultSet.getInt("machineId");
+          container.machine_id=resultSet.getInt("machine_id");
 
-          machines.get(machineIndex).totalCapacity+=container.totalCapacity;
-          machines.get(machineIndex).numItems+=container.numItems;
+          machines.get(machineIndex).total_capacity+=container.total_capacity;
+          machines.get(machineIndex).num_items+=container.num_items;
           machines.get(machineIndex).containers.add(container);
         }
 
         //else create new machine and add container
         else{
-          ProductModel product = new ProductModel();
-          product.itemName=resultSet.getString("itemName");
+          Products product = new Products();
+          product.item_name=resultSet.getString("item_name");
           product.subtitle=resultSet.getString("subtitle");
           product.category= resultSet.getString("category");
-          product.itemSku=resultSet.getInt("itemSku");
-          product.itemImg=resultSet.getString("itemImg");
-          product.detailImg = resultSet.getString("detailImg");
+          product.item_sku=resultSet.getInt("item_sku");
+          product.item_img=resultSet.getString("item_img");
+          product.detail_img = resultSet.getString("detail_img");
           product.thumbnail = resultSet.getString("thumbnail");
           product.price=resultSet.getString("price");
-          product.itemDescription=resultSet.getString("itemDescription");
-          product.packageType=resultSet.getString("packageType");
+          product.item_description=resultSet.getString("item_description");
+          product.package_type=resultSet.getString("package_type");
 
-          Container container = new Container();
+          Containers container = new Containers();
           container.id=resultSet.getInt("containerId");
           container.position=resultSet.getInt("position");
-          container.numItems=resultSet.getInt("numItems");
-          container.totalCapacity=resultSet.getInt("totalCapacity");
+          container.num_items=resultSet.getInt("num_items");
+          container.total_capacity=resultSet.getInt("total_capacity");
           container.product = product;
-          container.machineId=resultSet.getInt("machineId");
+          container.machine_id=resultSet.getInt("machine_id");
 
-          MachineModel machine = new MachineModel();
+          Machines machine = new Machines();
           machine.id = resultSet.getLong("id");
           machine.address = resultSet.getString("address");
           machine.lat=resultSet.getDouble("lat");
           machine.lon=resultSet.getDouble("lon");
-          machine.containers = new ArrayList<Container>();
+          machine.containers = new ArrayList<Containers>();
           machine.containers.add(container);
-          machine.totalCapacity=container.totalCapacity;
-          machine.numItems=container.numItems;
+          machine.total_capacity=container.total_capacity;
+          machine.num_items=container.num_items;
 
           machines.add(machine);
         }
@@ -529,10 +449,20 @@ public class Database {
       Logger.error("********Error" + e.toString());
       return null;
     }
+    */
   }
 
 
-  public static MachineModel getMachine(String idMachine) {
+  public static Machines getMachine(String idMachine) {
+	  Machines machine = Ebean.find(Machines.class, idMachine);
+	  List<Containers> containers = Ebean.find(Containers.class).where().eq("machine_id", idMachine).findList();
+	  machine.containers = containers;
+	  for (Containers c : machine.containers) {
+		  Products product = Ebean.find(Products.class, c.item_sku);
+		  c.product = product;
+	  }
+	  return machine; 
+	  /*
     //System.out.println(idMachine);
     try {
       if(connection==null){
@@ -546,50 +476,50 @@ public class Database {
 
 
       String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
-        "containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, containers.slot, "+
-        "products.itemName, products.subtitle, products.category, products.itemImg, products.detailImg, products.thumbnail, products.price, products.itemDescription, products.packageType, products.brand_id,"+
+        "containers.id AS containerId, containers.machine_id, containers.position, containers.num_items, containers.total_capacity, containers.item_sku, containers.slot, "+
+        "products.item_name, products.subtitle, products.category, products.item_img, products.detail_img, products.thumbnail, products.price, products.item_description, products.package_type, products.brand_id,"+
         "brands.name as brandName, brands.logo as brandLogo, brands.description as brandDescription " +
         "FROM machines, containers, products " +
         "LEFT JOIN brands on products.brand_id = brands.id " +
         "WHERE " +
         "machines.id='"+idMachine+"' "+
-        "AND machines.id = containers.machineId "+
-        "AND containers.itemSku = products.itemSku";
+        "AND machines.id = containers.machine_id "+
+        "AND containers.item_sku = products.item_sku";
 
 
 
       ResultSet resultSet = statement.executeQuery(query);
-      MachineModel machine = new MachineModel();
-      machine.containers = new ArrayList<Container>();
-      machine.totalCapacity=0;
+      Machines machine = new Machines();
+      machine.containers = new ArrayList<Containers>();
+      machine.total_capacity=0;
       while (resultSet.next()) {
 
-        Brand brand = new Brand();
+        Brands brand = new Brands();
         brand.name = resultSet.getString("brandName");
         brand.logo = resultSet.getString("brandLogo");
         brand.description = resultSet.getString("brandDescription");
         brand.id = resultSet.getInt("products.brand_id");
 
-        ProductModel product = new ProductModel();
-        product.itemName=resultSet.getString("itemName");
+        Products product = new Products();
+        product.item_name=resultSet.getString("item_name");
         product.subtitle = resultSet.getString("subtitle");
         product.category=resultSet.getString("category");
-        product.itemSku=resultSet.getInt("itemSku");
-        product.itemImg=resultSet.getString("itemImg");
-        product.detailImg = resultSet.getString("detailImg");
+        product.item_sku=resultSet.getInt("item_sku");
+        product.item_img=resultSet.getString("item_img");
+        product.detail_img = resultSet.getString("detail_img");
         product.thumbnail = resultSet.getString("thumbnail");
         product.price=resultSet.getString("price");
-        product.itemDescription=resultSet.getString("itemDescription");
-        product.packageType=resultSet.getString("packageType");
+        product.item_description=resultSet.getString("item_description");
+        product.package_type=resultSet.getString("package_type");
         product.brand = brand;
 
-        Container container = new Container();
+        Containers container = new Containers();
         container.id=resultSet.getInt("containerId");
         container.position=resultSet.getInt("position");
-        container.numItems=resultSet.getInt("numItems");
-        container.totalCapacity=resultSet.getInt("totalCapacity");
+        container.num_items=resultSet.getInt("num_items");
+        container.total_capacity=resultSet.getInt("total_capacity");
         container.product = product;
-        container.machineId=resultSet.getInt("machineId");
+        container.machine_id=resultSet.getInt("machine_id");
         container.slot=resultSet.getInt("slot");
 
         machine.id = resultSet.getLong("id");
@@ -597,8 +527,8 @@ public class Database {
         machine.lat=resultSet.getDouble("lat");
         machine.lon=resultSet.getDouble("lon");
         machine.containers.add(container);
-        machine.totalCapacity+=container.totalCapacity;
-        machine.numItems=container.numItems;
+        machine.total_capacity+=container.total_capacity;
+        machine.num_items=container.num_items;
       }
 
       return machine;
@@ -607,6 +537,7 @@ public class Database {
       Logger.error("********Error" + e.toString());
       return null;
     }
+    */
   }
 
   public static void editMachineAndContainers(JsonNode jn) throws SQLException {
@@ -632,19 +563,19 @@ public class Database {
     for(int i=0;i<containerArray.size();i++){
       JsonNode jnContainer = containerArray.get(i);
       String position=jnContainer.get("position").asText();
-      String numItems=jnContainer.get("numItems").asText();
-      String totalCapacity=jnContainer.get("totalCapacity").asText();
-      String itemSku=jnContainer.get("product").get("itemSku").asText();
+      String num_items=jnContainer.get("num_items").asText();
+      String total_capacity=jnContainer.get("total_capacity").asText();
+      String item_sku=jnContainer.get("product").get("item_sku").asText();
       String slot=jnContainer.get("slot").asText();
 
       statement.addBatch("UPDATE containers "
-          + "SET machineId='"+jn.get("id")+"',"
+          + "SET machine_id='"+jn.get("id")+"',"
           +"position='"+position+"',"
-          +"numItems='"+numItems+"',"
-          +"totalCapacity='"+totalCapacity+"',"
+          +"num_items='"+num_items+"',"
+          +"total_capacity='"+total_capacity+"',"
           +"slot='"+slot+"',"
-          +"itemSku='"+itemSku+"'"
-          + " WHERE machineId='"+jn.get("id")+"' "
+          +"item_sku='"+item_sku+"'"
+          + " WHERE machine_id='"+jn.get("id")+"' "
           + " AND position='"+position+"'");
     }
 
@@ -653,16 +584,16 @@ public class Database {
 
   }
 
-  public static ArrayList<ProductModel> getAvailableProducts(String machineId) {
+  public static ArrayList<Products> getAvailableProducts(String machine_id) {
 
     //	    String query = "SELECT machines.id, machines.address, machines.lat, machines.lon, "+
-    //	    		"containers.id AS containerId, containers.machineId, containers.position, containers.numItems, containers.totalCapacity, containers.itemSku, "+
-    //	    		"products.itemName, products.category, products.itemImg, products.price, products.itemDescription, products.packageType "+
+    //	    		"containers.id AS containerId, containers.machine_id, containers.position, containers.num_items, containers.total_capacity, containers.item_sku, "+
+    //	    		"products.item_name, products.category, products.item_img, products.price, products.item_description, products.package_type "+
     //	             "FROM machines, containers, products " +
     //	             "WHERE " +
     //	             "machines.id='"+idMachine+"' "+
-    //	             "AND machines.id = containers.machineId "+
-    //	             "AND containers.itemSku = products.itemSku";
+    //	             "AND machines.id = containers.machine_id "+
+    //	             "AND containers.item_sku = products.item_sku";
     //
     //
 
@@ -670,7 +601,7 @@ public class Database {
     return null;
   }
 
-  public static void removeItem(String machineId, String column) throws SQLException {
+  public static void removeItem(String machine_id, String column) throws SQLException {
     //UPDATE Orders SET Quantity = Quantity + 1 WHERE ...
     if(connection==null){
       connection = DB.getConnection();
@@ -680,8 +611,8 @@ public class Database {
     }
     Statement statement = connection.createStatement();
     statement.executeUpdate("UPDATE containers SET "
-        +"numItems=numItems-1 "
-        +"WHERE machineId='"+machineId+"' AND position='"+column+"'");
+        +"num_items=num_items-1 "
+        +"WHERE machine_id='"+machine_id+"' AND position='"+column+"'");
   }
 
   public static Receipt getReceiptDetails(int salesId) {
@@ -697,24 +628,24 @@ public class Database {
       Statement statement = connection.createStatement();
 
 
-      String query = "SELECT sales.id, products.itemSku, machines.address, products.itemName, sales.sales_total, sales_products.product_price "+
+      String query = "SELECT sales.id, products.item_sku, machines.address, products.item_name, sales.sales_total, sales_products.product_price "+
         "FROM machines, products, sales, sales_products " +
         "WHERE " +
         "sales.id='"+salesId+"' "+
         "AND sales.machine_id = machines.id "+
         "AND sales_products.sales_id = sales.id "+
-        "AND products.itemSku = sales_products.product_sku ";
+        "AND products.item_sku = sales_products.product_sku ";
 
       ResultSet resultSet = statement.executeQuery(query);
       Receipt receipt = new Receipt();
-      receipt.products = new ArrayList<ProductModel>();
+      receipt.products = new ArrayList<Products>();
 
       while (resultSet.next()) {
         receipt.machineAddress = resultSet.getString("address");
         receipt.total = resultSet.getString("sales_total");
 
-        ProductModel pm = new ProductModel();
-        pm.itemName = resultSet.getString("itemName");
+        Products pm = new Products();
+        pm.item_name = resultSet.getString("item_name");
         pm.price = resultSet.getString("product_price");
         receipt.products.add(pm);
       }
@@ -738,7 +669,7 @@ public class Database {
         + salesId + "', '" + email + "', '" + phone +"')");
   }
 
-  public static int recordSale(String machineId, String productId, BigDecimal productPrice) throws SQLException {
+  public static int recordSale(String machine_id, String productId, BigDecimal productPrice) throws SQLException {
     if (connection == null || connection.isClosed()){
       connection = DB.getConnection();
     }
@@ -748,7 +679,7 @@ public class Database {
     Statement statement = connection.createStatement();
     statement.executeUpdate("INSERT INTO sales "
         + "(machine_id, sales_total, time) VALUES ( "
-        + machineId + ", " + productPrice
+        + machine_id + ", " + productPrice
         + ", '" + new Timestamp(date.getTime()) + "')",
         Statement.RETURN_GENERATED_KEYS);
 
@@ -765,7 +696,7 @@ public class Database {
 
   }
 
-  public static ArrayList<ActivityLogModel> getStatusUpdates(String machineId, String startDate,
+  public static ArrayList<ActivityLogModel> getStatusUpdates(String machine_id, String startDate,
       String endDate) {
 
 
@@ -794,7 +725,7 @@ public class Database {
 
       String query = "SELECT jammed, traffic, time "+
         "FROM machine_log " +
-        "WHERE machine_id = '"+machineId+"' AND " +
+        "WHERE machine_id = '"+machine_id+"' AND " +
         "time "+
         "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time";
 
@@ -819,7 +750,7 @@ public class Database {
   }
 
 
-  public static ArrayList<ActivityLogModel> getUIEvents(String machineId, String startDate,
+  public static ArrayList<ActivityLogModel> getUIEvents(String machine_id, String startDate,
       String endDate) {
 
 
@@ -848,7 +779,7 @@ public class Database {
 
       String query = "SELECT event, product_sku, time "+
         "FROM events " +
-        "WHERE machine_id = '"+machineId+"' AND " +
+        "WHERE machine_id = '"+machine_id+"' AND " +
         "time "+
         "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time";
 
@@ -874,7 +805,7 @@ public class Database {
 
 
 
-  public static ArrayList<ActivityLogModel> getSales(String machineId, String startDate,
+  public static ArrayList<ActivityLogModel> getSales(String machine_id, String startDate,
       String endDate) {
 
     ArrayList<ActivityLogModel> almList = new ArrayList<ActivityLogModel>();
@@ -902,7 +833,7 @@ public class Database {
 
       String query = "SELECT sales.id, sales_products.product_price, sales_products.product_sku, sales.time "+
         "FROM sales, sales_products " +
-        "WHERE machine_id = '"+machineId+"' AND " +
+        "WHERE machine_id = '"+machine_id+"' AND " +
         "sales.id=sales_products.sales_id AND " +
         "sales.time "+
         "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY sales.time";

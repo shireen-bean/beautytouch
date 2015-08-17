@@ -1,12 +1,13 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.text.json.JsonContext;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import models.MachineModel;
-import models.User;
-import play.data.Form;
+import models.Machines;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
@@ -31,8 +32,11 @@ public class MachineList extends Controller {
     	if(!loggedIn()){
     		return redirect("/");
     	}
-    	ArrayList<MachineModel> machines = Database.getMachineList();
-     	return ok(Json.toJson(machines));
+    	List<Machines> machines = Database.getMachineList();
+    	JsonContext json = Ebean.createJsonContext();
+        String p = json.toJsonString(machines);
+        return ok(p);
+    	
     }
     
     

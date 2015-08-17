@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 
 @Entity
-public class Brand {
+public class Brands {
   public int id;
   public String name;
   public String logo;

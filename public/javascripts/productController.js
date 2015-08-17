@@ -9,16 +9,16 @@ function productController($scope,$http) {
   ];
 
   //populate defaults
-  $scope.itemName = "";
+  $scope.item_name = "";
   $scope.subtitle = "";
   $scope.category = "";
-  $scope.itemSku = "";
-  $scope.itemImg = "";
-  $scope.detailImg = "";
+  $scope.item_sku = "";
+  $scope.item_img = "";
+  $scope.detail_img = "";
   $scope.thumbnail = "";
   $scope.price = "";
   $scope.brandId = "";
-  $scope.itemDescription = "";
+  $scope.item_description = "";
   $scope.packageType=$scope.packageTypeOptions[0];
 
   var sku = getParameterByName("sku");
@@ -26,15 +26,15 @@ function productController($scope,$http) {
     //get existing item details
     $http.get('/productJson?sku='+sku).
       success(function(data, status, headers, config) {
-        $scope.itemName = data.itemName;
+        $scope.item_name = data.item_name;
         $scope.subtitle = data.subtitle;
         $scope.category = data.category;
-        $scope.itemSku = data.itemSku;
-        $scope.itemImg = data.itemImg;
-        $scope.detailImg = data.detailImg;
+        $scope.item_sku = data.item_sku;
+        $scope.item_img = data.item_img;
+        $scope.detail_img = data.detail_img;
         $scope.thumbnail = data.thumbnail;
         $scope.price = data.price;
-        $scope.itemDescription = data.itemDescription;
+        $scope.item_description = data.item_description;
         $scope.packageType = data.packageType;
         $scope.brandId = data.brandId;
 
@@ -63,16 +63,16 @@ function productController($scope,$http) {
         });
 
         //load image
-        srcLink = "/productImage/"+$scope.itemImg;
+        srcLink = "/productImage/"+$scope.item_img;
         showImageOnceLoaded(srcLink, "main");
         
-        detailSrcLink = "/productImage/"+$scope.detailImg;
+        detailSrcLink = "/productImage/"+$scope.detail_img;
         showImageOnceLoaded(detailSrcLink, "detail");
         
         thumbnailLink = "/productImage/"+$scope.thumbnail;
         showImageOnceLoaded(thumbnailLink, "thumbnail");
 
-        $scope.itemSkuLabel=$scope.itemSku;
+        $scope.itemSkuLabel=$scope.item_sku;
 
       }).
     error(function(data, status, headers, config) {
@@ -88,15 +88,15 @@ function productController($scope,$http) {
     //build product json object
     var jsonProduct =
     {
-      "itemName": $scope.itemName,
+      "item_name": $scope.item_name,
       "subtitle": $scope.subtitle,
       "category": $scope.category,
-      "itemSku": $scope.itemSku,
-      "itemImg":$scope.itemImg,
-      "detailImg":$scope.detailImg,
+      "item_sku": $scope.item_sku,
+      "item_img":$scope.item_img,
+      "detail_img":$scope.detail_img,
       "thumbnail":$scope.thumbnail,
       "price":$scope.price,
-      "itemDescription":$scope.itemDescription,
+      "item_description":$scope.item_description,
       "packageType":$scope.packageType.value,
       "brand_id": $scope.brandId.id
     };
@@ -128,11 +128,11 @@ function productController($scope,$http) {
     $('#fileupload').fileupload({
       dataType: 'json',
       done: function (e, data) {
-        $scope.itemImg=data.result.filename;
+        $scope.item_img=data.result.filename;
         $scope.$apply();
         d = new Date();
-        //srcLink = "assets/images/products/"+$scope.itemImg;
-        srcLink = "/productImage/"+$scope.itemImg;
+        //srcLink = "assets/images/products/"+$scope.item_img;
+        srcLink = "/productImage/"+$scope.item_img;
         loadingAnimation();
         showImageOnceLoaded(srcLink, "main");
       }
@@ -144,11 +144,11 @@ function productController($scope,$http) {
     $('#fileupload-detail').fileupload({
       dataType: 'json',
       done: function (e, data) {
-        $scope.detailImg=data.result.filename;
+        $scope.detail_img=data.result.filename;
         $scope.$apply();
         d = new Date();
-        //srcLink = "assets/images/products/"+$scope.itemImg;
-        srcLink = "/productImage/"+$scope.detailImg;
+        //srcLink = "assets/images/products/"+$scope.item_img;
+        srcLink = "/productImage/"+$scope.detail_img;
         loadingAnimation();
         showImageOnceLoaded(srcLink, "detail");
       }
@@ -163,7 +163,7 @@ function productController($scope,$http) {
         $scope.thumbnail=data.result.filename;
         $scope.$apply();
         d = new Date();
-        //srcLink = "assets/images/products/"+$scope.itemImg;
+        //srcLink = "assets/images/products/"+$scope.item_img;
         srcLink = "/productImage/"+$scope.thumbnail;
         loadingAnimation();
         showImageOnceLoaded(srcLink, "thumbnail");

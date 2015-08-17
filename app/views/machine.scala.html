@@ -21,10 +21,10 @@
 					<th>Package</th>
 				</tr>
 		  </thead>
-		  <tr ng-click="selectedProduct(product.itemSku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
-		    <td><img class="productListImage" ng-src="productImage/{{product.itemImg}}"></td>
-		    <td>{{ product.itemSku }}</td>
-		    <td>{{ product.itemName }}</td>
+		  <tr ng-click="selectedProduct(product.item_sku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
+		    <td><img class="productListImage" ng-src="productImage/{{product.item_img}}"></td>
+		    <td>{{ product.item_sku }}</td>
+		    <td>{{ product.item_name }}</td>
 		    <td>{{ product.price | currency}}</td>
 		    <td>{{ product.packageType }}</td>
 		  </tr>
@@ -61,24 +61,24 @@
 	<div class="containerWrapper"  ng-repeat="c in machine.containers">
 		<div  ng-click="changeItem($index)">
 			<div class="inventoryLevel"><div class="levelNum">{{c.position}}</div><br>
-				<div style="display:none;">{{c.levelTop = 100-c.numItems/c.totalCapacity*100}}</div>
-				<div style="display:none;">{{c.levelHeight = c.numItems/c.totalCapacity*100}}</div>
-	<!-- 			<div style="display:none;">{{c.levelwidth = c.numItems/c.totalCapacity*100}}</div> -->
+				<div style="display:none;">{{c.levelTop = 100-c.num_items/c.total_capacity*100}}</div>
+				<div style="display:none;">{{c.levelHeight = c.num_items/c.total_capacity*100}}</div>
+	<!-- 			<div style="display:none;">{{c.levelwidth = c.num_items/c.total_capacity*100}}</div> -->
 				<div ng-style="{'top':c.levelTop+ '%','height':c.levelHeight+ '%'}" class="level" style="">
 	 		</div>
 			</div>
 			<br>
 			<div class="productType">
-				<img class="productImg" src="productImage/{{c.product.itemImg}}"></img><br>
-				<span class="blue">{{c.product.itemName}}</span>
-				<br>sku# {{c.product.itemSku}}<br>{{c.numItems}}/{{c.totalCapacity}}<br>${{c.product.price}}
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br>{{c.num_items}}/{{c.total_capacity}}<br>${{c.product.price}}
 			</div>
 			<font style="color:#0582CA">edit</font>
 		</div>
 		Capacity<br>
-		<input type="number" class="refillNum" ng-model="c.totalCapacity"></input>
+		<input type="number" class="refillNum" ng-model="c.total_capacity"></input>
 		Quantity<br>
-		<input type="number" class="refillNum" ng-model="c.numItems"></input>
+		<input type="number" class="refillNum" ng-model="c.num_items"></input>
 		<br>Slot<br>
 		<input type="number" class="refillNum" ng-model="c.slot"></input>
 		<br>

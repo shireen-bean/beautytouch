@@ -4,7 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import models.Brand;
+import play.db.ebean.*;
+import play.db.ebean.Model.Finder;
 
 /**
  * This declares a model object for persistence usage. Model objects are generally anaemic structures that represent
@@ -13,16 +14,17 @@ import models.Brand;
  * Play Java will synthesise getter and setter methods for us and therefore keep JPA happy (JPA expects them).
  */
 @Entity
-public class ProductModel{
-    public int itemSku;
-    public String itemName;
-    public String subtitle;
-    public String category;
-    public String itemImg;
-    public String detailImg;
-    public String thumbnail;
-    public String price;
-    public String itemDescription;
-    public String packageType;
-    public Brand brand;
+public class Containers {
+    public int id;
+    public int machine_id;
+    public int position;
+    public int num_items;
+    public int total_capacity;
+    public int item_sku;
+    public Products product;
+    public String status;
+    public int slot;
+
+    public static Finder<Long,Containers> find = new Finder<Long,Containers>(
+    	    Long.class, Containers.class);
 }

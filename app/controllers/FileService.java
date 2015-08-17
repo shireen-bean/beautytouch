@@ -16,9 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import models.Container;
-import models.MachineModel;
-import models.ProductModel;
+import models.Containers;
+import models.Machines;
+import models.Products;
 import models.User;
 import play.cache.Cache;
 import play.data.Form;

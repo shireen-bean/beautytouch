@@ -13,9 +13,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.ActivityLogModel;
-import models.Container;
-import models.MachineModel;
-import models.ProductModel;
+import models.Containers;
+import models.Machines;
+import models.Products;
 import models.User;
 import play.data.Form;
 import play.libs.Json;
@@ -194,18 +194,18 @@ public class Machine extends Controller {
     
     public static Result machineJson(String id){
 
-    	MachineModel machine = new MachineModel();
+    	Machines machine = new Machines();
 
     	if(id.equals("-1")){
-        	machine.containers=new ArrayList<Container>();
+        	machine.containers=new ArrayList<Containers>();
         	for(int i=0;i<2;i++){
-        		Container container= new Container();
-        		container.product=new ProductModel();
+        		Containers container= new Containers();
+        		container.product=new Products();
         		machine.containers.add(container);
         	}
         	for(int i=2; i<10; i++){
-        		Container container= new Container();
-        		container.product=new ProductModel();
+        		Containers container= new Containers();
+        		container.product=new Products();
         		machine.containers.add(container);
         	}
     	}else{

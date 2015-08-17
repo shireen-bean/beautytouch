@@ -4,7 +4,7 @@ import java.io.File;
 import java.text.NumberFormat;
 import java.math.BigDecimal;
 
-import models.ProductModel;
+import models.Products;
 import models.Receipt;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -77,10 +77,10 @@ public class Email extends Controller {
 
     String productRows = "";
     for(int i=0;i<receipt.products.size();i++){
-      ProductModel pm = receipt.products.get(i);
+      Products pm = receipt.products.get(i);
       productRows+=
         "<tr>"+
-        "<td style='padding-right:250px;'>"+pm.itemName+"</td><td></td>"+
+        "<td style='padding-right:250px;'>"+pm.item_name+"</td><td></td>"+
         " <td>"+formatter.format(Double.parseDouble(pm.price))+"</td>"+
         "</tr>";
     }

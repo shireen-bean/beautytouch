@@ -36,20 +36,20 @@ function machineController($scope,$http) {
 			      	
 //			  		for(var i=0;i<2;i++){
 //			      		$scope.machine.containers[i].position=i+1;
-//			      		$scope.machine.containers[i].numItems="0";
-//			      		$scope.machine.containers[i].totalCapacity="40";
-//			  			$scope.machine.containers[i].product.itemName=$scope.products[0].itemName;
-//			  			$scope.machine.containers[i].product.itemSku=$scope.products[0].itemSku;
-//			  			$scope.machine.containers[i].product.itemImg=$scope.products[0].itemImg;
+//			      		$scope.machine.containers[i].num_items="0";
+//			      		$scope.machine.containers[i].total_capacity="40";
+//			  			$scope.machine.containers[i].product.item_name=$scope.products[0].item_name;
+//			  			$scope.machine.containers[i].product.item_sku=$scope.products[0].item_sku;
+//			  			$scope.machine.containers[i].product.item_img=$scope.products[0].item_img;
 //			  			$scope.machine.containers[i].product.price=$scope.products[0].price;
 //			  		}
 			  		for(var i=0;i<$scope.machine.containers.length;i++){
 			      		$scope.machine.containers[i].position=i+1;
-			      		$scope.machine.containers[i].numItems="0";
-			      		$scope.machine.containers[i].totalCapacity="7";
-			  			$scope.machine.containers[i].product.itemName=$scope.products[1].itemName;
-			  			$scope.machine.containers[i].product.itemSku=$scope.products[1].itemSku;
-			  			$scope.machine.containers[i].product.itemImg=$scope.products[1].itemImg;
+			      		$scope.machine.containers[i].num_items="0";
+			      		$scope.machine.containers[i].total_capacity="7";
+			  			$scope.machine.containers[i].product.item_name=$scope.products[1].item_name;
+			  			$scope.machine.containers[i].product.item_sku=$scope.products[1].item_sku;
+			  			$scope.machine.containers[i].product.item_img=$scope.products[1].item_img;
 			  			$scope.machine.containers[i].product.price=$scope.products[1].price;
 			  			$scope.machine.containers[i].slot="0";
 			  		}
@@ -100,21 +100,21 @@ function machineController($scope,$http) {
 		$("#chooseItemDiv").fadeIn();
 	}
 	
-	$scope.selectedProduct=function(itemSku){
-		//update product to itemsku
-		//itemName:'Tampon',itemSku:'1',itemImg:'item1.jpg',price:'1.99'},
+	$scope.selectedProduct=function(item_sku){
+		//update product to item_sku
+		//item_name:'Tampon',item_sku:'1',item_img:'item1.jpg',price:'1.99'},
 		
 		//get item details 
 		var indexProduct;
 		for(var i=0;i<$scope.products.length;i++){
-			if($scope.products[i].itemSku==itemSku){
+			if($scope.products[i].item_sku==item_sku){
 				indexProduct=i;
 			}
 		}
 
-		$scope.machine.containers[$scope.location].product.itemName=$scope.products[indexProduct].itemName;
-		$scope.machine.containers[$scope.location].product.itemSku=$scope.products[indexProduct].itemSku;
-		$scope.machine.containers[$scope.location].product.itemImg=$scope.products[indexProduct].itemImg;
+		$scope.machine.containers[$scope.location].product.item_name=$scope.products[indexProduct].item_name;
+		$scope.machine.containers[$scope.location].product.item_sku=$scope.products[indexProduct].item_sku;
+		$scope.machine.containers[$scope.location].product.item_img=$scope.products[indexProduct].item_img;
 		$scope.machine.containers[$scope.location].product.price=$scope.products[indexProduct].price;
 		$("#chooseItemDiv").fadeOut();
 	}

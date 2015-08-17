@@ -14,7 +14,7 @@ import javax.persistence.Id;
  */
 @Entity
 public class Receipt{
-    public ArrayList<ProductModel> products;
+    public ArrayList<Products> products;
     public String machineAddress;
     public String total;
 }

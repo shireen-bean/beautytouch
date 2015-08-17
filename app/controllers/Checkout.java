@@ -15,9 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import models.Container;
-import models.MachineModel;
-import models.ProductModel;
+
+import models.Machines;
+import models.Products;
 import models.User;
 import play.data.Form;
 import play.libs.Json;
@@ -48,18 +48,16 @@ public class Checkout extends Controller {
     	gatewayIsSetup=true;
     }
     
-    public static Result productSelect(){
-    	return ok(checkoutProductSelect.render());
-    }
     
     public static Result vendingMain(String machineId){
     	if(!gatewayIsSetup){
     		setupGateway();
     	}
     	
-    	MachineModel machine = new MachineModel();
+    	Machines machine = new Machines();
     	
         	machine = Database.getMachine(machineId);
+        	System.out.println(machine);
     	JsonNode jsonMachine = Json.toJson(machine);
     	String jsonString = jsonMachine.toString();
     	return ok(vendingMain.render(jsonString));
