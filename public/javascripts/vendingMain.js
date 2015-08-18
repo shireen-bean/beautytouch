@@ -18,10 +18,11 @@ function vendingMain($scope,$http) {
 		console.log($scope.machine.containers);
 		var alreadyListedProd = "";
 		var lengthContainers = $scope.machine.containers.length;
+		console.log(lengthContainers);
 		for(var i=0; i<lengthContainers;i++){
-			var currentSku = $scope.machine.containers[i].product.itemSku;
+			var currentSku = $scope.machine.containers[i].product.item_sku;
 			if(!(alreadyListedProd.indexOf(currentSku)>=0)){
-				if($scope.machine.containers[i].numItems>0){
+				if($scope.machine.containers[i].num_items>0){
 				    $scope.availableProducts.push($scope.machine.containers[i].product);
 					alreadyListedProd+=currentSku+",";
 				}
@@ -48,7 +49,7 @@ function vendingMain($scope,$http) {
 		
 		var lengthContainers = $scope.machine.containers.length;
 		for(var i=0; i<lengthContainers;i++){
-			var currentSku = $scope.machine.containers[i].product.itemSku;
+			var currentSku = $scope.machine.containers[i].product.item_sku;
 			if(currentSku==id){
 				var slotWithProduct = $scope.machine.containers[i].slot-1;
 		    	var columnWithProduct = i+1;
@@ -90,19 +91,19 @@ function vendingMain($scope,$http) {
 	    
 			var lengthContainers = $scope.machine.containers.length;
 			for(var i=0; i<lengthContainers;i++){
-				var iSku = $scope.machine.containers[i].product.itemSku;
+				var iSku = $scope.machine.containers[i].product.item_sku;
 				if(iSku==currentSku){
 					
 					var productCurrent = $scope.machine.containers[i].product;
 					console.log(productCurrent);
 					$scope.selectedPrice=productCurrent.price;
-					$scope.selectedDescription= productCurrent.itemDescription.split("//");
+					$scope.selectedDescription= productCurrent.item_description.split("//");
 					console.log($scope.selectedDescription);
-					$scope.mainImg = productCurrent.itemImg;
-					$scope.selectedImg = productCurrent.itemImg;
-					$scope.selectedDetailImg = productCurrent.detailImg;
+					$scope.mainImg = productCurrent.item_img;
+					$scope.selectedImg = productCurrent.item_img;
+					$scope.selectedDetailImg = productCurrent.detail_img;
 					$scope.selectedThumbnail = productCurrent.thumbnail;
-					$scope.selectedName= productCurrent.itemName;
+					$scope.selectedName= productCurrent.item_name;
 					$scope.selectedSubtitle = productCurrent.subtitle;
 					$scope.selectedBrandName = productCurrent.brand.name;
 					$scope.selectedBrandLogo = productCurrent.brand.logo;

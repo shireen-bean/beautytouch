@@ -7,7 +7,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.text.json.JsonContext;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import models.Machines;
+import models.Machine;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
@@ -32,7 +32,7 @@ public class MachineList extends Controller {
     	if(!loggedIn()){
     		return redirect("/");
     	}
-    	List<Machines> machines = Database.getMachineList();
+    	List<Machine> machines = Database.getMachineList();
     	JsonContext json = Ebean.createJsonContext();
         String p = json.toJsonString(machines);
         return ok(p);

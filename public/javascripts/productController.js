@@ -17,15 +17,16 @@ function productController($scope,$http) {
   $scope.detail_img = "";
   $scope.thumbnail = "";
   $scope.price = "";
-  $scope.brandId = "";
+  $scope.brand = "";
   $scope.item_description = "";
-  $scope.packageType=$scope.packageTypeOptions[0];
+  $scope.package_type=$scope.packageTypeOptions[0];
 
   var sku = getParameterByName("sku");
   if(sku!=""){
     //get existing item details
     $http.get('/productJson?sku='+sku).
       success(function(data, status, headers, config) {
+    	console.log(data);
         $scope.item_name = data.item_name;
         $scope.subtitle = data.subtitle;
         $scope.category = data.category;
@@ -35,13 +36,13 @@ function productController($scope,$http) {
         $scope.thumbnail = data.thumbnail;
         $scope.price = data.price;
         $scope.item_description = data.item_description;
-        $scope.packageType = data.packageType;
-        $scope.brandId = data.brandId;
+        $scope.package_type = data.package_type;
+        $scope.brand = data.brand;
 
         $(document).ready(function(){
           var selectedIndex;
           for(var i=0;i<$scope.packageTypeOptions.length;i++){
-            if($scope.packageTypeOptions[i].value==$scope.packageType){
+            if($scope.packageTypeOptions[i].value==$scope.package_type){
               selectedIndex=i;
             }
           }
@@ -51,15 +52,19 @@ function productController($scope,$http) {
           .success( function(data) {
             $scope.brandList = data;
             for (var j = 0; j < $scope.brandList.length; j++){
-              if ($scope.brandList[j].id == $scope.brandId) {
+            	console.log($scope.brand.id);
+              if ($scope.brandList[j].id == $scope.brand.id) {
+            	  console.log($scope.brandList[j].id);
                 selectedBrand = j;
+                console.log(j);
                 break;
               }
             }
 
-            $scope.brandId = $scope.brandList[selectedBrand];
+            $scope.brand = $scope.brandList[selectedBrand];
+            console.log($scope.brand);
           });
-        $scope.packageType=$scope.packageTypeOptions[selectedIndex];
+        $scope.package_type=$scope.packageTypeOptions[selectedIndex];
         });
 
         //load image
@@ -97,8 +102,8 @@ function productController($scope,$http) {
       "thumbnail":$scope.thumbnail,
       "price":$scope.price,
       "item_description":$scope.item_description,
-      "packageType":$scope.packageType.value,
-      "brand_id": $scope.brandId.id
+      "package_type":$scope.package_type.value,
+      "brand_id": $scope.brand.id
     };
 
     loadingAnimation();

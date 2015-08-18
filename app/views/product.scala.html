@@ -47,10 +47,10 @@
 		  </td>
 		</tr>
 		<tr>
-		  <td>Brand:<br>
+		  <td><span style="color:red">*</span>Brand:<br>
 		  </td>
 		  <td>
-		      <select id="brandSelect" ng-model="brandId" ng-options="opt as opt.name for opt in brandList track by opt.id"></select>																
+		      <select id="brandSelect" ng-model="brand.id" ng-options="opt.id as opt.name for opt in brandList"></select>																
 		  </td> 
 		</tr>
 		<tr>
@@ -94,7 +94,7 @@
 		<tr>
 			<td><span style="color:red">*</span>Package type:</td>
 			<td>
-					<select id="packageSelect" ng-model="packageType" ng-options="opt as opt.label for opt in packageTypeOptions"></select>																
+					<select id="packageSelect" ng-model="package_type" ng-options="opt as opt.label for opt in packageTypeOptions"></select>																
 			 </td> 
 		</tr>
 	</table><br>

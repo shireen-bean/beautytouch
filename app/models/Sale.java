@@ -1,13 +1,16 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import play.db.ebean.*;
 import play.db.ebean.Model.Finder;
+import models.Brand;
 
 /**
  * This declares a model object for persistence usage. Model objects are generally anaemic structures that represent
@@ -16,22 +19,15 @@ import play.db.ebean.Model.Finder;
  * Play Java will synthesise getter and setter methods for us and therefore keep JPA happy (JPA expects them).
  */
 @Entity
-public class Machines{
-	
-	@Id
-    public Long id;
-    
-    public Double lat;
-    public Double lon;
-    
-    public String address;
-    public String status;
-    
-    public int total_capacity;
-    public int num_items;
-    
-    public List<Containers> containers;
-    
-    public static Finder<Long,Machines> find = new Finder<Long,Machines>(
-    	    Long.class, Machines.class);
+@Table(name = "sales")
+public class Sale {
+
+  @Id
+  public int id;
+  public long machine_id;
+  public BigDecimal sales_total;
+  public Timestamp time;
+
+  public static Finder<Long,Sale> find = new Finder<Long,Sale>(
+      Long.class, Sale.class);
 }

@@ -2,6 +2,8 @@ package controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -13,16 +15,16 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.ActivityLogModel;
-import models.Containers;
-import models.Machines;
-import models.Products;
+import models.Container;
+import models.Machine;
+import models.Product;
 import models.User;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
 
-public class Machine extends Controller {
+public class MachineController extends Controller {
 
 	public static boolean loggedIn(){
 		if(session("user")==null){
@@ -138,23 +140,10 @@ public class Machine extends Controller {
     	ObjectNode response = Json.newObject();
 
     	if(id.length()>0){
-    		try {
-				Database.editMachineAndContainers(jn);
-			} catch (SQLException e) {
-				System.out.println(e.toString());
-				errorsFlag=true;
-				response.put("mainError","Database error");
-			}
+		  Database.editMachineAndContainers(jn);
     	}else{
-    		try {
-				Database.addMachineAndContainers(jn);
-			} catch (SQLException e) {
-				errorsFlag=true;
-				System.out.println(e.toString());
-				response.put("mainError","Database error");
-			}
+		  Database.addMachineAndContainers(jn);
     	}
-
 
     	if(errorsFlag){
     		response.put("success", "false");
@@ -194,21 +183,22 @@ public class Machine extends Controller {
     
     public static Result machineJson(String id){
 
-    	Machines machine = new Machines();
+    	Machine machine = new Machine();
 
     	if(id.equals("-1")){
-        	machine.containers=new ArrayList<Containers>();
+        	List<Container> containers = new ArrayList<Container>();
         	for(int i=0;i<2;i++){
-        		Containers container= new Containers();
-        		container.product=new Products();
-        		machine.containers.add(container);
+        		Container container = new Container();
+        		container.product = new Product();
+        		containers.add(container);
         	}
         	for(int i=2; i<10; i++){
-        		Containers container= new Containers();
-        		container.product=new Products();
-        		machine.containers.add(container);
+        		Container container = new Container();
+        		container.product = new Product();
+        		containers.add(container);
         	}
-    	}else{
+        	machine.containers = containers;
+    	} else {
         	machine = Database.getMachine(id);
     	}
 

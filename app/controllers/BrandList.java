@@ -5,7 +5,7 @@ import java.util.List;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.text.json.JsonContext;
 
-import models.Brands;
+import models.Brand;
 import play.mvc.*;
 import views.html.*;
 
@@ -30,7 +30,7 @@ public class BrandList extends Controller {
     if (!loggedIn()) {
       return redirect("/");
     }
-    List<Brands> list = Database.getBrandList();
+    List<Brand> list = Database.getBrandList();
     JsonContext json = Ebean.createJsonContext();
     String s = json.toJsonString(list);
     return ok(s);

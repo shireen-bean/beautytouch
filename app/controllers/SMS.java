@@ -13,7 +13,7 @@ import com.twilio.sdk.resource.instance.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Products;
+import models.Product;
 import models.Receipt;
 
 import org.apache.http.NameValuePair;
@@ -74,7 +74,7 @@ public class SMS extends Controller {
 
       String productRows = "\n";
       for(int i=0;i<receipt.products.size();i++){
-        Products pm = receipt.products.get(i);
+        Product pm = receipt.products.get(i);
         productRows+=
           "\n"+pm.item_name+": "+formatter.format(Double.parseDouble(pm.price));
       }
