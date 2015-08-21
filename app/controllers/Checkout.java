@@ -1,25 +1,17 @@
 package controllers;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Objects;
 
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.ClientTokenRequest;
 import com.braintreegateway.Environment;
 import com.braintreegateway.Transaction;
-//import com.braintreegateway.Result;
 import com.braintreegateway.TransactionRequest;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import models.Container;
-import models.MachineModel;
-import models.ProductModel;
-import models.User;
-import play.data.Form;
+import models.Machine;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
@@ -48,18 +40,16 @@ public class Checkout extends Controller {
     	gatewayIsSetup=true;
     }
     
-    public static Result productSelect(){
-    	return ok(checkoutProductSelect.render());
-    }
     
     public static Result vendingMain(String machineId){
     	if(!gatewayIsSetup){
     		setupGateway();
     	}
     	
-    	MachineModel machine = new MachineModel();
+    	Machine machine = new Machine();
     	
         	machine = Database.getMachine(machineId);
+        	System.out.println(machine);
     	JsonNode jsonMachine = Json.toJson(machine);
     	String jsonString = jsonMachine.toString();
     	return ok(vendingMain.render(jsonString));
@@ -70,6 +60,7 @@ public class Checkout extends Controller {
     }
 
     public static Result receipt(){
+    	System.out.println("receipt");
     	return ok(receipt.render());
     }
     
@@ -118,7 +109,7 @@ public class Checkout extends Controller {
     	ObjectNode response = Json.newObject();
     	System.out.println("response"+result.isSuccess());
     	if(result.isSuccess()){
-    		int salesId=-1;
+    		long salesId=-1;
     		try{
     	      //log purchase
     	      //TODO: update when selling multiple items per purchase
@@ -131,7 +122,7 @@ public class Checkout extends Controller {
     			
     		}
     		response.put("result","success");
-        	response.put("salesId", Integer.toString(salesId));
+        	response.put("salesId", Objects.toString(salesId));
     	}
     	else{
     		response.put("result","failure");

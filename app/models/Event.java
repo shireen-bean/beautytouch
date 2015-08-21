@@ -1,10 +1,14 @@
 package models;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+import play.db.ebean.Model.Finder;
+
 
 /**
  * This declares a model object for persistence usage. Model objects are generally anaemic structures that represent
@@ -13,8 +17,16 @@ import javax.persistence.Id;
  * Play Java will synthesise getter and setter methods for us and therefore keep JPA happy (JPA expects them).
  */
 @Entity
-public class Receipt{
-    public ArrayList<Product> products;
-    public String machineAddress;
-    public String total;
+@Table(name = "events")
+public class Event{
+	
+	@Id
+    public long id;
+	public long machine_id;
+	public String event;
+	public Integer product_sku;
+	public Timestamp time;
+    
+    public static Finder<Long,Event> find = new Finder<Long,Event>(
+    	    Long.class, Event.class);
 }

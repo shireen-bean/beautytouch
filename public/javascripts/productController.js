@@ -9,39 +9,40 @@ function productController($scope,$http) {
   ];
 
   //populate defaults
-  $scope.itemName = "";
+  $scope.item_name = "";
   $scope.subtitle = "";
   $scope.category = "";
-  $scope.itemSku = "";
-  $scope.itemImg = "";
-  $scope.detailImg = "";
+  $scope.item_sku = "";
+  $scope.item_img = "";
+  $scope.detail_img = "";
   $scope.thumbnail = "";
   $scope.price = "";
-  $scope.brandId = "";
-  $scope.itemDescription = "";
-  $scope.packageType=$scope.packageTypeOptions[0];
+  $scope.brand = "";
+  $scope.item_description = "";
+  $scope.package_type=$scope.packageTypeOptions[0];
 
   var sku = getParameterByName("sku");
   if(sku!=""){
     //get existing item details
     $http.get('/productJson?sku='+sku).
       success(function(data, status, headers, config) {
-        $scope.itemName = data.itemName;
+    	console.log(data);
+        $scope.item_name = data.item_name;
         $scope.subtitle = data.subtitle;
         $scope.category = data.category;
-        $scope.itemSku = data.itemSku;
-        $scope.itemImg = data.itemImg;
-        $scope.detailImg = data.detailImg;
+        $scope.item_sku = data.item_sku;
+        $scope.item_img = data.item_img;
+        $scope.detail_img = data.detail_img;
         $scope.thumbnail = data.thumbnail;
         $scope.price = data.price;
-        $scope.itemDescription = data.itemDescription;
-        $scope.packageType = data.packageType;
-        $scope.brandId = data.brandId;
+        $scope.item_description = data.item_description;
+        $scope.package_type = data.package_type;
+        $scope.brand = data.brand;
 
         $(document).ready(function(){
           var selectedIndex;
           for(var i=0;i<$scope.packageTypeOptions.length;i++){
-            if($scope.packageTypeOptions[i].value==$scope.packageType){
+            if($scope.packageTypeOptions[i].value==$scope.package_type){
               selectedIndex=i;
             }
           }
@@ -51,28 +52,32 @@ function productController($scope,$http) {
           .success( function(data) {
             $scope.brandList = data;
             for (var j = 0; j < $scope.brandList.length; j++){
-              if ($scope.brandList[j].id == $scope.brandId) {
+            	console.log($scope.brand.id);
+              if ($scope.brandList[j].id == $scope.brand.id) {
+            	  console.log($scope.brandList[j].id);
                 selectedBrand = j;
+                console.log(j);
                 break;
               }
             }
 
-            $scope.brandId = $scope.brandList[selectedBrand];
+            $scope.brand = $scope.brandList[selectedBrand];
+            console.log($scope.brand);
           });
-        $scope.packageType=$scope.packageTypeOptions[selectedIndex];
+        $scope.package_type=$scope.packageTypeOptions[selectedIndex];
         });
 
         //load image
-        srcLink = "/productImage/"+$scope.itemImg;
+        srcLink = "/productImage/"+$scope.item_img;
         showImageOnceLoaded(srcLink, "main");
         
-        detailSrcLink = "/productImage/"+$scope.detailImg;
+        detailSrcLink = "/productImage/"+$scope.detail_img;
         showImageOnceLoaded(detailSrcLink, "detail");
         
         thumbnailLink = "/productImage/"+$scope.thumbnail;
         showImageOnceLoaded(thumbnailLink, "thumbnail");
 
-        $scope.itemSkuLabel=$scope.itemSku;
+        $scope.itemSkuLabel=$scope.item_sku;
 
       }).
     error(function(data, status, headers, config) {
@@ -88,17 +93,17 @@ function productController($scope,$http) {
     //build product json object
     var jsonProduct =
     {
-      "itemName": $scope.itemName,
+      "item_name": $scope.item_name,
       "subtitle": $scope.subtitle,
       "category": $scope.category,
-      "itemSku": $scope.itemSku,
-      "itemImg":$scope.itemImg,
-      "detailImg":$scope.detailImg,
+      "item_sku": $scope.item_sku,
+      "item_img":$scope.item_img,
+      "detail_img":$scope.detail_img,
       "thumbnail":$scope.thumbnail,
       "price":$scope.price,
-      "itemDescription":$scope.itemDescription,
-      "packageType":$scope.packageType.value,
-      "brand_id": $scope.brandId.id
+      "item_description":$scope.item_description,
+      "package_type":$scope.package_type.value,
+      "brand_id": $scope.brand.id
     };
 
     loadingAnimation();
@@ -128,11 +133,11 @@ function productController($scope,$http) {
     $('#fileupload').fileupload({
       dataType: 'json',
       done: function (e, data) {
-        $scope.itemImg=data.result.filename;
+        $scope.item_img=data.result.filename;
         $scope.$apply();
         d = new Date();
-        //srcLink = "assets/images/products/"+$scope.itemImg;
-        srcLink = "/productImage/"+$scope.itemImg;
+        //srcLink = "assets/images/products/"+$scope.item_img;
+        srcLink = "/productImage/"+$scope.item_img;
         loadingAnimation();
         showImageOnceLoaded(srcLink, "main");
       }
@@ -144,11 +149,11 @@ function productController($scope,$http) {
     $('#fileupload-detail').fileupload({
       dataType: 'json',
       done: function (e, data) {
-        $scope.detailImg=data.result.filename;
+        $scope.detail_img=data.result.filename;
         $scope.$apply();
         d = new Date();
-        //srcLink = "assets/images/products/"+$scope.itemImg;
-        srcLink = "/productImage/"+$scope.detailImg;
+        //srcLink = "assets/images/products/"+$scope.item_img;
+        srcLink = "/productImage/"+$scope.detail_img;
         loadingAnimation();
         showImageOnceLoaded(srcLink, "detail");
       }
@@ -163,7 +168,7 @@ function productController($scope,$http) {
         $scope.thumbnail=data.result.filename;
         $scope.$apply();
         d = new Date();
-        //srcLink = "assets/images/products/"+$scope.itemImg;
+        //srcLink = "assets/images/products/"+$scope.item_img;
         srcLink = "/productImage/"+$scope.thumbnail;
         loadingAnimation();
         showImageOnceLoaded(srcLink, "thumbnail");

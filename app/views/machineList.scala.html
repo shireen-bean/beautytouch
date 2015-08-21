@@ -49,7 +49,7 @@ html, body {
 		  ng-repeat="machine in machines | orderBy : machine.levels" ng-class="{selectedListItem: machine.id==activeId}">
 		    <td>{{ machine.id }}</td>
 		    <td>{{ machine.address }}</td>
-		    <td>{{(100*machine.numItems/machine.totalCapacity)| number:0}}%</td>
+		    <td>{{(100*machine.num_items/machine.total_capacity)| number:0}}%</td>
 
 		  </tr>
 	 </table>

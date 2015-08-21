@@ -10,10 +10,10 @@
 
 
 	<div id="productList">
-		<div  ng-click="productSelected(product.itemSku)" ng-repeat="product in availableProducts"></a>
+		<div  ng-click="productSelected(product.item_sku)" ng-repeat="product in availableProducts"></a>
 				  <div class="availableListDiv" >
-				  	<div class="availableProduct" id="product{{product.itemSku}}">
-					    <img class="productImage" src='productImage/{{product.itemImg}}'>
+				  	<div class="availableProduct" id="product{{product.item_sku}}">
+					    <img class="productImage" src='productImage/{{product.item_img}}'>
 					    <br>
 				    </div>
 				    <button class="productBuyButton"><span id="category">{{product.category}}</span><span id="price">${{product.price}}</span></button>

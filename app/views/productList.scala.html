@@ -21,13 +21,13 @@
 			<th>Package</th>
 		</tr>
   </thead>
-  <tr ng-click="loadProduct(product.itemSku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
-    <td><img class="productListImage" ng-src="productImage/{{product.itemImg}}"></td>
-    <td>{{ product.itemSku }}</td>
-    <td>{{ product.itemName }}</td>
+  <tr ng-click="loadProduct(product.item_sku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
+    <td><img class="productListImage" ng-src="productImage/{{product.item_img}}"></td>
+    <td>{{ product.item_sku }}</td>
+    <td>{{ product.item_name }}</td>
     <td>{{ product.price | currency}}</td>
-    <td>{{ product.itemDescription }}</td>
-    <td>{{ product.packageType }}</td>
+    <td>{{ product.item_description }}</td>
+    <td>{{ product.package_type }}</td>
   </tr>
 </table>
 

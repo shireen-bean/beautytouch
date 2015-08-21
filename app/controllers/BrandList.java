@@ -1,11 +1,11 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.List;
 
-import models.User;
-import play.data.Form;
-import play.libs.Json;
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.text.json.JsonContext;
+
+import models.Brand;
 import play.mvc.*;
 import views.html.*;
 
@@ -30,9 +30,10 @@ public class BrandList extends Controller {
     if (!loggedIn()) {
       return redirect("/");
     }
-    ArrayNode list = Database.getBrandList();
-
-    return ok(list);
+    List<Brand> list = Database.getBrandList();
+    JsonContext json = Ebean.createJsonContext();
+    String s = json.toJsonString(list);
+    return ok(s);
   }
 
 }

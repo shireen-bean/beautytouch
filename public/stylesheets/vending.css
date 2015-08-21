@@ -122,7 +122,6 @@ input[type="radio"]{
 }
 #sms-form {
   width: 354px;
-  margin-top: -30px;
 }
 
 .deleteKey{
@@ -205,7 +204,6 @@ input[type="radio"]{
   margin-top:-40px;
   width:200px;
   top:-30px;
-  border-radius: 15px;
   height: 61px;
   z-index: 1;
   color: white;
@@ -234,7 +232,6 @@ input[type="radio"]{
   color: #8C489F;
   font-size: 30px;
   width: 450px;
-  border-radius: 15px;
   height: 81px;
   z-index: 1;
   letter-spacing: 1.5px;
@@ -257,7 +254,6 @@ input[type="radio"]{
   background-color: white;
   opacity: .85;
   width: 350px;
-  border-radius: 15px;
   height: 81px;
   z-index: 1;
   color: #8C489F;
@@ -271,19 +267,19 @@ input[type="radio"]{
 }
 .phoneSend {
   font-size: 30px;
-  border: 0px;
-  background-color: #8C489F;
+  border: 5px solid #8c489F;
+  color: #8C489F;
   opacity: .85;
-  width: 450px;
-  border-radius: 15px;
+  width: 250px;
   height: 81px;
   z-index: 1;
-  color: white;
+  background-color: white;
   letter-spacing: 1.5px;
   font-weight: bold;
+  text-transform: uppercase;
   position: absolute;
-  top: 750px;
-  right:200px;
+  top: 841px;
+  right: 475px;
 }
 .contactInfo.noReceipt{
   top:580px;
@@ -337,7 +333,6 @@ input[type="radio"]{
   border-color: white transparent transparent white;
 }
 .contactInfo{
-  border-radius: 25px;
   padding: 2%;
   /* width: 29%; */
   margin: 2%;
@@ -667,6 +662,28 @@ background-image:url('/assets/images/blueBackground.jpg');
   margin-right: auto;
   display: block;
   margin-top: 14%;
+}
+
+.methodButton {
+	background-color: white;
+    border-top: 5px solid #8C489F;
+    border-bottom: 5px solid #8C489F;
+    border-left: 0px;
+    border-right: 0px;
+    color: #8C489F;
+    font-size: 30px;
+    height: 81px;
+    z-index: 1;
+    letter-spacing: 3px;
+    font-weight: bold;
+    /* margin: 15px; */
+    text-transform: uppercase;
+    width: 50%;
+    float: left;
+}
+.methodButton.selected {
+  background-color: #8C489F;
+  color: white;
 }
 
 .thumbnail {

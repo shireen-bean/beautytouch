@@ -1,6 +1,5 @@
 package controllers;
 
-import models.User;
 import play.Play;
 import play.api.libs.Codecs;
 import play.data.Form;
@@ -11,8 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import models.Product;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.text.json.JsonContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -20,9 +24,10 @@ import play.libs.Json;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.twirl.api.Content;
 import views.html.*;
 
-public class Product extends Controller {
+public class ProductController extends Controller {
 
   public static boolean loggedIn(){
     if(session("user")==null){
@@ -39,11 +44,12 @@ public class Product extends Controller {
   }
 
   public static Result productJson(String sku){
-    //    	if(!loggedIn()){
-    //    		return redirect("/");
-    //    	}
-    ObjectNode product = Database.getProduct(sku);
-    return ok(product);
+	  System.out.println(sku);
+    Product product = Database.getProduct(sku);
+    System.out.println(product);
+    JsonContext json = Ebean.createJsonContext();
+    String p = json.toJsonString(product);
+    return ok(p);
   }
 
   public static Result postProduct(){
@@ -53,29 +59,31 @@ public class Product extends Controller {
     JsonNode jn = request().body().asJson();
 
     System.out.println(jn);
-    String itemName = jn.get("itemName").asText();
+    String item_name = jn.get("item_name").asText();
     String subtitle = jn.get("subtitle").asText();
     String category = jn.get("category").asText();
     String brand_id = jn.get("brand_id").asText();
-    String itemSku = jn.get("itemSku").asText();
-    String itemImg = jn.get("itemImg").asText();
-    String detailImg = jn.get("detailImg").asText();
+    String item_sku = jn.get("item_sku").asText();
+    String item_img = jn.get("item_img").asText();
+    String detail_img = jn.get("detail_img").toString();
+    System.out.println(detail_img);
     String thumbnail = jn.get("thumbnail").asText();
+    System.out.println(thumbnail);
     String price = jn.get("price").asText();
-    String itemDescription = jn.get("itemDescription").asText();
-    String packageType = jn.get("packageType").asText();
+    String item_description = jn.get("item_description").asText();
+    String package_type = jn.get("package_type").asText();
 
 
     //validation
     boolean errorsFlag = false;
     ObjectNode response = Json.newObject();
-    if(itemName.length()==0){
+    if(item_name.length()==0){
       response.put("itemNameError", "name required");
       errorsFlag= true;
     } if (category.length() == 0 ){
       response.put("categoryError",  "category required");
       errorsFlag = true;
-    }if(itemImg.length()==0){
+    }if(item_img.length()==0){
       response.put("itemImgError", "image required");
       errorsFlag= true;
     }if(price.length()==0){
@@ -87,9 +95,9 @@ public class Product extends Controller {
     }
 
     if(!errorsFlag){
-      if(itemSku.length()>0){
+      if(item_sku.length()>0){
         try {
-            Database.editProduct(itemSku, itemName, subtitle, category, brand_id, itemImg, detailImg, thumbnail, price, itemDescription, packageType);
+            Database.editProduct(item_sku, item_name, subtitle, category, brand_id, item_img, detail_img, thumbnail, price, item_description, package_type);
         } catch (SQLException e) {
           System.out.println(e.toString());
           errorsFlag=true;
@@ -97,7 +105,7 @@ public class Product extends Controller {
         }
       }else{
         try {
-            Database.addProduct(itemName, subtitle, category, brand_id, itemImg, detailImg, thumbnail, price, itemDescription, packageType);
+            Database.addProduct(item_name, subtitle, category, brand_id, item_img, detail_img, thumbnail, price, item_description, package_type);
         } catch (SQLException e) {
           errorsFlag=true;
           response.put("mainError","Database error");

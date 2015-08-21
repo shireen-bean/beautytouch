@@ -1,10 +1,7 @@
 package controllers;
 
-import models.User;
-import play.Play;
-import play.api.libs.Codecs;
-import play.data.Form;
 
+import models.Brand;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.text.json.JsonContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -22,7 +21,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
 
-public class Brand extends Controller {
+public class BrandController extends Controller {
 
   public static boolean loggedIn() {
     if (session("user") == null) {
@@ -39,8 +38,10 @@ public class Brand extends Controller {
   }
 
   public static Result brandJson(String id){
-    ObjectNode brand = Database.getBrand(id);
-    return ok(brand);
+    Brand brand = Database.getBrand(id);
+    JsonContext json = Ebean.createJsonContext();
+    String p = json.toJsonString(brand);
+    return ok(p);
   }
 
   public static Result postBrand() {
@@ -64,21 +65,9 @@ public class Brand extends Controller {
 
     if (!errorsFlag) {
       if (id.length() > 0) {
-        try {
           Database.editBrand(id, name, logo, description);
-        } catch (SQLException e) {
-          System.out.println(e.toString());
-          errorsFlag = true;
-          response.put("mainError", "Database error");
-        }
       } else {
-        try {
           Database.addBrand(name, logo, description);
-        } catch (SQLException e) {
-          System.out.println(e.toString());
-          errorsFlag = true;
-          response.put("mainError", "Database error");
-        }
       }
     }
 
