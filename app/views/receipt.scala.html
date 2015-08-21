@@ -8,11 +8,11 @@
 	<div>
 	  <div id="receipt-prompt">
 	    <h2>How would you like your receipt?</h2>
+	    <i class="fa fa-plus-circle closeButton" ng-click="skipReceipt()" id="no-receipt"></i>
 	  </div>
 	  <div id="receipt-options">
-	    <button class="contactButton selected" id="email">Email</button>
-	    <button class="contactButton" id="sms">Text Message</button>
-	    <button class="contactButton" ng-click="skipReceipt()" id="no-receipt">No Receipt</button>
+	    <button class="methodButton selected" id="email">Email</button>
+	    <button class="methodButton" id="sms">Text Message</button>
 	  </div>
 	  <div id="report-problem" class="report-problem">
 	  <h3>Problem with this machine?
@@ -38,10 +38,10 @@
 	  <h3>Thank you for reporting an issue with this machine.</h3>
 	</div>
 	  <div class="contactInfo" id="email-form" style="position: absolute;">
-		<h3 class="email-prompt">Enter your email address:</h3>
+		<h3 class="email-prompt">Email address:</h3>
 		<h3 class="receiptError">{{emailError}}</h3>
 		<input id="emailInput" class="contactInput" type="text" ng-model="emailAddress"/>
-		<button class="contactButton email" ng-click="submitEmail()">Send</button>
+		<button class="contactButton email" ng-click="submitEmail()">Submit</button>
 	  </div>
 	  <!-- div class="contactInfo hidden noReceipt" id="no-receipt-form">
 		<button class="contactButton" ng-click="skipReceipt()">Confirm</button>
@@ -66,7 +66,7 @@
 			<div class="phoneButton" ng-click="addNumber(0)">0</div>
 			<div class="phoneButton" ng-click="deleteNumber()"><img class="deleteKey" src="@routes.Assets.at("images/deleteKey.png")"></img></div>
 		</div>
-		<button class="phoneSend" ng-click="submitPhoneNumber()">Send</button>
+		<button class="phoneSend" ng-click="submitPhoneNumber()">Submit</button>
 	  </div>
 		
 		<br>

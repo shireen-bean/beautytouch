@@ -1,18 +1,10 @@
 package models;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
-import play.db.ebean.*;
 import play.db.ebean.Model.Finder;
-import models.Brand;
 
 /**
  * This declares a model object for persistence usage. Model objects are generally anaemic structures that represent
@@ -22,15 +14,14 @@ import models.Brand;
  */
 @Entity
 
-@Table(name = "sales")
-public class Sale {
+@Table(name = "sales_customer")
+public class Customer {
 
   @Id
-  public long id;
-  public long machine_id;
-  public BigDecimal sales_total;
-  public Timestamp time;
+  public long sales_id;
+  public String customer_email;
+  public String customer_phone;
   
-  public static Finder<Long,Sale> find = new Finder<Long,Sale>(
-      Long.class, Sale.class);
+  public static Finder<Long,Customer> find = new Finder<Long,Customer>(
+      Long.class, Customer.class);
 }

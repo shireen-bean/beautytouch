@@ -1,36 +1,31 @@
 package controllers;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.math.BigDecimal;
 
 import models.ActivityLogModel;
 import models.Container;
+import models.Customer;
 import models.Machine;
 import models.Product;
 import models.Receipt;
 import models.Brand;
+import models.Event;
 import models.Sale;
+import models.SaleProduct;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.Logger;
-import play.Play;
 import play.db.DB;
-import play.libs.Json;
 //Create account
 //insert into Users (username,password) VALUES ('andres@oasysventures.com',ENCRYPT('O@s!s15!?',concat(_utf8'$1$',right(md5(rand()),8),_utf8'$')));
 
@@ -65,45 +60,46 @@ public class Database {
   }
 
   public static void editProduct(String item_sku, String item_name,
-	  String subtitle,
+      String subtitle,
       String category, String brand_id,
       String item_img, String detail_img, String thumbnail,
       String price, String item_description,
       String package_type) throws SQLException {
-	
-	  Product product = Ebean.find(Product.class, item_sku);
-	  product.item_name = item_name;
-	  product.subtitle = subtitle;
-	  product.category = category;
-	  product.brand_id = Integer.valueOf(brand_id);
-	  product.item_img = item_img;
-	  product.detail_img = detail_img;
-	  product.thumbnail = thumbnail;
-	  product.price = price;
-	  product.item_description = item_description;
-	  product.package_type = package_type;
-	  
-	  Ebean.save(product);
+
+	  System.out.println(detail_img);
+    Product product = Ebean.find(Product.class, item_sku);
+    product.item_name = item_name;
+    product.subtitle = subtitle == "null" ? null : subtitle;
+    product.category = category;
+    product.brand_id = Integer.valueOf(brand_id);
+    product.item_img = item_img;
+    product.detail_img = detail_img == "null" ? null : detail_img;
+    product.thumbnail = thumbnail == "null" ? null : thumbnail;
+    product.price = price;
+    product.item_description = item_description;
+    product.package_type = package_type;
+
+    Ebean.save(product);
 
   }
 
   public static void addProduct(String item_name, String subtitle, String category, String brand_id, String item_img,
-		  String detail_img, String thumbnail, String price, String item_description, String package_type)
+      String detail_img, String thumbnail, String price, String item_description, String package_type)
     throws SQLException {
-	  
-	  Product product = new Product();
-	  product.item_name = item_name;
-	  product.subtitle = subtitle;
-	  product.category = category;
-	  product.brand_id = Integer.valueOf(brand_id);
-	  product.item_img = item_img;
-	  product.detail_img = detail_img;
-	  product.thumbnail = thumbnail;
-	  product.price = price;
-	  product.item_description = item_description;
-	  product.package_type = package_type;
-	  
-	  Ebean.save(product);
+
+    Product product = new Product();
+    product.item_name = item_name;
+    product.subtitle = subtitle;
+    product.category = category;
+    product.brand_id = Integer.valueOf(brand_id);
+    product.item_img = item_img;
+    product.detail_img = detail_img;
+    product.thumbnail = thumbnail;
+    product.price = price;
+    product.item_description = item_description;
+    product.package_type = package_type;
+
+    Ebean.save(product);
   }
 
   public static void logMachineStatus(int machine_id, int jammed, int traffic)
@@ -120,70 +116,70 @@ public class Database {
         + ", '" + new Timestamp(date.getTime()) +"')");
   }
 
-  public static void logEvent(String machine_id, String event_type, String product_sku)
-    throws SQLException {
-    if (connection == null || connection.isClosed()) {
-      connection = DB.getConnection();
+  public static void logEvent(String machine_id, String event_type, String product_sku) {
+
+    Integer product_id = Integer.parseInt(product_sku);
+    if (product_id == 0) {
+      product_id = null;
     }
 
-    if (product_sku == "0") product_sku = null;
-    Statement statement = connection.createStatement();
-    statement.executeUpdate("INSERT INTO events "
-        + "(machine_id, event, product_sku) VALUES ( "
-        + machine_id + ", '" + event_type + "', " + product_sku + ")"
-        );
+    Event event = new Event();
+    event.machine_id = Long.parseLong(machine_id, 10);
+    event.event = event_type;
+    event.product_sku = product_id;
+    Ebean.save(event);
   }
 
   public static List<Product> getProductList() {
-	  List<Product> products = Ebean.find(Product.class).findList();
-	  return products;
+    List<Product> products = Ebean.find(Product.class).findList();
+    return products;
   }
 
   public static List<Brand> getBrandList() {
-	  List<Brand> brands = Ebean.find(Brand.class).findList();
-	  return brands;
+    List<Brand> brands = Ebean.find(Brand.class).findList();
+    return brands;
   }
 
   public static Product getProduct(String sku) {
-	  
-	  Product product = Ebean.find(Product.class, sku);
-	  if (product.brand_id != null) {
-	    Brand brand = Ebean.find(Brand.class, product.brand_id);
-	    product.brand = brand;
-	  }
-	  return product;
+
+    Product product = Ebean.find(Product.class, sku);
+    if (product.brand_id != null) {
+      Brand brand = Ebean.find(Brand.class, product.brand_id);
+      product.brand = brand;
+    }
+    return product;
   }
 
   public static Brand getBrand(String id) {
-	  Brand brand = Ebean.find(Brand.class, id);
-	  return brand;
+    Brand brand = Ebean.find(Brand.class, id);
+    return brand;
   }
 
   public static void editBrand(String id, String name,
       String logo, String description){
-	  
-	  Brand brand = Ebean.find(Brand.class, id);
-	  brand.name = name;
-	  brand.logo = logo;
-	  brand.description = description;
-	  
-	  Ebean.save(brand);
+
+    Brand brand = Ebean.find(Brand.class, id);
+    brand.name = name;
+    brand.logo = logo;
+    brand.description = description;
+
+    Ebean.save(brand);
   }
 
   public static void addBrand(String name, String logo, String description) {
 
-	  Brand brand = new Brand();
-	  brand.name = name;
-	  brand.logo = logo;
-	  brand.description = description;
-	  
-	  Ebean.save(brand);
+    Brand brand = new Brand();
+    brand.name = name;
+    brand.logo = logo;
+    brand.description = description;
+
+    Ebean.save(brand);
   }
 
   public static String getProductPrice(String sku) {
-	  
-	  Product product = Ebean.find(Product.class, sku);
-	  return product.price;
+
+    Product product = Ebean.find(Product.class, sku);
+    return product.price;
   }
 
   public static void addMachineAndContainers(JsonNode jn) {
@@ -193,7 +189,7 @@ public class Database {
     machine.lon = jn.get("lon").asDouble();
     machine.address = jn.get("address").asText();
     Ebean.save(machine);
-    
+
     JsonNode containerArray = jn.get("containers");
     for(int i=0;i<containerArray.size();i++){
       Container container = new Container();
@@ -209,44 +205,44 @@ public class Database {
   }
 
   public static List<Machine> getMachineList() {
-	  
-	  List<Machine> machines = Ebean.find(Machine.class).findList();
-	  for (Machine m : machines) {
-	  List<Container> containers = Ebean.find(Container.class).where().eq("machine_id", m.id).findList();
-	  m.containers = containers;
-	  m.total_capacity = 0;
-	  m.num_items = 0;
-	    for (Container c : m.containers) {
-		    m.total_capacity += c.total_capacity;
-		    m.num_items += c.num_items;
-		    Product product = Ebean.find(Product.class, c.item_sku);
-		    c.product = product;
-		    if (c.product.brand_id != null) {
-		      Brand brand = Ebean.find(Brand.class, c.product.brand_id);
-		      c.product.brand = brand;
-		    }
-	    }
-	  }
-	  return machines; 
+
+    List<Machine> machines = Ebean.find(Machine.class).findList();
+    for (Machine m : machines) {
+      List<Container> containers = Ebean.find(Container.class).where().eq("machine_id", m.id).findList();
+      m.containers = containers;
+      m.total_capacity = 0;
+      m.num_items = 0;
+      for (Container c : m.containers) {
+        m.total_capacity += c.total_capacity;
+        m.num_items += c.num_items;
+        Product product = Ebean.find(Product.class, c.item_sku);
+        c.product = product;
+        if (c.product.brand_id != null) {
+          Brand brand = Ebean.find(Brand.class, c.product.brand_id);
+          c.product.brand = brand;
+        }
+      }
+    }
+    return machines;
   }
 
   public static Machine getMachine(String idMachine) {
-	  Machine machine = Ebean.find(Machine.class, idMachine);
-	  List<Container> containers = Ebean.find(Container.class).where().eq("machine_id", idMachine).findList();
-	  machine.containers = containers;
-	  machine.total_capacity = 0;
-	  machine.num_items = 0;
-	  for (Container c : machine.containers) {
-		  machine.total_capacity += c.total_capacity;
-		  machine.num_items += c.num_items;
-		  Product product = Ebean.find(Product.class, c.item_sku);
-		  c.product = product;
-		  if (c.product.brand_id != null) {
-		    Brand brand = Ebean.find(Brand.class, c.product.brand_id);
-		    c.product.brand = brand;
-		  }
-	  }
-	  return machine; 
+    Machine machine = Ebean.find(Machine.class, idMachine);
+    List<Container> containers = Ebean.find(Container.class).where().eq("machine_id", idMachine).findList();
+    machine.containers = containers;
+    machine.total_capacity = 0;
+    machine.num_items = 0;
+    for (Container c : machine.containers) {
+      machine.total_capacity += c.total_capacity;
+      machine.num_items += c.num_items;
+      Product product = Ebean.find(Product.class, c.item_sku);
+      c.product = product;
+      if (c.product.brand_id != null) {
+        Brand brand = Ebean.find(Brand.class, c.product.brand_id);
+        c.product.brand = brand;
+      }
+    }
+    return machine;
   }
 
   public static void editMachineAndContainers(JsonNode jn) {
@@ -255,14 +251,14 @@ public class Database {
     machine.lon = jn.get("lon").asDouble();
     machine.address = jn.get("address").asText();
     Ebean.save(machine);
-    
+
     JsonNode containerArray = jn.get("containers");
     for(int i = 0; i<containerArray.size(); i++) {
       JsonNode j = containerArray.get(i);
       Container c = Ebean.find(Container.class).where()
-    		  .eq("machine_id", machine.id)
-    		  .eq("position", j.get("position").asInt())
-    		  .findUnique();
+        .eq("machine_id", machine.id)
+        .eq("position", j.get("position").asInt())
+        .findUnique();
       c.num_items = j.get("num_items").asInt();
       c.total_capacity = j.get("total_capacity").asInt();
       c.item_sku = j.get("product").get("item_sku").asInt();
@@ -273,9 +269,9 @@ public class Database {
 
   public static void removeItem(String machine_id, String column) {
     Container c = Ebean.find(Container.class).where()
-    		.eq("machine_id",  machine_id)
-    		.eq("position", column)
-    		.findUnique();
+      .eq("machine_id",  machine_id)
+      .eq("position", column)
+      .findUnique();
     c.num_items = c.num_items - 1;
     Ebean.save(c);
   }
@@ -323,50 +319,29 @@ public class Database {
     }
   }
 
-  public static void addCustomer(String phone, String email, int salesId) throws SQLException {
-    if (connection == null || connection.isClosed()) {
-      connection = DB.getConnection();
-    }
-
-    Statement statement = connection.createStatement();
-    statement.executeUpdate("INSERT INTO sales_customer "
-        + "(sales_id, customer_email, customer_phone) VALUES ( '"
-        + salesId + "', '" + email + "', '" + phone +"')");
+  public static void addCustomer(String phone, String email, int salesId) {
+    Customer customer = new Customer();
+    customer.sales_id = salesId;
+    customer.customer_email = email;
+    customer.customer_phone = phone;
+    Ebean.save(customer);
   }
 
-  public static int recordSale(String machine_id, String productId, BigDecimal product_price) throws SQLException {
-	  /*
-	  Sale sale = new Sale();
-	  sale.machine_id = Long.parseLong(machine_id, 10);
-	  sale.sales_total = product_price;
-	  Ebean.save(sale);
-	  
-	  System.out.println(sale.id);
-	  */
-    if (connection == null || connection.isClosed()){
-      connection = DB.getConnection();
-    }
+  public static long recordSale(String machine_id, String productId, BigDecimal product_price) {
+    //create the sale
+    Sale sale = new Sale();
+    sale.machine_id = Long.parseLong(machine_id, 10);
+    sale.sales_total = product_price;
+    Ebean.save(sale);
 
-    //log sale
-    Date date = new Date();
-    Statement statement = connection.createStatement();
-    statement.executeUpdate("INSERT INTO sales "
-        + "(machine_id, sales_total, time) VALUES ( "
-        + machine_id + ", " + product_price
-        + ", '" + new Timestamp(date.getTime()) + "')",
-        Statement.RETURN_GENERATED_KEYS);
+    //save products
+    SaleProduct product = new SaleProduct();
+    product.sales_id = sale.id;
+    product.product_sku = Integer.parseInt(productId);
+    product.product_price = product_price;
+    Ebean.save(product);
 
-    ResultSet results = statement.getGeneratedKeys();
-    //log products
-    if (results.next()) {
-      int salesId = results.getInt(1);
-      statement.executeUpdate("INSERT INTO sales_products "
-          + "(sales_id, product_sku, product_price) VALUES ( "
-          + salesId + ", " + productId + ", " + product_price + ")");
-      return salesId;
-    }
-    return -1;
-
+    return sale.id;
   }
 
   public static ArrayList<ActivityLogModel> getStatusUpdates(String machine_id, String startDate,

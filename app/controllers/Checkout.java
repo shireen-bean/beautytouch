@@ -1,6 +1,8 @@
 package controllers;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.ClientTokenRequest;
 import com.braintreegateway.Environment;
@@ -8,7 +10,6 @@ import com.braintreegateway.Transaction;
 import com.braintreegateway.TransactionRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 
 import models.Machine;
 import play.libs.Json;
@@ -59,6 +60,7 @@ public class Checkout extends Controller {
     }
 
     public static Result receipt(){
+    	System.out.println("receipt");
     	return ok(receipt.render());
     }
     
@@ -107,7 +109,7 @@ public class Checkout extends Controller {
     	ObjectNode response = Json.newObject();
     	System.out.println("response"+result.isSuccess());
     	if(result.isSuccess()){
-    		int salesId=-1;
+    		long salesId=-1;
     		try{
     	      //log purchase
     	      //TODO: update when selling multiple items per purchase
@@ -120,7 +122,7 @@ public class Checkout extends Controller {
     			
     		}
     		response.put("result","success");
-        	response.put("salesId", Integer.toString(salesId));
+        	response.put("salesId", Objects.toString(salesId));
     	}
     	else{
     		response.put("result","failure");

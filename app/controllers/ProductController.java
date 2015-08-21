@@ -65,8 +65,10 @@ public class ProductController extends Controller {
     String brand_id = jn.get("brand_id").asText();
     String item_sku = jn.get("item_sku").asText();
     String item_img = jn.get("item_img").asText();
-    String detail_img = jn.get("detail_img").asText();
+    String detail_img = jn.get("detail_img").toString();
+    System.out.println(detail_img);
     String thumbnail = jn.get("thumbnail").asText();
+    System.out.println(thumbnail);
     String price = jn.get("price").asText();
     String item_description = jn.get("item_description").asText();
     String package_type = jn.get("package_type").asText();
