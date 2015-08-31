@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ import models.Sale;
 import models.SaleProduct;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.Query;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Logger;
@@ -501,5 +504,36 @@ public class Database {
       System.out.println(e.toString());
       return almList;
     }
+  }
+  
+  public static List<Sale> getSalesByProduct(int product_id) {
+    List<SaleProduct> sales_products = Ebean.find(SaleProduct.class).where()
+    		.eq("product_sku", product_id)
+    		.findList();
+    List<Long> sales_ids = new ArrayList<Long>();
+    for (SaleProduct s : sales_products) {
+    	sales_ids.add(s.sales_id);
+    }
+    Query<Sale> query = Ebean.createQuery(Sale.class);
+    query.where(
+    		Expr.in("id", sales_ids)
+    		).order().desc("time");
+    List<Sale> sales = query.findList();
+    return sales;
+  }
+  
+  public static int getNumSalesByProduct(int product_id) {
+	  int num_sales = Ebean.find(SaleProduct.class).where()
+			  .eq("product_sku",  product_id)
+			  .findRowCount();
+	  return num_sales;
+  }
+
+  public static List<Sale> getSalesByMachine(int machine_id ) {
+	  List<Sale> sales = Ebean.find(Sale.class).where() 
+			  .eq("machine_id", machine_id)
+			  .order().desc("time")
+			  .findList();
+	  return sales;
   }
 }

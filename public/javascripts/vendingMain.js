@@ -133,8 +133,26 @@ function vendingMain($scope,$http) {
     };
     $scope.reportProblem = function(issue, screen) {
     	$('.problem-dialog').show();
+    	$.ajax({
+        	type: "POST",
+        	url: "/logEvent",
+        	data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_report", "product_sku": 0}),
+        	dataType: "json",
+        	headers: {
+               "content-type": "application/json"
+            },
+        });
     };
     $scope.howItWorks = function() {
+    	$.ajax({
+        	type: "POST",
+        	url: "/logEvent",
+        	data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_about", "product_sku": 0}),
+        	dataType: "json",
+        	headers: {
+               "content-type": "application/json"
+            },
+        });
     	$('.how-it-works').show();
     }
     $scope.closeHowItWorks = function() {
