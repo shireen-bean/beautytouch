@@ -24,7 +24,7 @@ function payController($scope,$http) {
 	});
 }
 function back(){
-	window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
+	window.location="/vendingMain?machineId="+getParameterByName("machineId");
 }
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

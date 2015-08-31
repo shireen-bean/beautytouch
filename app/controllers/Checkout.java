@@ -20,6 +20,13 @@ public class Checkout extends Controller {
 	private static boolean gatewayIsSetup = false;
     private static BraintreeGateway gateway;// 
     
+	public static boolean loggedIn(){
+		if(session("user")==null){
+			return false;
+		}
+		return true;
+	}
+	
     public static void setupGateway(){
     	String mode = play.api.Play.current().mode().toString();
     	if(mode.equals("Dev")){
@@ -74,6 +81,10 @@ public class Checkout extends Controller {
 
     public static Result vending(){
     	return ok(vending.render());
+    }
+    
+    public static Result salesProduct() {
+    	return ok(salesProduct.render());
     }
 
     public static Result paymentFailed(){
@@ -130,6 +141,22 @@ public class Checkout extends Controller {
     	}
     	
      	return ok(response);
+    }
+    
+    public static Result sales(){
+    	if(!loggedIn()){
+    		return redirect("/");
+    	}
+    	return ok(salesProduct.render());
+    }  
+    
+    public static Result salesJson() {
+     return ok();
+    }
+    
+    public static Result productSaleCount(String sku) {
+    	int id = Integer.parseInt(sku);
+    	return ok("" + Database.getNumSalesByProduct(id));
     }
     
 }

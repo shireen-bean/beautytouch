@@ -105,27 +105,36 @@ public class SMS extends Controller {
     if (fd.has("other")) {
     	other = fd.get("other").asText();
     }
-    try {
-      TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
-      Account account = client.getAccount();
+    String[] recipients = {
+    		"+15617063230", //jackie
+    		"+16095779836", //alina
+    		"+18083937977", //shireen
+    		"+15162426390", //marisa
+    		"+18595767701"  //mackenzie
+            };
+    for (String recipient: recipients) {
+      try {
+        TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
+        Account account = client.getAccount();
 
-      MessageFactory messageFactory = account.getMessageFactory();
-      List<NameValuePair> params = new ArrayList<NameValuePair>();
-      params.add(new BasicNameValuePair("To", "+15617063230"));
-      params.add(new BasicNameValuePair("From", "+18597590660"));
+        MessageFactory messageFactory = account.getMessageFactory();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("To", recipient));
+        params.add(new BasicNameValuePair("From", "+18597590660"));
 
-      String messageBody = "Problem reported with machine: " + machineId + ". Issue: " + problem + ". ";
-      if (other != "") {
-    	  messageBody += "\"" + other + "\". ";
+        String messageBody = "Problem reported with machine: " + machineId + ". Issue: " + problem + ". ";
+        if (other != "") {
+    	    messageBody += "\"" + other + "\". ";
+        }
+        if (email != "") {
+    	    messageBody += "Email: " + email;
+        }
+
+        params.add(new BasicNameValuePair("Body", messageBody));
+        Message sms = messageFactory.create(params);
+      }catch (Exception e) {
+        System.out.println(e.toString());
       }
-      if (email != "") {
-    	  messageBody += "Email: " + email;
-      }
-
-      params.add(new BasicNameValuePair("Body", messageBody));
-      Message sms = messageFactory.create(params);
-    }catch (Exception e) {
-      System.out.println(e.toString());
     }
     return ok();
   }

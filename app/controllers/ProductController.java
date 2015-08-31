@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import models.Product;
+import models.Sale;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.text.json.JsonContext;
@@ -52,6 +53,17 @@ public class ProductController extends Controller {
     return ok(p);
   }
 
+  public static Result productSales(String sku) {
+	  return ok(productSales.render());
+  }
+  
+  public static Result getSales(String sku) {
+	  Integer id = Integer.parseInt(sku);
+	  List<Sale> sales = Database.getSalesByProduct(id);
+	  JsonContext json = Ebean.createJsonContext();
+	  String p = json.toJsonString(sales);
+	  return ok(p);
+  }
   public static Result postProduct(){
     if(!loggedIn()){
       return redirect("/");
@@ -65,10 +77,8 @@ public class ProductController extends Controller {
     String brand_id = jn.get("brand_id").asText();
     String item_sku = jn.get("item_sku").asText();
     String item_img = jn.get("item_img").asText();
-    String detail_img = jn.get("detail_img").toString();
-    System.out.println(detail_img);
+    String detail_img = jn.get("detail_img").asText();
     String thumbnail = jn.get("thumbnail").asText();
-    System.out.println(thumbnail);
     String price = jn.get("price").asText();
     String item_description = jn.get("item_description").asText();
     String package_type = jn.get("package_type").asText();

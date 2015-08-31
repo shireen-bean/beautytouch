@@ -1,0 +1,33 @@
+@main("Dashboard"){
+	@topNav()
+}{
+	@sidebar()
+}{
+<head><script src="sorttable.js"></script></head>
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/table.css")">
+
+<div ng-app="" ng-controller="sales">
+<div class="mainContent">
+<h1>Products</h1>
+
+<table class="styledTable" cellspacing='0'>
+  <thead>
+		<tr>
+			<th>Sku</th>
+			<th>Name</th>
+			<th>Number of Sales</th>
+		</tr>
+  </thead>
+  <tr ng-click="loadProduct(product.item_sku)" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="product in products">
+    <td> {{product.item_sku}}</td>
+    <td> {{product.item_name}}</td>
+    <td> {{product.num_sales}}</td>
+  </tr>    
+</table>
+
+
+</div>
+</div>
+<script src="@routes.Assets.at("javascripts/sales.js")" type="text/javascript"></script>
+
+}

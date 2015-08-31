@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$("#message").fadeIn();
 	setTimeout(function() {
-		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
+		window.location="/vendingMain?machineId="+getParameterByName("machineId");
 	}, 2000);
 });
 

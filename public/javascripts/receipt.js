@@ -2,14 +2,14 @@ function receiptController($scope,$http) {
 	$scope.emailAddress="";
 	$scope.phoneNumber="";
 	$scope.skipReceipt=function(){
-		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
+		window.location="/vendingMain?machineId="+getParameterByName("machineId");
 	}
 	$scope.submitEmail=function(){
 		if(!validateEmail($scope.emailAddress)){
 			$scope.emailError="Invalid email";
 		}else{
 			console.log("%OASYS,screen=receiptEmail&email="+$scope.emailAddress+"?");
-			window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
+			window.location="/vendingMain?machineId="+getParameterByName("machineId");
 		}
 	}
 	$scope.submitPhoneNumber=function(){
@@ -20,7 +20,7 @@ function receiptController($scope,$http) {
 		}else{
 			var number=$scope.phoneNumber.replaceAll("-","").replaceAll("(","").replaceAll(")","").replaceAll(" ","");
 			console.log("%OASYS,screen=receiptSMS&phoneNumber="+number+"?");
-			window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
+			window.location="/vendingMain?machineId="+getParameterByName("machineId");
 		}
 	}
 	$scope.addNumber=function(number){
@@ -69,7 +69,7 @@ $(document).ready(function(){
 	$("#emailInput").focus();
 
 	setTimeout(function() {
-		window.location="/checkoutProductSelect?machineId="+getParameterByName("machineId");
+		window.location="/vendingMain?machineId="+getParameterByName("machineId");
 	}, 300000);
 });
 
@@ -100,7 +100,7 @@ $('#receipt-options :button').not('#no-receipt').click( function() {
 	$(element).addClass('selected');
 	$('.contactInfo').hide();
 	$('#' +element.id +'-form').removeClass("hidden").show();
-	
+
 });
 
 function getParameterByName(name) {
