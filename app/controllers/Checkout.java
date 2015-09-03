@@ -1,8 +1,10 @@
 package controllers;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
+import com.avaje.ebean.Ebean;
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.ClientTokenRequest;
 import com.braintreegateway.Environment;
@@ -12,6 +14,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.Machine;
+import models.Product;
+import models.SaleProduct;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
@@ -86,6 +90,10 @@ public class Checkout extends Controller {
     public static Result salesProduct() {
     	return ok(salesProduct.render());
     }
+    
+    public static Result salesMachine() {
+    	return ok(salesMachine.render());
+    }
 
     public static Result paymentFailed(){
     	return ok(paymentFailed.render());
@@ -143,20 +151,31 @@ public class Checkout extends Controller {
      	return ok(response);
     }
     
-    public static Result sales(){
-    	if(!loggedIn()){
-    		return redirect("/");
-    	}
-    	return ok(salesProduct.render());
-    }  
-    
-    public static Result salesJson() {
-     return ok();
-    }
     
     public static Result productSaleCount(String sku) {
     	int id = Integer.parseInt(sku);
     	return ok("" + Database.getNumSalesByProduct(id));
+    }
+    
+    public static Result machineSaleCount(String id) {
+    	int machine = Integer.parseInt(id);
+    	return ok(""+ Database.getNumSalesByMachine(machine));
+    }
+    
+    public static Result machineSaleAverage(String id) {
+    	int machine = Integer.parseInt(id);
+    	return ok("" + Database.getAvgSaleByMachine(machine));
+    }
+    
+    public static Result getProduct(String id) {
+    	List<SaleProduct> data = Ebean.find(SaleProduct.class).where()
+    			.eq("sales_id", id)
+    			.setMaxRows(1)
+    			.findList();
+    	int product_id = data.get(0).product_sku;
+    	Product product = Ebean.find(Product.class, product_id);
+    	return ok(product.item_name);
+    
     }
     
 }

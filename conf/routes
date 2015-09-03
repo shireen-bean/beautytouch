@@ -45,12 +45,16 @@ POST    /reportProblem              controllers.SMS.reportProblem
 POST    /logEvent                   controllers.MachineController.logEvent
 GET		/activityLog				controllers.MachineController.activityLog(machineId)
 GET		/activityLogData			controllers.MachineController.activityLogData(machineId,startDate,endDate)
-GET     /sales                      controllers.Checkout.sales()
 GET     /salesProduct               controllers.Checkout.salesProduct()
+GET     /salesMachine               controllers.Checkout.salesMachine()
 GET     /productSalesList           controllers.ProductController.getSales(sku)
+GET     /machineSalesList           controllers.MachineController.getSales(id)
+GET     /productNameBySale			controllers.Checkout.getProduct(id)
 GET     /productSales               controllers.ProductController.productSales(sku)
-GET     /salesJson                  controllers.Checkout.salesJson()
+GET		/machineSales				controllers.MachineController.machineSales(id)
 GET     /productSaleCount           controllers.Checkout.productSaleCount(sku)
+GET     /machineSaleCount           controllers.Checkout.machineSaleCount(id)
+GET     /machineSaleAverage	        controllers.Checkout.machineSaleAverage(id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

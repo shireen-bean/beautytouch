@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.text.json.JsonContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -18,6 +20,7 @@ import models.ActivityLogModel;
 import models.Container;
 import models.Machine;
 import models.Product;
+import models.Sale;
 import models.User;
 import play.data.Form;
 import play.libs.Json;
@@ -202,6 +205,17 @@ public class MachineController extends Controller {
 
 		return ok(Json.toJson(machine));
     }
+    
+    public static Result machineSales(String id) {
+    	return ok(machineSales.render());
+    }
 
+    public static Result getSales(String id) {
+  	  Integer machine = Integer.parseInt(id);
+  	  List<Sale> sales = Database.getSalesByMachine(machine);
+  	  JsonContext json = Ebean.createJsonContext();
+  	  String p = json.toJsonString(sales);
+  	  return ok(p);
+    }
 
 }

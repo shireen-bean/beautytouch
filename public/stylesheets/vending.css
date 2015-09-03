@@ -1,4 +1,20 @@
+@font-face {
+	font-family: mathlete;
+	src: url(https://s3-us-west-2.amazonaws.com/oasys-fonts/OstrichSansRounded-Medium.otf);
+}
+
+@font-face {
+	font-family: quicksand;
+	src: url(https://s3-us-west-2.amazonaws.com/oasys-fonts/Quicksand-Regular.otf);
+}
+
+@font-face {
+	font-family: ostrich;
+	src: url(OstrichSansRounded-Medium.otf);
+}
+
 html, body{
+  font-family: quicksand;
   text-align:center;
   color:#444;
   width:100%;
@@ -15,9 +31,10 @@ html, body{
 	border-bottom: 5px solid #bbb;
 }
 .problem-dialog {
+    font-family: ostrich;
     position: absolute;
     width: 1000px;
-    height: 800px;
+    height: 830px;
     top: 50px;
     /* border: 5px black solid; */
     background-color: white;
@@ -30,19 +47,32 @@ html, body{
     box-shadow: 7px 5px 20px 5px;
 }
 
+.problem-dialog h3{
+	font-size: 49px;
+    letter-spacing: 3px;
+    /* font-family: ostrich; */
+    font-family: league script;
+    background-color: #bbb;
+    padding-top: 35px;
+    margin-top: 0px;
+    height: 85px;
+}
+
 .how-it-works {
+font-family: quicksand;
     position: absolute;
     top: 50px;
     background-color: white;
     z-index: 100;
     display: none;
     font-size: 30px;
-    line-height: 55px;
+    line-height: 43px;
     box-shadow: 7px 5px 20px 5px;
-    padding-bottom:50px;
+    padding-bottom: 50px;
 }
 
 #how-it-works h2 {
+	font-family: league script;
     background-color: #bbb;
     margin: 0px;
     height: 105px;
@@ -66,7 +96,6 @@ html, body{
 }
 .suggestion-button {
 	width: 200px !important;
-    height: 50px !important;
     position: absolute;
     top: 820px;
     right: 300px;
@@ -86,6 +115,7 @@ html, body{
 	width: 300px !important;
 }
 #report-form {
+	font-family: quicksand;
   text-align: left;
   padding-left: 130px;
   padding-right:100px;
@@ -99,6 +129,7 @@ input[type="radio"]{
   border: 2px solid #bbb;
   margin-left: 20px;
   width: 500px;
+  font-family: quicksand;
   font-size:25px;
   padding-left:10px;
   vertical-align: middle;
@@ -153,8 +184,10 @@ input[type="radio"]{
 
 .report-problem {
   position: absolute;
-  right: 0px;
-  top: 900px;
+    right: 0px;
+    top: 900px;
+    font-family: quicksand;
+    font-size: 23px;
 }
 
 #learn-more {
@@ -227,14 +260,15 @@ input[type="radio"]{
 }
 
 .contactButton {
+	font-family: ostrich;
   background-color: white;
   border: 5px solid #8C489F;
   color: #8C489F;
-  font-size: 30px;
+  font-size: 40px;
   width: 450px;
   height: 81px;
   z-index: 1;
-  letter-spacing: 1.5px;
+  letter-spacing: 3;
   font-weight: bold;
   margin: 15px;
   text-transform: uppercase;
@@ -248,7 +282,8 @@ input[type="radio"]{
 }
 
 .contactButton.secondary {
-  font-size: 30px;
+	font-family:ostrich;
+  font-size: 40px;
   border: 5px solid #bbb;
   /* background-color: #f8C489F00; */
   background-color: white;
@@ -257,7 +292,7 @@ input[type="radio"]{
   height: 81px;
   z-index: 1;
   color: #8C489F;
-  letter-spacing: 1.5px;
+  letter-spacing: 3;
   font-weight: bold;
   margin: 15px;
 }
@@ -621,14 +656,15 @@ background-image:url('/assets/images/blueBackground.jpg');
 }
 
 .productBuyButton {
-    font-size: 30px;
+	font-family: ostrich;
+    font-size: 45px;
     border: 0px;
     background-color: black;
     width: 100%;
     height: 75px;
     color: #8C489F;
     text-transform: uppercase;
-    letter-spacing: 2.5px;
+    letter-spacing: 3;
     bottom: 0px;
     left: 0px;
     opacity: 0.7;
@@ -695,11 +731,13 @@ background-image:url('/assets/images/blueBackground.jpg');
 }
 
 #itemName {
+	font-family: league script;
 	text-align: left;
 	font-size: 40px;
 }
 
 #productPrice {
+	font-family: ostrich;
 	text-align: left;
 	font-size: 30px;
 	margin: 30px 0 30px 0;
@@ -736,10 +774,12 @@ background-image:url('/assets/images/blueBackground.jpg');
   height:300px;
 }
 h1{
+	font-family: ostrich;
   font-weight:400;
   font-size:134px;
 }
 h2{
+	font-family: ostrich;
   font-weight:400;
   font-size:60px;
 }
@@ -747,6 +787,7 @@ a{
   text-decoration:none;
 }
 .doneButton{
+	font-family: ostrich;
   color:#08c;
   font-size:30px;
   background:none;

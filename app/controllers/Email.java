@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import models.Product;
 import models.Receipt;
 
+import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.typesafe.plugin.*;
 
@@ -23,14 +24,17 @@ public class Email extends Controller {
 
   public static Result alertSale(String machineId, String productId, BigDecimal productPrice) {
     System.out.println("alertSale");
+    Product product = Ebean.find(Product.class, productId);
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
     mail.setSubject("Oasys Sale");
     mail.setRecipient("jackie@oasysventures.com");
+    mail.setCc("marisa@oasysventures.com");
+    mail.setCc("mackenzie@oasysventures.com");
     mail.setCc("alina@oasysventures.com");
     mail.setFrom("Oasys <service@oasysventures.com>");
     System.out.println(mail);
 
-    mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + productId + "' sold for $" + productPrice.toString() + ".</p>");
+    mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + product.item_name + "' sold for $" + productPrice.toString() + ".</p>");
     return ok();
   }
   

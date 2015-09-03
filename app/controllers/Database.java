@@ -5,11 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import models.ActivityLogModel;
 import models.Container;
@@ -522,6 +524,13 @@ public class Database {
     return sales;
   }
   
+  public static List<Sale> getSalesByMachine(int machine_id) {
+	  List<Sale> sales = Ebean.find(Sale.class).where()
+			  .eq("machine_id", machine_id)
+			  .findList();
+	  return sales;
+  }
+  
   public static int getNumSalesByProduct(int product_id) {
 	  int num_sales = Ebean.find(SaleProduct.class).where()
 			  .eq("product_sku",  product_id)
@@ -529,11 +538,28 @@ public class Database {
 	  return num_sales;
   }
 
-  public static List<Sale> getSalesByMachine(int machine_id ) {
-	  List<Sale> sales = Ebean.find(Sale.class).where() 
+  public static int getNumSalesByMachine(int machine_id ) {
+	  int num_sales = Ebean.find(Sale.class).where() 
 			  .eq("machine_id", machine_id)
 			  .order().desc("time")
-			  .findList();
-	  return sales;
+			  .findRowCount();
+	  return num_sales;
   }
+  
+  public static String getAvgSaleByMachine(int machine_id) {
+	  List<Sale> sales = Ebean.find(Sale.class).where()
+			  .eq("machine_id",  machine_id).findList();
+	  double sum = 0;
+	  int num_sales = getNumSalesByMachine(machine_id);
+	  if (num_sales == 0) {
+		  return "0";
+	  }
+	  for (Sale sale : sales ) {
+		  sum += sale.sales_total.longValue();
+	  }
+	  DecimalFormat df = new DecimalFormat("#.00");
+	  double avg = sum/num_sales;
+	  return df.format(avg);
+  }
+  
 }
