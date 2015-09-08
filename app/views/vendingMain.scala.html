@@ -26,7 +26,7 @@
 	</div>
 	<div id="report-problem" class="report-problem">
 	  <h3>Problem with this machine?
-	     <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
+	     <button class="contactButton secondary report" ng-click="reportProblem()">Report</button>
        </h3>
 	</div>
 	<div id="problem-dialog" class="problem-dialog">
@@ -86,7 +86,7 @@
 		  </div>
 		  <div class="report-problem" id="report-problem-pdp">
 	        <h3>Problem with this machine?
-	          <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
+	          <button class="contactButton secondary report" ng-click="reportProblem()">Report</button>
 	        </h3>
 	      </div>
 	      <div id="thank-you-report-pdp" class="thank-you-report">
@@ -94,10 +94,9 @@
 	      </div>
 		  <div id="rightBlock">
 		    <div id="swipeMessage">
+		      <h2 style="margin-top:200px">Swipe card to purchase for {{selectedPrice | currency}}</h2>
 		      <img src="https://s3.amazonaws.com/oasys-images/cc_1.gif" style="
-              height: 50%; "/>
-		      <h2 style="margin-top:-40px">Swipe card to purchase for {{selectedPrice | currency}}</h2>
-		      <i class="fa fa-arrow-right"></i>
+              height: 50%;  margin-top: -77px;"/>
 		    </div>
 		    
 		  </div>
