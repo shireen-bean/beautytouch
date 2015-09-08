@@ -470,8 +470,9 @@ width: 200px;
 
 .brandDescription {
 text-align: left;
-    font-size: 27px;
-    color: #777;
+    font-size: 23px;
+    line-height: 28px;
+    color: black;
     margin-right: 20px;
     float: left;
     font-family: quicksand;
@@ -853,11 +854,11 @@ body.bodyMain i, body.bodyMain .back, body.bodyMain span{
   /* color: #888 !important; */
 }
 body.bodyMain #productDescription{
-  text-align: left;
-  width: 94%;
-  font-size: 28px;
-  font-family:quicksand;
-  margin: 0px 0px 0px -11px;
+    text-align: left;
+    width: 94%;
+    font-size: 26px;
+    font-family: quicksand;
+    margin: 0px 0px 0px -11px;
 }
 
 .description-bullet {
