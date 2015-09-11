@@ -29,6 +29,12 @@ function receiptController($scope,$http) {
 		}
 	}
 
+	$scope.addChar= function(char) {
+		$scope.emailAddress=$scope.emailAddress+char;
+	}
+	$scope.deleteChar = function() {
+	    $scope.emailAddress=$scope.emailAddress.substring(0, $scope.emailAddress.length-1);	
+	}
 	$scope.deleteNumber=function(){
 		$scope.phoneNumber=$scope.phoneNumber.substring(0,$scope.phoneNumber.length-1);
 	}
