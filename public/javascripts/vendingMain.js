@@ -142,6 +142,9 @@ function vendingMain($scope,$http) {
                "content-type": "application/json"
             },
         });
+		setTimeout(function() {
+			$('.problem-dialog').hide();
+		}, 30000);
     };
     $scope.howItWorks = function() {
     	$.ajax({
@@ -154,6 +157,9 @@ function vendingMain($scope,$http) {
             },
         });
     	$('.how-it-works').show();
+		setTimeout(function() {
+			$('.how-it-works').hide();
+		}, 30000);
     }
     $scope.closeHowItWorks = function() {
     	$('.suggestion-input').val("");

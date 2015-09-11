@@ -98,7 +98,7 @@ font-family: quicksand;
     width: 200px !important;
     position: absolute;
     top: 785px;
-    left: 1400px;
+    left: 1500px;
 }
 .contact-info {
 	line-height:40px;
@@ -136,23 +136,44 @@ input[type="radio"]{
   margin-top: -8px;
 }
 .phoneButton{
-  float: left;
-  width: 90px;
-  line-height: 90px;
-  height: 85px;
-  display: inline;
-  color: white;
-  background-color: #bbb;
-  border: 4px solid #FFF;
-  font-size: 40px;
+    float: left;
+    width: 90px;
+    line-height: 90px;
+    height: 90px;
+    font-family: ostrich;
+    display: inline;
+    color: white;
+    background-color: #898989;
+    font-size: 40px;
+    padding: 5px;
+    margin: 5px;
+    box-shadow: 0px 3px 5px #ccc;
+}
+.keyButton{
+float: left;
+    line-height: 50px;
+    height: 50px;
+    text-align: center;
+    font-family: ostrich;
+    display: inline;
+    color: white;
+    letter-spacing: 3px;
+    margin: 5px;
+    text-transform: uppercase;
+    padding: 5px;
+    background-color: #898989;
+    font-size: 40px;
+    box-shadow: 0px 3px 5px #ccc;
+}
+#keyboard {
+	margin-left: auto;
+	margin-right: auto;
 }
 #email-form {
-  position: absolute;
-  top: 400px;
-  left: 575px;
+
 }
 #sms-form {
-  width: 354px;
+  width: 385px;
 }
 
 .deleteKey{
@@ -212,19 +233,19 @@ input[type="radio"]{
 	color:#666;
 }
 .contactInput{
-	line-height:50px;
-	width:450px;
-	font-size: 30px;
-  	text-align: center;
-    padding: 10px;
-    border: 2px solid #bbb;
+	width:900px;
 }
 .phoneInput{
-	line-height:50px;
 	width:320px;
+ }
+ .input {
+ 	line-height:50px;
 	font-size: 30px;
-  	text-align: center;
-  	border:3px solid #bbb;
+  	text-align: left;
+  	padding: 10px;
+    border: 2px solid #bbb;
+    font-family: quicksand;
+    letter-spacing: 1px;
  }
 .contactInfo h3{
 	font-size:30px;
@@ -305,20 +326,19 @@ input[type="radio"]{
 	top:150px;
 }
 .phoneSend {
-  font-size: 30px;
-  border: 5px solid #8c489F;
-  color: #8C489F;
-  opacity: .85;
-  width: 250px;
-  height: 81px;
-  z-index: 1;
-  background-color: white;
-  letter-spacing: 1.5px;
-  font-weight: bold;
-  text-transform: uppercase;
-  position: absolute;
-  top: 841px;
-  right: 475px;
+font-size: 30px;
+    border: 5px solid #8c489F;
+    color: #8C489F;
+    opacity: .85;
+    width: 250px;
+    height: 81px;
+    z-index: 1;
+    background-color: white;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-family: ostrich;
 }
 .contactInfo.noReceipt{
   top:580px;
@@ -372,13 +392,10 @@ input[type="radio"]{
   border-color: white transparent transparent white;
 }
 .contactInfo{
-  padding: 2%;
-  /* width: 29%; */
-  margin: 2%;
+  padding: 1%;
   margin-left: auto;
   margin-right: auto;
   display: inline-block;
-  border:5px solid #bbb;
 
 }
 
@@ -712,15 +729,16 @@ background-image:url('/assets/images/blueBackground.jpg');
     border-left: 0px;
     border-right: 0px;
     color: #8C489F;
-    font-size: 30px;
+    font-size: 50px;
     height: 81px;
     z-index: 1;
-    letter-spacing: 3px;
+    letter-spacing: 5px;
     font-weight: bold;
     /* margin: 15px; */
     text-transform: uppercase;
     width: 50%;
     float: left;
+    font-family: ostrich;
 }
 .methodButton.selected {
   background-color: #8C489F;
