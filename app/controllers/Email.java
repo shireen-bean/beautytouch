@@ -47,12 +47,19 @@ public class Email extends Controller {
 	  JsonNode jn = request().body().asJson();
 	  String machineId = jn.get("machine_id").asText();
 	  String suggestion = jn.get("suggestion").asText();
-	  MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-	  mail.setSubject("Product Recommendation");
-	  mail.setRecipient("alina@oasysventures.com");
-	  mail.setFrom("Oasys <service@oasysventures.com>");
-	  
-	  mail.sendHtml("<p>Oasys product recommendation from machine " + machineId + ". Product/Idea: " + suggestion + "</p>");
+	    String[] recipients = {
+	    		"alina@oasysventures.com",
+	    		"jackie@oasysventures.com",
+	    		"mackenzie@oasysventures.com",
+	    		"marisa@oasysventures.com"
+	    };
+	    for (String recipient: recipients) {
+	      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+	      mail.setSubject("Email Captured");
+	      mail.setRecipient(recipient);
+	      mail.setFrom("Oasys <service@oasysventures.com>");
+		  mail.sendHtml("<p>Oasys email captured from machine " + machineId + ". Email: " + suggestion + "</p>");
+	    }	  
       return ok();
   }
   

@@ -159,10 +159,11 @@ function vendingMain($scope,$http) {
     	$('.how-it-works').show();
 		setTimeout(function() {
 			$('.how-it-works').hide();
-		}, 30000);
+		}, 180000);
     }
     $scope.closeHowItWorks = function() {
     	$('.suggestion-input').val("");
+    	$scope.suggestion = "";
     	$('.how-it-works').hide();
     }
     $scope.reportBack = function() {
@@ -184,6 +185,12 @@ function vendingMain($scope,$http) {
     	}
     	$scope.closeHowItWorks();
     }
+	$scope.addChar= function(char) {
+		$scope.suggestion=$scope.suggestion+char;
+	}
+	$scope.deleteChar = function() {
+	    $scope.suggestion=$scope.suggestion.substring(0, $scope.emailAddress.length-1);	
+	}
     $scope.submitReport = function() {
     	console.log($scope.formData);
     	$.ajax({

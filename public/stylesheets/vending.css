@@ -72,7 +72,6 @@ font-family: quicksand;
 }
 
 #how-it-works h2 {
-	font-family: league script;
     background-color: #bbb;
     margin: 0px;
     height: 105px;
@@ -92,7 +91,7 @@ font-family: quicksand;
 
 #how-it-works p {    
 	font-size: 27px;
-    margin: 25px 250px 40px 250px;
+    margin: 25px 450px 40px 450px;
 }
 .suggestion-button {
     width: 200px !important;
@@ -109,7 +108,12 @@ font-family: quicksand;
 }
 .suggestion-input {
 	font-size: 30px;
-	box-shadow: 5px 5px #eee inset;
+	box-shadow: 5px 5px #ddd inset;
+	font-family: quicksand;
+    padding-left: 15px;
+    letter-spacing: 1px;
+    height: 50px;
+    padding-top: 5px;
 }
 .problem-button {
 	width: 300px !important;
@@ -168,6 +172,7 @@ float: left;
 #keyboard {
 	margin-left: auto;
 	margin-right: auto;
+	width: 1000px;
 }
 #email-form {
 
