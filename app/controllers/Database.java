@@ -365,22 +365,14 @@ public class Database {
 
       Statement statement = connection.createStatement();
 
-      String startDateMonth = startDate.substring(0,2);
-      String startDateDay = startDate.substring(3,5);
-      String startDateYear = startDate.substring(6,10);
-      startDate = startDateYear+"-"+startDateMonth+"-"+startDateDay;
-
-      String endDateMonth = endDate.substring(0,2);
-      String endDateDay = endDate.substring(3,5);
-      String endDateYear = endDate.substring(6,10);
-      endDate = endDateYear+"-"+endDateMonth+"-"+endDateDay;
-
 
       String query = "SELECT jammed, traffic, time "+
         "FROM machine_log " +
         "WHERE machine_id = '"+machine_id+"' AND " +
         "time "+
-        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time";
+        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time desc limit 100";
+      
+      System.out.println(query);
 
       ResultSet resultSet = statement.executeQuery(query);
 
@@ -417,22 +409,11 @@ public class Database {
 
       Statement statement = connection.createStatement();
 
-      String startDateMonth = startDate.substring(0,2);
-      String startDateDay = startDate.substring(3,5);
-      String startDateYear = startDate.substring(6,10);
-      startDate = startDateYear+"-"+startDateMonth+"-"+startDateDay;
-
-      String endDateMonth = endDate.substring(0,2);
-      String endDateDay = endDate.substring(3,5);
-      String endDateYear = endDate.substring(6,10);
-      endDate = endDateYear+"-"+endDateMonth+"-"+endDateDay;
-
-
       String query = "SELECT event, product_sku, time "+
         "FROM events " +
         "WHERE machine_id = '"+machine_id+"' AND " +
         "time "+
-        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time";
+        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time desc";
 
       ResultSet resultSet = statement.executeQuery(query);
 
@@ -469,23 +450,13 @@ public class Database {
 
       Statement statement = connection.createStatement();
 
-      String startDateMonth = startDate.substring(0,2);
-      String startDateDay = startDate.substring(3,5);
-      String startDateYear = startDate.substring(6,10);
-      startDate = startDateYear+"-"+startDateMonth+"-"+startDateDay;
-
-      String endDateMonth = endDate.substring(0,2);
-      String endDateDay = endDate.substring(3,5);
-      String endDateYear = endDate.substring(6,10);
-      endDate = endDateYear+"-"+endDateMonth+"-"+endDateDay;
-
 
       String query = "SELECT sales.id, sales_products.product_price, sales_products.product_sku, sales.time "+
         "FROM sales, sales_products " +
         "WHERE machine_id = '"+machine_id+"' AND " +
         "sales.id=sales_products.sales_id AND " +
         "sales.time "+
-        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY sales.time";
+        "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY sales.time desc";
 
       ResultSet resultSet = statement.executeQuery(query);
 
