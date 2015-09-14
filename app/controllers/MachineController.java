@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Date;
+import java.util.Locale;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -50,13 +52,30 @@ public class MachineController extends Controller {
     	return ok(activityLog.render());
     }
     
-    public static Result activityLogData(String machineId, String startDate, String endDate){
+    public static Result activityLogData(String machineId, String begin, String end){
     	if(!loggedIn()){
     		return redirect("/");
     	}
-    	ArrayList<ActivityLogModel> statusLogEntries = Database.getStatusUpdates(machineId,startDate,endDate);
-    	ArrayList<ActivityLogModel> actionLogEntries = Database.getUIEvents(machineId,startDate,endDate);
-    	ArrayList<ActivityLogModel> salesLogEntries = Database.getSales(machineId,startDate,endDate);
+    	
+    	begin = begin + " 04:00:00.000";
+    	end = end + " 04:00:00.000";
+        DateFormat df = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+		Date endDate = null;
+		try {
+			begin = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(df.parse(begin));
+			endDate = df.parse(end);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}  
+        System.out.println(begin); 
+        endDate = new Date (endDate.getTime() + 86400000);
+        end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endDate);
+        System.out.println(end);
+        
+    	ArrayList<ActivityLogModel> statusLogEntries = Database.getStatusUpdates(machineId,begin,end);
+    	ArrayList<ActivityLogModel> actionLogEntries = Database.getUIEvents(machineId,begin,end);
+    	ArrayList<ActivityLogModel> salesLogEntries = Database.getSales(machineId,begin,end);
     	
     	ArrayList<ActivityLogModel> combinedEntries = new ArrayList<ActivityLogModel>();
     	
@@ -67,6 +86,7 @@ public class MachineController extends Controller {
     	int statusLength = statusLogEntries.size();
     	int actionLength = actionLogEntries.size();
     	int salesLength = salesLogEntries.size();
+    	System.out.println(statusLength + ", " + actionLength + ", " +  salesLength);
     	
     	boolean useStatus, useAction, useSales;
     	
@@ -77,11 +97,12 @@ public class MachineController extends Controller {
 	    		useAction=false;
 	    		useSales=false;
 	    		
-	    		String string ="2200-01-01 00:00:00.000";
+	    		String string ="1900-01-01 00:00:00.000";
 	    		
 	    		Date statusDate= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(string);
 				Date actionDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(string);
 	    		Date salesDate= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(string);
+	    		
 	    	
 	    		if(statusIndex<statusLength){
 	    			statusDate = statusLogEntries.get(statusIndex).date;
@@ -92,37 +113,20 @@ public class MachineController extends Controller {
 	    		if(salesIndex<salesLength){
 	    			salesDate = salesLogEntries.get(salesIndex).date;
 	    		}
-	    		
-	    		String nextEvent = "";
-	    		
-    			if(statusDate.before(actionDate) && statusDate.before(salesDate)){
-    				nextEvent="status";
-    			}else if(actionDate.before(statusDate) && actionDate.before(salesDate)){
-    				nextEvent="action";
-    			}else{
-    				nextEvent="sales";
-    			}
-	    		
-    			if(nextEvent.equals("status")){
+    			if(statusDate.after(actionDate) && statusDate.after(salesDate)){
     				combinedEntries.add(statusLogEntries.get(statusIndex));
     				statusIndex++;
-    			}else if(nextEvent.equals("action")){
+    			}else if(actionDate.after(statusDate) && actionDate.after(salesDate)){
     				combinedEntries.add(actionLogEntries.get(actionIndex));
     				actionIndex++;
     			}else{
     				combinedEntries.add(salesLogEntries.get(salesIndex));
     				salesIndex++;
     			}
-    			
-	    		
 	    	}
     	}catch(Exception e){
     		
     	}
-    	
-//    	for(int i=0;i<combinedEntries.size(); i++){
-//    		System.out.println(combinedEntries.get(i).date+"  "+combinedEntries.get(i).entryType);
-//    	}
     	
     	return ok(Json.toJson(combinedEntries));
     }
