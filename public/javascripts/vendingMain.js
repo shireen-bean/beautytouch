@@ -189,7 +189,7 @@ function vendingMain($scope,$http) {
 		$scope.suggestion=$scope.suggestion+char;
 	}
 	$scope.deleteChar = function() {
-	    $scope.suggestion=$scope.suggestion.substring(0, $scope.emailAddress.length-1);	
+	    $scope.suggestion=$scope.suggestion.substring(0, $scope.suggestion.length-1);	
 	}
     $scope.submitReport = function() {
     	console.log($scope.formData);
