@@ -24,6 +24,7 @@ import models.Machine;
 import models.Product;
 import models.Sale;
 import models.User;
+import models.Event;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.*;
@@ -213,6 +214,10 @@ public class MachineController extends Controller {
     public static Result machineSales(String id) {
     	return ok(machineSales.render());
     }
+    
+    public static Result machineTaps(String id) {
+    	return ok(machineTaps.render());
+    }
 
     public static Result getSales(String id) {
   	  Integer machine = Integer.parseInt(id);
@@ -222,4 +227,9 @@ public class MachineController extends Controller {
   	  return ok(p);
     }
 
+    public static Result getTaps(String id) {
+    	Integer machine = Integer.parseInt(id);
+    	String events = Database.getTapsByMachine(machine);
+    	return ok(events);
+    }
 }

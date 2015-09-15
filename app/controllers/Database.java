@@ -13,6 +13,10 @@ import java.util.List;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import models.ActivityLogModel;
 import models.Container;
 import models.Customer;
@@ -27,6 +31,7 @@ import models.SaleProduct;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Query;
+import com.avaje.ebean.SqlRow;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Logger;
@@ -508,7 +513,67 @@ public class Database {
 			  .findRowCount();
 	  return num_sales;
   }
+  
+  public static int getNumTapsByProduct(int product_id) {
+	  int num_taps = Ebean.find(Event.class).where()
+			  .eq("product_sku",  product_id)
+			  .findRowCount();
+	  return num_taps;
+  }
+  
+  public static List<Event> getTapsByProduct(int product_id) {
+	  List<Event> events = Ebean.find(Event.class).where()
+			  .eq("product_sku",  product_id)
+			  .order().desc("time")
+			  .findList();
+	  return events;
+  }
+  
+  public static String getTapsByMachine(int machine_id) {
+	  String sql = "select count(*) as taps, product_sku from events" 
+			  + " where event = 'tap_product' and"
+			  + " machine_id = '" + machine_id 
+			  + "' group by product_sku";
+	  List<SqlRow> sqlRows = Ebean.createSqlQuery(sql).findList();
+	  JSONArray jo = new JSONArray();
+	  for (SqlRow sqlRow : sqlRows) {
+		  JSONObject jn = new JSONObject();
+		  jn.put("product_sku", sqlRow.getInteger("product_sku"));
+		  jn.put("taps", sqlRow.getInteger("taps"));
+		  jo.put(jn);
+	  }
+	  System.out.println(jo);
+	  return jo.toString();
+  }
 
+  public static String getNumTapsByMachine(int machine_id) {
+	  JSONObject jo = new JSONObject();
+
+	  int num_taps = Ebean.find(Event.class).where()
+			  .eq("machine_id",  machine_id)
+			  .eq("event",  "tap_product")
+			  .findRowCount();
+	  int num_about = Ebean.find(Event.class).where()
+			  .eq("machine_id",  machine_id)
+			  .eq("event",  "tap_about")
+			  .findRowCount();
+	  int num_report = Ebean.find(Event.class).where()
+			  .eq("machine_id",  machine_id)
+			  .eq("event", "tap_report")
+			  .findRowCount();
+	  
+	  try {
+		jo.put("product", num_taps);
+		jo.put("about",  num_about);
+		jo.put("report",  num_report);
+	} catch (JSONException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  
+	  return jo.toString();
+  }
+  
   public static int getNumSalesByMachine(int machine_id ) {
 	  int num_sales = Ebean.find(Sale.class).where() 
 			  .eq("machine_id", machine_id)

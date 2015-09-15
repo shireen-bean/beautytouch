@@ -91,6 +91,13 @@ public class Checkout extends Controller {
     	return ok(salesProduct.render());
     }
     
+    public static Result productEngagements() {
+    	return ok(productEngagements.render());
+    }
+    
+    public static Result machineEngagements() {
+    	return ok(machineEngagements.render());
+    }
     public static Result salesMachine() {
     	return ok(salesMachine.render());
     }
@@ -157,9 +164,19 @@ public class Checkout extends Controller {
     	return ok("" + Database.getNumSalesByProduct(id));
     }
     
+    public static Result productTapCount(String sku) {
+    	int id = Integer.parseInt(sku);
+    	return ok("" + Database.getNumTapsByProduct(id));
+    }
+    
     public static Result machineSaleCount(String id) {
     	int machine = Integer.parseInt(id);
     	return ok(""+ Database.getNumSalesByMachine(machine));
+    }
+    
+    public static Result machineTapCount(String id) {
+    	int machine = Integer.parseInt(id);
+    	return ok("" + Database.getNumTapsByMachine(machine));
     }
     
     public static Result machineSaleAverage(String id) {

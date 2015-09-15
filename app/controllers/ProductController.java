@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import models.Product;
 import models.Sale;
+import models.Event;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.text.json.JsonContext;
@@ -57,12 +58,29 @@ public class ProductController extends Controller {
 	  return ok(productSales.render());
   }
   
+  public static Result productTaps(String sku) {
+	  return ok(productTaps.render());
+  }
+  
   public static Result getSales(String sku) {
 	  Integer id = Integer.parseInt(sku);
 	  List<Sale> sales = Database.getSalesByProduct(id);
 	  JsonContext json = Ebean.createJsonContext();
 	  String p = json.toJsonString(sales);
 	  return ok(p);
+  }
+  
+  public static Result getTaps(String sku) {
+	  Integer id = Integer.parseInt(sku);
+	  List<Event> events = Database.getTapsByProduct(id);
+	  JsonContext json = Ebean.createJsonContext();
+	  String p = json.toJsonString(events);
+	  return ok(p);
+  }
+  public static Result getProductName(String sku) {
+	  Integer id = Integer.parseInt(sku);
+	  Product product = Ebean.find(Product.class, id);
+	  return ok(product.item_name);
   }
   public static Result postProduct(){
     if(!loggedIn()){
