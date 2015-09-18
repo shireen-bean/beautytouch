@@ -13,6 +13,7 @@ import com.typesafe.plugin.*;
 
 import play.mvc.*;
 import play.mvc.Http.RequestBody;
+import views.html.receiptEmail;
 
 //{
 //	"sales_id": "2",
@@ -26,45 +27,45 @@ public class Email extends Controller {
     System.out.println("alertSale");
     Product product = Ebean.find(Product.class, productId);
     String[] recipients = {
-    		"alina@oasysventures.com",
-    		"jackie@oasysventures.com",
-    		"mackenzie@oasysventures.com",
-    		"marisa@oasysventures.com",
-    		"shireen@oasysventures.com"
+      "alina@oasysventures.com",
+      "jackie@oasysventures.com",
+      "mackenzie@oasysventures.com",
+      "marisa@oasysventures.com",
+      "shireen@oasysventures.com"
     };
     for (String recipient: recipients) {
       MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
       mail.setSubject("Oasys Sale");
       mail.setRecipient(recipient);
       mail.setFrom("Oasys <service@oasysventures.com>");
-    
+
       mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + product.item_name + "' sold for $" + productPrice.toString() + ".</p>");
     }
     return ok();
   }
-  
+
   public static Result sendSuggestion() {
-	  JsonNode jn = request().body().asJson();
-	  String machineId = jn.get("machine_id").asText();
-	  String suggestion = jn.get("suggestion").asText();
-	    String[] recipients = {
-	    		"alina@oasysventures.com",
-	    		"jackie@oasysventures.com",
-	    		"mackenzie@oasysventures.com",
-	    		"marisa@oasysventures.com"
-	    };
-	    for (String recipient: recipients) {
-	      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-	      mail.setSubject("Email Captured");
-	      mail.setRecipient(recipient);
-	      mail.setFrom("Oasys <service@oasysventures.com>");
-		  mail.sendHtml("<p>Oasys email captured from machine " + machineId + ". Email: " + suggestion + "</p>");
-	    }	  
-      return ok();
+    JsonNode jn = request().body().asJson();
+    String machineId = jn.get("machine_id").asText();
+    String suggestion = jn.get("suggestion").asText();
+    String[] recipients = {
+      "alina@oasysventures.com",
+      "jackie@oasysventures.com",
+      "mackenzie@oasysventures.com",
+      "marisa@oasysventures.com"
+    };
+    for (String recipient: recipients) {
+      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+      mail.setSubject("Email Captured");
+      mail.setRecipient(recipient);
+      mail.setFrom("Oasys <service@oasysventures.com>");
+      mail.sendHtml("<p>Oasys email captured from machine " + machineId + ". Email: " + suggestion + "</p>");
+    }
+    return ok();
   }
-  
+
   public static Result sendReceipt(){
-    //get sales id and customer info
+
     JsonNode jn = request().body().asJson();
     int salesId = jn.get("sales_id").asInt();
     String email = jn.get("email").asText();
@@ -72,6 +73,7 @@ public class Email extends Controller {
     if(!Security.validKey(key)){
       return ok();
     }
+
 
     //add customer to database
     try{
@@ -90,58 +92,34 @@ public class Email extends Controller {
     mail.setFrom("Oasys <service@oasysventures.com>");
 
     NumberFormat formatter = NumberFormat.getCurrencyInstance();
+    Product product = receipt.products.get(0);
+    String name = product.item_name;
+    String price = formatter.format(Double.parseDouble(product.price));
+    String image = product.item_img;
+    String address = receipt.machineAddress;
+    /*
+       NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
-    String productRows = "";
-    for(int i=0;i<receipt.products.size();i++){
-      Product pm = receipt.products.get(i);
-      productRows+=
-        "<tr>"+
-        "<td style='padding-right:250px;'>"+pm.item_name+"</td><td></td>"+
-        " <td>"+formatter.format(Double.parseDouble(pm.price))+"</td>"+
-        "</tr>";
-    }
+       String productRows = "";
+       for(int i=0;i<receipt.products.size();i++){
+       Product pm = receipt.products.get(i);
+       productRows+=
+       "<tr>"+
+       "<td style='padding-right:250px;'>"+pm.item_name+"</td><td></td>"+
+       " <td>"+formatter.format(Double.parseDouble(pm.price))+"</td>"+
+       "</tr>";
+       }
+       */
 
     String imageSource="https://oasysventures.com/assets/images/logoInc.png";
-    String htmlString=""+
-      "<!DOCTYPE html>"+
-      "<html>"+
-      "<head>"+
-      "<style>"+
-      "body{line-height:24px;font-family:Arial, Helvetica, sans-serif;}"+
-      "table{text-align:left;}"+
-      "th{border-top: 1px solid #ccc;padding: 10px 40px 10px 0px;margin:0px;}"+
-      "td{border-top: 1px solid #ddd;padding:10px 50px 10px 0px}"+
-      "</style>"+
-      "</head>"+
-      "<body>"+
-      "<style>"+
-      "body{line-height:24px;font-family:Arial, Helvetica, sans-serif;}"+
-      "table{text-align:left;}"+
-      "th{border-top: 1px solid #ccc;padding: 10px 40px 10px 0px;margin:0px;}"+
-      "td{border-top: 1px solid #ddd;padding:20px 50px 40px 0px}"+
-      "</style>"+
-      "<img height='30px' src='"+imageSource+"'></html>"+
-      "<br><br>"+
-      "<br>Thank you for shopping with Oasys."+
-      "<br><br>"+receipt.machineAddress+
-      "<br><br>Sales #: "+salesId+
-      "<br><br>"+
-      "<table>"+
-      "<tr><th>Product</th><th></th><th>Total</th></tr>"+
-      productRows+
-      " <td></td><td><b>Total:</b></td><td>"+formatter.format(Double.parseDouble(receipt.total))+"</td>"+
-      "</tr>"+
-      "</table>"+
-      "<br><br>"+
-      "</body>"+
-      "</html>";
-
-
-
+    String htmlString="<!DOCTYPE html> <html> <head> <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'> <style> body{line-height:24px;font-family: 'Source Sans Pro', sans-serif;} </style> </head> <body> <table width='100%' border='0' cellspacing='0' cellpadding='20' style='background-image: url(https://s3.amazonaws.com/oasys-images/email-background.png); background-repeat: repeat; background-size: 300px 300px; width: 100%'> <tr><td style='text-align: center;padding: 100px 0px 0px 0px;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/thanks-banner.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding:10px 0px 10px 0px; text-align:left; background-color: white'> <div id='image-container' style='width: 50%; display: inline-block; position: relative;'> <img style='max-height: 200px; display: block; margin: auto;' src='http://oasysventures.com/assets/dynamicFiles/products/" + image + "'/> </div> <div id='product-info' style='    width: 50%; float: right; position: relative; margin-top: 30px;'> <span style='font-size: 2em; float: left; width: 100%; margin-bottom: 16px;'>" + name + "</span> <span style='float:left; width: 50%; font-weight: bolder; font-size: 19px;'>Purchased at</span><span style='float: right; text-align: right; margin-right: 120px;font-weight: bolder; font-size: 19px;'>Total</span> <span style='float:left; width: 50%'>" + address + "</span><span style='float: right; text-align: right; margin-right: 120px;'>" + price + "</span> </div> </div> </td></tr> <tr><td style='padding:0px; text-align: center;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8' src='https://s3.amazonaws.com/oasys-images/beauty-hack-header.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 25px; font-size: 20px; background-color: #d9d3e8'>" + receipt.beauty_hack + " </div> </td></tr> <tr><td style='text-align: center;padding: 0px 0px 100px 0px;'> <img style='    width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/hashtag-banner.png'/> </td></tr> </table> </body> </html> ";
 
     mail.sendHtml(htmlString);
     return ok();
   }
 
+  public static Result test() {
+    return ok(receiptEmail.render());
+  }
 
 }

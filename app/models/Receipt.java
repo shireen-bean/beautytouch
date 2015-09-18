@@ -17,4 +17,5 @@ public class Receipt{
     public ArrayList<Product> products;
     public String machineAddress;
     public String total;
+    public String beauty_hack;
 }
