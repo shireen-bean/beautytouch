@@ -83,6 +83,9 @@ public class Checkout extends Controller {
     	return ok(processing.render());
     }
 
+    public static Result test(String saleId) {
+    	return ok(receiptEmail.render());
+    }
     public static Result vending(){
     	return ok(vending.render());
     }

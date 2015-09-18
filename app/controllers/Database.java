@@ -299,7 +299,7 @@ public class Database {
       Statement statement = connection.createStatement();
 
 
-      String query = "SELECT sales.id, products.item_sku, machines.address, products.item_name, sales.sales_total, sales_products.product_price "+
+      String query = "SELECT sales.id, products.item_sku, products.item_img, machines.address, products.item_name, sales.sales_total, sales_products.product_price "+
         "FROM machines, products, sales, sales_products " +
         "WHERE " +
         "sales.id='"+salesId+"' "+
@@ -311,15 +311,19 @@ public class Database {
       Receipt receipt = new Receipt();
       receipt.products = new ArrayList<Product>();
 
+
       while (resultSet.next()) {
         receipt.machineAddress = resultSet.getString("address");
         receipt.total = resultSet.getString("sales_total");
 
         Product pm = new Product();
+        pm.item_sku = resultSet.getInt("item_sku");
         pm.item_name = resultSet.getString("item_name");
         pm.price = resultSet.getString("product_price");
+        pm.item_img = resultSet.getString("item_img");
         receipt.products.add(pm);
       }
+      receipt.beauty_hack = getBeautyHackForProduct(receipt.products.get(0).item_sku);
 
       return receipt;
 
@@ -329,6 +333,33 @@ public class Database {
     }
   }
 
+  public static String getBeautyHackForProduct(int product_id) {
+	  try {
+	      if(connection==null){
+	        connection = DB.getConnection();
+	      }
+	      if(connection.isClosed()){
+	        connection = DB.getConnection();
+	      }
+
+	      Statement statement = connection.createStatement();
+
+
+	      String query = "SELECT * from content where product_sku = "
+	    		  + product_id + " and content_type = 'beauty_hack'";
+
+	      System.out.println(query);
+	      ResultSet resultSet = statement.executeQuery(query);
+	      while (resultSet.next()) {
+	    	  return resultSet.getString("body");
+	      }
+	      return "";
+	  } catch (Exception e){
+		  Logger.error("********Error" + e.toString());
+	      return null;
+	  }
+  }
+  
   public static void addCustomer(String phone, String email, int salesId) {
     Customer customer = new Customer();
     customer.sales_id = salesId;
