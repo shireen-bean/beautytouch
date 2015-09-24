@@ -1,8 +1,5 @@
 $(document).ready(function(){
 	$("#message").fadeIn();
-	setTimeout(function() {
-		window.location="/vendingMain?machineId="+getParameterByName("machineId");
-	}, 2000);
 });
 
 function getParameterByName(name) {

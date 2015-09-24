@@ -2,14 +2,14 @@ function receiptController($scope,$http) {
 	$scope.emailAddress="";
 	$scope.phoneNumber="";
 	$scope.skipReceipt=function(){
-		window.location="/vendingMain?machineId="+getParameterByName("machineId");
+		window.location="/thankYou";
 	}
 	$scope.submitEmail=function(){
 		if(!validateEmail($scope.emailAddress)){
 			$scope.emailError="Invalid email";
 		}else{
 			console.log("%OASYS,screen=receiptEmail&email="+$scope.emailAddress+"?");
-			window.location="/vendingMain?machineId="+getParameterByName("machineId");
+			window.location="/thankYou";
 		}
 	}
 	$scope.submitPhoneNumber=function(){
@@ -20,7 +20,7 @@ function receiptController($scope,$http) {
 		}else{
 			var number=$scope.phoneNumber.replaceAll("-","").replaceAll("(","").replaceAll(")","").replaceAll(" ","");
 			console.log("%OASYS,screen=receiptSMS&phoneNumber="+number+"?");
-			window.location="/vendingMain?machineId="+getParameterByName("machineId");
+			window.location="/thankYou";
 		}
 	}
 	$scope.addNumber=function(number){
@@ -75,7 +75,7 @@ $(document).ready(function(){
 	$("#emailInput").focus();
 
 	setTimeout(function() {
-		window.location="/vendingMain?machineId="+getParameterByName("machineId");
+		window.location="/thankYou";
 	}, 300000);
 });
 
