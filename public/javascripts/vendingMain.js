@@ -33,9 +33,16 @@ function vendingMain($scope,$http) {
 		$scope.$digest();
 	});
 	
-	setTimeout(function() {
+	var pageTimeout = setTimeout(function() {
 		window.location="/vendingMain?machineId="+getParameterByName("machineId");
-	}, 7200000);
+	}, 180000);
+
+	$scope.pageReset = function() {
+	    clearTimeout(pageTimeout);
+	    pageTimeout = setTimeout(function() {
+			window.location="/vendingMain?machineId="+getParameterByName("machineId");
+		}, 180000);
+	};
 	
 	
 	$scope.availableProducts=[];
@@ -45,6 +52,7 @@ function vendingMain($scope,$http) {
 	
     var timeoutHandle;
     $scope.productSelected=function(id){
+    	$scope.pageReset();
 		var divNameSelected = "#product"+id;
 		
 		var lengthContainers = $scope.machine.containers.length;
@@ -130,6 +138,7 @@ function vendingMain($scope,$http) {
      	} else if (img == 'thumbnail') {
     		$('#main-image').attr('src','/productImage/' + $scope.selectedThumbnail);
     	}
+    	$scope.pageReset();
     };
     $scope.reportProblem = function(issue, screen) {
     	$('.problem-dialog').show();
@@ -145,6 +154,7 @@ function vendingMain($scope,$http) {
 		setTimeout(function() {
 			$('.problem-dialog').hide();
 		}, 30000);
+    	window.clearTimeout(pageTimeout);
     };
     $scope.howItWorks = function() {
     	$.ajax({
@@ -160,15 +170,18 @@ function vendingMain($scope,$http) {
 		setTimeout(function() {
 			$('.how-it-works').hide();
 		}, 180000);
+		$scope.pageReset();
     }
     $scope.closeHowItWorks = function() {
     	$('.suggestion-input').val("");
     	$scope.suggestion = "";
     	$('.how-it-works').hide();
+    	$scope.pageReset();
     }
     $scope.reportBack = function() {
     	$('.problem-dialog').hide();
     	$('#problem-email').val("");
+    	$scope.pageReset();
     };
     $scope.submitSuggestion = function() {
     	console.log($scope.suggestion);
@@ -184,12 +197,15 @@ function vendingMain($scope,$http) {
     	  });
     	}
     	$scope.closeHowItWorks();
+    	$scope.pageReset();
     }
 	$scope.addChar= function(char) {
 		$scope.suggestion=$scope.suggestion+char;
+		$scope.pageReset();
 	}
 	$scope.deleteChar = function() {
 	    $scope.suggestion=$scope.suggestion.substring(0, $scope.suggestion.length-1);	
+	    $scope.pageReset();
 	}
     $scope.submitReport = function() {
     	console.log($scope.formData);
@@ -211,6 +227,7 @@ function vendingMain($scope,$http) {
 			$('.thank-you-report').hide();
 			$('.report-problem').show();
 		}, 5000);
+		$scope.pageReset();
     };
     $scope.closeProduct = function(){
     	console.log("%OASYS,screen=list&?");
@@ -227,10 +244,12 @@ function vendingMain($scope,$http) {
                "content-type": "application/json"
             },
         });
+    	$scope.pageReset();
     	clearTimeout(timeoutHandle);
     };
 
 }
+
 
 
 function getParameterByName(name) {
