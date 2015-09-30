@@ -28,7 +28,9 @@ html, body{
   background-size:100% 100%;
 }
 #productList {
-	border-bottom: 5px solid #bbb;
+	width: 79%;
+    height: 100%;
+    float: left;
 }
 .problem-dialog {
     font-family: ostrich;
@@ -209,17 +211,19 @@ float: left;
 }
 
 .report-problem {
-  position: absolute;
-    right: 0px;
-    top: 900px;
+position: absolute;
+    right: 21%;
+    top: 0px;
+    width: 14%;
     font-family: quicksand;
-    font-size: 23px;
+    font-size: 15px;
 }
 
 #learn-more {
 	position: absolute;
-	left: 0px;
-	top: 900px;
+	right: 21%;
+	width:14%;
+	top: 90px;
 }
 
 .thank-you-report {
@@ -308,23 +312,15 @@ float: left;
 }
 
 .contactButton.secondary {
-	font-family:ostrich;
-  font-size: 40px;
-  border: 5px solid #bbb;
-  /* background-color: #f8C489F00; */
-  background-color: white;
-  opacity: .85;
-  width: 350px;
-  height: 81px;
-  z-index: 1;
-  color: #8C489F;
-  letter-spacing: 3;
-  font-weight: bold;
-  margin: 15px;
-}
-
-.contactButton.secondary.report {
-	width: 250px;
+    font-family: ostrich;
+    font-size: 22px;
+    border: 2px solid #bbb;
+    background-color: white;
+    width: 210px;
+    height: 60px;
+    z-index: 1;
+    color: #8C489F;
+    letter-spacing: 3;
 }
 
 .noReceipt .contactButton{
@@ -406,42 +402,11 @@ font-size: 30px;
 
 #productInfo {
   width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  margin-bottom: 50px;
-  display: inline-block;
-}
-.productImageDetail {
-  display: block;
-  /*
-  position: absolute;
-  left: 50%;
-  right: -50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate (-50%, -50%);
-  */
-  float:right;
-}
-
-.productImageContainer {
-  /*height: 400px; */
-  width: 30%;
-  float: left;
-  display: inline-block;
-  position: relative;
-  margin-left: 100px;
-  margin-top: 50px;
-  padding-top: 120px;
 }
 
 .productDetails {
-     float: right;
-    width: 46%;
+     float: left;
     margin-left: 20px;
-    display: inline-block;
-    padding: 50px 50px 0px 50px;
-    margin: 20px 20px 0px 20px;
 }
 
 #brandInfo {
@@ -613,70 +578,6 @@ background-image:url('/assets/images/blueBackground.jpg');
 #mainDivAvailableList{
   background-color: #bbb;
 }
-.availableListDiv {
-  position: relative;
-  display: inline;
-  float: left;
-  text-align: center;
-  width: 457px;
-  height: 439px;
-  /* border: solid #bbb 5px; */
-  box-shadow: 10px 10px 5px #888;
-  background-color: white;
-  margin: 11px;
-}
-
-
-
-.cornerPrice {
-  position: absolute;
-  left: -75px;
-  top: 5px;
-  display: block;
-  width: 245px;
-  font-size: 22;
-  /* border-top: 2px black solid;
-  border-bottom: 2px black solid;*/
-  background: #bbb;
-  font-weight: bold;
-  color: white;
-  transform: rotate(-45deg);
-  -moz-transform:rotate(-45deg);
-  /* Safari and Chrome */
-  -webkit-transform:rotate(-45deg);
-  /* Opera */
-  -o-transform:rotate(-45deg);
-  /* IE9 */
-  -ms-transform:rotate(-45deg);
-
-}
-
-.cornerPrice p:before {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: -13px;
-  right: -11px;
-  z-index: -1;
-  border: 55px solid;
-  border-color: white white transparent transparent;
-}
-
-.cornerPrice p:after {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: -2px;
-  right: 165px;
-  z-index: -1;
-  border: 55px solid;
-  /* border-color: #caffdd transparent transparent #caffdd;
-  border-color: #e1fbfb transparent transparent #e1fbfb; */
-  border-color: white transparent transparent white;
-}
-
 
 .bodyMain{
     background-color:white;
@@ -710,21 +611,20 @@ background-image:url('/assets/images/blueBackground.jpg');
 	padding-right: 15px;
 }
 
-.productBuyButton #category {
-	float: left;
-	padding-left: 15px;
+.category {
+	width: 100%;
+    text-align: center;
 }
 
-
-.availableProduct {
-  position: relative;
+#cart {
+	    float: right;
+    height: 100%;
+    background-color: black;
+    width: 21%;
 }
 
-.productImage {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  margin-top: 14%;
+#product-details {
+	    width: 79%;
 }
 
 .methodButton {
@@ -776,13 +676,7 @@ background-image:url('/assets/images/blueBackground.jpg');
     border-bottom: 3px solid black;
     padding: 30px;
 }
-.availableListImage{
-  height:70%;
-  padding-top:5%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:contain;
-}
+
 .priceAvailableList{
   margin-top:10px;
   font-weight:100;

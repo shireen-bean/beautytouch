@@ -58,7 +58,7 @@
 	</button>
 	</h2>
 	
-	<div class="containerWrapper"  ng-repeat="c in machine.containers">
+	<div class="containerWrapper"  ng-repeat="c in machine.hooks">
 		<div  ng-click="changeItem($index)">
 			<div class="inventoryLevel"><div class="levelNum">{{c.position}}</div><br>
 				<div style="display:none;">{{c.levelTop = 100-c.num_items/c.total_capacity*100}}</div>

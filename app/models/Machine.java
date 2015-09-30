@@ -32,7 +32,7 @@ public class Machine{
     public int total_capacity;
     public int num_items;
     
-    public List<Container> containers;
+    public List<Hook> hooks;
     
     public static Finder<Long,Machine> find = new Finder<Long,Machine>(
     	    Long.class, Machine.class);
