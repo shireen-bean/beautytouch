@@ -2,14 +2,14 @@ function receiptController($scope,$http) {
 	$scope.emailAddress="";
 	$scope.phoneNumber="";
 	$scope.skipReceipt=function(){
-		window.location="/thankYou";
+		window.location="/thankYou?machineId="+machineID
 	}
 	$scope.submitEmail=function(){
 		if(!validateEmail($scope.emailAddress)){
 			$scope.emailError="Invalid email";
 		}else{
 			console.log("%OASYS,screen=receiptEmail&email="+$scope.emailAddress+"?");
-			window.location="/thankYou";
+		window.location="/thankYou?machineId="+machineID
 		}
 	}
 	$scope.submitPhoneNumber=function(){
@@ -20,7 +20,7 @@ function receiptController($scope,$http) {
 		}else{
 			var number=$scope.phoneNumber.replaceAll("-","").replaceAll("(","").replaceAll(")","").replaceAll(" ","");
 			console.log("%OASYS,screen=receiptSMS&phoneNumber="+number+"?");
-			window.location="/thankYou";
+		window.location="/thankYou?machineId="+machineID
 		}
 	}
 	$scope.addNumber=function(number){
@@ -33,7 +33,7 @@ function receiptController($scope,$http) {
 		$scope.emailAddress=$scope.emailAddress+char;
 	}
 	$scope.deleteChar = function() {
-	    $scope.emailAddress=$scope.emailAddress.substring(0, $scope.emailAddress.length-1);	
+	    $scope.emailAddress=$scope.emailAddress.substring(0, $scope.emailAddress.length-1);
 	}
 	$scope.deleteNumber=function(){
 		$scope.phoneNumber=$scope.phoneNumber.substring(0,$scope.phoneNumber.length-1);
@@ -75,7 +75,7 @@ $(document).ready(function(){
 	$("#emailInput").focus();
 
 	setTimeout(function() {
-		window.location="/thankYou";
+		window.location="/thankYou?machineId="+machineID
 	}, 300000);
 });
 
