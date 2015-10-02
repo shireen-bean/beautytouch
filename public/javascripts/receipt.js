@@ -2,14 +2,14 @@ function receiptController($scope,$http) {
 	$scope.emailAddress="";
 	$scope.phoneNumber="";
 	$scope.skipReceipt=function(){
-		window.location="/thankYou?machineId="+machineID
+		window.location="/thankYou?machineId="+getParameterByName("machineId");
 	}
 	$scope.submitEmail=function(){
 		if(!validateEmail($scope.emailAddress)){
 			$scope.emailError="Invalid email";
 		}else{
 			console.log("%OASYS,screen=receiptEmail&email="+$scope.emailAddress+"?");
-		window.location="/thankYou?machineId="+machineID
+		window.location="/thankYou?machineId="+getParameterByName("machineId");
 		}
 	}
 	$scope.submitPhoneNumber=function(){
@@ -20,7 +20,7 @@ function receiptController($scope,$http) {
 		}else{
 			var number=$scope.phoneNumber.replaceAll("-","").replaceAll("(","").replaceAll(")","").replaceAll(" ","");
 			console.log("%OASYS,screen=receiptSMS&phoneNumber="+number+"?");
-		window.location="/thankYou?machineId="+machineID
+		window.location="/thankYou?machineId="+getParameterByName("machineId");
 		}
 	}
 	$scope.addNumber=function(number){
@@ -57,7 +57,7 @@ function receiptController($scope,$http) {
     	$.ajax({
     		type: "POST",
     		url: "/reportProblem",
-    		data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
+    		data: JSON.stringify({"machine_id": getParameterByName("machineId"), "formData": $scope.formData }),
     		dataType: "json",
     		headers: {
     			"content-type": "application/json"
@@ -75,7 +75,7 @@ $(document).ready(function(){
 	$("#emailInput").focus();
 
 	setTimeout(function() {
-		window.location="/thankYou?machineId="+machineID
+		window.location="/thankYou?machineId="+getParameterByName("machineId");
 	}, 300000);
 });
 
