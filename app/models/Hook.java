@@ -21,7 +21,7 @@ public class Hook {
     public Long machine_id;
     public Integer item_sku;
     public Product product;
-    public String status;
+    public int status;
 
     public static Finder<Long,Hook> find = new Finder<Long,Hook>(
     	    Long.class, Hook.class);

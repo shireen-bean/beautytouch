@@ -13,7 +13,7 @@
 	<div id="productList">
 	  <table style="margin: 0 auto;" width="65%" height="57%" border="0" cellpadding="0" cellspacing="0">
 	    <tr>
-	      <td valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat="product in availableProducts">
+	      <td align="center" valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat="product in availableProducts">
 		    <img style="max-width:300px" src='productImage/{{product.item_img}}'>
 		    <p class="category">{{product.category}}<br>${{product.price}}</p>
 	      </td>

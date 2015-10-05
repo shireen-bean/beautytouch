@@ -613,6 +613,7 @@ background-image:url('/assets/images/blueBackground.jpg');
 
 .category {
 	width: 100%;
+	max-width: 300px;
     text-align: center;
 }
 

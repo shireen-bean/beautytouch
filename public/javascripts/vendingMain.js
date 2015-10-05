@@ -16,21 +16,24 @@ function vendingMain($scope,$http) {
 
   $(document).ready(function(){
     $scope.machine=JSON.parse($("#machineJsonVariable").html());
-    console.log($scope.machine.containers);
+    console.log($scope.machine.hooks);
     var alreadyListedProd = "";
-    var lengthContainers = $scope.machine.containers.length;
-    console.log(lengthContainers);
-    for(var i=0; i<lengthContainers;i++){
-      var currentSku = $scope.machine.containers[i].product.item_sku;
-      if(!(alreadyListedProd.indexOf(currentSku)>=0)){
-        if($scope.machine.containers[i].num_items>0){
-          $scope.availableProducts.push($scope.machine.containers[i].product);
-          alreadyListedProd+=currentSku+",";
+    var lengthhooks = $scope.machine.hooks.length;
+    console.log(lengthhooks);
+    for(var i=0; i<lengthhooks;i++){
+      if ($scope.machine.hooks[i].item_sku != null) {
+        var currentSku = $scope.machine.hooks[i].product.item_sku;
+        if(!(alreadyListedProd.indexOf(currentSku)>=0)){
+        	console.log('now here');
+            $scope.availableProducts.push($scope.machine.hooks[i].product);
+            alreadyListedProd+=currentSku+",";
         }
       }
     }
     var lengthUniqueSkus = $scope.availableProducts.length;
+    console.log($scope.availableProducts);
     $scope.productSelected($scope.availableProducts[0].item_sku, false);
+    console.log($scope.selectedName);
     $scope.$digest();
   });
 
@@ -65,27 +68,29 @@ function vendingMain($scope,$http) {
 	  }
     $scope.selectedId=id;
 
-    var lengthContainers = $scope.machine.containers.length;
-    for(var i=0; i<lengthContainers;i++){
-      var iSku = $scope.machine.containers[i].product.item_sku;
-      if(iSku==id){
+    var lengthhooks = $scope.machine.hooks.length;
+    for(var i=0; i<lengthhooks;i++){
+      if ($scope.machine.hooks[i].item_sku != null){
+        var iSku = $scope.machine.hooks[i].product.item_sku;
+        if(iSku==id){
 
-        var productCurrent = $scope.machine.containers[i].product;
-        console.log(productCurrent);
-        $scope.selectedPrice=productCurrent.price;
-        $scope.selectedDescription= productCurrent.item_description.split("//");
-        console.log($scope.selectedDescription);
-        $scope.mainImg = productCurrent.item_img;
-        $scope.selectedImg = productCurrent.item_img;
-        $scope.selectedDetailImg = productCurrent.detail_img;
-        $scope.selectedThumbnail = productCurrent.thumbnail;
-        $scope.selectedName= productCurrent.item_name;
-        $scope.selectedSubtitle = productCurrent.subtitle;
-        $scope.selectedBrandName = productCurrent.brand.name;
-        $scope.selectedBrandLogo = productCurrent.brand.logo;
-        $scope.selectedBrandDescription = productCurrent.brand.description;
-        $scope.selectedBrandId = productCurrent.brand.id;
-        break;
+          var productCurrent = $scope.machine.hooks[i].product;
+          console.log(productCurrent);
+          $scope.selectedPrice=productCurrent.price;
+          $scope.selectedDescription= productCurrent.item_description.split("//");
+          console.log($scope.selectedDescription);
+          $scope.mainImg = productCurrent.item_img;
+          $scope.selectedImg = productCurrent.item_img;
+          $scope.selectedDetailImg = productCurrent.detail_img;
+          $scope.selectedThumbnail = productCurrent.thumbnail;
+          $scope.selectedName= productCurrent.item_name;
+          $scope.selectedSubtitle = productCurrent.subtitle;
+          $scope.selectedBrandName = productCurrent.brand.name;
+          $scope.selectedBrandLogo = productCurrent.brand.logo;
+          $scope.selectedBrandDescription = productCurrent.brand.description;
+          $scope.selectedBrandId = productCurrent.brand.id;
+           break;
+        }
       }
     }
     console.log(productCurrent);
@@ -98,19 +103,21 @@ function vendingMain($scope,$http) {
 
     console.log("add product: " + $scope.selectedId);
     $scope.pageReset();
-    var lengthContainers = $scope.machine.containers.length;
-    for(var i=0; i<lengthContainers;i++){
-      var currentSku = $scope.machine.containers[i].product.item_sku;
-      if(currentSku==$scope.selectedId){
-        var slotWithProduct = $scope.machine.containers[i].slot;
-        var columnWithProduct = i+1;
-        break;
-      }else{
-        var columnWithProduct = 0;
+    var slot = 0;
+    var lengthhooks = $scope.machine.hooks.length;
+    for(var i=0; i<lengthhooks;i++){
+      if ($scope.machine.hooks[i].status == 1) {
+        var currentSku = $scope.machine.hooks[i].product.item_sku;
+        if(currentSku==$scope.selectedId){
+          slot = $scope.machine.hooks[i].id;
+          console.log(i);
+          console.log(slot);
+          break;
+        }
       }
     }
-
-    if(columnWithProduct!=0){
+    console.log(slot);
+    if(slot != 0){
       //find product details and display checkout window
       //$("#productList").css('opacity','.1');
       //$("#productView").show();
@@ -144,7 +151,7 @@ function vendingMain($scope,$http) {
       $scope.cart.total = +$scope.cart.total + +$scope.selectedPrice;
       console.log($scope.cart);
 
-      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.selectedId+"&slot="+slotWithProduct+"&column="+columnWithProduct+"?");
+      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.selectedId+"&slot="+slot+"?");
 
 
       //window.location="/pay?machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct;

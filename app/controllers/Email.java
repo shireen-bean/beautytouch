@@ -23,7 +23,7 @@ import views.html.receiptEmail;
 
 public class Email extends Controller {
 
-  public static Result alertSale(String machineId, String productId, BigDecimal productPrice) {
+  public static Result alertSale(String machineId, String productId, BigDecimal price) {
     System.out.println("alertSale");
     Product product = Ebean.find(Product.class, productId);
     String[] recipients = {
@@ -39,7 +39,7 @@ public class Email extends Controller {
       mail.setRecipient(recipient);
       mail.setFrom("Oasys <service@oasysventures.com>");
 
-      mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + product.item_name + "' sold for $" + productPrice.toString() + ".</p>");
+      mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + product.item_name + "' sold for $" + price.toString() + ".</p>");
     }
     return ok();
   }

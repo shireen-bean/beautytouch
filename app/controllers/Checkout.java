@@ -119,7 +119,7 @@ public class Checkout extends Controller {
      	return ok(response);
     }
     
-    public static Result processNonce(String nonce, String name, String productId, String machineId, String column){
+    public static Result processNonce(String nonce, String name, String productId, String machineId, String slot){
     	
     	BigDecimal productPrice = new BigDecimal(Database.getProductPrice(productId));
     	TransactionRequest request = new TransactionRequest()
@@ -144,11 +144,10 @@ public class Checkout extends Controller {
     	      //TODO: update when selling multiple items per purchase
     	      salesId = Database.recordSale(machineId, productId, productPrice);
     		  //decrement inventory
-    		  Database.removeItem(machineId,column);
+    		  Database.removeItem(machineId,slot);
     		  //send email alert
     		  Email.alertSale(machineId, productId, productPrice);
     		}catch(Exception e){
-    			
     		}
     		response.put("result","success");
         	response.put("salesId", Objects.toString(salesId));

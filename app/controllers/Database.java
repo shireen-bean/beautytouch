@@ -200,16 +200,17 @@ public class Database {
     machine.address = jn.get("address").asText();
     Ebean.save(machine);
 
-    JsonNode HookArray = jn.get("Hooks");
-    for(int i=0;i<HookArray.size();i++){
+    JsonNode hookArray = jn.get("hooks");
+    for(int i=0;i<hookArray.size();i++){
       Hook hook = new Hook();
-      JsonNode jnHook = HookArray.get(i);
+      JsonNode jnHook = hookArray.get(i);
       hook.machine_id = machine.id;
-      if (jnHook.get("product") != null) {
+      hook.id = i+1;
+      if (jnHook.get("product").get("item_name") != null) {
         hook.item_sku=jnHook.get("product").get("item_sku").asInt();
-        hook.status = "full";
+        hook.status = 1;
       } else {
-    	  hook.status = "empty";
+    	  hook.status = 0;
       }
       Ebean.save(hook);
     }
@@ -247,13 +248,15 @@ public class Database {
     machine.num_items = 0;
     for (Hook c : machine.hooks) {
       machine.total_capacity++;
-      machine.num_items += c.num_items;
-      Product product = Ebean.find(Product.class, c.item_sku);
-      c.product = product;
-      if (c.product.brand_id != null) {
-        Brand brand = Ebean.find(Brand.class, c.product.brand_id);
-        c.product.brand = brand;
-      }
+      if (c.item_sku != null) {
+          machine.num_items++;
+          Product product = Ebean.find(Product.class, c.item_sku);
+          c.product = product;
+          if (c.product.brand_id != null) {
+            Brand brand = Ebean.find(Brand.class, c.product.brand_id);
+            c.product.brand = brand;
+          }
+       }
     }
     return machine;
   }
@@ -264,28 +267,35 @@ public class Database {
     machine.lon = jn.get("lon").asDouble();
     machine.address = jn.get("address").asText();
     Ebean.save(machine);
+    System.out.println(jn);
 
-    JsonNode HookArray = jn.get("Hooks");
-    for(int i = 0; i<HookArray.size(); i++) {
-      JsonNode j = HookArray.get(i);
+    JsonNode hooks = jn.get("hooks");
+    for(int i = 0; i<hooks.size(); i++) {
+      JsonNode j = hooks.get(i);
       Hook c = Ebean.find(Hook.class).where()
-        .eq("machine_id", machine.id)
-        .eq("position", j.get("position").asInt())
-        .findUnique();
-      c.num_items = j.get("num_items").asInt();
-      c.total_capacity = j.get("total_capacity").asInt();
-      c.item_sku = j.get("product").get("item_sku").asInt();
-      c.slot = j.get("slot").asInt();
-      Ebean.save(c);
+              .eq("machine_id", machine.id)
+              .eq("id", j.get("id").asInt())
+              .findUnique();
+      if (j.get("product").get("item_name") != null) {
+        c.item_sku = j.get("product").get("item_sku").asInt();
+        c.status = 1;
+        Ebean.save(c);
+      } else {
+    	  c.item_sku = null;
+    	  c.status = 0;
+    	  Ebean.save(c);
+      }
     }
   }
 
-  public static void removeItem(String machine_id, String column) {
+  public static void removeItem(String machine_id, String slot) {
+	  System.out.println("REMOVE ITEM");
     Hook c = Ebean.find(Hook.class).where()
       .eq("machine_id",  machine_id)
-      .eq("position", column)
+      .eq("id", slot)
       .findUnique();
-    c.num_items = c.num_items - 1;
+    c.item_sku = null;
+    c.status = 0;
     Ebean.save(c);
   }
 
