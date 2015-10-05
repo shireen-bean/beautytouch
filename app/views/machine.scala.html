@@ -61,79 +61,100 @@
 	<table>
 	<tr>
 	<td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'1'">
-			<div class="productType">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
 				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
 			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
 			<font style="color:#0582CA">edit</font>
-		<br>Slot #{{c.id}}<br>
+		<br>Hook #{{c.id}}<br>
 	 </td>
 	 </tr>
 	 <tr>
-	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'2'">
-			<div class="productType">
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'2'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
 				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
 			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
 			<font style="color:#0582CA">edit</font>
-		<br>Slot #{{c.id}}<br>
+		<br>Hook #{{c.id}}<br>
 	   </td>
 	 </tr>	 
 	 <tr>
-	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'3'">
-			<div class="productType">
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'3'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
 				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
 			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
 			<font style="color:#0582CA">edit</font>
-		<br>Slot #{{c.id}}<br>
+		<br>Hook #{{c.id}}<br>
 	   </td>
 	 </tr>	 
 	 <tr>
-	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'4'">
-			<div class="productType">
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'4'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
 				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
 			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
 			<font style="color:#0582CA">edit</font>
-		<br>Slot #{{c.id}}<br>
+		<br>Hook #{{c.id}}<br>
 	   </td>
 	 </tr>	 
 	 <tr>
 	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'5'">
-			<div class="productType">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
 				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
 			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
 			<font style="color:#0582CA">edit</font>
-		<br>Slot #{{c.id}}<br>
+		<br>Hook #{{c.id}}<br>
 	   </td>
 	 </tr>	 
 	 <tr>
-	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'6'">
-			<div class="productType">
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'6'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
 				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
 			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
 			<font style="color:#0582CA">edit</font>
-		<br>Slot #{{c.id}}<br>
+		<br>Hook #{{c.id}}<br>
 	   </td>
 	 </tr>	 
 	 <tr>
-	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'0'">
-			<div class="productType">
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'0'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
 				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
 			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
 			<font style="color:#0582CA">edit</font>
-		<br>Slot #{{c.id}}<br>
+		<br>Hook #{{c.id}}<br>
 	   </td>
 	 </tr>
 	 </table>
