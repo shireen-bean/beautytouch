@@ -71,11 +71,24 @@ function machineController($scope,$http) {
 		}
 	}
 	
+	$scope.modSeven = function() {
+	  return function(items, row) {
+	    var arrayToReturn = [];
+	    for (var i=0; i<items.length; i++) {
+	      if (items[i] % 7 == row) {
+	        arrayToReturn.push(items[i]);
+	      }
+	    }
+	    
+	    return arrayToReturn;
+	  };
+	};
+	
 	$scope.location="0";
 	
 	$scope.changeItem=function(location){
 		//getItems
-		$scope.location=location;
+		$scope.location=location-1;
 		chooseItem();
 	}
 	

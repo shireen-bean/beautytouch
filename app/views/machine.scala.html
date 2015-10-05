@@ -3,7 +3,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
 <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/table.css")">
 
-<div ng-app="" ng-controller="machineController"> 
+<div ng-app="myApp" ng-controller="machineController"> 
 
 <div id="chooseItemDiv">
 	<div style="padding:20px;background:white;border-radius:10px; margin:10px 20% 0px 20%;">
@@ -58,7 +58,9 @@
 	</button>
 	</h2>
 	
-	<div class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks">
+	<table>
+	<tr>
+	<td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'1'">
 			<div class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
@@ -66,12 +68,75 @@
 			</div>
 			<font style="color:#0582CA">edit</font>
 		<br>Slot #{{c.id}}<br>
-	    </div>
-		<br>
-	</div>
-	
-			<div style="clear:both;"></div>
-	<br>
+	 </td>
+	 </tr>
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'2'">
+			<div class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Slot #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'3'">
+			<div class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Slot #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'4'">
+			<div class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Slot #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'5'">
+			<div class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Slot #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'6'">
+			<div class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Slot #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem($index)" ng-repeat="c in machine.hooks | modSeven:'0'">
+			<div class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Slot #{{c.id}}<br>
+	   </td>
+	 </tr>
+	 </table>
 	
 <!-- 	<h2>Machine Status
 	    <table>
@@ -116,8 +181,22 @@
 </div>
 
 </div>
-
+<script>
+angular.module("myApp", []).filter('modSeven', function(){
+  return function(items, row) {
+    console.log(row);
+    var arrayToReturn = [];
+    for (var i = 0; i < items.length; i ++) {
+      if (items[i].id % 7 == row ) {
+        arrayToReturn.push(items[i]);
+      }
+    }
+    return arrayToReturn;
+  };
+});
+</script>
 <script src="@routes.Assets.at("javascripts/machineController.js")" type="text/javascript"></script>
+
 
 }
 
