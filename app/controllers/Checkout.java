@@ -1,6 +1,8 @@
 package controllers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -119,11 +121,23 @@ public class Checkout extends Controller {
      	return ok(response);
     }
     
-    public static Result processNonce(String nonce, String name, String productId, String machineId, String slot){
+    public static Result processNonce(String nonce, String name, String productIds, String machineId, String slot){
     	
-    	BigDecimal productPrice = new BigDecimal(Database.getProductPrice(productId));
+
+    	System.out.println(productIds);
+    	List<String> products = new ArrayList<String>(Arrays.asList(productIds.split(",")));
+    	System.out.println(products);
+    	BigDecimal total = new BigDecimal(0);
+    	for (String product : products) {
+    	  System.out.println(product);
+    	  BigDecimal productPrice = new BigDecimal(Database.getProductPrice(product));
+    	  System.out.println(productPrice);
+    	  total = total.add(productPrice);
+    	  System.out.println("total: " + total);
+    	}
+    	System.out.println(total);
     	TransactionRequest request = new TransactionRequest()
-        .amount(productPrice)
+        .amount(total)
         .paymentMethodNonce(nonce)
         .customer()
         .firstName(name)
@@ -142,11 +156,11 @@ public class Checkout extends Controller {
     		try{
     	      //log purchase
     	      //TODO: update when selling multiple items per purchase
-    	      salesId = Database.recordSale(machineId, productId, productPrice);
+    	      salesId = Database.recordSale(machineId, products, total);
     		  //decrement inventory
     		  Database.removeItem(machineId,slot);
     		  //send email alert
-    		  Email.alertSale(machineId, productId, productPrice);
+    		  Email.alertSale(machineId, products, total);
     		}catch(Exception e){
     		}
     		response.put("result","success");

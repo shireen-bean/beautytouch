@@ -11,41 +11,36 @@ function vendingMain($scope,$http) {
   $scope.selectedBrandName = "Brand Name";
   $scope.selectedBrandDescription = "Brand Description";
   $scope.selectedBrandLogo = "";
-  $scope.cart = { product_list: [], total: 0};
+  $scope.cart = { product_info: [], product_list: [], total: 0, slots: []};
 
 
   $(document).ready(function(){
     $scope.machine=JSON.parse($("#machineJsonVariable").html());
-    console.log($scope.machine.hooks);
     var alreadyListedProd = "";
     var lengthhooks = $scope.machine.hooks.length;
-    console.log(lengthhooks);
     for(var i=0; i<lengthhooks;i++){
       if ($scope.machine.hooks[i].item_sku != null) {
         var currentSku = $scope.machine.hooks[i].product.item_sku;
         if(!(alreadyListedProd.indexOf(currentSku)>=0)){
-        	console.log('now here');
             $scope.availableProducts.push($scope.machine.hooks[i].product);
             alreadyListedProd+=currentSku+",";
         }
       }
     }
     var lengthUniqueSkus = $scope.availableProducts.length;
-    console.log($scope.availableProducts);
     $scope.productSelected($scope.availableProducts[0].item_sku, false);
-    console.log($scope.selectedName);
     $scope.$digest();
   });
 
   var pageTimeout = setTimeout(function() {
     window.location="/vendingMain?machineId="+getParameterByName("machineId");
-  }, 180000);
+  }, 1800000);
 
   $scope.pageReset = function() {
     clearTimeout(pageTimeout);
     pageTimeout = setTimeout(function() {
       window.location="/vendingMain?machineId="+getParameterByName("machineId");
-    }, 180000);
+    }, 1800000);
   };
 
   $scope.availableProducts=[];
@@ -66,7 +61,16 @@ function vendingMain($scope,$http) {
           },
         });
 	  }
+
+	  
     $scope.selectedId=id;
+	  var products = $('.product');
+	  $.each(products, function(index, value) {
+		  if (value.id == id) {
+			  $('td.selected').removeClass('selected');
+			  $('#'+id).addClass('selected');
+	      }
+	  });
 
     var lengthhooks = $scope.machine.hooks.length;
     for(var i=0; i<lengthhooks;i++){
@@ -75,10 +79,8 @@ function vendingMain($scope,$http) {
         if(iSku==id){
 
           var productCurrent = $scope.machine.hooks[i].product;
-          console.log(productCurrent);
           $scope.selectedPrice=productCurrent.price;
           $scope.selectedDescription= productCurrent.item_description.split("//");
-          console.log($scope.selectedDescription);
           $scope.mainImg = productCurrent.item_img;
           $scope.selectedImg = productCurrent.item_img;
           $scope.selectedDetailImg = productCurrent.detail_img;
@@ -93,15 +95,76 @@ function vendingMain($scope,$http) {
         }
       }
     }
-    console.log(productCurrent);
+    window.clearTimeout(timeoutHandle);
+    timeoutHandle = setTimeout(function() {
+      console.log("%OASYS,screen=list&?");
+      $scope.cart.product_list = [];
+      $scope.cart.product_info = [];
+      $scope.cart.total = 0;
+      $scope.cart.slots = [];
+      $.ajax({
+        type: "POST",
+        url: "/logEvent",
+        data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout", "product_sku": 0}),
+        dataType: "json",
+        headers: {
+          "content-type": "application/json"
+        },
+      });
+      $scope.$digest();
+    }, 60000)
   };
 
 
   var timeoutHandle;
 
+  $scope.removeItem = function(item_id){
+	  var item_index = 0;
+	  $.each($scope.cart.product_info, function (index, item) {
+		  if (item.id == item_id) {
+			  $scope.cart.product_list.splice(index, 1);
+		      $scope.cart.total = +$scope.cart.total - +item.price;
+			  $scope.cart.slots.splice(index, 1);
+			  item_index = index;
+			  return false;
+		  }
+	  });
+	  $scope.cart.product_info.splice(item_index, 1);
+      $.ajax({
+          type: "POST",
+          url: "/logEvent",
+          data: JSON.stringify({ "machine_id": machineID, "event_type": "remove_from_cart", "product_sku": item_id}),
+          dataType: "json",
+          headers: {
+            "content-type": "application/json"
+          },
+        });
+	  if ($scope.cart.product_list.length != 0) {
+	    console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
+	  } else {
+	    console.log("%OASYS,screen=list&?");
+	  }
+	  window.clearTimeout(timeoutHandle);
+      timeoutHandle = setTimeout(function() {
+        console.log("%OASYS,screen=list&?");
+        $scope.cart.product_list = [];
+        $scope.cart.product_info = [];
+        $scope.cart.total = 0;
+        $scope.cart.slots = [];
+        $.ajax({
+          type: "POST",
+          url: "/logEvent",
+          data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout", "product_sku": 0}),
+          dataType: "json",
+          headers: {
+            "content-type": "application/json"
+          },
+        });
+        $scope.$digest();
+      }, 60000)
+	  
+  };
   $scope.addToCart = function(){
-
-    console.log("add product: " + $scope.selectedId);
     $scope.pageReset();
     var slot = 0;
     var lengthhooks = $scope.machine.hooks.length;
@@ -110,13 +173,10 @@ function vendingMain($scope,$http) {
         var currentSku = $scope.machine.hooks[i].product.item_sku;
         if(currentSku==$scope.selectedId){
           slot = $scope.machine.hooks[i].id;
-          console.log(i);
-          console.log(slot);
           break;
         }
       }
     }
-    console.log(slot);
     if(slot != 0){
       //find product details and display checkout window
       //$("#productList").css('opacity','.1');
@@ -131,11 +191,13 @@ function vendingMain($scope,$http) {
         },
       });
 
+      window.clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
         console.log("%OASYS,screen=list&?");
         $scope.cart.product_list = [];
+        $scope.cart.product_info = [];
         $scope.cart.total = 0;
-        console.log($scope.cart);
+        $scope.cart.slots = [];
         $.ajax({
           type: "POST",
           url: "/logEvent",
@@ -145,14 +207,20 @@ function vendingMain($scope,$http) {
             "content-type": "application/json"
           },
         });
+        $scope.$digest();
       }, 60000)
 
       $scope.cart.product_list.push($scope.selectedId);
+      var product_info = {};
+      product_info.name = $scope.selectedName;
+      product_info.price = $scope.selectedPrice;
+      product_info.id = $scope.selectedId;
+      $scope.cart.product_info.push(product_info);
       $scope.cart.total = +$scope.cart.total + +$scope.selectedPrice;
-      console.log($scope.cart);
-
-      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.selectedId+"&slot="+slot+"?");
-
+      $scope.cart.slots.push(slot);
+      var slots = "";
+      var products = "";
+      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
 
       //window.location="/pay?machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct;
     }
@@ -200,6 +268,7 @@ function vendingMain($scope,$http) {
     $scope.pageReset();
   }
   $scope.closeHowItWorks = function() {
+	  console.log('here');
     $('.suggestion-input').val("");
     $scope.suggestion = "";
     $('.how-it-works').hide();
@@ -211,7 +280,6 @@ function vendingMain($scope,$http) {
     $scope.pageReset();
   };
   $scope.submitSuggestion = function() {
-    console.log($scope.suggestion);
     if ($scope.suggestion != "") {
       $.ajax({
         type: "POST",
@@ -235,7 +303,6 @@ function vendingMain($scope,$http) {
     $scope.pageReset();
   }
   $scope.submitReport = function() {
-    console.log($scope.formData);
     $.ajax({
       type: "POST",
       url: "/reportProblem",
@@ -256,26 +323,9 @@ function vendingMain($scope,$http) {
     }, 5000);
     $scope.pageReset();
   };
-  $scope.closeProduct = function(){
-    console.log("%OASYS,screen=list&?");
-    $('#main-image').attr('src','/productImage/' + $scope.selectedImg);
-    $("#productView").hide();
-    $("#productList").css('opacity','1');
-    $("#productList").show();
-    $.ajax({
-      type: "POST",
-      url: "/logEvent",
-      data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_back", "product_sku": 0}),
-      dataType: "json",
-      headers: {
-        "content-type": "application/json"
-      },
-    });
-    $scope.pageReset();
-    clearTimeout(timeoutHandle);
-  };
 
 }
+
 
 
 

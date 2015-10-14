@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -288,15 +289,19 @@ public class Database {
     }
   }
 
-  public static void removeItem(String machine_id, String slot) {
+  public static void removeItem(String machine_id, String slots) {
 	  System.out.println("REMOVE ITEM");
-    Hook c = Ebean.find(Hook.class).where()
-      .eq("machine_id",  machine_id)
-      .eq("id", slot)
-      .findUnique();
-    c.item_sku = null;
-    c.status = 0;
-    Ebean.save(c);
+
+  	List<String> slots_list = new ArrayList<String>(Arrays.asList(slots.split(" , ")));
+  	for (String slot : slots_list) {
+      Hook c = Ebean.find(Hook.class).where()
+        .eq("machine_id",  machine_id)
+        .eq("id", slot)
+        .findUnique();
+      c.item_sku = null;
+      c.status = 0;
+      Ebean.save(c);
+  	}
   }
 
   public static Receipt getReceiptDetails(int salesId) {
@@ -381,7 +386,7 @@ public class Database {
     Ebean.save(customer);
   }
 
-  public static long recordSale(String machine_id, String productId, BigDecimal product_price) {
+  public static long recordSale(String machine_id, List<String> productIds, BigDecimal product_price) {
     //create the sale
     Sale sale = new Sale();
     sale.machine_id = Long.parseLong(machine_id, 10);
@@ -389,11 +394,15 @@ public class Database {
     Ebean.save(sale);
 
     //save products
-    SaleProduct product = new SaleProduct();
-    product.sales_id = sale.id;
-    product.product_sku = Integer.parseInt(productId);
-    product.product_price = product_price;
-    Ebean.save(product);
+    
+    for (String productId : productIds) {
+      SaleProduct product = new SaleProduct();
+      product.sales_id = sale.id;
+      product.product_sku = Integer.parseInt(productId);
+      product.product_price = new BigDecimal(getProductPrice(productId));
+      Ebean.save(product);
+    }
+    
 
     return sale.id;
   }
