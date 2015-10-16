@@ -16,6 +16,8 @@ function vendingMain($scope,$http) {
 	$(document).ready(function(){
 		$scope.machine=JSON.parse($("#machineJsonVariable").html());
 		console.log($scope.machine.containers);
+
+		console.log("%OASYS,screen=list&?");
 		var alreadyListedProd = "";
 		var lengthContainers = $scope.machine.containers.length;
 		console.log(lengthContainers);
