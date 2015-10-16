@@ -6,42 +6,22 @@
 <body class="bodyMain receipt">
 <div ng-app="" ng-controller="receiptController"> 
 	<div>
-	  <div id="receipt-prompt">
-	    <h2>How would you like your receipt?</h2>
+	  <div style="margin:40px;"id="receipt-prompt">
+	    <div class="bar"></div>
+        <h1 class="hed">Where should we send your receipt?</h1>
+        <div class="bar"></div>
+        <h3 class="subhed">(and maybe a sweet discount!)</h3>
 	    <i class="fa fa-plus-circle closeButton" ng-click="skipReceipt()" id="no-receipt"></i>
 	  </div>
-	  <div id="receipt-options">
-	    <button class="methodButton selected" id="email">Email</button>
-	    <button class="methodButton" id="sms">Text Message</button>
-	  </div>
-	  <div id="report-problem" class="report-problem">
-	  <h3>Problem with this machine?
-	     <button class="contactButton secondary" ng-click="reportProblem()">Report</button>
-       </h3>
-	</div>
-	<div id="problem-dialog" class="problem-dialog">
-	 <h3>Report a Problem</h3>
-	 <form id="report-form" ng-init="formData.problem='vending'" action="">
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="vending">Product didn't vend<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="product">Received incorrect or damaged product<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="machine">Machine is damaged or vandalized<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="other">Other:<input ng-model="formData.other" type="text" name="other"><br></label>
-     <p class="contact-info">If you would like to be contacted about this issue please enter your email address:</p>
-     <input id="problem-email" ng-model="formData.email" type="text" name="email">
-     </form>
-	 <button class="contactButton problem-button secondary" style="float: left; margin-left:175px;" ng-click="reportBack()">Back</button>
-	 <button class="contactButton problem-button" style="float:right;margin-right:175px;" ng-click="submitReport()">Submit</button>
-	</div>
-	  <div class="thank-you-report" id="thank-you-report-receipt">
-	  <h3>Thank you for reporting an issue with this machine.</h3>
-	</div>
-	<div class="contactInfo" id="email-form">
-      <input id="emailInput" class="contactInput input" type="text" ng-model="emailAddress" readonly/>
-    <div id="keyboard">
-		<table class="fixed" cellspacing="10">
-		  <tr>
+	  <div class="contactInfo" id="email-form">
+	    <p style="font-family: helvetica neue;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin: 0px 0px 10px 0px;">Email Address: </p>
+        <input id="emailInput" class="contactInput input" type="text" ng-model="emailAddress" readonly/>
+        <div id="keyboard">
+		  <table class="fixed" cellspacing="10">
+		    <tr>
 		    <td width="30px"></td>
 		    <td width="30px"></td>
 		    <td width="30px"></td>
@@ -66,8 +46,8 @@
 		    <td width="30px"></td>
 		    <td width="30px"></td>
 		    <td width="30px"></td>
-		  </tr>
-		  <tr id="symbols">
+		    </tr>
+		    <tr id="symbols">
 		    <td class="keyButton" colspan="2" ng-click="addChar('!')">!</td>
 		    <td class="keyButton" colspan="2" ng-click="addChar('&commat;')">&commat;</td>
 		    <td class="keyButton" colspan="2" ng-click="addChar('#')">#</td>
@@ -79,8 +59,8 @@
 		    <td class="keyButton" colspan="2" ng-click="addChar('-')">-</td>
 		    <td class="keyButton" colspan="2" ng-click="addChar('+')">+</td>
 		    <td colspan="4" class="keyButton" ng-click="deleteChar()">delete</td>
-		  </tr>
-		  <tr id="numbers">
+		    </tr>
+		    <tr id="numbers">
 		    <td class="keyButton" colspan="2" >&nbsp;</td>
 		    <td class="keyButton" colspan="2" ng-click="addChar(1)">1</td>
 		    <td class="keyButton" colspan="2" ng-click="addChar(2)">2</td>
@@ -93,9 +73,8 @@
 		    <td class="keyButton" colspan="2" ng-click="addChar(9)">9</td>
 		    <td class="keyButton" colspan="2" ng-click="addChar(0)">0</td>
 		    <td class="keyButton" colspan="2" >&nbsp;</td>
-		  </tr>
-		 
-		  <tr id="qwertyuiop">
+		    </tr>
+		    <tr id="qwertyuiop">
 		    <td colspan="2" class="keyButton">&nbsp;</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('q')">q</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('w')">w</td>
@@ -108,8 +87,8 @@
 		    <td colspan="2" class="keyButton" ng-click="addChar('o')">o</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('p')">p</td>
 		    <td colspan="2" class="keyButton">&nbsp;</td>
-		  </tr>
-		  <tr id="asdfghjkl">
+		    </tr>
+		    <tr id="asdfghjkl">
 		    <td colspan="3" class="keyButton">&nbsp;</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('a')">a</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('s')">s</td>
@@ -121,10 +100,8 @@
 		    <td colspan="2" class="keyButton" ng-click="addChar('k')">k</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('l')">l</td>
 		    <td colspan="3" class="keyButton"ng-click="addChar('&commat;')">&commat;</td>
-		  </tr>
-
-		  <tr id="zxcvbnm">
-		  
+		    </tr>
+		    <tr id="zxcvbnm">
 		    <td colspan="4" class="keyButton">&nbsp;</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('z')">z</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('x')">x</td>
@@ -136,51 +113,26 @@
 		    <td colspan="2" class="keyButton" ng-click="addChar('.')">.</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('?')">?</td>
 		    <td colspan="2" class="keyButton">&nbsp;</td>
-		  </tr>
-
-		  <tr id="providers">
+		    </tr>
+		    <tr id="providers">
 		    <td class="keyButton" colspan="8" ng-click="addChar('gmail')">gmail</td>
 		    <td class="keyButton" colspan="8" ng-click="addChar('hotmail')">hotmail</td>
 		    <td class="keyButton" colspan="8" ng-click="addChar('yahoo')">yahoo</td>
-		  </tr>
-		  <tr id="domain">
+		    </tr>
+		    <tr id="domain">
 		    <td colspan="3" class="keyButton">&nbsp;</td>
 		    <td colspan="6" class="keyButton" ng-click="addChar('.com')">.com</td>
 		    <td colspan="6" class="keyButton" ng-click="addChar('.net')">.net</td>
 		    <td colspan="6" class="keyButton" ng-click="addChar('.edu')">.edu</td>
 		    <td colspan="3" class="keyButton">&nbsp;</td>
-		  </tr>
-		</table>
+		    </tr>
+		  </table>
 		</div>
 
 		<button class="contactButton email" ng-click="submitEmail()">Submit</button>
-		</div>
-	  </div>
-		
-	  <div class="contactInfo hidden" id="sms-form">
-		<h3 class="receiptError">{{phoneError}}</h3>
-		<input type="text" class="phoneInput input" ng-model="phoneNumber" readonly/>
-		<br>
-		<br>
-		<div id="phoneKeyPad">
-			<div class="phoneButton" ng-click="addNumber(1)">1</div>
-			<div class="phoneButton" ng-click="addNumber(2)">2</div>
-			<div class="phoneButton" ng-click="addNumber(3)">3</div>
-			<div class="phoneButton" ng-click="addNumber(4)">4</div>
-			<div class="phoneButton" ng-click="addNumber(5)">5</div>
-			<div class="phoneButton" ng-click="addNumber(6)">6</div>
-			<div class="phoneButton" ng-click="addNumber(7)">7</div>
-			<div class="phoneButton" ng-click="addNumber(8)">8</div>
-			<div class="phoneButton" ng-click="addNumber(9)">9</div>
-			<div class="phoneButton">&nbsp;</div>
-			<div class="phoneButton" ng-click="addNumber(0)">0</div>
-			<div class="phoneButton" ng-click="deleteNumber()"><img class="deleteKey" src="@routes.Assets.at("images/deleteKey.png")"></img></div>
-		</div>
-		<button class="contactButton email" ng-click="submitPhoneNumber()">Submit</button>
-	  </div>
-		
-		<br>
-	 </div>
+      </div>
+	</div>
+    <br>
 	 <div style="clear:both;"></div>
 </div>
 

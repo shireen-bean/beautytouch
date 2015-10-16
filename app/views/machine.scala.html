@@ -3,7 +3,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
 <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/table.css")">
 
-<div ng-app="" ng-controller="machineController"> 
+<div ng-app="myApp" ng-controller="machineController"> 
 
 <div id="chooseItemDiv">
 	<div style="padding:20px;background:white;border-radius:10px; margin:10px 20% 0px 20%;">
@@ -58,34 +58,106 @@
 	</button>
 	</h2>
 	
-	<div class="containerWrapper"  ng-repeat="c in machine.containers">
-		<div  ng-click="changeItem($index)">
-			<div class="inventoryLevel"><div class="levelNum">{{c.position}}</div><br>
-				<div style="display:none;">{{c.levelTop = 100-c.num_items/c.total_capacity*100}}</div>
-				<div style="display:none;">{{c.levelHeight = c.num_items/c.total_capacity*100}}</div>
-	<!-- 			<div style="display:none;">{{c.levelwidth = c.num_items/c.total_capacity*100}}</div> -->
-				<div ng-style="{'top':c.levelTop+ '%','height':c.levelHeight+ '%'}" class="level" style="">
-	 		</div>
-			</div>
-			<br>
-			<div class="productType">
+	<table>
+	<tr>
+	<td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'1'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
 				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
 				<span class="blue">{{c.product.item_name}}</span>
-				<br>sku# {{c.product.item_sku}}<br>{{c.num_items}}/{{c.total_capacity}}<br>${{c.product.price}}
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
 			</div>
 			<font style="color:#0582CA">edit</font>
-		</div>
-		Capacity<br>
-		<input type="number" class="refillNum" ng-model="c.total_capacity"></input>
-		Quantity<br>
-		<input type="number" class="refillNum" ng-model="c.num_items"></input>
-		<br>Slot<br>
-		<input type="number" class="refillNum" ng-model="c.slot"></input>
-		<br>
-	</div>
-	
-			<div style="clear:both;"></div>
-	<br>
+		<br>Hook #{{c.id}}<br>
+	 </td>
+	 </tr>
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'2'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Hook #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'3'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Hook #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'4'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Hook #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'5'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Hook #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'6'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Hook #{{c.id}}<br>
+	   </td>
+	 </tr>	 
+	 <tr>
+	   <td class="containerWrapper" ng-click="changeItem(c.id)" ng-repeat="c in machine.hooks | modSeven:'0'">
+			<div ng-hide="c.product.item_sku == null" class="productType">
+				<img class="productImg" src="productImage/{{c.product.item_img}}"></img><br>
+				<span class="blue">{{c.product.item_name}}</span>
+				<br>sku# {{c.product.item_sku}}<br><br>${{c.product.price}}
+			</div>
+			<div ng-hide="c.product.item_sku != null">
+			<p>(Empty)</p>
+			</div>
+			<font style="color:#0582CA">edit</font>
+		<br>Hook #{{c.id}}<br>
+	   </td>
+	 </tr>
+	 </table>
 	
 <!-- 	<h2>Machine Status
 	    <table>
@@ -130,8 +202,22 @@
 </div>
 
 </div>
-
+<script>
+angular.module("myApp", []).filter('modSeven', function(){
+  return function(items, row) {
+    console.log(row);
+    var arrayToReturn = [];
+    for (var i = 0; i < items.length; i ++) {
+      if (items[i].id % 7 == row ) {
+        arrayToReturn.push(items[i]);
+      }
+    }
+    return arrayToReturn;
+  };
+});
+</script>
 <script src="@routes.Assets.at("javascripts/machineController.js")" type="text/javascript"></script>
+
 
 }
 

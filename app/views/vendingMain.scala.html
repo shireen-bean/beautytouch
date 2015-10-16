@@ -4,114 +4,110 @@
 @linksVending()
 </head>
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=League+Script" />
-<body class="bodyMain" style="">
+<body class="bodyMain" style="overflow: hidden;">
 <div id="machineJsonVariable" style="display:none;">@jsonString</div>
 
 <div id="mainDivAvailableList" ng-app="" ng-controller="vendingMain" style=""> 
-
-
 	<div id="productList">
-		<div  ng-click="productSelected(product.item_sku)" ng-repeat="product in availableProducts"></a>
-				  <div class="availableListDiv" >
-				  	<div class="availableProduct" id="product{{product.item_sku}}">
-					    <img class="productImage" src='productImage/{{product.item_img}}'>
-					    <br>
-				    </div>
-				    <button class="productBuyButton"><span id="category">{{product.category}}</span><span id="price">${{product.price}}</span></button>
-				    <div style="clear:both;"></div>
-				  </div>
-				</div> 
-			<div style="clear:both;"></div>
-			
-	</div>
-	<div id="report-problem" class="report-problem">
-	  <h3>Problem with this machine?
-	     <button class="contactButton secondary report" ng-click="reportProblem()">Report</button>
-       </h3>
-	</div>
-	<div id="problem-dialog" class="problem-dialog">
-	 <h3>Report a Problem</h3>
-	 <form id="report-form" ng-init="formData.problem='vending'" action="">
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="vending">Product didn't vend<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="product">Received incorrect or damaged product<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="machine">Machine is damaged or vandalized<br></label>
-     <label><input ng-model="formData.problem" type="radio" name="problem" value="other">Other:<input ng-model="formData.other" type="text" name="other"><br></label>
-     <p class="contact-info">If you would like to be contacted about this issue please enter your email address:</p>
-     <input id="problem-email" ng-model="formData.email" type="text" name="email">
-     </form>
-	 <button class="contactButton problem-button secondary" style="float: left; margin-left:175px;" ng-click="reportBack()">Back</button>
-	 <button class="contactButton problem-button" style="float:right;margin-right:175px;" ng-click="submitReport()">Submit</button>
-	</div>
-	<div class="thank-you-report" id="thank-you-report">
-	  <h3>Thank you for reporting an issue with this machine.</h3>
-	</div>
-	<div id="learn-more">
-	  <h3>
-	  <button class="contactButton secondary" ng-click="howItWorks()">Get a free Sample</button>
-	  </h3>
-	</div>
-
-	<div id="productView" style="display:none;">
-		  <div id="leftBlock">
-		    <div id="productInfo">
-		      <div class="productImageContainer">
-			    <img class="productImageDetail" id="main-image" src="productImage/{{mainImg}}"/> 			    
-			    <div id="thumbnails">
-			      <img ng-hide="selectedDetailImg == null && selectedThumbnail == null" ng-click="changeImage('selectedImg')" class="thumbnail selected" src='/productImage/{{selectedImg}}'>
-		          <img ng-hide="selectedDetailImg == null" ng-click="changeImage('selectedDetailImg')" class="thumbnail" src='/productImage/{{selectedDetailImg}}'>
-		          <img ng-hide="selectedThumbnail == null" ng-click="changeImage('thumbnail')" class="thumbnail" src='/productImage/{{selectedThumbnail}}'>
-		        </div>
-		      </div>
-			  <div class="productDetails">
-			    <h2 id="itemName" style="margin:20px 0px;">{{selectedName}}</h2>
-			    <h3 ng-hide="selectedSubtitle == null" id="subtitle">{{selectedSubtitle}}</h3>
-			    <h2 id="productPrice">{{selectedPrice | currency}}</h2>
-			    <ul id="productDescription">
-			      <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
-			    </ul>
-			  </div>
-			
-		      <div ng-hide="selectedBrandId == 0" id="brandInfo">
-		        <img class="brandLogo" ng-src="brandLogo/{{selectedBrandLogo}}"/>
-		        <div ng-hide="selectedBrandDescription ==''" id="brandText">
-		            <p class="brandDescription">{{selectedBrandDescription}}</p>
-		        </div>
-		      </div>
-		    </div>
-		    <div ng-click="closeProduct()" class="back">
-		      <i class="fa fa-chevron-left"></i>&nbsp;&nbsp;back
-		    </div>
-		  </div>
-		  <div class="report-problem" id="report-problem-pdp">
-	        <h3>Problem with this machine?
-	          <button class="contactButton secondary report" ng-click="reportProblem()">Report</button>
-	        </h3>
-	      </div>
-	      <div id="thank-you-report-pdp" class="thank-you-report">
-	        <h3>Thank you for reporting an issue with this machine.</h3>
-	      </div>
-		  <div id="rightBlock">
-		    <div id="swipeMessage">
-		      <h2 style="margin-top:200px">Swipe card to purchase for {{selectedPrice | currency}}</h2>
-		      <img src="https://s3.amazonaws.com/oasys-images/cc_1.gif" style="
-              height: 50%;  margin-top: -77px;"/>
-		    </div>
-		    
-		  </div>
-      <div style="clear:both;"></div>
+	  <div id="header-copy">
+        <div class="bar"></div>
+        <h1 class="hed">Need Something?</h1>
+        <div class="bar"></div>
+        <h3 class="subhed">We've got all a girl could need.</h3>
+      </div>
+	  <table style="margin: 0 auto;" width="65%" height="50%" border="0" cellpadding="0" cellspacing="0">
+	    <tr>
+	      <td id={{product.item_sku}} class="product selected" align="center" valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-start="product in availableProducts" ng-if="$first">
+		    <img class="product-image" style="max-width:200px" src='productImage/{{product.item_img}}'>		    
+		    <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
+	      </td>
+	      <td id={{product.item_sku}} class="product" align="center" valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-end ng-if="!$first">
+		    <img  class="product-image" style="max-width:200px;" src='productImage/{{product.item_img}}'>
+		    <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
+	      </td>
+	    </tr>
+	  </table>	
+	  <div id="product-info">
+	    <div class="productDetails">
+	      <span id="itemName">{{selectedName}} - {{selectedPrice | currency}}</span>
+	      <span ng-hide="selectedSubtitle == null" id="subtitle">{{selectedSubtitle}}</span>
+		  <ul id="productDescription">
+	        <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
+		  </ul>
+		  <button class="add-to-cart-button" ng-click="addToCart()">Add to Cart</button>
+		</div>
+	  </div>
+	  <div id="report-problem" class="report-problem">
+	    <h3>Problem with this machine?
+	    <button class="contactButton secondary report" ng-click="reportProblem()">Report a Problem</button>
+        </h3>
+	  </div>
+	  <div id="problem-dialog" class="problem-dialog">
+	    <h2 style="margin: 50px 112px 0 112px;">Uh Oh!<br>
+	    What happened?
+	    </h2>
+	    <p class="problem-text">Let us know if something went wrong. We'll do our best to make it right!</p>
+	    <div class="cart-spacer"></div>
+	    <form id="report-form" ng-init="formData.problem='vending'" action="">
+          <label><input ng-model="formData.problem" type="radio" name="problem" value="vending">Product didn't vend<br></label>
+          <label><input ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
+          <label><input ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
+          <label><input ng-model="formData.problem" type="radio" name="problem" value="product">Received incorrect or damaged product<br></label>
+          <label><input ng-model="formData.problem" type="radio" name="problem" value="machine">Machine is damaged or vandalized<br></label>
+          <label><input ng-model="formData.problem" type="radio" name="problem" value="other">Other:<input ng-model="formData.other" type="text" name="other"><br></label>
+          <p class="contact-info">If you would like to be contacted about this issue please enter your email address:</p>
+          <input id="problem-email" ng-model="formData.email" type="text" name="email">
+        </form>
+        <div style="width: 75.5%;; margin: 0 auto;">
+          <button class="problem-button" ng-click="submitReport()">Submit</button>
+	      <button class="problem-button secondary" ng-click="reportBack()">Back</button>
+	    </div>
+	  </div>
+	  <div class="thank-you-report" id="thank-you-report">
+	    <h3>Thank you for reporting an issue with this machine.</h3>
+	  </div>
+	  <div id="learn-more">
+	    <button class="contactButton secondary" ng-click="howItWorks()">Get a free Sample</button>
+	  </div>  
 	</div>
 	
-	<div id="how-it-works" class="how-it-works">
-	<h2>Want a product on us?</h2>
-	<i class="fa fa-plus-circle closeButton" ng-click="closeHowItWorks()"></i>
+	<div id="cart">
+	  <div class="your-bag">Your Bag <img src="/assets/images/bag-icon.png"/></div>
+	  <div class="cart-spacer"></div>
+	  <div class="empty-cart" ng-hide="cart.product_info.length != 0">Tap to Shop</div>
+	  <ul style="list-style-type: none;text-align:left">
+	    <li class="cart-item" ng-repeat="item in cart.product_info">
+	      <div class="bag-contents">
+	        <span class="cart-product">{{item.name}}</span><span class="cart-price">${{item.price}}</span>
+	      </div>
+	      <button class="cart-remove" ng-click="removeItem(item.id)">X</button>
+	    </li>
+	  </ul>
+	  <div class="cart-spacer"></div>
+	  <div class="cart-total">
+	  	  Total
+	  	  <div class="cart-total-price">{{cart.total | currency}}</div>
+	  	  </div>
+	  <div class="cart-spacer"></div>
+	  <div id="swipeMessage" ng-hide="cart.product_info.length == 0">
+	    <h2>Swipe card anytime to purchase</h2>
+	    <img src="https://s3.amazonaws.com/oasys-images/cc_1.gif" style="height: 24%;"/>
+	  </div>
+	  <div class="logo">
+	  	  <div class="cart-spacer"></div>
+	  	  <div style="width: 100%; margin-top: 14px;">
+	    <img class="logo-b" src="/assets/images/b.png"/>
+	    <span class="beautytouch">Beautytouch</span>
+	    </div>
+	  </div>
+	</div>
 
-    <p>The only thing better than #prettyconvenient is #prettyFREE!</p>
-    <p>Leave your email address below and we'll send you a few easy questions (including where we should send your free product).</p>
-	<textarea rows="1" cols="50" class="suggestion-input" ng-model="suggestion" readonly></textarea> 
-	<div id="keyboard">
-		<table class="fixed" cellspacing="10">
+	<div id="how-it-works" class="how-it-works">
+	  <h1 style="margin-top: 50px;" class="hed">Want a product on us?</h1>
+      <p>The only thing better than #prettyconvenient is #prettyFREE!<br>Leave your email address below and we'll send you a few easy questions (including where we should send your free product).</p>
+	  <textarea rows="1" cols="50" class="suggestion-input" ng-model="suggestion" readonly></textarea> 
+	  <div id="keyboard">
+	   <table class="fixed" cellspacing="10">
 		  <tr>
 		    <td width="30px"></td>
 		    <td width="30px"></td>
@@ -222,14 +218,15 @@
 		    <td colspan="3" class="keyButton">&nbsp;</td>
 		  </tr>
 		</table>
-		</div>
-	<button class="suggestion-button contactButton" ng-click="submitSuggestion()">Submit</button>
-	
+	  </div>
+	  <div style="width:78%">
+        <button class="problem-button" ng-click="submitSuggestion()">Submit</button>
+	    <button class="problem-button secondary" ng-click="closeHowItWorks()">Back</button>
+	  </div>
 	</div>
-	
 </div>
 
-
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
 <script src="@routes.Assets.at("javascripts/vendingMain.js")" type="text/javascript"></script>
 <script type="text/javascript">
 (function() {
