@@ -34,7 +34,7 @@
 		  <ul id="productDescription">
 	        <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
 		  </ul>
-		  <button class="add-to-cart-button" ng-click="addToCart()">Add to Cart</button>
+		  <button class="add-to-cart-button" ng-click="addToCart()">Add to Bag</button>
 		</div>
 	  </div>
 	  <div id="report-problem" class="report-problem">
@@ -74,7 +74,7 @@
 	<div id="cart">
 	  <div class="your-bag">Your Bag <img src="/assets/images/bag-icon.png"/></div>
 	  <div class="cart-spacer"></div>
-	  <div class="empty-cart" ng-hide="cart.product_info.length != 0">Tap to Shop</div>
+	  <div class="empty-cart" ng-hide="cart.product_info.length != 0">Add a product to your bag to begin</div>
 	  <ul style="list-style-type: none;text-align:left">
 	    <li class="cart-item" ng-repeat="item in cart.product_info">
 	      <div class="bag-contents">
