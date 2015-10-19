@@ -77,7 +77,6 @@ public class Database {
       String price, String item_description,
       String package_type) throws SQLException {
 
-	  System.out.println(detail_img);
     Product product = Ebean.find(Product.class, item_sku);
     product.item_name = item_name;
     product.subtitle = subtitle == "null" ? null : subtitle;
@@ -268,7 +267,6 @@ public class Database {
     machine.lon = jn.get("lon").asDouble();
     machine.address = jn.get("address").asText();
     Ebean.save(machine);
-    System.out.println(jn);
 
     JsonNode hooks = jn.get("hooks");
     for(int i = 0; i<hooks.size(); i++) {
@@ -290,10 +288,11 @@ public class Database {
   }
 
   public static void removeItem(String machine_id, String slots) {
-	  System.out.println("REMOVE ITEM");
 
-  	List<String> slots_list = new ArrayList<String>(Arrays.asList(slots.split(" , ")));
+System.out.println(slots);
+  	List<String> slots_list = new ArrayList<String>(Arrays.asList(slots.split(",")));
   	for (String slot : slots_list) {
+System.out.println(slot);
       Hook c = Ebean.find(Hook.class).where()
         .eq("machine_id",  machine_id)
         .eq("id", slot)
@@ -366,7 +365,6 @@ public class Database {
 	      String query = "SELECT * from content where product_sku = "
 	    		  + product_id + " and content_type = 'beauty_hack'";
 
-	      System.out.println(query);
 	      ResultSet resultSet = statement.executeQuery(query);
 	      while (resultSet.next()) {
 	    	  return resultSet.getString("body");
@@ -430,7 +428,6 @@ public class Database {
         "time "+
         "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time desc limit 100";
       
-      System.out.println(query);
 
       ResultSet resultSet = statement.executeQuery(query);
 
@@ -595,7 +592,6 @@ public class Database {
 		  jn.put("taps", sqlRow.getInteger("taps"));
 		  jo.put(jn);
 	  }
-	  System.out.println(jo);
 	  return jo.toString();
   }
 
