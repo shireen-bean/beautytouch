@@ -7,7 +7,7 @@
 <body class="bodyMain" style="overflow: hidden;">
 <div id="machineJsonVariable" style="display:none;">@jsonString</div>
 
-<div id="mainDivAvailableList" ng-app="" ng-controller="vendingMain" style=""> 
+<div id="mainDivAvailableList" ng-app="" ng-controller="vendingMain" style="">
 	<div id="productList">
 	  <div id="header-copy">
         <div class="bar"></div>
@@ -18,7 +18,7 @@
 	  <table style="margin: 0 auto;" width="65%" height="50%" border="0" cellpadding="0" cellspacing="0">
 	    <tr>
 	      <td id={{product.item_sku}} class="product selected" align="center" valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-start="product in availableProducts" ng-if="$first">
-		    <img class="product-image" style="max-width:200px" src='productImage/{{product.item_img}}'>		    
+		    <img class="product-image" style="max-width:200px" src='productImage/{{product.item_img}}'>
 		    <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
 	      </td>
 	      <td id={{product.item_sku}} class="product" align="center" valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-end ng-if="!$first">
@@ -26,7 +26,7 @@
 		    <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
 	      </td>
 	    </tr>
-	  </table>	
+	  </table>
 	  <div id="product-info">
 	    <div class="productDetails">
 	      <span id="itemName">{{selectedName}} - {{selectedPrice | currency}}</span>
@@ -68,9 +68,9 @@
 	  </div>
 	  <div id="learn-more">
 	    <button class="contactButton secondary" ng-click="howItWorks()">Get a free Sample</button>
-	  </div>  
+	  </div>
 	</div>
-	
+
 	<div id="cart">
 	  <div class="your-bag">Your Bag <img src="/assets/images/bag-icon.png"/></div>
 	  <div class="cart-spacer"></div>
@@ -105,7 +105,7 @@
 	<div id="how-it-works" class="how-it-works">
 	  <h1 style="margin-top: 50px;" class="hed">Want a product on us?</h1>
       <p>The only thing better than #prettyconvenient is #prettyFREE!<br>Leave your email address below and we'll send you a few easy questions (including where we should send your free product).</p>
-	  <textarea rows="1" cols="50" class="suggestion-input" ng-model="suggestion" readonly></textarea> 
+	  <textarea rows="1" cols="50" class="suggestion-input" ng-model="suggestion" readonly></textarea>
 	  <div id="keyboard">
 	   <table class="fixed" cellspacing="10">
 		  <tr>
@@ -161,7 +161,7 @@
 		    <td class="keyButton" colspan="2" ng-click="addChar(0)">0</td>
 		    <td class="keyButton" colspan="2" >&nbsp;</td>
 		  </tr>
-		 
+
 		  <tr id="qwertyuiop">
 		    <td colspan="2" class="keyButton">&nbsp;</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('q')">q</td>
@@ -191,7 +191,7 @@
 		  </tr>
 
 		  <tr id="zxcvbnm">
-		  
+
 		    <td colspan="4" class="keyButton">&nbsp;</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('z')">z</td>
 		    <td colspan="2" class="keyButton" ng-click="addChar('x')">x</td>

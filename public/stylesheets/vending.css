@@ -39,7 +39,6 @@ html, body{
 .problem-dialog h3{
 	font-size: 49px;
     letter-spacing: 3px;
-    /* font-family: Roboto Condensed; */
     font-family: league script;
     background-color: #bbb;
     padding-top: 35px;
@@ -76,10 +75,10 @@ html, body{
     top: 37px;
     right: 0px;
     font-size: 50px !important;
-    
+
 }
 
-#how-it-works p {    
+#how-it-works p {
 	font-size: 27px;
     margin: 25px 450px 40px 450px;
 }
@@ -260,14 +259,14 @@ position: absolute;
 	width:320px;
  }
  .input {
- 	line-height:50px;
+	line-height:50px;
 	font-size: 30px;
-  	text-align: left;
-  	padding: 10px;
-    border: 2px solid #bbb;
-    font-family: Roboto Condensed;    
-    letter-spacing: 3px;
-    text-transform: uppercase;
+	text-align: left;
+	padding: 10px;
+  border: 2px solid #bbb;
+  font-family: Roboto Condensed;
+  letter-spacing: 3px;
+  text-transform: uppercase;
  }
 .contactInfo h3{
 	font-size:30px;
@@ -555,7 +554,7 @@ color: black;
 .logo-b {
 	height: 3%;
 }
-.logo {    
+.logo {
 	width: 22%;
     position: fixed;
     bottom: 0;
@@ -893,7 +892,7 @@ height: 100%;
     text-transform: uppercase;
 }
 
-#productPrice {    
+#productPrice {
 	font-family: Roboto Condensed;
     text-align: left;
     font-size: 50px;
@@ -1014,5 +1013,5 @@ body.bodyMain #productDescription{
 
 .description-bullet {
   padding-top: 5px;
-  font-weight: 300;	
+  font-weight: 300;
 }
