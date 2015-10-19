@@ -15,18 +15,14 @@ import play.db.ebean.Model.Finder;
  * Play Java will synthesise getter and setter methods for us and therefore keep JPA happy (JPA expects them).
  */
 @Entity
-@Table(name = "containers")
-public class Container {
+@Table(name = "hooks")
+public class Hook {
     public int id;
     public Long machine_id;
-    public int position;
-    public int num_items;
-    public int total_capacity;
-    public int item_sku;
+    public Integer item_sku;
     public Product product;
-    public String status;
-    public int slot;
+    public int status;
 
-    public static Finder<Long,Container> find = new Finder<Long,Container>(
-    	    Long.class, Container.class);
+    public static Finder<Long,Hook> find = new Finder<Long,Hook>(
+    	    Long.class, Hook.class);
 }

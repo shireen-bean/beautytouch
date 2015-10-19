@@ -5,7 +5,7 @@
 $(document).ready(function(){
 	setTimeout(function() {
 		window.location="/vendingMain?machineId="+getParameterByName("machineId");
-	}, 2000);
+	}, 4000);
 });
 
 function getParameterByName(name) {
@@ -16,14 +16,26 @@ function getParameterByName(name) {
 }
 </script>
 </head>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
 
-<body class="">
-	<div style="position:relative;">
-		<img style="margin-top:300px;" src="assets/images/spinner.gif"/>
-		<h2 style="font-size:70px;">
-		&nbsp;&nbsp;Payment Failed&nbsp;&nbsp;<br>
+<body style="background: url(https://s3.amazonaws.com/oasys-images/email-background.png); background-size: 300px;">
+	<div style="position: relative;
+    text-align: center;
+    width: 48%;
+    margin: 0 auto;
+    background-color: white;
+    height: 100%;">
+		<img style="margin-top: 68px;
+    width: 43%;" src="https://s3.amazonaws.com/oasys-images/circle.gif">
+		<h2 style="font-size: 70px; margin: 0px; text-align: center; letter-spacing: 7px;">Oops! Payment Failed</h2><br>
+		<p style="font-size: 28px;
+    font-family: helvetica neue;
+    letter-spacing: 3px;
+    line-height: 54px;">Please make your selection and swipe again <br><img style="width: 4%;" src="/assets/images/b.png"/>
+    <span style="font-size: 50px;
+    letter-spacing: 7px;
+    line-height: 70px;
+    vertical-align: text-bottom;"> BEAUTYTOUCH</span></p>
 	</div>
-<!-- <script src="@routes.Assets.at("javascripts/payController.js")" type="text/javascript"></script>
- -->
 </body>
 </html>

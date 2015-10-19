@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.ActivityLogModel;
-import models.Container;
+import models.Hook;
 import models.Machine;
 import models.Product;
 import models.Sale;
@@ -148,9 +148,9 @@ public class MachineController extends Controller {
     	ObjectNode response = Json.newObject();
 
     	if(id.length()>0){
-		  Database.editMachineAndContainers(jn);
+		  Database.editMachineAndHooks(jn);
     	}else{
-		  Database.addMachineAndContainers(jn);
+		  Database.addMachineAndHooks(jn);
     	}
 
     	if(errorsFlag){
@@ -191,23 +191,17 @@ public class MachineController extends Controller {
     	Machine machine = new Machine();
 
     	if(id.equals("-1")){
-        	List<Container> containers = new ArrayList<Container>();
-        	for(int i=0;i<2;i++){
-        		Container container = new Container();
-        		container.product = new Product();
-        		containers.add(container);
+        	List<Hook> hooks = new ArrayList<Hook>();
+        	for(int i=0;i<70;i++){
+        		Hook hook = new Hook();
+        		hook.id = i+1;
+        		hook.status = 0;
+        		hooks.add(hook);
         	}
-        	for(int i=2; i<10; i++){
-        		Container container = new Container();
-        		container.product = new Product();
-        		containers.add(container);
-        	}
-        	machine.containers = containers;
+        	machine.hooks = hooks;
     	} else {
         	machine = Database.getMachine(id);
     	}
-
-
 		return ok(Json.toJson(machine));
     }
     

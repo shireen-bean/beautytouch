@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.text.NumberFormat;
+import java.util.List;
 import java.math.BigDecimal;
 
 import models.Product;
@@ -23,9 +24,13 @@ import views.html.receiptEmail;
 
 public class Email extends Controller {
 
-  public static Result alertSale(String machineId, String productId, BigDecimal productPrice) {
+  public static Result alertSale(String machineId, List<String> productIds, BigDecimal price) {
     System.out.println("alertSale");
-    Product product = Ebean.find(Product.class, productId);
+    String product_names = "";
+    for (String productId : productIds) {
+      Product product = Ebean.find(Product.class, productId);
+      product_names += ", " + product.item_name;
+    }
     String[] recipients = {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
@@ -39,7 +44,7 @@ public class Email extends Controller {
       mail.setRecipient(recipient);
       mail.setFrom("Oasys <service@oasysventures.com>");
 
-      mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product '" + product.item_name + "' sold for $" + productPrice.toString() + ".</p>");
+      mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product(s) '" + product_names + "' sold for $" + price.toString() + " total.</p>");
     }
     return ok();
   }

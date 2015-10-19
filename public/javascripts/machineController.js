@@ -1,9 +1,6 @@
 var addressVerify = "";
 
 function machineController($scope,$http) {
-	//populate defaults if this is a new machine
-    $scope.levelTop,
-    $scope.levelHeight,
     
     $scope.loadActivityLog=function(){
     	window.location="/activityLog?machineId="+getParameterByName("id");
@@ -15,7 +12,7 @@ function machineController($scope,$http) {
 		  $scope.products = data;
 
 		    var id = getParameterByName("id");
-		    if(id!=""){
+		    if(id != ""){
 		    	//get existing item details
 		    	$http.get('/machineJson?id='+id).
 			  	  success(function(data, status, headers, config) {
@@ -34,25 +31,11 @@ function machineController($scope,$http) {
 			        $scope.machine.lat = "";
 			      	$scope.machine.lon = "";
 			      	
-//			  		for(var i=0;i<2;i++){
-//			      		$scope.machine.containers[i].position=i+1;
-//			      		$scope.machine.containers[i].num_items="0";
-//			      		$scope.machine.containers[i].total_capacity="40";
-//			  			$scope.machine.containers[i].product.item_name=$scope.products[0].item_name;
-//			  			$scope.machine.containers[i].product.item_sku=$scope.products[0].item_sku;
-//			  			$scope.machine.containers[i].product.item_img=$scope.products[0].item_img;
-//			  			$scope.machine.containers[i].product.price=$scope.products[0].price;
-//			  		}
-			  		for(var i=0;i<$scope.machine.containers.length;i++){
-			      		$scope.machine.containers[i].position=i+1;
-			      		$scope.machine.containers[i].num_items="0";
-			      		$scope.machine.containers[i].total_capacity="7";
-			  			$scope.machine.containers[i].product.item_name=$scope.products[1].item_name;
-			  			$scope.machine.containers[i].product.item_sku=$scope.products[1].item_sku;
-			  			$scope.machine.containers[i].product.item_img=$scope.products[1].item_img;
-			  			$scope.machine.containers[i].product.price=$scope.products[1].price;
-			  			$scope.machine.containers[i].slot="0";
+			  		for(var i=0;i<70;i++){
+			      		$scope.machine.hooks[i].id=i+1;
+			      		$scope.machine.hooks[i].status = 0;
 			  		}
+			  		
 			  		
 			  	  });
 		    	$scope.itemIDLabel="not assigned yet";
@@ -88,11 +71,24 @@ function machineController($scope,$http) {
 		}
 	}
 	
+	$scope.modSeven = function() {
+	  return function(items, row) {
+	    var arrayToReturn = [];
+	    for (var i=0; i<items.length; i++) {
+	      if (items[i] % 7 == row) {
+	        arrayToReturn.push(items[i]);
+	      }
+	    }
+	    
+	    return arrayToReturn;
+	  };
+	};
+	
 	$scope.location="0";
 	
 	$scope.changeItem=function(location){
 		//getItems
-		$scope.location=location;
+		$scope.location=location-1;
 		chooseItem();
 	}
 	
@@ -101,9 +97,6 @@ function machineController($scope,$http) {
 	}
 	
 	$scope.selectedProduct=function(item_sku){
-		//update product to item_sku
-		//item_name:'Tampon',item_sku:'1',item_img:'item1.jpg',price:'1.99'},
-		
 		//get item details 
 		var indexProduct;
 		for(var i=0;i<$scope.products.length;i++){
@@ -111,11 +104,14 @@ function machineController($scope,$http) {
 				indexProduct=i;
 			}
 		}
-
-		$scope.machine.containers[$scope.location].product.item_name=$scope.products[indexProduct].item_name;
-		$scope.machine.containers[$scope.location].product.item_sku=$scope.products[indexProduct].item_sku;
-		$scope.machine.containers[$scope.location].product.item_img=$scope.products[indexProduct].item_img;
-		$scope.machine.containers[$scope.location].product.price=$scope.products[indexProduct].price;
+		
+		var product = {};
+		product.item_name=$scope.products[indexProduct].item_name;
+		product.item_sku=$scope.products[indexProduct].item_sku;
+		product.item_img=$scope.products[indexProduct].item_img;
+		product.price=$scope.products[indexProduct].price;
+		
+		$scope.machine.hooks[$scope.location].product = product;
 		$("#chooseItemDiv").fadeOut();
 	}
 	

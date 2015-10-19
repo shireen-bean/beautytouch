@@ -1,20 +1,6 @@
-@font-face {
-	font-family: mathlete;
-	src: url(https://s3-us-west-2.amazonaws.com/oasys-fonts/OstrichSansRounded-Medium.otf);
-}
-
-@font-face {
-	font-family: quicksand;
-	src: url(https://s3-us-west-2.amazonaws.com/oasys-fonts/Quicksand-Regular.otf);
-}
-
-@font-face {
-	font-family: ostrich;
-	src: url(OstrichSansRounded-Medium.otf);
-}
 
 html, body{
-  font-family: quicksand;
+  font-family: Roboto Condensed;
   text-align:center;
   color:#444;
   width:100%;
@@ -22,21 +8,23 @@ html, body{
   margin:0px;
   padding:0px;
   font-family: 'Open Sans', Arial, sans-serif;
-  /* 	font-family:proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif; */
+  /* 	font-family:proxima-nova, "Roboto Condensed", Helvetica, Arial, sans-serif; */
   overflow:hidden;
   /*background:url('../images/marbleShelf.jpg'); */
-  background-size:100% 100%;
+  backgro"public"und-size:100% 100%;
 }
 #productList {
-	border-bottom: 5px solid #bbb;
+	width: 79%;
+    height: 100%;
+    float: left;
 }
 .problem-dialog {
-    font-family: ostrich;
+    font-family: Roboto Condensed;
     position: absolute;
     width: 1000px;
     height: 830px;
     top: 50px;
-    /* border: 5px black solid; */
+    border: 3px black solid;
     background-color: white;
     z-index: 100;
     right: 465px;
@@ -45,12 +33,12 @@ html, body{
     font-size: 30px;
     line-height: 55px;
     box-shadow: 7px 5px 20px 5px;
+    -webkit-box-shadow: 7px 5px 20px 5px;
 }
 
 .problem-dialog h3{
 	font-size: 49px;
     letter-spacing: 3px;
-    /* font-family: ostrich; */
     font-family: league script;
     background-color: #bbb;
     padding-top: 35px;
@@ -59,9 +47,8 @@ html, body{
 }
 
 .how-it-works {
-font-family: quicksand;
+    font-family: Roboto Condensed;
     position: absolute;
-    top: 50px;
     background-color: white;
     z-index: 100;
     display: none;
@@ -69,6 +56,8 @@ font-family: quicksand;
     line-height: 43px;
     box-shadow: 7px 5px 20px 5px;
     padding-bottom: 50px;
+    width: 100%;
+    height: 100%;
 }
 
 #how-it-works h2 {
@@ -86,10 +75,10 @@ font-family: quicksand;
     top: 37px;
     right: 0px;
     font-size: 50px !important;
-    
+
 }
 
-#how-it-works p {    
+#how-it-works p {
 	font-size: 27px;
     margin: 25px 450px 40px 450px;
 }
@@ -109,20 +98,43 @@ font-family: quicksand;
 .suggestion-input {
 	font-size: 30px;
 	box-shadow: 5px 5px #ddd inset;
-	font-family: quicksand;
+	font-family: Roboto Condensed;
     padding-left: 15px;
     letter-spacing: 1px;
     height: 50px;
     padding-top: 5px;
 }
 .problem-button {
-	width: 300px !important;
+    font-family: Roboto Condensed;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 20px;
+    width: 200px;
+    height: 51px;
+    /* z-index: 1; */
+    letter-spacing: 3;
+    margin-left: 20px;
+    text-transform: uppercase;
+    float: right;
+    display: block;
+}
+.problem-button.secondary {
+	border: 2px solid black;
+	background-color:white;
+	color:black;
 }
 #report-form {
-	font-family: quicksand;
+	font-family: Roboto Condensed;
   text-align: left;
   padding-left: 130px;
   padding-right:100px;
+}
+.problem-text {
+font-size: 20px;
+    text-align: left;
+    margin: auto auto;
+    width: 78%;
 }
 input[type="radio"]{
   vertical-align:middle;
@@ -133,7 +145,7 @@ input[type="radio"]{
   border: 2px solid #bbb;
   margin-left: 20px;
   width: 500px;
-  font-family: quicksand;
+  font-family: Roboto Condensed;
   font-size:25px;
   padding-left:10px;
   vertical-align: middle;
@@ -144,7 +156,7 @@ input[type="radio"]{
     width: 90px;
     line-height: 90px;
     height: 90px;
-    font-family: ostrich;
+    font-family: Roboto Condensed;
     display: inline;
     color: white;
     background-color: #898989;
@@ -158,16 +170,17 @@ float: left;
     line-height: 50px;
     height: 50px;
     text-align: center;
-    font-family: ostrich;
+    font-family: Roboto Condensed;
     display: inline;
     color: white;
     letter-spacing: 3px;
-    margin: 5px;
+    margin: 24px;
     text-transform: uppercase;
-    padding: 5px;
+    padding: 15px 9px 9px 9px;
     background-color: #898989;
-    font-size: 40px;
-    box-shadow: 0px 3px 5px #ccc;
+    font-size: 25px;
+    box-shadow: 5px 5px 5px #ccc;
+    vertical-align: top;
 }
 #keyboard {
 	margin-left: auto;
@@ -209,17 +222,19 @@ float: left;
 }
 
 .report-problem {
-  position: absolute;
-    right: 0px;
-    top: 900px;
-    font-family: quicksand;
-    font-size: 23px;
+position: absolute;
+    right: 22%;
+    top: 25px;
+    width: 14%;
+    font-family: Roboto Condensed;
+    font-size: 15px;
 }
 
 #learn-more {
 	position: absolute;
-	left: 0px;
-	top: 900px;
+	right: 22%;
+	width:14%;
+	top: 135px;
 }
 
 .thank-you-report {
@@ -244,13 +259,14 @@ float: left;
 	width:320px;
  }
  .input {
- 	line-height:50px;
+	line-height:50px;
 	font-size: 30px;
-  	text-align: left;
-  	padding: 10px;
-    border: 2px solid #bbb;
-    font-family: quicksand;
-    letter-spacing: 1px;
+	text-align: left;
+	padding: 10px;
+  border: 2px solid #bbb;
+  font-family: Roboto Condensed;
+  letter-spacing: 3px;
+  text-transform: uppercase;
  }
 .contactInfo h3{
 	font-size:30px;
@@ -280,13 +296,21 @@ float: left;
 }
 
 .contactButton.email {
-	width: auto;
-	padding-left:30px;
-	padding-right:30px;
+    font-family: Roboto Condensed;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 20px;
+    width: 200px;
+    height: 51px;
+    letter-spacing: 3;
+    margin: 10 auto;
+    text-transform: uppercase;
+    display: block;
 }
 
 .contactButton {
-	font-family: ostrich;
+	font-family: Roboto Condensed;
   background-color: white;
   border: 5px solid #8C489F;
   color: #8C489F;
@@ -308,23 +332,17 @@ float: left;
 }
 
 .contactButton.secondary {
-	font-family:ostrich;
-  font-size: 40px;
-  border: 5px solid #bbb;
-  /* background-color: #f8C489F00; */
-  background-color: white;
-  opacity: .85;
-  width: 350px;
-  height: 81px;
-  z-index: 1;
-  color: #8C489F;
-  letter-spacing: 3;
-  font-weight: bold;
-  margin: 15px;
-}
-
-.contactButton.secondary.report {
-	width: 250px;
+    font-family: Roboto Condensed;
+    font-size: 17px;
+    border: 2px solid #bbb;
+    background-color: white;
+    width: 210px;
+    height: 60px;
+    z-index: 1;
+    color: #888;
+    padding: 0;
+    font-weight: 300;
+    letter-spacing: 2px;
 }
 
 .noReceipt .contactButton{
@@ -343,7 +361,7 @@ font-size: 30px;
     font-weight: bold;
     margin-top: 5px;
     text-transform: uppercase;
-    font-family: ostrich;
+    font-family: Roboto Condensed;
 }
 .contactInfo.noReceipt{
   top:580px;
@@ -385,17 +403,6 @@ font-size: 30px;
   border: 55px solid;
   border-color: white white transparent transparent;
 }
-.cornerLabel p:after {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: -2px;
-  right: 140px;
-  z-index: -1;
-  border: 55px solid;
-  border-color: white transparent transparent white;
-}
 .contactInfo{
   padding: 1%;
   margin-left: auto;
@@ -406,42 +413,15 @@ font-size: 30px;
 
 #productInfo {
   width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  margin-bottom: 50px;
-  display: inline-block;
-}
-.productImageDetail {
-  display: block;
-  /*
-  position: absolute;
-  left: 50%;
-  right: -50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate (-50%, -50%);
-  */
-  float:right;
-}
-
-.productImageContainer {
-  /*height: 400px; */
-  width: 30%;
-  float: left;
-  display: inline-block;
-  position: relative;
-  margin-left: 100px;
-  margin-top: 50px;
-  padding-top: 120px;
 }
 
 .productDetails {
-     float: right;
-    width: 46%;
-    margin-left: 20px;
+    background-color: #ebe9f3;
+    padding: 28px;
+    width: 80%;
+    margin: auto auto;
+    text-align: left;
     display: inline-block;
-    padding: 50px 50px 0px 50px;
-    margin: 20px 20px 0px 20px;
 }
 
 #brandInfo {
@@ -497,7 +477,7 @@ text-align: left;
     color: black;
     margin-right: 20px;
     float: left;
-    font-family: quicksand;
+    font-family: Roboto Condensed;
 }
 
 #leftBlock {
@@ -561,14 +541,70 @@ background-image:url('/assets/images/blueBackground.jpg');
     /* bottom: 0; */
  }
  #swipeMessage {
-    color: white;
+color: black;
     display: inline-block;
-    padding-left: 75px;
-    padding-right: 75px;
-    background-color: black;
-    height: 100%;
+    position: fixed;
+    right: 0;
+    top: 500;
+    width: 22%;
 }
-
+.beautytouch {
+	vertical-align: super;
+}
+.logo-b {
+	height: 3%;
+}
+.logo {
+	width: 22%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: Roboto Condensed;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    display: inline-block;
+    vertical-align: top;
+}
+.empty-cart {
+	font-size: 30px;
+    padding: 37px;
+    color: #bbb;
+    font-family: Roboto Condensed;
+    letter-spacing: 3px;
+}
+.your-bag {
+    font-family: Roboto Condensed;
+    letter-spacing: 2px;
+    text-align: left;
+    font-size: 28px;
+    width: 100%;
+    padding-left: 46px;
+    text-transform: uppercase;
+    padding-bottom: 25px;
+    font-weight: 300;
+}
+.cart-spacer {
+    width: 78%;
+    display: inline-block;
+    border-top: 3px solid #bbb;
+    margin: 1 auto;
+}
+.cart-total {
+display: inline-block;
+    width: 76%;
+    font-family: Roboto Condensed;
+    text-align: left;
+    text-transform: uppercase;
+    padding: 15px;
+    letter-spacing: 2px;
+    font-size: 26px;
+}
+.cart-total-price {
+    float: right;
+    margin-right: 27px;
+}
 .fa-credit-card {
 	font-size: 150px !important;
 }
@@ -584,7 +620,7 @@ background-image:url('/assets/images/blueBackground.jpg');
     margin-right: 50px;
     margin-top: 50px;
     margin-left: 50px;
-    font-family: quicksand;
+    font-family: Roboto Condensed;
     font-size: 30px;
     padding: 22px;
     border-radius: 25px;
@@ -613,77 +649,110 @@ background-image:url('/assets/images/blueBackground.jpg');
 #mainDivAvailableList{
   background-color: #bbb;
 }
-.availableListDiv {
-  position: relative;
-  display: inline;
-  float: left;
-  text-align: center;
-  width: 457px;
-  height: 439px;
-  /* border: solid #bbb 5px; */
-  box-shadow: 10px 10px 5px #888;
-  background-color: white;
-  margin: 11px;
-}
-
-
-
-.cornerPrice {
-  position: absolute;
-  left: -75px;
-  top: 5px;
-  display: block;
-  width: 245px;
-  font-size: 22;
-  /* border-top: 2px black solid;
-  border-bottom: 2px black solid;*/
-  background: #bbb;
-  font-weight: bold;
-  color: white;
-  transform: rotate(-45deg);
-  -moz-transform:rotate(-45deg);
-  /* Safari and Chrome */
-  -webkit-transform:rotate(-45deg);
-  /* Opera */
-  -o-transform:rotate(-45deg);
-  /* IE9 */
-  -ms-transform:rotate(-45deg);
-
-}
-
-.cornerPrice p:before {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: -13px;
-  right: -11px;
-  z-index: -1;
-  border: 55px solid;
-  border-color: white white transparent transparent;
-}
-
-.cornerPrice p:after {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: -2px;
-  right: 165px;
-  z-index: -1;
-  border: 55px solid;
-  /* border-color: #caffdd transparent transparent #caffdd;
-  border-color: #e1fbfb transparent transparent #e1fbfb; */
-  border-color: white transparent transparent white;
-}
-
 
 .bodyMain{
-    background-color:white;
+    background:url('../images/test.jpg');
+    background-repeat: no-repeat;
 }
-
+.bodyMain.receipt{
+	    background-image: none;
+}
+.product img {
+-webkit-filter: grayscale(100%);
+filter: grayscale(100%);
+-moz-filter: grayscale(100%);
+	/*opacity: .3;*/
+}
+.product.selected:after {
+    content: "";
+    position: relative;
+    bottom: -25px;
+    border-width: 18px 18px 0;
+    border-style: solid;
+    border-color: #ebe9f3 transparent;
+    display: block;
+    width: 0;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+}
+.product.selected img {
+	-webkit-filter:none;
+    -moz-filter: none;
+	-o-filter: none;
+	-ms-filter: none;
+	filter: none;
+	opacity: 1;
+}
+.whiteO {
+	position:relative; top:0px; width:320px; height:240px; background:#FFF; opacity:0.7;
+}
+.subhed {
+	    border: none;
+    font-weight: normal;
+    margin: 0px;
+    font-size: 28px;
+    font-family: Roboto Condensed;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+.hed {
+	font-family: Roboto Condensed;
+    font-weight: 400;
+    font-size: 54px;
+    margin: 0px;
+    font-weight: lighter;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    display: inline-block;
+}
+.bar {
+	height: 17px;
+    width: 100px;
+    margin: 0px 20px;
+    display: inline-block;
+    border-top: 2px solid #bbb;
+}
+.cart-remove {
+    float: right;
+    margin-right: 12px;
+    border: 0px;
+    font-size: 30px;
+    margin-top: -2px;
+    background-color: white;
+    color: #bbb;
+    font-family: Roboto Condensed;
+}
+.cart-item {
+    float: left;
+    width: 91%;
+    font-family: Roboto Condensed;
+    font-size: 24px;
+    font-weight: lighter;
+    letter-spacing: 3px;
+    margin: 8px;
+    text-transform: uppercase;
+    color: #888;
+}
+.cart-product {
+	float:left;
+	width: 60%;
+}
+.cart-price {
+	float:right;
+}
+.bag-contents {
+	width: 85%;
+	float:left;
+	line-height: 30px;
+}
+#header-copy {
+	background-color: white;
+    margin-top: 25px;
+    border: 0px;
+    font-family: Roboto Condensed;
+}
 .productBuyButton {
-	font-family: ostrich;
+	font-family: Roboto Condensed;
     font-size: 45px;
     border: 0px;
     background-color: black;
@@ -699,10 +768,15 @@ background-image:url('/assets/images/blueBackground.jpg');
 }
 
 #subtitle {
+    font-size: 19px;
+    font-family: "Roboto Condensed";
+    color: rgb(0, 0, 0);
+    line-height: 2.053;
     text-align: left;
-    font-weight: normal;
-    font-size: 27px;
-    font-family: quicksand;
+    width: 100%;
+    float: left;
+    display: block;
+    padding-left: 20px;
 }
 
 .productBuyButton #price {
@@ -710,21 +784,67 @@ background-image:url('/assets/images/blueBackground.jpg');
 	padding-right: 15px;
 }
 
-.productBuyButton #category {
-	float: left;
-	padding-left: 15px;
+.category {
+    width: 100%;
+    max-width: 300px;
+    font-family: Roboto Condensed;
+    text-align: center;
+    font-size: 23px;
+    letter-spacing: 2px;
+    margin: 0px;
+    margin-top: 8px;
+    color: #888;
+    font-weight: 300;
+}
+.cat-price {
+	font-size: 32px;
+    margin: 0px;
+    font-family: Roboto Condensed;
+    margin-top: 8px;
+    color: #888;
 }
 
-
-.availableProduct {
-  position: relative;
+.selected .category {
+	color: black;
 }
 
-.productImage {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  margin-top: 14%;
+.selected .cat-price {
+	color: black;
+}
+
+#cart {
+height: 100%;
+    background-color: white;
+    width: 22%;
+    padding-top: 40px;
+    box-shadow: -9px 15px 40px #bbb;
+    position: fixed;
+    right: 0px;
+}
+#product-info{
+	width: 100%;
+	margin-top: 24px;
+}
+.add-to-cart-button {
+    font-family: Roboto Condensed;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 20px;
+    width: 200px;
+    height: 51px;
+    /* z-index: 1; */
+    letter-spacing: 3;
+    margin-left: 20px;
+    text-transform: uppercase;
+    float: left;
+    display: block;
+    font-weight: 300;
+}
+
+.add-to-cart-button.desense {
+	background-color: #bbb;
+	color: #ddd;
 }
 
 .methodButton {
@@ -743,7 +863,7 @@ background-image:url('/assets/images/blueBackground.jpg');
     text-transform: uppercase;
     width: 50%;
     float: left;
-    font-family: ostrich;
+    font-family: Roboto Condensed;
 }
 .methodButton.selected {
   background-color: #8C489F;
@@ -760,14 +880,20 @@ background-image:url('/assets/images/blueBackground.jpg');
 }
 
 #itemName {
-    font-family: ostrich;
-    text-align: left;
-    font-size: 55px;
+    font-family: Roboto Condensed;
+    font-size: 31px;
     letter-spacing: 2px;
+    color: rgb(0, 0, 0);
+    line-height: 1.2;
+    text-align: left;
+    float: left;
+    width: 100%;
+    padding-left: 20px;
+    text-transform: uppercase;
 }
 
-#productPrice {    
-	font-family: ostrich;
+#productPrice {
+	font-family: Roboto Condensed;
     text-align: left;
     font-size: 50px;
     margin: 30px 0 30px 0;
@@ -776,13 +902,7 @@ background-image:url('/assets/images/blueBackground.jpg');
     border-bottom: 3px solid black;
     padding: 30px;
 }
-.availableListImage{
-  height:70%;
-  padding-top:5%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:contain;
-}
+
 .priceAvailableList{
   margin-top:10px;
   font-weight:100;
@@ -804,21 +924,26 @@ background-image:url('/assets/images/blueBackground.jpg');
   height:300px;
 }
 h1{
-	font-family: ostrich;
+	font-family: Roboto Condensed;
   font-weight:400;
   font-size:134px;
 }
 h2{
-font-family: ostrich;
-    font-weight: 400;
-    letter-spacing: 7px;
-    font-size: 74px;
+font-family: Roboto Condensed;
+    font-weight: lighter;
+    letter-spacing: 4px;
+    font-size: 45px;
+    line-height: 52px;
+    text-transform: uppercase;
+    text-align: left;
+    margin-left: 50px;
+    margin-bottom: 2px;
 }
 a{
   text-decoration:none;
 }
 .doneButton{
-	font-family: ostrich;
+	font-family: Roboto Condensed;
   color:#08c;
   font-size:30px;
   background:none;
@@ -873,17 +998,20 @@ input[type="text"], textarea, [contenteditable]
   background: black;
   border-radius: 5px;
 }
-body.bodyMain i, body.bodyMain .back, body.bodyMain span{
-  /* color: #888 !important; */
-}
+
 body.bodyMain #productDescription{
-    text-align: left;
-    width: 94%;
-    font-size: 26px;
-    font-family: quicksand;
-    margin: 0px 0px 0px -11px;
+    font-size: 24px;
+    font-family: "Roboto Condensed";
+    color: rgb(0, 0, 0);
+    line-height: 1.316;
+    letter-spacing: 1px;
+    margin-top: 0px;
+    float: left;
+    display: block;
+    width: 100%;
 }
 
 .description-bullet {
-  padding-top: 15px;	
+  padding-top: 5px;
+  font-weight: 300;
 }
