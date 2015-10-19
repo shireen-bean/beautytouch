@@ -843,6 +843,11 @@ height: 100%;
     font-weight: 300;
 }
 
+.add-to-cart-button.desense {
+	background-color: #bbb;
+	color: #ddd;
+}
+
 .methodButton {
 	background-color: white;
     border-top: 5px solid #8C489F;

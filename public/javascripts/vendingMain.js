@@ -49,6 +49,23 @@ function vendingMain($scope,$http) {
   var machineID=getParameterByName("machineId");
 
   $scope.productSelected = function(id, tap) {
+	  var inCart = false;
+      $.each($scope.cart.product_list, function (index, item) {
+    	  if (item == id) {
+    		  inCart = true;
+    		  return false;
+    	  }
+      });
+      if (inCart == true)  {
+    	  console.log('in cart');
+    	  $('.add-to-cart-button').addClass('desense');
+      } else {
+    	  console.log('not in cart');
+    	  $('.add-to-cart-button').removeClass('desense');
+      }
+	  
+      if ($scope.cart.product_list.length > 2) 
+    	  $('.add-to-cart-button').addClass('desense');
 
 	  if (tap == true){
         $.ajax({
@@ -97,6 +114,7 @@ function vendingMain($scope,$http) {
     }
     window.clearTimeout(timeoutHandle);
     timeoutHandle = setTimeout(function() {
+  	  $('.add-to-cart-button').removeClass('desense');
       console.log("%OASYS,screen=list&?");
       $scope.cart.product_list = [];
       $scope.cart.product_info = [];
@@ -146,6 +164,8 @@ function vendingMain($scope,$http) {
 	  }
 	  window.clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
+
+    	$('.add-to-cart-button').removeClass('desense');
         console.log("%OASYS,screen=list&?");
         $scope.cart.product_list = [];
         $scope.cart.product_info = [];
@@ -166,6 +186,7 @@ function vendingMain($scope,$http) {
   };
   $scope.addToCart = function(){
     $scope.pageReset();
+    $('.add-to-cart-button').addClass('desense');
     var slot = 0;
     var lengthhooks = $scope.machine.hooks.length;
     for(var i=0; i<lengthhooks;i++){
@@ -177,6 +198,7 @@ function vendingMain($scope,$http) {
         }
       }
     }
+    console.log(this);
     if(slot != 0){
       //find product details and display checkout window
       //$("#productList").css('opacity','.1');
@@ -193,6 +215,8 @@ function vendingMain($scope,$http) {
 
       window.clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
+
+    	$('.add-to-cart-button').removeClass('desense');
         console.log("%OASYS,screen=list&?");
         $scope.cart.product_list = [];
         $scope.cart.product_info = [];
@@ -210,6 +234,17 @@ function vendingMain($scope,$http) {
         $scope.$digest();
       }, 60000)
 
+      
+      var inCart = false; 
+      $.each($scope.cart.product_list, function (index, item) {
+    	  if (item == $scope.selectedId) {
+    		  console.log('already in cart');
+    		  inCart = true;
+    		  return false;
+    	  }
+      });
+
+      if (inCart) return;
       $scope.cart.product_list.push($scope.selectedId);
       var product_info = {};
       product_info.name = $scope.selectedName;
