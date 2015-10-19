@@ -70,7 +70,7 @@ public class Email extends Controller {
   }
 
   public static Result sendReceipt(){
-
+/*
     JsonNode jn = request().body().asJson();
     int salesId = jn.get("sales_id").asInt();
     String email = jn.get("email").asText();
@@ -79,6 +79,9 @@ public class Email extends Controller {
       return ok();
     }
 
+*/
+	  int salesId = 127;
+	  String email = "alina@beautytouch.co";
 
     //add customer to database
     try{
@@ -92,32 +95,30 @@ public class Email extends Controller {
 
 
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-    mail.setSubject("Oasys Receipt");
+    mail.setSubject("Your BeautyTouch Receipt");
     mail.setRecipient(email);
-    mail.setFrom("Oasys <service@oasysventures.com>");
+    mail.setFrom("BeautyTouch <service@oasysventures.com>");
 
     NumberFormat formatter = NumberFormat.getCurrencyInstance();
-    Product product = receipt.products.get(0);
-    String name = product.item_name;
-    String price = formatter.format(Double.parseDouble(product.price));
-    String image = product.item_img;
+
     String address = receipt.machineAddress;
-    /*
-       NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
        String productRows = "";
        for(int i=0;i<receipt.products.size();i++){
        Product pm = receipt.products.get(i);
        productRows+=
-       "<tr>"+
-       "<td style='padding-right:250px;'>"+pm.item_name+"</td><td></td>"+
-       " <td>"+formatter.format(Double.parseDouble(pm.price))+"</td>"+
-       "</tr>";
+         "<div style='width:100%' class='product'>" +
+         "<span class='name'>" + pm.item_name + "</span><span style='float: right;" +
+         "margin-right: 15%;'>" + formatter.format(Double.parseDouble(pm.price)) + "</span></div>";
        }
-       */
+
 
     String imageSource="https://oasysventures.com/assets/images/logoInc.png";
-    String htmlString="<!DOCTYPE html> <html> <head> <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'> <style> body{line-height:24px;font-family: 'Source Sans Pro', sans-serif;} </style> </head> <body> <table width='100%' border='0' cellspacing='0' cellpadding='20' style='background-image: url(https://s3.amazonaws.com/oasys-images/email-background.png); background-repeat: repeat; background-size: 300px 300px; width: 100%'> <tr><td style='text-align: center;padding: 100px 0px 0px 0px;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/thanks-banner.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding:10px 0px 10px 0px; text-align:left; background-color: white'> <div id='image-container' style='width: 50%; display: inline-block; position: relative;'> <img style='max-height: 200px; max-width: 50%; display: block; margin: auto;' src='http://oasysventures.com/assets/dynamicFiles/products/" + image + "'/> </div> <div id='product-info' style='    width: 50%; float: right; position: relative; margin-top: 6px;'> <span style='font-size: 2em; float: left; width: 100%; margin-bottom: 16px;'>" + name + "</span> <span style='float:left; width: 50%; font-weight: bolder; font-size: 19px;'>Purchased at</span><span style='float: right; text-align: right; margin-right: 120px;font-weight: bolder; font-size: 19px;'>Total</span> <span style='float:left; width: 50%'>" + address + "</span><span style='float: right; text-align: right; margin-right: 120px;'>" + price + "</span> </div> </div> </td></tr> <tr><td style='padding:0px; text-align: center;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8' src='https://s3.amazonaws.com/oasys-images/beauty-hack-header.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 50%; padding-left: 10%; padding-right: 10%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 25px; font-size: 20px; background-color: #d9d3e8'>" + receipt.beauty_hack + " </div> </td></tr> <tr><td style='text-align: center;padding: 0px 0px 100px 0px;'> <img style='    width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/hashtag-banner.png'/> </td></tr> </table> </body> </html> ";
+    String htmlString="<!DOCTYPE html> <html> <head> <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'> <style> body{line-height:24px;font-family: 'roboto condensed', sans-serif;} </style> </head> <body> <table width='100%' border='0' cellspacing='0' cellpadding='20' style='background-image: url(https://s3.amazonaws.com/oasys-images/email-background.png); background-repeat: repeat; background-size: 300px 300px; width: 100%'> <tr><td style='text-align: center;padding: 100px 0px 0px 0px;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/thanks-banner.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding:10px 0px 10px 0px; text-align:left; background-color: white'> <div id='image-container' style='width: 30%; display: inline-block; position: relative;'> <img style='margin-left:15%; max-height: 200px; display: block; margin: auto;' src='https://s3.amazonaws.com/oasys-images/b.png'/> </div> <div id='product-info' style='    width: 70%; float: right; position: relative; margin-top: 30px;'>"
+      + productRows +
+      "<div style='width: 85%; border-top: 2px solid #bbb; padding-bottom: 20px; margin-top: 20px;'class='sale-info'> </div> <div style='width:100%'><span style='font-weight: bolder; font-size: 19px;'>Purchased at</span><span style='float: right; margin-right: 15%;font-weight: bolder; font-size: 19px;'>Total</span></div><div style='width:100%'> <span>" + address + "</span><span style='float: right; margin-right: 15%;'>$" + receipt.total + "</span></div> </div> </div> </td></tr> <tr><td style='padding:0px; text-align: center;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8' src='https://s3.amazonaws.com/oasys-images/beauty-hack-header.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8'>" + receipt.beauty_hack + "</div> </td></tr> <tr><td style='text-align: center;padding: 0px 0px 100px 0px;'> <img style='    width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/hashtag-banner.png'/> </td></tr> </table> </body> </html> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>";
+
+
 
     mail.sendHtml(htmlString);
     return ok();
