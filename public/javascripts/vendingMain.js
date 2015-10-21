@@ -111,7 +111,7 @@ function vendingMain($scope,$http) {
         }
       }
     }
-    window.clearTimeout(timeoutHandle);
+    clearTimeout(timeoutHandle);
     timeoutHandle = setTimeout(function() {
   	  $('.add-to-cart-button').removeClass('desense');
       console.log("%OASYS,screen=list&?");
@@ -163,7 +163,7 @@ function vendingMain($scope,$http) {
 	  } else {
 	    console.log("%OASYS,screen=list&?");
 	  }
-	  window.clearTimeout(timeoutHandle);
+	  clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
 
     	$('.add-to-cart-button').removeClass('desense');
@@ -213,7 +213,7 @@ function vendingMain($scope,$http) {
         },
       });
 
-      window.clearTimeout(timeoutHandle);
+      clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
     	$('.add-to-cart-button').removeClass('desense');
         console.log("%OASYS,screen=list&?");
@@ -283,7 +283,7 @@ function vendingMain($scope,$http) {
     setTimeout(function() {
       $('.problem-dialog').hide();
     }, 30000);
-    window.clearTimeout(pageTimeout);
+    clearTimeout(pageTimeout);
   };
   $scope.howItWorks = function() {
     $.ajax({
