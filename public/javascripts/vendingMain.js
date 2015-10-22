@@ -1,6 +1,5 @@
 function vendingMain($scope,$http) {
 
-
   $scope.formData = {};
   $scope.suggestion = "";
   $scope.selectedName="Item Name";

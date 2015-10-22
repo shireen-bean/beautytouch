@@ -70,7 +70,6 @@ public class Email extends Controller {
   }
 
   public static Result sendReceipt(){
-/*
     JsonNode jn = request().body().asJson();
     int salesId = jn.get("sales_id").asInt();
     String email = jn.get("email").asText();
@@ -79,9 +78,12 @@ public class Email extends Controller {
       return ok();
     }
 
-*/
+/*
 	  int salesId = 127;
 	  String email = "alina@beautytouch.co";
+*/
+    System.out.println(salesId); 
+    System.out.println(email);
 
     //add customer to database
     try{

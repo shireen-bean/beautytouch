@@ -76,7 +76,7 @@ $(document).ready(function(){
 
 	setTimeout(function() {
 		window.location="/thankYou?machineId="+getParameterByName("machineId");
-	}, 60000);
+	}, 120000);
 });
 
 
