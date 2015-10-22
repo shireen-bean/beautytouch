@@ -672,8 +672,7 @@ display: inline-block;
     -webkit-transform: rotate(180deg);
 }
 .product.selected {
-/*background: radial-gradient(circle,white,rgba(255,255,255,0));*/
-background: radial-gradient(closest-side at 50% 80%,white,rgba(255,255,255,.7),rgba(255,255,255,0));
+  background: -webkit-radial-gradient(50% 80%, closest-side, white, rgba(255,255,255,.7), rgba(255,255,255,0));
 }
 .whiteO {
 	position:relative; top:0px; width:320px; height:240px; background:#FFF; opacity:0.7;
