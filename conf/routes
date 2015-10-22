@@ -65,6 +65,7 @@ GET     /machineTapCount            controllers.Checkout.machineTapCount(id)
 GET     /machineSaleCount           controllers.Checkout.machineSaleCount(id)
 GET     /machineSaleAverage	        controllers.Checkout.machineSaleAverage(id)
 GET     /test						controllers.Email.sendReceipt()
+POST    /rateProduct				controllers.ProductController.addRating(sku,sale,num_stars)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

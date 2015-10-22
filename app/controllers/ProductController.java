@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import models.Product;
+import models.Rating;
 import models.Sale;
 import models.Event;
 
@@ -164,17 +165,18 @@ public class ProductController extends Controller {
       File file = picture.getFile();
 
       UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
-
-      // checking the value of random UUID
+  
+      // checking the value of random UUI
       String uidString = uid.randomUUID().toString();
 
       //     	   	if(!file.renameTo(new File("public/images/products/"+uidString+extension))){
       if(!file.renameTo(new File("public/dynamicFiles/products/"+uidString+extension))){
-        //error
-        ObjectNode resultFailed = Json.newObject();
+      //error
+    	ObjectNode resultFailed = Json.newObject();
         resultFailed.put("success", "false");
         return ok(resultFailed);
       }
+      
       System.out.println("successfull upload"+uidString);
       System.out.println(Play.application().path());
       ObjectNode result = Json.newObject();
@@ -187,5 +189,19 @@ public class ProductController extends Controller {
       resultFailed.put("success", "false");
       return ok(resultFailed);
     }
-    }
   }
+  
+  public static Result addRating(String sku, String sale, String num_stars) {
+	  //get product sku, sales id, and rating from request
+	  System.out.println("sku: " + sku);
+	  System.out.println("sale: " + sale);
+	  System.out.println("rating: " + num_stars);
+	  Rating rating = new Rating();
+	  rating.item_sku = Integer.parseInt(sku);
+	  rating.sales_id = Long.parseLong(sale);
+	  rating.rating = Integer.parseInt(num_stars);
+	  Ebean.save(rating);
+	  
+	  return ok();
+  }
+}

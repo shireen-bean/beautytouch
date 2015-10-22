@@ -158,6 +158,7 @@ public class Checkout extends Controller {
     	      //TODO: update when selling multiple items per purchase
     	      salesId = Database.recordSale(machineId, products, total);
     		  //decrement inventory
+    	      System.out.println("remove slot: " + slot);
     		  Database.removeItem(machineId,slot);
     		  //send email alert
     		  Email.alertSale(machineId, products, total);

@@ -112,7 +112,7 @@ function vendingMain($scope,$http) {
         }
       }
     }
-    window.clearTimeout(timeoutHandle);
+    clearTimeout(timeoutHandle);
     timeoutHandle = setTimeout(function() {
   	  $('.add-to-cart-button').removeClass('desense');
       console.log("%OASYS,screen=list&?");
@@ -123,7 +123,7 @@ function vendingMain($scope,$http) {
       $.ajax({
         type: "POST",
         url: "/logEvent",
-        data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout", "product_sku": 0}),
+        data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_product", "product_sku": id}),
         dataType: "json",
         headers: {
           "content-type": "application/json"
@@ -164,7 +164,7 @@ function vendingMain($scope,$http) {
 	  } else {
 	    console.log("%OASYS,screen=list&?");
 	  }
-	  window.clearTimeout(timeoutHandle);
+	  clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
 
     	$('.add-to-cart-button').removeClass('desense');
@@ -176,7 +176,7 @@ function vendingMain($scope,$http) {
         $.ajax({
           type: "POST",
           url: "/logEvent",
-          data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout", "product_sku": 0}),
+          data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_remove", "product_sku": 0}),
           dataType: "json",
           headers: {
             "content-type": "application/json"
@@ -214,7 +214,7 @@ function vendingMain($scope,$http) {
         },
       });
 
-      window.clearTimeout(timeoutHandle);
+      clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
     	$('.add-to-cart-button').removeClass('desense');
         console.log("%OASYS,screen=list&?");
@@ -225,7 +225,7 @@ function vendingMain($scope,$http) {
         $.ajax({
           type: "POST",
           url: "/logEvent",
-          data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout", "product_sku": 0}),
+          data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_add", "product_sku": 0}),
           dataType: "json",
           headers: {
             "content-type": "application/json"
@@ -284,7 +284,7 @@ function vendingMain($scope,$http) {
     setTimeout(function() {
       $('.problem-dialog').hide();
     }, 30000);
-    window.clearTimeout(pageTimeout);
+    clearTimeout(pageTimeout);
   };
   $scope.howItWorks = function() {
     $.ajax({
