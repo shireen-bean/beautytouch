@@ -289,10 +289,8 @@ public class Database {
 
   public static void removeItem(String machine_id, String slots) {
 
-System.out.println(slots);
   	List<String> slots_list = new ArrayList<String>(Arrays.asList(slots.split(",")));
   	for (String slot : slots_list) {
-System.out.println(slot);
       Hook c = Ebean.find(Hook.class).where()
         .eq("machine_id",  machine_id)
         .eq("id", slot)

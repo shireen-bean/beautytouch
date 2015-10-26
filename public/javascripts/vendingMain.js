@@ -48,6 +48,7 @@ function vendingMain($scope,$http) {
   var machineID=getParameterByName("machineId");
 
   $scope.productSelected = function(id, tap) {
+	  $('.add-success').animate({opacity: 0}, 100);
 	  var inCart = false;
       $.each($scope.cart.product_list, function (index, item) {
     	  if (item == id) {
@@ -158,6 +159,11 @@ function vendingMain($scope,$http) {
         });
 
 
+      if (item_id == $scope.selectedId) {
+    	  $('.add-to-cart-button').removeClass('desense');
+    	  $('.add-success').animate({opacity: 0}, 100);
+      }
+      
 	  if ($scope.cart.product_list.length != 0) {
 	    console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
 	  } else {
@@ -256,6 +262,10 @@ function vendingMain($scope,$http) {
       var products = "";
       console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
 
+      $('.add-success').animate({opacity: 1}, 500);
+      setTimeout(function() {
+      	$('.add-success').animate({opacity: 0}, 500);
+      }, 2000);
       //window.location="/pay?machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct;
     }
   };

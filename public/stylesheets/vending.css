@@ -833,6 +833,16 @@ height: 100%;
     font-weight: 300;
 }
 
+.add-success {
+	opacity: 0;
+	display: inline-block;
+    margin-left: 10px;
+    margin-top: 14px;
+    font-size: 20px;
+    font-family: roboto condensed;
+    letter-spacing: 1px;
+}
+
 .add-to-cart-button.desense {
 	background-color: #bbb;
 	color: #ddd;
