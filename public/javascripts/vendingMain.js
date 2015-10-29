@@ -15,18 +15,21 @@ function vendingMain($scope,$http) {
 
   $(document).ready(function(){
     $scope.machine=JSON.parse($("#machineJsonVariable").html());
-    var alreadyListedProd = "";
+    var alreadyListedProd = ",";
+    console.log(alreadyListedProd);
     var lengthhooks = $scope.machine.hooks.length;
     for(var i=0; i<lengthhooks;i++){
       if ($scope.machine.hooks[i].item_sku != null) {
         var currentSku = $scope.machine.hooks[i].product.item_sku;
-        if(!(alreadyListedProd.indexOf(currentSku)>=0)){
+        if(!(alreadyListedProd.indexOf(","+currentSku+",")>=0)){
             $scope.availableProducts.push($scope.machine.hooks[i].product);
             alreadyListedProd+=currentSku+",";
         }
       }
     }
     var lengthUniqueSkus = $scope.availableProducts.length;
+    console.log(alreadyListedProd);
+    console.log($scope.availableProducts);
     $scope.productSelected($scope.availableProducts[0].item_sku, false);
     $scope.$digest();
   });
