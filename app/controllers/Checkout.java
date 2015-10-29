@@ -181,21 +181,27 @@ public class Checkout extends Controller {
         String Status="";
         String JsonFields;
         String Module="sales";
+        System.out.println("Getting Session");
         SessionId=GetLoginSessionId(vtigerURL,userkey,username);
-        System.out.println(SessionId);
+        System.out.println("Session:"+SessionId);
 
         if (!SessionId.substring(0,5).equals("FAIL:")){
-        	System.out.println("here");
+          System.out.println("here");
           Transaction transaction = result.getTarget();
           String FirstName=transaction.getCustomer().getFirstName().toString();
-          System.out.println(FirstName);
+          System.out.print("FirstName:"+FirstName);
           String LastName=transaction.getCustomer().getLastName().toString();
+          System.out.print("LastName:"+LastName);
           String BTreeCustomerName=FirstName+" "+LastName;
           String BTreeid=transaction.getId();
           String CardType=transaction.getCreditCard().getCardType();
+          System.out.print("CardType:"+CardType);
           String CardNumber=transaction.getCreditCard().getLast4();
+          System.out.print("CardType:"+CardNumber);
           BigDecimal BTreeAmount = transaction.getAmount();
+          System.out.print("BTreeAmount:"+BTreeAmount.toString());
           String PurchaseDate=transaction.getCreatedAt().toString();
+          System.out.print("PurchaseDate:"+PurchaseDate);
 
           JsonFields="{\"fld_salesname\":\"New Sale\""
             +",\"assigned_user_id\":\""+username+"\""
@@ -211,7 +217,9 @@ public class Checkout extends Controller {
             +",\"fld_braintreeid\":\""+BTreeid+"\"}";
 
 
+          System.out.print("BeforeCreate");
           Status=Create(vtigerURL,SessionId,Module,JsonFields);
+          System.out.print("AfterCreate");
           Status=Logout(vtigerURL,SessionId);
           System.out.println(JsonFields);
         }
