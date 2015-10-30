@@ -2,6 +2,7 @@ function vendingMain($scope,$http) {
 
   $scope.formData = {};
   $scope.suggestion = "";
+  $scope.promoCode = "";
   $scope.selectedName="Item Name";
   $scope.selectedSubtitle = "";
   $scope.seletedImg="";
@@ -10,8 +11,15 @@ function vendingMain($scope,$http) {
   $scope.selectedBrandName = "Brand Name";
   $scope.selectedBrandDescription = "Brand Description";
   $scope.selectedBrandLogo = "";
-  $scope.cart = { product_info: [], product_list: [], total: 0, slots: []};
+  $scope.cart = { product_info: [], product_list: [], total: 0, slots: [], promo: {}, discount: 0, adj_total: 0};
 
+  $http.get('/promos').
+    success(function(data, status, headers, config) {
+      $scope.promos = data;
+      console.log($scope.promos);
+      //show promo code button
+      $('#promo-button').show()
+    });
 
   $(document).ready(function(){
     $scope.machine=JSON.parse($("#machineJsonVariable").html());
@@ -51,46 +59,46 @@ function vendingMain($scope,$http) {
   var machineID=getParameterByName("machineId");
 
   $scope.productSelected = function(id, tap) {
-	  $('.add-success').animate({opacity: 0}, 100);
-	  var inCart = false;
-      $.each($scope.cart.product_list, function (index, item) {
-    	  if (item == id) {
-    		  inCart = true;
-    		  return false;
-    	  }
-      });
-      if (inCart == true)  {
-    	  console.log('in cart');
-    	  $('.add-to-cart-button').addClass('desense');
-      } else {
-    	  console.log('not in cart');
-    	  $('.add-to-cart-button').removeClass('desense');
+    $('.add-success').animate({opacity: 0}, 100);
+    var inCart = false;
+    $.each($scope.cart.product_list, function (index, item) {
+      if (item == id) {
+        inCart = true;
+        return false;
       }
+    });
+    if (inCart == true)  {
+      console.log('in cart');
+      $('.add-to-cart-button').addClass('desense');
+    } else {
+      console.log('not in cart');
+      $('.add-to-cart-button').removeClass('desense');
+    }
 
-      if ($scope.cart.product_list.length > 2)
-    	  $('.add-to-cart-button').addClass('desense');
+    if ($scope.cart.product_list.length > 2)
+      $('.add-to-cart-button').addClass('desense');
 
-	  if (tap == true){
-        $.ajax({
-          type: "POST",
-          url: "/logEvent",
-          data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_product", "product_sku": id}),
-          dataType: "json",
-          headers: {
-            "content-type": "application/json"
-          },
-        });
-	  }
+    if (tap == true){
+      $.ajax({
+        type: "POST",
+        url: "/logEvent",
+        data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_product", "product_sku": id}),
+        dataType: "json",
+        headers: {
+          "content-type": "application/json"
+        },
+      });
+    }
 
 
     $scope.selectedId=id;
-	  var products = $('.product');
-	  $.each(products, function(index, value) {
-		  if (value.id == id) {
-			  $('td.selected').removeClass('selected');
-			  $('#'+id).addClass('selected');
-	      }
-	  });
+    var products = $('.product');
+    $.each(products, function(index, value) {
+      if (value.id == id) {
+        $('td.selected').removeClass('selected');
+        $('#'+id).addClass('selected');
+      }
+    });
 
     var lengthhooks = $scope.machine.hooks.length;
     for(var i=0; i<lengthhooks;i++){
@@ -111,18 +119,25 @@ function vendingMain($scope,$http) {
           $scope.selectedBrandLogo = productCurrent.brand.logo;
           $scope.selectedBrandDescription = productCurrent.brand.description;
           $scope.selectedBrandId = productCurrent.brand.id;
-           break;
+          break;
         }
       }
     }
     clearTimeout(timeoutHandle);
     timeoutHandle = setTimeout(function() {
-  	  $('.add-to-cart-button').removeClass('desense');
+      $('.add-to-cart-button').removeClass('desense');
       console.log("%OASYS,screen=list&?");
       $scope.cart.product_list = [];
       $scope.cart.product_info = [];
       $scope.cart.total = 0;
+      $scope.cart.adj_total = 0;
+      $scope.cart.discount = 0;
+      $scope.cart.promo = {};
+      $scope.promoCode = "";
       $scope.cart.slots = [];
+
+      $('#code-applied').hide();
+      $('#promo-button').show();
       $.ajax({
         type: "POST",
         url: "/logEvent",
@@ -140,58 +155,69 @@ function vendingMain($scope,$http) {
   var timeoutHandle;
 
   $scope.removeItem = function(item_id){
-	  var item_index = 0;
-	  $.each($scope.cart.product_info, function (index, item) {
-		  if (item.id == item_id) {
-			  $scope.cart.product_list.splice(index, 1);
-		      $scope.cart.total = +$scope.cart.total - +item.price;
-			  $scope.cart.slots.splice(index, 1);
-			  item_index = index;
-			  return false;
-		  }
-	  });
-	  $scope.cart.product_info.splice(item_index, 1);
-      $.ajax({
-          type: "POST",
-          url: "/logEvent",
-          data: JSON.stringify({ "machine_id": machineID, "event_type": "remove_from_cart", "product_sku": item_id}),
-          dataType: "json",
-          headers: {
-            "content-type": "application/json"
-          },
-        });
-
-
-      if (item_id == $scope.selectedId) {
-    	  $('.add-to-cart-button').removeClass('desense');
-    	  $('.add-success').animate({opacity: 0}, 100);
+    var item_index = 0;
+    $.each($scope.cart.product_info, function (index, item) {
+      if (item.id == item_id) {
+        $scope.cart.product_list.splice(index, 1);
+        $scope.cart.total = +$scope.cart.total - +item.price;
+        //recalc discount
+        $scope.cart.discount = $scope.calcDiscount();
+        //recalc adj_total
+        $scope.cart.adj_total = +$scope.cart.total - +$scope.cart.discount;
+        $scope.cart.slots.splice(index, 1);
+        item_index = index;
+        return false;
       }
-      
-	  if ($scope.cart.product_list.length != 0) {
-	    console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
-	  } else {
-	    console.log("%OASYS,screen=list&?");
-	  }
-	  clearTimeout(timeoutHandle);
-      timeoutHandle = setTimeout(function() {
+    });
+    $scope.cart.product_info.splice(item_index, 1);
+    $.ajax({
+      type: "POST",
+      url: "/logEvent",
+      data: JSON.stringify({ "machine_id": machineID, "event_type": "remove_from_cart", "product_sku": item_id}),
+      dataType: "json",
+      headers: {
+        "content-type": "application/json"
+      },
+    });
 
-    	$('.add-to-cart-button').removeClass('desense');
-        console.log("%OASYS,screen=list&?");
-        $scope.cart.product_list = [];
-        $scope.cart.product_info = [];
-        $scope.cart.total = 0;
-        $scope.cart.slots = [];
-        $.ajax({
-          type: "POST",
-          url: "/logEvent",
-          data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_remove", "product_sku": 0}),
-          dataType: "json",
-          headers: {
-            "content-type": "application/json"
-          },
-        });
-        $scope.$digest();
-      }, 60000)
+
+    if (item_id == $scope.selectedId) {
+      $('.add-to-cart-button').removeClass('desense');
+      $('.add-success').animate({opacity: 0}, 100);
+    }
+
+    if ($scope.cart.product_list.length != 0) {
+      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
+    } else {
+      console.log("%OASYS,screen=list&?");
+    }
+    clearTimeout(timeoutHandle);
+    timeoutHandle = setTimeout(function() {
+
+      $('.add-to-cart-button').removeClass('desense');
+      console.log("%OASYS,screen=list&?");
+      $scope.cart.product_list = [];
+      $scope.cart.product_info = [];
+      $scope.cart.total = 0;
+      $scope.cart.adj_total = 0;
+      $scope.cart.discount = 0;
+      $scope.cart.promo = {};
+      $scope.promoCode = "";
+      $scope.cart.slots = [];
+
+      $('#code-applied').hide();
+      $('#promo-button').show();
+      $.ajax({
+        type: "POST",
+        url: "/logEvent",
+        data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_remove", "product_sku": 0}),
+        dataType: "json",
+        headers: {
+          "content-type": "application/json"
+        },
+      });
+      $scope.$digest();
+    }, 60000)
 
   };
   $scope.addToCart = function(){
@@ -224,12 +250,19 @@ function vendingMain($scope,$http) {
 
       clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
-    	$('.add-to-cart-button').removeClass('desense');
+        $('.add-to-cart-button').removeClass('desense');
         console.log("%OASYS,screen=list&?");
         $scope.cart.product_list = [];
         $scope.cart.product_info = [];
         $scope.cart.total = 0;
+        $scope.cart.adj_total = 0;
+        $scope.cart.discount = 0;
+        $scope.cart.promo = {};
+        $scope.promoCode = "";
         $scope.cart.slots = [];
+
+	      $('#code-applied').hide();
+	      $('#promo-button').show();
         $.ajax({
           type: "POST",
           url: "/logEvent",
@@ -245,11 +278,11 @@ function vendingMain($scope,$http) {
 
       var inCart = false;
       $.each($scope.cart.product_list, function (index, item) {
-    	  if (item == $scope.selectedId) {
-    		  console.log('already in cart');
-    		  inCart = true;
-    		  return false;
-    	  }
+        if (item == $scope.selectedId) {
+          console.log('already in cart');
+          inCart = true;
+          return false;
+        }
       });
 
       if (inCart) return;
@@ -260,6 +293,10 @@ function vendingMain($scope,$http) {
       product_info.id = $scope.selectedId;
       $scope.cart.product_info.push(product_info);
       $scope.cart.total = +$scope.cart.total + +$scope.selectedPrice;
+      //recalc discount
+      $scope.cart.discount = $scope.calcDiscount();
+      //recalc adj_total
+      $scope.cart.adj_total = +$scope.cart.total - +$scope.cart.discount;
       $scope.cart.slots.push(slot);
       var slots = "";
       var products = "";
@@ -267,7 +304,7 @@ function vendingMain($scope,$http) {
 
       $('.add-success').animate({opacity: 1}, 500);
       setTimeout(function() {
-      	$('.add-success').animate({opacity: 0}, 500);
+        $('.add-success').animate({opacity: 0}, 500);
       }, 2000);
       //window.location="/pay?machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct;
     }
@@ -314,12 +351,80 @@ function vendingMain($scope,$http) {
     }, 180000);
     $scope.pageReset();
   }
+  $scope.enterPromo = function() {
+    $.ajax({
+      type: "POST",
+      url: "/logEvent",
+      data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_promo", "product_sku": 0 }),
+      dataType: "json",
+      headers: {
+        "content-type": "application/json"
+      },
+    });
+    $('.promo-dialog').show();
+    setTimeout(function() {
+      $('.promo-dialog').hide();
+    }, 180000);
+    $scope.pageReset();
+  }
+  $scope.closePromo = function() {
+	 $('.promo-dialog').val("");
+	 $scope.promoCode = "";
+	 $('.promo-dialog').hide();
+  }
   $scope.closeHowItWorks = function() {
-	  console.log('here');
+    console.log('here');
     $('.suggestion-input').val("");
     $scope.suggestion = "";
     $('.how-it-works').hide();
     $scope.pageReset();
+  }
+  $scope.submitPromo = function() {
+    //verify code
+	var codeToApply;
+	var noCode = true;
+	$.each($scope.promos, function (index, item) {
+		if ($scope.promoCode == item.code) {
+			codeToApply = item;
+			noCode = false;
+			return false;
+		}
+	});
+	if (noCode == true){
+		//invalid code
+		$('#invalid-code').show();
+		$('#promo-button').hide();
+		$scope.promoCode = "";
+		$('.promo-dialog').val("");
+		setTimeout(function() {
+		      $('#invalid-code').hide();
+		      $('#promo-button').show();
+		}, 5000);
+	} else {
+    //apply code to total
+		//calculate discount
+		console.log(codeToApply);
+		$scope.cart.promo = codeToApply;
+		$scope.cart.discount = $scope.calcDiscount();
+		$scope.cart.adj_total = +$scope.cart.total - +$scope.cart.discount;
+		$('#code-applied').show();
+		$('#promo-button').hide();
+
+	}
+    $('.promo-dialog').hide();
+    $scope.pageReset;
+  };
+  $scope.calcDiscount = function() {
+	  var threshold = $scope.cart.promo.threshold;
+	  if ($scope.cart.total > threshold) {
+		  var discount = $scope.cart.promo.flat_discount;
+          var percDis = +$scope.cart.total * +$scope.cart.promo.percent_discount;
+          percDis = +percDis / 100;
+          discount = +discount + +percDis;
+          return discount;
+	  } else {
+		  return 0;
+	  }
   }
   $scope.reportBack = function() {
     $('.problem-dialog').hide();
@@ -340,24 +445,33 @@ function vendingMain($scope,$http) {
     }
     $scope.closeHowItWorks();
     $scope.pageReset();
-  }
-  $scope.addChar= function(char) {
+  };
+  $scope.addChar = function(char) {
     $scope.suggestion=$scope.suggestion+char;
+    $scope.promoCode=$scope.promoCode+char;
     $scope.pageReset();
-  }
+  };
   $scope.deleteChar = function() {
     $scope.suggestion=$scope.suggestion.substring(0, $scope.suggestion.length-1);
     $scope.pageReset();
-  }
+  };
+  $scope.addNum = function(char) {
+    $scope.promoCode = $scope.promoCode+char;
+    $scope.pageReset();
+  };
+  $scope.deleteNum = function() {
+    $scope.promoCode = $scope.promoCode.substring(0, $scope.promoCode.length-1);
+    $scope.pageReset();
+  };
   $scope.submitReport = function() {
     $.ajax({
       type: "POST",
-      url: "/reportProblem",
-      data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
-      dataType: "json",
-      headers: {
-        "content-type": "application/json"
-      },
+    url: "/reportProblem",
+    data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
+    dataType: "json",
+    headers: {
+      "content-type": "application/json"
+    },
     });
     $('.problem-dialog').hide();
     $('#problem-email').val("");

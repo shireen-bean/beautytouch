@@ -15,6 +15,7 @@
         <div class="bar"></div>
         <h3 class="subhed"></h3>
       </div>
+      <div class="vertical-border"></div>
 	  <table style="margin: 0 auto;" width="65%" height="50%" border="0" cellpadding="0" cellspacing="0">
 	    <tr>
 	      <td id={{product.item_sku}} class="product selected" align="center" valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-start="product in availableProducts" ng-if="$first">
@@ -27,6 +28,7 @@
 	      </td>
 	    </tr>
 	  </table>
+	  <div class="vertical-border"></div>
 	  <div id="product-info">
 	    <div class="productDetails">
 	      <span id="itemName">{{selectedName}} - {{selectedPrice | currency}}</span>
@@ -87,9 +89,12 @@
 	  <div class="cart-spacer"></div>
 	  <div class="cart-total">
 	  	  Total
-	  	  <div class="cart-total-price">{{cart.total | currency}}</div>
+	  	  <div class="cart-total-price">{{cart.adj_total | currency}}</div>
 	  	  </div>
 	  <div class="cart-spacer"></div>
+	  <button id="promo-button" ng-click="enterPromo()">Have a promo code?</button>
+	  <div id="invalid-code" class="invalid-code">Sorry, that code is not valid</div>
+	  <div id="code-applied" class="code-applied">Code {{cart.promo.code}} has been applied!</div>
 	  <div id="swipeMessage" ng-hide="cart.product_info.length == 0">
 	    <h2 style="margin-left: 0px; text-align: center">Swipe card anytime to purchase</h2>
 	    <img src="https://s3.amazonaws.com/oasys-images/cc_white_left.gif" style="height: 24%;"/>
@@ -225,6 +230,52 @@
 	    <button class="problem-button secondary" ng-click="closeHowItWorks()">Back</button>
 	  </div>
 	</div>
+
+
+<div id="promo-dialog" class="promo-dialog">
+	  <h1 style="margin-top: 50px;" class="hed">Enter your promo code:</h1>
+      <textarea rows="1" cols="30" class="promo-input" ng-model="promoCode" readonly></textarea>
+	  <div id="numpad">
+	   <table class="fixed" cellspacing="10">
+		  <tr>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		  </tr>
+		  <tr id="nums123">
+		    <td class="keyButton" colspan="3" ng-click="addChar('1')">1</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('2')">2</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('3')">3</td>
+		  </tr>
+		  <tr id="nums456">
+		    <td class="keyButton" colspan="3" ng-click="addNum('4')">4</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('5')">5</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('6')">6</td>
+		  </tr>
+		  <tr id="nums789">
+		    <td colspan="3" class="keyButton" ng-click="addNum('7')">7</td>
+		    <td colspan="3" class="keyButton" ng-click="addNum('8')">8</td>
+		    <td colspan="3" class="keyButton" ng-click="addNum('9')">9</td>
+		  </tr>
+		  <tr id="nums0">
+		    <td colspan="3" class="keyButton">&nbsp;</td>
+		    <td colspan="3" class="keyButton" ng-click="addNum('0')">0</td>
+		    <td colspan="3" class="keyButton" ng-click="deleteNum()">Delete</td>
+		  </tr>
+		</table>
+	  </div>
+	  <div style="width:78%">
+        <button class="problem-button" ng-click="submitPromo()">Submit</button>
+	    <button class="problem-button secondary" ng-click="closePromo()">Back</button>
+	  </div>
+	</div>
+</div>
 </div>
 
 <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>

@@ -60,6 +60,23 @@ html, body{
     height: 100%;
 }
 
+.promo-dialog {
+	font-family: Roboto Condensed;
+    position: absolute;
+    background-color: white;
+    z-index: 0;
+    display: none;
+    font-size: 30px;
+    line-height: 43px;
+    box-shadow: 7px 5px 20px 5px;
+    padding-bottom: 50px;
+    width: 900px;
+    text-align: center;
+    height: 600px;
+    left: 608px;
+    top: 150px;
+}
+
 #how-it-works h2 {
     background-color: #bbb;
     margin: 0px;
@@ -102,6 +119,16 @@ html, body{
     padding-left: 15px;
     letter-spacing: 1px;
     height: 50px;
+    padding-top: 5px;
+}
+.promo-input {
+    font-size: 30px;
+	box-shadow: 5px 5px #ddd inset;
+	font-family: Roboto Condensed;
+    padding-left: 15px;
+    letter-spacing: 1px;
+    height: 50px;
+    margin-top: 30px;
     padding-top: 5px;
 }
 .problem-button {
@@ -186,6 +213,11 @@ float: left;
 	margin-left: auto;
 	margin-right: auto;
 	width: 1000px;
+}
+#numpad {
+	margin-left: auto;
+    margin-right: auto;
+    width: 400px;
 }
 #email-form {
 
@@ -831,6 +863,46 @@ height: 100%;
     float: left;
     display: block;
     font-weight: 300;
+}
+#promo-button {
+	width: 78%;
+    display: none;
+    margin: 10 auto;
+    float: none;
+    font-family: Roboto Condensed;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 20px;
+    height: 51px;
+    letter-spacing: 3;
+    text-transform: uppercase;
+    font-weight: 300;
+	
+}
+.invalid-code {
+	width: 78%;
+    display: none;
+    margin: 10 auto;
+    float: none;
+    font-family: Roboto Condensed;
+    font-size: 20px;
+    height: 51px;
+    letter-spacing: 3;
+}
+.code-applied {
+	width: 78%;
+    display: none;
+    margin: 10 auto;
+    float: none;
+    font-family: Roboto Condensed;
+    font-size: 20px;
+    height: 51px;
+    letter-spacing: 3;
+}
+
+.vertical-border {
+	border-left: 2px solid #ccc;
 }
 
 .add-success {
