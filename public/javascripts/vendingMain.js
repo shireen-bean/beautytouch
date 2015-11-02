@@ -431,6 +431,7 @@ function vendingMain($scope,$http) {
             discount = +discount + +percDis;
             return discount;
 	    } else {
+	    	$scope.threshold = $scope.cart.promo.threshold;
 		    $('#invalid-threshold').show();
 			$('#promo-button').hide();
 			$scope.promoCode = "";
