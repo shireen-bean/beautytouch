@@ -289,6 +289,7 @@ public class Database {
 
   public static void removeItem(String machine_id, String slots) {
 
+	  System.out.println("removeItem");
   	List<String> slots_list = new ArrayList<String>(Arrays.asList(slots.split(",")));
   	for (String slot : slots_list) {
       Hook c = Ebean.find(Hook.class).where()
@@ -383,7 +384,8 @@ public class Database {
   }
 
   public static long recordSale(String machine_id, List<String> productIds, BigDecimal product_price) {
-    //create the sale
+    System.out.println("recording sale");
+	  //create the sale
     Sale sale = new Sale();
     sale.machine_id = Long.parseLong(machine_id, 10);
     sale.sales_total = product_price;

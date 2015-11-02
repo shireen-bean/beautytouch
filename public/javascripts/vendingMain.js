@@ -11,7 +11,7 @@ function vendingMain($scope,$http) {
   $scope.selectedBrandName = "Brand Name";
   $scope.selectedBrandDescription = "Brand Description";
   $scope.selectedBrandLogo = "";
-  $scope.cart = { product_info: [], product_list: [], total: 0, slots: [], promo: {}, discount: 0, adj_total: 0};
+  $scope.cart = { product_info: [], product_list: [], total: 0, slots: [], promo: {code: ""}, discount: 0, adj_total: 0};
 
   $http.get('/promos').
     success(function(data, status, headers, config) {
@@ -187,7 +187,7 @@ function vendingMain($scope,$http) {
     }
 
     if ($scope.cart.product_list.length != 0) {
-      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
+      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
     } else {
       console.log("%OASYS,screen=list&?");
     }
@@ -300,7 +300,7 @@ function vendingMain($scope,$http) {
       $scope.cart.slots.push(slot);
       var slots = "";
       var products = "";
-      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+"&slot="+$scope.cart.slots.toString()+"?");
+      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
 
       $('.add-success').animate({opacity: 1}, 500);
       setTimeout(function() {
@@ -407,21 +407,41 @@ function vendingMain($scope,$http) {
 		$scope.cart.promo = codeToApply;
 		$scope.cart.discount = $scope.calcDiscount();
 		$scope.cart.adj_total = +$scope.cart.total - +$scope.cart.discount;
-		$('#code-applied').show();
-		$('#promo-button').hide();
+		if ($scope.cart.adj_total < $scope.cart.total) {
+		  $('#code-applied').show();
+		  $('#promo-button').hide();
+		}
 
+	}
+	//if cart isn't empty, new console message
+	if ($scope.cart.product_list.length != 0) {
+	      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
 	}
     $('.promo-dialog').hide();
     $scope.pageReset;
   };
   $scope.calcDiscount = function() {
 	  var threshold = $scope.cart.promo.threshold;
-	  if ($scope.cart.total > threshold) {
-		  var discount = $scope.cart.promo.flat_discount;
-          var percDis = +$scope.cart.total * +$scope.cart.promo.percent_discount;
-          percDis = +percDis / 100;
-          discount = +discount + +percDis;
-          return discount;
+	  console.log(threshold);
+	  if (typeof threshold !== "undefined") {
+	    if ($scope.cart.total >= threshold) {
+		    var discount = $scope.cart.promo.flat_discount;
+            var percDis = +$scope.cart.total * +$scope.cart.promo.percent_discount;
+            percDis = +percDis / 100;
+            discount = +discount + +percDis;
+            return discount;
+	    } else {
+		    $('#invalid-threshold').show();
+			$('#promo-button').hide();
+			$scope.promoCode = "";
+			$('.promo-dialog').val("");
+			$scope.cart.promo = {};
+			setTimeout(function() {
+			      $('#invalid-threshold').hide();
+			      $('#promo-button').show();
+			}, 5000);
+		  return 0;
+	    }
 	  } else {
 		  return 0;
 	  }

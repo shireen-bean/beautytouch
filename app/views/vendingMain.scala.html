@@ -94,6 +94,7 @@
 	  <div class="cart-spacer"></div>
 	  <button id="promo-button" ng-click="enterPromo()">Have a promo code?</button>
 	  <div id="invalid-code" class="invalid-code">Sorry, that code is not valid</div>
+	  <div id="invalid-threshold" class="invalid-code">Your total must be greater than ${{cart.promo.threshold}} to use this code. Keep shopping and try again!</div>
 	  <div id="code-applied" class="code-applied">Code {{cart.promo.code}} has been applied!</div>
 	  <div id="swipeMessage" ng-hide="cart.product_info.length == 0">
 	    <h2 style="margin-left: 0px; text-align: center">Swipe card anytime to purchase</h2>
