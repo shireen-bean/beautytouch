@@ -5,6 +5,19 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.math.BigDecimal;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import models.Product;
 import models.Receipt;
 
@@ -35,7 +48,6 @@ public class Email extends Controller {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
       "mackenzie@oasysventures.com",
-      "marisa@oasysventures.com",
       "shireen@oasysventures.com"
     };
     for (String recipient: recipients) {
@@ -44,7 +56,7 @@ public class Email extends Controller {
       mail.setRecipient(recipient);
       mail.setFrom("Oasys <service@oasysventures.com>");
 
-      mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product(s) '" + product_names + "' sold for $" + price.toString() + " total.</p>");
+      mail.sendHtml("<p>Oasys purchase at machine " + machineId + ". Product(s)  '" + product_names + "' sold for $" + price.toString() + " total.</p>");
     }
     return ok();
   }
@@ -57,7 +69,7 @@ public class Email extends Controller {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
       "mackenzie@oasysventures.com",
-      "marisa@oasysventures.com"
+      "shireen@oasysventures.com"
     };
     for (String recipient: recipients) {
       MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
@@ -77,13 +89,10 @@ public class Email extends Controller {
     if(!Security.validKey(key)){
       return ok();
     }
-
-/*
-	  int salesId = 127;
-	  String email = "alina@beautytouch.co";
-*/
-    System.out.println(salesId); 
-    System.out.println(email);
+    /*
+       int salesId = 152;
+       String email = "alina@beautytouch.co";
+       */
 
     //add customer to database
     try{
@@ -105,29 +114,47 @@ public class Email extends Controller {
 
     String address = receipt.machineAddress;
 
-       String productRows = "";
-       for(int i=0;i<receipt.products.size();i++){
-       Product pm = receipt.products.get(i);
-       productRows+=
-         "<div style='width:100%' class='product'>" +
-         "<span class='name'>" + pm.item_name + "</span><span style='float: right;" +
-         "margin-right: 15%;'>" + formatter.format(Double.parseDouble(pm.price)) + "</span></div>";
-       }
-
+    String productRows = "";
+    for(int i=0;i<receipt.products.size();i++){
+      Product pm = receipt.products.get(i);
+      productRows+=
+        "<div style='width:100%' class='product'>" +
+        "<span class='name'>" + pm.item_name + "</span><span style='float: right;" +
+        "margin-right: 15%;'>" + formatter.format(Double.parseDouble(pm.price)) + "</span></div>";
+    }
 
     String imageSource="https://oasysventures.com/assets/images/logoInc.png";
     String htmlString="<!DOCTYPE html> <html> <head> <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'> <style> body{line-height:24px;font-family: 'roboto condensed', sans-serif;} </style> </head> <body> <table width='100%' border='0' cellspacing='0' cellpadding='20' style='background-image: url(https://s3.amazonaws.com/oasys-images/email-background.png); background-repeat: repeat; background-size: 300px 300px; width: 100%'> <tr><td style='text-align: center;padding: 100px 0px 0px 0px;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/thanks-banner.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding:10px 0px 10px 0px; text-align:left; background-color: white'> <div id='image-container' style='width: 30%; display: inline-block; position: relative;'> <img style='margin-left:15%; max-height: 200px; display: block; margin: auto;' src='https://s3.amazonaws.com/oasys-images/b.png'/> </div> <div id='product-info' style='    width: 70%; float: right; position: relative; margin-top: 30px;'>"
       + productRows +
       "<div style='width: 85%; border-top: 2px solid #bbb; padding-bottom: 20px; margin-top: 20px;'class='sale-info'> </div> <div style='width:100%'><span style='font-weight: bolder; font-size: 19px;'>Purchased at</span><span style='float: right; margin-right: 15%;font-weight: bolder; font-size: 19px;'>Total</span></div><div style='width:100%'> <span>" + address + "</span><span style='float: right; margin-right: 15%;'>$" + receipt.total + "</span></div> </div> </div> </td></tr> <tr><td style='padding:0px; text-align: center;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8' src='https://s3.amazonaws.com/oasys-images/beauty-hack-header.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8'>" + receipt.beauty_hack + "</div> </td></tr> <tr><td style='text-align: center;padding: 0px 0px 100px 0px;'> <img style='    width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/hashtag-banner.png'/> </td></tr> </table> </body> </html> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>";
 
-
-
     mail.sendHtml(htmlString);
+    String userkey="NiOsG78vNVN6ByO9";
+    String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
+    String username="aramirez@serpol.com";
+    String SessionId="";
+    String Status="";
+    String JsonFields;
+    String Module="salescontacts";
+    System.out.print("Getting Session");
+    SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
+    System.out.print("Session:"+SessionId);
+    if (!SessionId.substring(0,5).equals("FAIL:")){
+      JsonFields="{\"fld_salescontactsname\":\""+email+"\""
+        +",\"assigned_user_id\":\""+username+"\""
+        +",\"fld_systemsalesid\":\""+salesId+"\"}";
+
+      System.out.print("BeforeCreate");
+      Status=VTiger.Create(vtigerURL,SessionId,Module,JsonFields);
+      System.out.print("Create "+Status);
+      System.out.print("AfterCreate");
+      Status=VTiger.Logout(vtigerURL,SessionId);
+      System.out.print("Logout "+Status);
+    }
     return ok();
   }
 
   public static Result test() {
     return ok(receiptEmail.render());
   }
-
 }
