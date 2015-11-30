@@ -186,8 +186,9 @@ function vendingMain($scope,$http) {
       $('.add-success').animate({opacity: 0}, 100);
     }
 
-    if ($scope.cart.product_list.length != 0) {
-      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
+    if ($scope.cart.product_list.length != 0) { 
+    	if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
+        console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
     } else {
       console.log("%OASYS,screen=list&?");
     }
@@ -300,6 +301,8 @@ function vendingMain($scope,$http) {
       $scope.cart.slots.push(slot);
       var slots = "";
       var products = "";
+
+  	  if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
       console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
 
       $('.add-success').animate({opacity: 1}, 500);
@@ -415,7 +418,8 @@ function vendingMain($scope,$http) {
 	}
 	//if cart isn't empty, new console message
 	if ($scope.cart.product_list.length != 0) {
-	      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
+		 if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
+	    console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
 	}
     $('.promo-dialog').hide();
     $scope.pageReset;
