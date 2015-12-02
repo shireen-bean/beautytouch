@@ -2,6 +2,26 @@
 <head>
 @linksVending()
 </head>
+<script>
+$(document).ready(function(){
+	$.ajax({
+	      type: "POST",
+	      url: "/logEvent",
+	      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "payment_processing", "product_sku": 0}),
+	      dataType: "json",
+	      headers: {
+	        "content-type": "application/json"
+	      }
+	});
+});
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+</script>
 <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
 
 <body style="background: url(https://s3.amazonaws.com/oasys-images/email-background.png); background-size: 300px;">

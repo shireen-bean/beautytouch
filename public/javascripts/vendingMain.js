@@ -1,4 +1,13 @@
 function vendingMain($scope,$http) {
+	$.ajax({
+		type: "POST",
+		url: "/logEvent",
+		data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "vending_main", "product_sku": 0}),
+		dataType: "json",
+		headers: {
+			"content-type": "application/json"
+		}
+	});
 
   $scope.formData = {};
   $scope.suggestion = "";
@@ -41,7 +50,18 @@ function vendingMain($scope,$http) {
     $scope.productSelected($scope.availableProducts[0].item_sku, false);
     $scope.$digest();
   });
-
+/*  
+  var counter = 0;
+  $("#product-grid").on("swipeleft", function(event) {
+	  counter += 1;
+	  $('#header-copy .hed').text(counter + " left");
+	  //alert("swipeleft");
+  }).on("swiperight", function(event) {
+	  counter += 1;
+	  $('#header-copy .hed').text(counter + " right");
+	  //alert("swiperight");
+  });
+*/
   var pageTimeout = setTimeout(function() {
     window.location="/vendingMain?machineId="+getParameterByName("machineId");
   }, 1800000);
@@ -239,15 +259,7 @@ function vendingMain($scope,$http) {
       //find product details and display checkout window
       //$("#productList").css('opacity','.1');
       //$("#productView").show();
-      $.ajax({
-        type: "POST",
-        url: "/logEvent",
-        data: JSON.stringify({ "machine_id": machineID, "event_type": "add_to_cart", "product_sku": $scope.selectedId}),
-        dataType: "json",
-        headers: {
-          "content-type": "application/json"
-        },
-      });
+
 
       clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(function() {
@@ -287,6 +299,15 @@ function vendingMain($scope,$http) {
       });
 
       if (inCart) return;
+      $.ajax({
+          type: "POST",
+          url: "/logEvent",
+          data: JSON.stringify({ "machine_id": machineID, "event_type": "add_to_cart", "product_sku": $scope.selectedId}),
+          dataType: "json",
+          headers: {
+            "content-type": "application/json"
+          },
+        });
       $scope.cart.product_list.push($scope.selectedId);
       var product_info = {};
       product_info.name = $scope.selectedName;

@@ -2,6 +2,7 @@
 <html>
 <head>
 @linksVending()
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
 </head>
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=League+Script" />
 <body class="bodyMain" style="overflow: hidden;">
@@ -16,7 +17,7 @@
         <h3 class="subhed"></h3>
       </div>
       <div class="vertical-border"></div>
-	  <table style="margin: 0 auto;" width="65%" height="50%" border="0" cellpadding="0" cellspacing="0">
+	  <table id="product-grid" style="margin: 0 auto;" width="65%" height="50%" border="0" cellpadding="0" cellspacing="0">
 	    <tr>
 	      <td id={{product.item_sku}} class="product selected" align="center" valign="bottom" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-start="product in availableProducts" ng-if="$first">
 		    <img class="product-image" style="max-width:200px" src='productImage/{{product.item_img}}'>
@@ -70,7 +71,7 @@
 	    <h3>Thank you for reporting an issue with this machine.</h3>
 	  </div>
 	  <div id="learn-more">
-	    <button class="contactButton secondary" ng-click="howItWorks()">Get a free Sample</button>
+	    <button class="contactButton secondary" ng-click="howItWorks()">Give Feedback</button>
 	  </div>
 	</div>
 

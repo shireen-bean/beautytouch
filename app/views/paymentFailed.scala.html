@@ -6,6 +6,15 @@ $(document).ready(function(){
 	setTimeout(function() {
 		window.location="/vendingMain?machineId="+getParameterByName("machineId");
 	}, 4000);
+	$.ajax({
+	      type: "POST",
+	      url: "/logEvent",
+	      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "payment_failed", "product_sku": 0}),
+	      dataType: "json",
+	      headers: {
+	        "content-type": "application/json"
+	      }
+	});
 });
 
 function getParameterByName(name) {
