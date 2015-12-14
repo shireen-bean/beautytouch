@@ -26,7 +26,7 @@ html, body{
     top: 50px;
     border: 3px black solid;
     background-color: white;
-    z-index: 100;
+    z-index: 200;
     right: 465px;
     /* border-radius: 25px; */
     display: none;
@@ -454,6 +454,7 @@ font-size: 30px;
     margin: auto auto;
     text-align: left;
     display: inline-block;
+    height: 280px;
 }
 
 #brandInfo {
@@ -690,10 +691,90 @@ display: inline-block;
 	    background-image: none;
 }
 .product img {
+	margin: 0 auto;
+    display: block;
 }
-.product.selected:after {
+
+.top-left {
+  position: relative;
+}
+.top-left:before, .top-left:after {
     content: "";
-    position: relative;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+}
+.top-left:before {
+    bottom: -3px;
+    width: 3px;
+    background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#aaa), to(transparent));
+    background-image: -webkit-linear-gradient(#aaa, transparent);
+    background-image: -moz-linear-gradient(#aaa, transparent);
+    background-image: -o-linear-gradient(#aaa, transparent);
+}
+
+.top-left:after {
+    right: -3px;
+    height: 3px;
+    background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#aaa), to(#eee));
+    background-image: -webkit-linear-gradient(left, #aaa, #eee);
+    background-image: -moz-linear-gradient(left, #aaa, #eee);
+    background-image: -o-linear-gradient(left, #aaa, #eee);
+}
+
+.product {
+	    height: 100%;
+    min-width: 250px;
+    overflow-y:hidden;
+    padding-top:3px;
+    overflow-x:hidden;
+}
+
+.brand-flag:before {
+	right: -3px;
+    height: 3px;
+    content: "";
+    position: absolute;
+    top: 35px;
+    left: -3px;
+    background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#aaa), to(#eee));
+    background-image: -webkit-linear-gradient(left, #aaa, #eee);
+    background-image: -moz-linear-gradient(left, #aaa, #eee);
+    background-image: -o-linear-gradient(left, #aaa, #eee);
+}
+.brand-name:before {
+content: "";
+    position: absolute;
+    border-width: 28px 21px 0;
+    border-style: solid;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    z-index: 101;
+    left: 196px;
+    margin: 0 auto;
+    top: 3px;
+}
+.brand-name:after {
+    content: "";
+    position: absolute;
+    border-width: 28px 21px 0;
+    border-style: solid;
+    border-color: #eee transparent;
+    display: block;
+    width: 0;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    z-index: 100;
+    left: 191px;
+    margin: 0 auto;
+    top: 3px;
+}
+.product.selected .cat-price:after {
+content: "";
+    position: absolute;
     bottom: -25px;
     border-width: 35px 35px 0;
     border-style: solid;
@@ -702,9 +783,16 @@ display: inline-block;
     width: 0;
     transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
+    z-index: 100;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 235%;
 }
+
+
 .product.selected {
-  background: -webkit-radial-gradient(50% 80%, closest-side, white, rgba(255,255,255,.7), rgba(255,255,255,0));
+  background: -webkit-radial-gradient(55% 80%, closest-side, white, rgba(255,255,255,.7), rgba(255,255,255,0));
 }
 .whiteO {
 	position:relative; top:0px; width:320px; height:240px; background:#FFF; opacity:0.7;
@@ -825,6 +913,9 @@ display: inline-block;
     font-family: Roboto Condensed;
     margin-top: 8px;
     color: #888;
+    position: relative;
+    width: 100%;
+    text-align: center;
 }
 
 .selected .category {
@@ -844,9 +935,66 @@ height: 100%;
     position: fixed;
     right: 0px;
 }
+
+#table-wrapper {
+	position: relative;
+    width: 89%;
+    overflow-x: scroll;
+    height: 50%;
+    margin-left: 75px;
+    overflow-y: hidden;
+    padding-top: 50px;
+}
+.new-brand {
+  position: relative;
+  margin-left:5px;
+}
+.new-brand:before{
+    content: "";
+    position: absolute;
+    top: -45px;
+    left: 3px;
+}
+.new-brand:before {
+    bottom: -3px;
+    width: 3px;
+    background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#aaa), to(transparent));
+    background-image: -webkit-linear-gradient(#aaa, transparent);
+    background-image: -moz-linear-gradient(#aaa, transparent);
+    background-image: -o-linear-gradient(#aaa, transparent);
+}
+
+.brand-logo {
+	max-width: 200px;
+	max-height: 50px;
+}
+
+.product-stuff {
+    position: absolute;
+    bottom: 15%;
+    width:100%;
+    margin: 0 auto;
+}
+.brand-wrapper {
+    height: 100%;
+    font-size: 25px;
+    padding: 5px;
+    text-align: left;
+    margin-left: 5px;
+    margin-right:20px;
+    padding-left: 10px;
+    font-family: Roboto Condensed;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    clear: both;
+}
+
 #product-info{
-	width: 100%;
-	margin-top: 24px;
+    width: 88%;
+    position: fixed;
+    left: -100px;
+    top: 670px;
 }
 .add-to-cart-button {
     font-family: Roboto Condensed;
@@ -863,6 +1011,8 @@ height: 100%;
     float: left;
     display: block;
     font-weight: 300;
+    position: absolute;
+    bottom: 40px;
 }
 #promo-button {
 	width: 78%;

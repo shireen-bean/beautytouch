@@ -13,6 +13,7 @@ function vendingMain($scope,$http) {
   $scope.suggestion = "";
   $scope.promoCode = "";
   $scope.selectedName="Item Name";
+  $scope.brand = {id: 0};
   $scope.selectedSubtitle = "";
   $scope.seletedImg="";
   $scope.selectedPrice="0.00";
@@ -47,12 +48,15 @@ function vendingMain($scope,$http) {
     var lengthUniqueSkus = $scope.availableProducts.length;
     console.log(alreadyListedProd);
     console.log($scope.availableProducts);
+    $scope.availableProducts.sort(function(a, b) {
+    	return parseInt(a.brand_id) - parseInt(b.brand_id);
+    });
     $scope.productSelected($scope.availableProducts[0].item_sku, false);
     $scope.$digest();
   });
-/*  
+
   var counter = 0;
-  $("#product-grid").on("swipeleft", function(event) {
+  $("#productList").on("swipeleft", function(event) {
 	  counter += 1;
 	  $('#header-copy .hed').text(counter + " left");
 	  //alert("swipeleft");
@@ -61,7 +65,11 @@ function vendingMain($scope,$http) {
 	  $('#header-copy .hed').text(counter + " right");
 	  //alert("swiperight");
   });
-*/
+
+  $("#product-grid").draggable({
+	  axis: "x"
+  });
+  
   var pageTimeout = setTimeout(function() {
     window.location="/vendingMain?machineId="+getParameterByName("machineId");
   }, 1800000);
