@@ -544,12 +544,12 @@ function vendingMain($scope,$http) {
   $scope.submitReport = function() {
     $.ajax({
       type: "POST",
-    url: "/reportProblem",
-    data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
-    dataType: "json",
-    headers: {
-      "content-type": "application/json"
-    },
+      url: "/reportProblem",
+      data: JSON.stringify({"machine_id": machineID, "formData": $scope.formData }),
+      dataType: "json",
+      headers: {
+        "content-type": "application/json"
+      },
     });
     $('.problem-dialog').hide();
     $('#problem-email').val("");

@@ -21,20 +21,16 @@ html, body{
 .problem-dialog {
     font-family: Roboto Condensed;
     position: absolute;
-    width: 1000px;
+    left: 500px;
     height: 830px;
     top: 50px;
-    border: 3px black solid;position: relative;
-    width: 89%;
+    width: 54%;
     overflow-x: scroll;
-    height: 50%;
-    /* margin-left: -80px; */
+    height: 79%;
     overflow-y: hidden;
     padding-top: 50px;
     background-color: white;
     z-index: 200;
-    right: 465px;
-    /* border-radius: 25px; */
     display: none;
     font-size: 30px;
     line-height: 55px;
@@ -964,7 +960,7 @@ height: 100%;
 
 #table-wrapper {
    position: relative;
-    width: 80%;
+    width: 88%;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     height: 50%;

@@ -84,7 +84,7 @@ public class Email extends Controller {
     }
     return ok();
   }
-  
+
   public static Result sendSuggestion() {
 	    JsonNode jn = request().body().asJson();
 	    String machineId = jn.get("machine_id").asText();
@@ -107,8 +107,8 @@ public class Email extends Controller {
 
   public static Result sendReceipt(){
     JsonNode jn = request().body().asJson();
-    int salesId = jn.get("sales_id").asInt();
-    String email = jn.get("email").asText();
+    final int salesId = jn.get("sales_id").asInt();
+    final String email = jn.get("email").asText();
     String key = jn.get("key").asText();
     if(!Security.validKey(key)){
       return ok();
