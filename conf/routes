@@ -39,6 +39,7 @@ POST    /postMachine		        controllers.MachineController.postMachine()
 POST    /loginVending		        controllers.Application.loginVending()
 POST    /machineStatus              controllers.MachineController.logStatus
 POST    /sendSuggestion             controllers.Email.sendSuggestion()
+POST    /alertFail					controllers.Email.alertFail()
 POST    /sendEmailReceipt           controllers.Email.sendReceipt
 POST    /sendSMSReceipt             controllers.SMS.sendReceipt
 POST    /reportProblem              controllers.SMS.reportProblem

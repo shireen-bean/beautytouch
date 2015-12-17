@@ -230,6 +230,13 @@ public static String GetLoginSessionId(String vtigerURL,String userkey, String u
 			(conn2.getInputStream())));
 		
 		LineText = br2.readLine();
+		ConnectionStatus=GetJSON("success", LineText);
+		if (ConnectionStatus.equals("false")){
+		
+	        sError="FAIL: " + GetJSON("message", LineText);;
+	        conn2.disconnect();
+	    	return sError;
+	    }
 		SessionId=GetJSON("sessionName", LineText);
 	    SessionId=SessionId.replace("\"","");
 		conn2.disconnect();

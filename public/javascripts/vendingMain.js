@@ -55,21 +55,45 @@ function vendingMain($scope,$http) {
     $scope.$digest();
   });
 
-  var counter = 0;
-  $("#productList").on("swipeleft", function(event) {
-	  counter += 1;
-	  $('#header-copy .hed').text(counter + " left");
-	  //alert("swipeleft");
-  }).on("swiperight", function(event) {
-	  counter += 1;
-	  $('#header-copy .hed').text(counter + " right");
-	  //alert("swiperight");
-  });
 
-  $("#product-grid").draggable({
-	  axis: "x"
+  $(function() {
+	  $('#table-wrapper').scroll( function() {
+		  if ($('#product-grid').width() == ($('#table-wrapper').scrollLeft() + $('#table-wrapper').width())) {
+			  $('#left-arrow').css('color', '#333');
+	    	  $('#right-arrow').css('color', '#ddd');
+	      } else if ($('#table-wrapper').scrollLeft() == 0) {
+	    	  $('#left-arrow').css('color', '#ddd');
+	    	  $('#right-arrow').css('color', '#333');
+	      } else {
+	    	  $('#left-arrow').css('color', '#333');
+	    	  $('#right-arrow').css('color', '#333');
+	      }
+	  });
+	  
   });
   
+  /*
+  
+  $('#right-arrow').click( function() {
+	  //$('#table-wrapper').scrollLeft($('#table-wrapper').scrollLeft() + 250);
+	  //$("#scroll").text($('#table-wrapper').scrollLeft());
+	  // Offset is negative to scroll left, positive to scroll right...
+
+	  if ($("#table-wrapper").width() < ($("#product-grid").position().left + $("#product-grid").width())) {
+		  var offset = $("#product-grid").position().left - 250;
+		  $('#product-grid').css('webkitTransform', 'translateX(' + offset + 'px)');
+	  }
+  });
+  $('#left-arrow').click( function() {
+	  //$('#table-wrapper').scrollLeft($('#table-wrapper').scrollLeft() - 250);
+	  //$("#scroll").text($('#table-wrapper').scrollLeft());
+	  // Offset is negative to scroll left, positive to scroll right...
+	  if ($("#product-grid").position().left < 0) {
+	    var offset = $("#product-grid").position().left + 250;
+	    $('#product-grid').css('webkitTransform', 'translateX(' + offset + 'px)');
+	  }
+  });
+*/
   var pageTimeout = setTimeout(function() {
     window.location="/vendingMain?machineId="+getParameterByName("machineId");
   }, 1800000);
