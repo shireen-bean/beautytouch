@@ -17,6 +17,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import models.Product;
 import models.Receipt;
@@ -61,10 +64,11 @@ public class Email extends Controller {
     return ok();
   }
 
-  public static Result sendSuggestion() {
+  public static Result alertFail() {
     JsonNode jn = request().body().asJson();
     String machineId = jn.get("machine_id").asText();
-    String suggestion = jn.get("suggestion").asText();
+    String message = jn.get("message").asText();
+    System.out.println(jn);
     String[] recipients = {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
@@ -73,13 +77,33 @@ public class Email extends Controller {
     };
     for (String recipient: recipients) {
       MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-      mail.setSubject("Email Captured");
+      mail.setSubject("Sales Error");
       mail.setRecipient(recipient);
       mail.setFrom("Oasys <service@oasysventures.com>");
-      mail.sendHtml("<p>Oasys email captured from machine " + machineId + ". Email: " + suggestion + "</p>");
+      mail.sendHtml("<p>" + message + " at machine " + machineId +".");
     }
     return ok();
   }
+  
+  public static Result sendSuggestion() {
+	    JsonNode jn = request().body().asJson();
+	    String machineId = jn.get("machine_id").asText();
+	    String suggestion = jn.get("suggestion").asText();
+	    String[] recipients = {
+	      "alina@oasysventures.com",
+	      "jackie@oasysventures.com",
+	      "mackenzie@oasysventures.com",
+	      "shireen@oasysventures.com"
+	    };
+	    for (String recipient: recipients) {
+	      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+	      mail.setSubject("Email Captured");
+	      mail.setRecipient(recipient);
+	      mail.setFrom("Oasys <service@oasysventures.com>");
+	      mail.sendHtml("<p>Oasys email captured from machine " + machineId + ". Email: " + suggestion + "</p>");
+	    }
+	    return ok();
+	  }
 
   public static Result sendReceipt(){
     JsonNode jn = request().body().asJson();
@@ -129,29 +153,52 @@ public class Email extends Controller {
       "<div style='width: 85%; border-top: 2px solid #bbb; padding-bottom: 20px; margin-top: 20px;'class='sale-info'> </div> <div style='width:100%'><span style='font-weight: bolder; font-size: 19px;'>Purchased at</span><span style='float: right; margin-right: 15%;font-weight: bolder; font-size: 19px;'>Total</span></div><div style='width:100%'> <span>" + address + "</span><span style='float: right; margin-right: 15%;'>$" + receipt.total + "</span></div> </div> </div> </td></tr> <tr><td style='padding:0px; text-align: center;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8' src='https://s3.amazonaws.com/oasys-images/beauty-hack-header.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8'>" + receipt.beauty_hack + "</div> </td></tr> <tr><td style='text-align: center;padding: 0px 0px 100px 0px;'> <img style='    width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/hashtag-banner.png'/> </td></tr> </table> </body> </html> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>";
 
     mail.sendHtml(htmlString);
-    String userkey="NiOsG78vNVN6ByO9";
-    String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
-    String username="aramirez@serpol.com";
-    String SessionId="";
-    String Status="";
-    String JsonFields;
-    String Module="salescontacts";
-    System.out.print("Getting Session");
-    SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
-    System.out.print("Session:"+SessionId);
-    if (!SessionId.substring(0,5).equals("FAIL:")){
-      JsonFields="{\"fld_salescontactsname\":\""+email+"\""
-        +",\"assigned_user_id\":\""+username+"\""
-        +",\"fld_systemsalesid\":\""+salesId+"\"}";
+    ExecutorService fixedPool = Executors.newFixedThreadPool(1);
+    Runnable aRunnable = new Runnable(){
+      @Override
+        public void run() {
+          String userkey="NiOsG78vNVN6ByO9";
+          String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
+          String username="aramirez@serpol.com";
+          String SessionId="";
+          String Status="";
+          String JsonFields;
+          String Module="salescontacts";
+          System.out.print("Getting Session");
+          //SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
+          for (int i = 0; i < 5; i++) {
+            SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
+            System.out.print("Email Session:"+SessionId);
+            if (!SessionId.substring(0,5).equals("FAIL:")){
+              break;
+            }
+            try {
+              Thread.sleep(1000);
+            } catch(InterruptedException ex) {
+              Thread.currentThread().interrupt();
+            }
+          }
+          System.out.print("End of loop");
 
-      System.out.print("BeforeCreate");
-      Status=VTiger.Create(vtigerURL,SessionId,Module,JsonFields);
-      System.out.print("Create "+Status);
-      System.out.print("AfterCreate");
-      Status=VTiger.Logout(vtigerURL,SessionId);
-      System.out.print("Logout "+Status);
-    }
+          if (!SessionId.substring(0,5).equals("FAIL:")){
+            JsonFields="{\"fld_salescontactsname\":\""+email+"\""
+              +",\"assigned_user_id\":\""+username+"\""
+              +",\"fld_systemsalesid\":\""+salesId+"\"}";
+
+            System.out.print("BeforeCreate");
+            Status=VTiger.Create(vtigerURL,SessionId,Module,JsonFields);
+            System.out.print("Create "+Status);
+            System.out.print("AfterCreate");
+            Status=VTiger.Logout(vtigerURL,SessionId);
+            System.out.print("Logout "+Status);
+          }
+        }
+    };
+    Future<?> runnableFuture = fixedPool.submit(aRunnable);
+
+    fixedPool.shutdown();
     return ok();
+
   }
 
   public static Result test() {

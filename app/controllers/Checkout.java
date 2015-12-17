@@ -28,6 +28,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import models.Machine;
 import models.Product;
@@ -82,14 +85,14 @@ public class Checkout extends Controller {
     String jsonString = jsonMachine.toString();
     return ok(vendingMain.render(jsonString));
   }
-  
+
   public static Result getPromos() {
-	  List<Promo> promos = Ebean.find(Promo.class).where()
-			  .eq("status", 1)
-			  .findList();
-	  JsonContext json = Ebean.createJsonContext();
-	  String p = json.toJsonString(promos);
-	  return ok(p);	  
+    List<Promo> promos = Ebean.find(Promo.class).where()
+      .eq("status", 1)
+      .findList();
+    JsonContext json = Ebean.createJsonContext();
+    String p = json.toJsonString(promos);
+    return ok(p);
   }
 
   public static Result thankYou(){
@@ -146,7 +149,9 @@ public class Checkout extends Controller {
   }
 
   public static Result processNonce(String nonce, String name, String productIds, String machineId, String slot){
+    BigDecimal total = new BigDecimal(0);
 
+    long salesId=-1;
     System.out.println(productIds);
     System.out.println(slot);
     List<String> products = new ArrayList<String>(Arrays.asList(productIds.split(",")));
@@ -155,13 +160,13 @@ public class Checkout extends Controller {
     System.out.println(promoCode);
     String code = "";
     if (promoCode.indexOf("code") >= 0) {
-    	//last element is code;
-    	code = promoCode.substring(4);
-    	products.remove(products.size() - 1);
-    	System.out.println(code);
+      //last element is code;
+      code = promoCode.substring(4);
+      products.remove(products.size() - 1);
+      System.out.println(code);
     }
     System.out.println(products);
-    BigDecimal total = new BigDecimal(0);
+
     for (String product : products) {
       BigDecimal productPrice = new BigDecimal(Database.getProductPrice(product));
       total = total.add(productPrice);
@@ -190,90 +195,112 @@ public class Checkout extends Controller {
       .options()
       .submitForSettlement(true)
       .done();
-    
+
     com.braintreegateway.Result<Transaction> result = gateway.transaction().sale(request);
 
     ObjectNode response = Json.newObject();
     System.out.println("response"+result.isSuccess());
     if(result.isSuccess()){
-      long salesId=-1;
+      salesId=-1;
       try{
         //log purchase
         salesId = Database.recordSale(machineId, products, total);
         System.out.println(salesId);
-        
+
         //decrement inventory
         Database.removeItem(machineId,slot);
-        
+
         //send email alert
         Email.alertSale(machineId, products, total);
-        
+        String stotal=total.toString();
+        String ssalesId=Long.toString(salesId);
         //this is vtiger user key found in user account and preferences
-        String userkey="NiOsG78vNVN6ByO9";
-        String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
-        String username="aramirez@serpol.com";
-        String SessionId="";
-        String Status="";
-        String JsonFields;
-        String Module="sales";
-        System.out.println("Getting Session");
-        SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
-        System.out.println("Session:"+SessionId);
+        ExecutorService fixedPool = Executors.newFixedThreadPool(1);
+        Runnable aRunnable = new Runnable(){
+          @Override
+            public void run() {
+              String userkey="NiOsG78vNVN6ByO9";
+              String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
+              String username="aramirez@serpol.com";
+              String SessionId="";
+              String Status="";
+              String JsonFields;
+              String Module="sales";
+              System.out.println("Getting Session");
 
-        if (!SessionId.substring(0,5).equals("FAIL:")){
-          Transaction transaction = result.getTarget();
-          String FirstName=transaction.getCustomer().getFirstName().toString();
-          String BTreeCustomerName=FirstName;
-          String BTreeid=transaction.getId();
-          String CardType=transaction.getCreditCard().getCardType();
-          String CardNumber=transaction.getCreditCard().getLast4();
-          BigDecimal BTreeAmount = transaction.getAmount();
-          int year=transaction.getCreatedAt().YEAR;
-          int month=transaction.getCreatedAt().MONTH;
-          int day=transaction.getCreatedAt().DAY_OF_MONTH;
-          String PurchaseDate="";
-          if (month<10)
-            PurchaseDate=year+"-0"+month;
-          else
-            PurchaseDate=year+"-"+month;
+              for (int i = 0; i < 5; i++) {
+                SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
+                System.out.print("Checkout Session:"+SessionId);
+                if (!SessionId.substring(0,5).equals("FAIL:")){
+                  break;
+                }
+                try {
+                  Thread.sleep(1000);
+                } catch(InterruptedException ex) {
+                  Thread.currentThread().interrupt();
+                }
+              }
+              System.out.print("End of loop");
 
-          if (day<10)
-            PurchaseDate=PurchaseDate+"-0"+day;
-          else
-            PurchaseDate=PurchaseDate+"-"+day;
+              if (!SessionId.substring(0,5).equals("FAIL:")){
+                Transaction transaction = result.getTarget();
+                String FirstName=transaction.getCustomer().getFirstName().toString();
+                String BTreeCustomerName=FirstName;
+                String BTreeid=transaction.getId();
+                String CardType=transaction.getCreditCard().getCardType();
+                String CardNumber=transaction.getCreditCard().getLast4();
+                BigDecimal BTreeAmount = transaction.getAmount();
+                int year=transaction.getCreatedAt().YEAR;
+                int month=transaction.getCreatedAt().MONTH;
+                int day=transaction.getCreatedAt().DAY_OF_MONTH;
+                String PurchaseDate="";
+                if (month<10)
+                  PurchaseDate=year+"-0"+month;
+                else
+                  PurchaseDate=year+"-"+month;
 
-          String sTime="";
+                if (day<10)
+                  PurchaseDate=PurchaseDate+"-0"+day;
+                else
+                  PurchaseDate=PurchaseDate+"-"+day;
 
-          int hour=transaction.getCreatedAt().HOUR_OF_DAY;
-          int min=transaction.getCreatedAt().MINUTE;
+                String sTime="";
 
-          if (min<10)
-            sTime=hour+":0"+min;
-          else
-            sTime=hour+":"+min;
+                int hour=transaction.getCreatedAt().HOUR_OF_DAY;
+                int min=transaction.getCreatedAt().MINUTE;
 
-          PurchaseDate=PurchaseDate+" "+sTime;
+                if (min<10)
+                  sTime=hour+":0"+min;
+                else
+                  sTime=hour+":"+min;
 
-          JsonFields="{\"fld_salesname\":\"New Sale\""
-            +",\"assigned_user_id\":\""+username+"\""
-            +",\"fld_machineid\":\""+machineId+"\""
-            +",\"fld_productid\":\""+products+"\""
-            +",\"cf_1014\":\""+total+"\""
-            +",\"cf_1016\":\""+BTreeAmount.toString()+"\""
-            +",\"cf_1020\":\""+CardType+"\""
-            +",\"cf_1022\":\""+CardNumber+"\""
-            +",\"cf_1018\":\""+PurchaseDate+"\""
-            +",\"cf_1024\":\""+salesId+"\""
-            +",\"fld_name\":\""+BTreeCustomerName+"\""
-            +",\"fld_braintreeid\":\""+BTreeid+"\"}";
+                PurchaseDate=PurchaseDate+" "+sTime;
+
+                JsonFields="{\"fld_salesname\":\"New Sale\""
+                  +",\"assigned_user_id\":\""+username+"\""
+                  +",\"fld_machineid\":\""+machineId+"\""
+                  +",\"fld_productid\":\""+products+"\""
+                  +",\"cf_1014\":\""+stotal+"\""
+                  +",\"cf_1016\":\""+BTreeAmount.toString()+"\""
+                  +",\"cf_1020\":\""+CardType+"\""
+                  +",\"cf_1022\":\""+CardNumber+"\""
+                  +",\"cf_1018\":\""+PurchaseDate+"\""
+                  +",\"cf_1024\":\""+ssalesId+"\""
+                  +",\"fld_name\":\""+BTreeCustomerName+"\""
+                  +",\"fld_braintreeid\":\""+BTreeid+"\"}";
 
 
-          Status=VTiger.Create(vtigerURL,SessionId,Module,JsonFields);
-          Status=VTiger.Logout(vtigerURL,SessionId);
-          System.out.println(JsonFields);
-        } else {
-        	System.out.println("fail");
-        }
+                Status=VTiger.Create(vtigerURL,SessionId,Module,JsonFields);
+                Status=VTiger.Logout(vtigerURL,SessionId);
+                System.out.println(JsonFields);
+              } else {
+                System.out.println("fail");
+              }
+            }
+        };
+        Future<?> runnableFuture = fixedPool.submit(aRunnable);
+
+        fixedPool.shutdown();
       }catch(Exception e){
 
       }
@@ -324,5 +351,5 @@ public class Checkout extends Controller {
     return ok(product.item_name);
 
   }
-  
+
 }
