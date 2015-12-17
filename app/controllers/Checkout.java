@@ -148,13 +148,13 @@ public class Checkout extends Controller {
     return ok(response);
   }
 
-  public static Result processNonce(String nonce, String name, String productIds, String machineId, String slot){
+  public static Result processNonce(String nonce, String name, String productIds,final String machineId, String slot){
     BigDecimal total = new BigDecimal(0);
 
     long salesId=-1;
     System.out.println(productIds);
     System.out.println(slot);
-    List<String> products = new ArrayList<String>(Arrays.asList(productIds.split(",")));
+    final List<String> products = new ArrayList<String>(Arrays.asList(productIds.split(",")));
     System.out.println(products);
     String promoCode = products.get(products.size() - 1);
     System.out.println(promoCode);
@@ -196,7 +196,7 @@ public class Checkout extends Controller {
       .submitForSettlement(true)
       .done();
 
-    com.braintreegateway.Result<Transaction> result = gateway.transaction().sale(request);
+    final com.braintreegateway.Result<Transaction> result = gateway.transaction().sale(request);
 
     ObjectNode response = Json.newObject();
     System.out.println("response"+result.isSuccess());
@@ -212,8 +212,8 @@ public class Checkout extends Controller {
 
         //send email alert
         Email.alertSale(machineId, products, total);
-        String stotal=total.toString();
-        String ssalesId=Long.toString(salesId);
+        final String stotal=total.toString();
+        final String ssalesId=Long.toString(salesId);
         //this is vtiger user key found in user account and preferences
         ExecutorService fixedPool = Executors.newFixedThreadPool(1);
         Runnable aRunnable = new Runnable(){

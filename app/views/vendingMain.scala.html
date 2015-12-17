@@ -61,13 +61,21 @@
 	    <button class="contactButton secondary report" ng-click="reportProblem()">Report a Problem</button>
         </h3>
 	  </div>
-	  <div id="problem-dialog" class="problem-dialog">
+	  
+	  <div class="thank-you-report" id="thank-you-report">
+	    <h3>Thank you for reporting an issue with this machine.</h3>
+	  </div>
+	  <div style="display:none;" id="learn-more">
+	    <button class="contactButton secondary" ng-click="howItWorks()">Give Feedback</button>
+	  </div>
+	</div>
+		<div id="problem-dialog" class="problem-dialog">
 	    <div class="form" data-role="fieldcontain">
 	    <h2 style="margin: 50px 112px 0 112px;">Uh Oh!<br>
 	    What happened?</h2>
 	    <p class="problem-text">Let us know if something went wrong. We'll do our best to make it right!</p>
 	    </legend>
-	    <form id="report-form" ng-init="formData.problem='other'" action="">
+	    <div id="report-form" ng-init="formData.problem='other'" action="">
           <input style="float: left;margin-top: 20px;"ng-model="formData.problem" type="radio" id="vending" name="problem" value="vending"><label for="vending">Product didn't vend<br></label>
           <label><input style="float: left;margin-top: 20px;" ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
           <label><input style="float: left;margin-top: 20px;" ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
@@ -78,20 +86,14 @@
           <input id="problem-email" ng-model="formData.email" type="text" name="email">
 
         
-        <div style="width: 100%;margin: 10px auto;">
-          <button class="problem-button" ng-click="submitReport()">Submit</button>
-	      <button class="problem-button secondary" ng-click="reportBack()">Back</button>
+          <div style="width: 100%;margin: 10px auto;">
+            <button class="problem-button" ng-click="submitReport()">Submit</button>
+	        <button class="problem-button secondary" ng-click="reportBack()">Back</button>
+	      </div>
 	    </div>
-	    </form>
-	  </div>
-	  </div>
-	  <div class="thank-you-report" id="thank-you-report">
-	    <h3>Thank you for reporting an issue with this machine.</h3>
-	  </div>
-	  <div style="display:none;" id="learn-more">
-	    <button class="contactButton secondary" ng-click="howItWorks()">Give Feedback</button>
 	  </div>
 	</div>
+
 
 	<div id="cart">
 	  <div class="your-bag">Your Bag <img src="/assets/images/bag-icon.png"/></div>
@@ -126,6 +128,7 @@
 	    <span class="beautytouch">Beautytouch</span>
 	    </div>
 	  </div>
+	</div>
 	</div>
 
 	<div id="how-it-works" class="how-it-works">
