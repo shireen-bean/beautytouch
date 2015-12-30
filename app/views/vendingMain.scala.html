@@ -53,7 +53,7 @@
 	        <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
 		  </ul>
 		  <button class="add-to-cart-button" ng-click="addToCart()">Add to Bag</button>
-		  <div class="add-success">{{selectedName}} has been added to your cart!</div>
+		  <div class="add-success"><img style="padding: 18px;vertical-align: middle;margin-top: -5px;"src="/assets/images/bag-icon.png"/>{{selectedName}} has been added to your bag!</div>
 		</div>
 	  </div>
 	  <div id="report-problem" class="report-problem">
@@ -96,10 +96,10 @@
 
 
 	<div id="cart">
-	  <div class="your-bag">Your Bag <img src="/assets/images/bag-icon.png"/></div>
+	  <div class="your-bag">Your Bag</div><div class="bag-count">{{cart.product_list.length}}</div>
 	  <div class="cart-spacer"></div>
 	  <div class="empty-cart" ng-hide="cart.product_info.length != 0">Add a product to your bag to begin</div>
-	  <ul style="list-style-type: none;text-align:left">
+	  <ul class="cart-list" style="list-style-type: none;text-align:left">
 	    <li class="cart-item" ng-repeat="item in cart.product_info">
 	      <div class="bag-contents">
 	        <span class="cart-product">{{item.name}}</span><span class="cart-price">${{item.price}}</span>
@@ -127,6 +127,49 @@
 	    <img class="logo-b" src="/assets/images/b.png"/>
 	    <span class="beautytouch">Beautytouch</span>
 	    </div>
+	  </div>
+	</div>
+	<div id="promo-dialog" class="promo-dialog">
+	  <h1 style="margin-top: 50px;" class="hed">Enter your promo code:</h1>
+      <textarea rows="1" cols="30" class="promo-input" ng-model="promoCode" readonly></textarea>
+	  <div id="numpad">
+	   <table class="fixed" cellspacing="10">
+		  <tr>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		    <td width="30px"></td>
+		  </tr>
+		  <tr id="nums123">
+		    <td class="keyButton" colspan="3" ng-click="addChar('1')">1</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('2')">2</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('3')">3</td>
+		  </tr>
+		  <tr id="nums456">
+		    <td class="keyButton" colspan="3" ng-click="addNum('4')">4</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('5')">5</td>
+		    <td class="keyButton" colspan="3" ng-click="addNum('6')">6</td>
+		  </tr>
+		  <tr id="nums789">
+		    <td colspan="3" class="keyButton" ng-click="addNum('7')">7</td>
+		    <td colspan="3" class="keyButton" ng-click="addNum('8')">8</td>
+		    <td colspan="3" class="keyButton" ng-click="addNum('9')">9</td>
+		  </tr>
+		  <tr id="nums0">
+		    <td colspan="3" class="keyButton">&nbsp;</td>
+		    <td colspan="3" class="keyButton" ng-click="addNum('0')">0</td>
+		    <td colspan="3" class="keyButton" ng-click="deleteNum()">Delete</td>
+		  </tr>
+		</table>
+	  </div>
+	  <div style="width:78%">
+        <button class="problem-button" style="float:left;margin-left: 240px;" ng-click="submitPromo()">Submit</button>
+	    <button class="problem-button secondary" style="float:left;margin-left:10px;" ng-click="closePromo()">Back</button>
 	  </div>
 	</div>
 	</div>
@@ -255,49 +298,7 @@
 	</div>
 
 
-<div id="promo-dialog" class="promo-dialog">
-	  <h1 style="margin-top: 50px;" class="hed">Enter your promo code:</h1>
-      <textarea rows="1" cols="30" class="promo-input" ng-model="promoCode" readonly></textarea>
-	  <div id="numpad">
-	   <table class="fixed" cellspacing="10">
-		  <tr>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		  </tr>
-		  <tr id="nums123">
-		    <td class="keyButton" colspan="3" ng-click="addChar('1')">1</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('2')">2</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('3')">3</td>
-		  </tr>
-		  <tr id="nums456">
-		    <td class="keyButton" colspan="3" ng-click="addNum('4')">4</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('5')">5</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('6')">6</td>
-		  </tr>
-		  <tr id="nums789">
-		    <td colspan="3" class="keyButton" ng-click="addNum('7')">7</td>
-		    <td colspan="3" class="keyButton" ng-click="addNum('8')">8</td>
-		    <td colspan="3" class="keyButton" ng-click="addNum('9')">9</td>
-		  </tr>
-		  <tr id="nums0">
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		    <td colspan="3" class="keyButton" ng-click="addNum('0')">0</td>
-		    <td colspan="3" class="keyButton" ng-click="deleteNum()">Delete</td>
-		  </tr>
-		</table>
-	  </div>
-	  <div style="width:78%">
-        <button class="problem-button" style="float:left;margin-left: 240px;" ng-click="submitPromo()">Submit</button>
-	    <button class="problem-button secondary" style="float:left;margin-left:10px;" ng-click="closePromo()">Back</button>
-	  </div>
-	</div>
+
 </div>
 </div>
 

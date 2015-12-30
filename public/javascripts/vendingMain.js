@@ -53,6 +53,10 @@ function vendingMain($scope,$http) {
     });
     $scope.productSelected($scope.availableProducts[0].item_sku, false);
     $scope.$digest();
+    $('#productList').css('display', 'block');
+    $('.cart-total').css('display', 'inline-block');
+
+    $('.cart-list').css('display', 'block');
   });
 
 
@@ -111,7 +115,7 @@ function vendingMain($scope,$http) {
   var machineID=getParameterByName("machineId");
 
   $scope.productSelected = function(id, tap) {
-    $('.add-success').animate({opacity: 0}, 100);
+    $('.add-success').hide(100);
     var inCart = false;
     $.each($scope.cart.product_list, function (index, item) {
       if (item == id) {
@@ -235,7 +239,7 @@ function vendingMain($scope,$http) {
 
     if (item_id == $scope.selectedId) {
       $('.add-to-cart-button').removeClass('desense');
-      $('.add-success').animate({opacity: 0}, 100);
+      $('.add-success').hide(100);
     }
 
     if ($scope.cart.product_list.length != 0) { 
@@ -358,9 +362,9 @@ function vendingMain($scope,$http) {
   	  if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
       console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
 
-      $('.add-success').animate({opacity: 1}, 500);
+      $('.add-success').show(500);
       setTimeout(function() {
-        $('.add-success').animate({opacity: 0}, 500);
+        $('.add-success').hide(500);
       }, 2000);
       //window.location="/pay?machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct;
     }
