@@ -85,30 +85,31 @@ public class Email extends Controller {
     return ok();
   }
 
+
   public static Result sendSuggestion() {
-	    JsonNode jn = request().body().asJson();
-	    String machineId = jn.get("machine_id").asText();
-	    String suggestion = jn.get("suggestion").asText();
-	    String[] recipients = {
-	      "alina@oasysventures.com",
-	      "jackie@oasysventures.com",
-	      "mackenzie@oasysventures.com",
-	      "shireen@oasysventures.com"
-	    };
-	    for (String recipient: recipients) {
-	      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-	      mail.setSubject("Email Captured");
-	      mail.setRecipient(recipient);
-	      mail.setFrom("Oasys <service@oasysventures.com>");
-	      mail.sendHtml("<p>Oasys email captured from machine " + machineId + ". Email: " + suggestion + "</p>");
-	    }
-	    return ok();
-	  }
+    JsonNode jn = request().body().asJson();
+    String machineId = jn.get("machine_id").asText();
+    String suggestion = jn.get("suggestion").asText();
+    String[] recipients = {
+      "alina@oasysventures.com",
+      "jackie@oasysventures.com",
+      "mackenzie@oasysventures.com",
+      "shireen@oasysventures.com"
+    };
+    for (String recipient: recipients) {
+      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+      mail.setSubject("Email Captured");
+      mail.setRecipient(recipient);
+      mail.setFrom("Oasys <service@oasysventures.com>");
+      mail.sendHtml("<p>Oasys email captured from machine " + machineId + ". Email: " + suggestion + "</p>");
+    }
+    return ok();
+  }
 
   public static Result sendReceipt(){
     JsonNode jn = request().body().asJson();
-    final int salesId = jn.get("sales_id").asInt();
-    final String email = jn.get("email").asText();
+    int salesId = jn.get("sales_id").asInt();
+    String email = jn.get("email").asText();
     String key = jn.get("key").asText();
     if(!Security.validKey(key)){
       return ok();
@@ -160,6 +161,7 @@ public class Email extends Controller {
           String userkey="NiOsG78vNVN6ByO9";
           String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
           String username="aramirez@serpol.com";
+          String assignedToId="19x6";
           String SessionId="";
           String Status="";
           String JsonFields;
@@ -182,7 +184,7 @@ public class Email extends Controller {
 
           if (!SessionId.substring(0,5).equals("FAIL:")){
             JsonFields="{\"fld_salescontactsname\":\""+email+"\""
-              +",\"assigned_user_id\":\""+username+"\""
+              +",\"assigned_user_id\":\""+assignedToId+"\""
               +",\"fld_systemsalesid\":\""+salesId+"\"}";
 
             System.out.print("BeforeCreate");

@@ -148,7 +148,7 @@ public class Checkout extends Controller {
     return ok(response);
   }
 
-  public static Result processNonce(String nonce, String name, String productIds,final String machineId, String slot){
+  public static Result processNonce(String nonce, String name, String productIds, final String machineId, String slot){
     BigDecimal total = new BigDecimal(0);
 
     long salesId=-1;
@@ -222,6 +222,7 @@ public class Checkout extends Controller {
               String userkey="NiOsG78vNVN6ByO9";
               String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
               String username="aramirez@serpol.com";
+              String assignedToId="19x6";
               String SessionId="";
               String Status="";
               String JsonFields;
@@ -277,7 +278,7 @@ public class Checkout extends Controller {
                 PurchaseDate=PurchaseDate+" "+sTime;
 
                 JsonFields="{\"fld_salesname\":\"New Sale\""
-                  +",\"assigned_user_id\":\""+username+"\""
+                  +",\"assigned_user_id\":\""+assignedToId+"\""
                   +",\"fld_machineid\":\""+machineId+"\""
                   +",\"fld_productid\":\""+products+"\""
                   +",\"cf_1014\":\""+stotal+"\""
