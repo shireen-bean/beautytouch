@@ -26,7 +26,7 @@ function productController($scope,$http) {
     //get existing item details
     $http.get('/productJson?sku='+sku).
       success(function(data, status, headers, config) {
-    	console.log(data);
+    	
         $scope.item_name = data.item_name;
         $scope.subtitle = data.subtitle;
         $scope.category = data.category;
@@ -52,17 +52,17 @@ function productController($scope,$http) {
           .success( function(data) {
             $scope.brandList = data;
             for (var j = 0; j < $scope.brandList.length; j++){
-            	console.log($scope.brand.id);
+            	
               if ($scope.brandList[j].id == $scope.brand.id) {
-            	  console.log($scope.brandList[j].id);
+            	  
                 selectedBrand = j;
-                console.log(j);
+                
                 break;
               }
             }
 
             $scope.brand = $scope.brandList[selectedBrand];
-            console.log($scope.brand);
+            
           });
         $scope.package_type=$scope.packageTypeOptions[selectedIndex];
         });
@@ -113,6 +113,7 @@ function productController($scope,$http) {
         if(data.success=="true"){
           window.location="/productList";
         }
+        
 
         //show errors
         $(".errorMessage").fadeIn();
