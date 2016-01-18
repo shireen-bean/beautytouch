@@ -365,7 +365,7 @@ function vendingMain($scope,$http) {
       $('.add-success').show(500);
       setTimeout(function() {
         $('.add-success').hide(500);
-      }, 2000);
+      }, 3500);
       //window.location="/pay?machineId="+machineID+"&productId="+id+"&slot="+slot+"&column="+columnWithProduct;
     }
   };
