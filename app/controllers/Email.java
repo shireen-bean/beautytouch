@@ -114,10 +114,11 @@ public class Email extends Controller {
     if(!Security.validKey(key)){
       return ok();
     }
+
     /*
        int salesId = 152;
        String email = "alina@beautytouch.co";
-       */
+    */
 
     //add customer to database
     try{
