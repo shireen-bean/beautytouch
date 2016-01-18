@@ -108,16 +108,17 @@ public class Email extends Controller {
 
   public static Result sendReceipt(){
     JsonNode jn = request().body().asJson();
-    int salesId = jn.get("sales_id").asInt();
-    String email = jn.get("email").asText();
+    final int salesId = jn.get("sales_id").asInt();
+    final String email = jn.get("email").asText();
     String key = jn.get("key").asText();
     if(!Security.validKey(key)){
       return ok();
     }
+
     /*
        int salesId = 152;
        String email = "alina@beautytouch.co";
-       */
+    */
 
     //add customer to database
     try{

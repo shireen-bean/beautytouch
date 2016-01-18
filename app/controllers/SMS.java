@@ -109,8 +109,7 @@ public class SMS extends Controller {
     		"+15617063230", //jackie
     		"+16095779836", //alina
     		"+18083937977", //shireen
-    		"+15162426390", //marisa
-    		"+18595767701"  //mackenzie
+    		"+6177941386"  //mackenzie
             };
     for (String recipient: recipients) {
       try {

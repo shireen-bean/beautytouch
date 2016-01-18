@@ -1138,18 +1138,18 @@ height: 100%;
 }
 
 .add-success {
-    opacity: 1;
+opacity: 1;
     position: absolute;
-    display: none;
-    font-size: 20px;
+    display: block;
+    font-size: 32px;
     font-family: roboto condensed;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     width: 800px;
-    top: -243px;
+    top: -336px;
     z-index: 50;
-    left: 440px;
+    left: 389px;
     border: 1px ridge #bbb;
-    padding: 39px;
+    padding: 68px;
     background-color: white;
     text-align: center;
 }
