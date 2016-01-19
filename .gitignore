@@ -1,0 +1,6 @@
+.settings/
+logs/
+project/project/
+project/target/
+public/dynamicFiles/
+target/
