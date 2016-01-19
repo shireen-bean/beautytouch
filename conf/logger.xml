@@ -23,10 +23,14 @@
         </encoder>
     </appender>
 
-    <root level="INFO" additivity="false">
+    <root level="ERROR" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
+
+    <logger name="Global" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
 
     <logger name="controllers" level="DEBUG" additivity="false">
         <appender-ref ref="FILE"/>
