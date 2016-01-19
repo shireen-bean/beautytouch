@@ -36,6 +36,7 @@ import models.Machine;
 import models.Product;
 import models.Promo;
 import models.SaleProduct;
+import play.*;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
@@ -43,6 +44,8 @@ import views.html.*;
 public class Checkout extends Controller {
   private static boolean gatewayIsSetup = false;
   private static BraintreeGateway gateway;//
+
+  private static final Logger.ALogger logger = Logger.of(Checkout.class);
 
   public static boolean loggedIn(){
     if(session("user")==null){
@@ -54,6 +57,7 @@ public class Checkout extends Controller {
   public static void setupGateway(){
     String mode = play.api.Play.current().mode().toString();
     if(mode.equals("Dev")){
+      logger.info("Setting up Dev environment Braintree Gateway");
       gateway = new BraintreeGateway(
           Environment.SANDBOX,
           "twxn6752pgdz9t5w",
@@ -61,6 +65,7 @@ public class Checkout extends Controller {
           "7ca3fbd88b4afe21357d170ad5b6cd03"
           );
     }else{
+      logger.info("Setting up production environment Braintree Gateway");
       gateway = new BraintreeGateway(
           Environment.PRODUCTION,
           "4s2q3wpqv7czv643",
@@ -77,12 +82,10 @@ public class Checkout extends Controller {
       setupGateway();
     }
 
-    Machine machine = new Machine();
-
-    machine = Database.getMachine(machineId);
-    System.out.println(machine);
+    Machine machine = Database.getMachine(machineId);
     JsonNode jsonMachine = Json.toJson(machine);
     String jsonString = jsonMachine.toString();
+
     return ok(vendingMain.render(jsonString));
   }
 
@@ -92,6 +95,7 @@ public class Checkout extends Controller {
       .findList();
     JsonContext json = Ebean.createJsonContext();
     String p = json.toJsonString(promos);
+
     return ok(p);
   }
 
@@ -100,7 +104,6 @@ public class Checkout extends Controller {
   }
 
   public static Result receipt(){
-    System.out.println("receipt");
     return ok(receipt.render());
   }
 
@@ -141,181 +144,263 @@ public class Checkout extends Controller {
   public static Result getTokenBT(){
     ClientTokenRequest clientTokenRequest = new ClientTokenRequest();
     String token = gateway.clientToken().generate(clientTokenRequest);
-    ObjectNode response = Json.newObject();
+    logger.info("getTokenBT " + token);
 
+    ObjectNode response = Json.newObject();
     response.put("token", token);
-
     return ok(response);
   }
 
-  public static Result processNonce(String nonce, String name, String productIds, final String machineId, String slot){
-    BigDecimal total = new BigDecimal(0);
+  public static Result processNonce(
+      final String nonce,
+      final String customerName,
+      final String productIds,
+      final String machineId,
+      final String slots)
+  {
+    logger.info("processNonce nonce=" + nonce +
+      " customerName=" + customerName +
+      " productIds=" + productIds +
+      " machineId=" + machineId +
+      " slots=" + slots);
 
-    long salesId=-1;
-    System.out.println(productIds);
-    System.out.println(slot);
-    final List<String> products = new ArrayList<String>(Arrays.asList(productIds.split(",")));
-    System.out.println(products);
-    String promoCode = products.get(products.size() - 1);
-    System.out.println(promoCode);
-    String code = "";
-    if (promoCode.indexOf("code") >= 0) {
-      //last element is code;
-      code = promoCode.substring(4);
-      products.remove(products.size() - 1);
-      System.out.println(code);
-    }
-    System.out.println(products);
-
-    for (String product : products) {
-      BigDecimal productPrice = new BigDecimal(Database.getProductPrice(product));
-      total = total.add(productPrice);
-    }
-    System.out.println(total);
-    if (code.length() > 0) {
-      //apply code
-      Promo promo = Ebean.find(Promo.class, code);
-      System.out.println(promo);
-      if (total.compareTo(promo.threshold) >= 0) {
-        total = total.subtract(new BigDecimal(promo.flat_discount));
-        BigDecimal percent = new BigDecimal(100 - +promo.percent_discount);
-        total = total.multiply(percent);
-        total = total.divide(new BigDecimal(100));
-        promo.num_uses = promo.num_uses + 1;
-        Ebean.save(promo);
+    PurchaseTransaction purchase = null;
+    boolean ignoreException = false;
+    try {
+      purchase = new PurchaseTransaction(nonce, customerName, productIds, machineId, slots);
+      purchase.process();
+      if (purchase.isProcessed()) {
+        purchase.record();
+        // Notify vtiger in the background.
+        notifyVtiger(purchase);
       }
     }
-    System.out.println("adj total: " + total);
-    TransactionRequest request = new TransactionRequest()
-      .amount(total)
-      .paymentMethodNonce(nonce)
-      .customer()
-      .firstName(name)
-      .done()
-      .options()
-      .submitForSettlement(true)
-      .done();
-
-    final com.braintreegateway.Result<Transaction> result = gateway.transaction().sale(request);
+    catch (Throwable e) {
+      logger.error("processNonce error", e);
+      if (purchase == null || !purchase.isProcessed()) {
+        throw e;
+      }
+    }
 
     ObjectNode response = Json.newObject();
-    System.out.println("response"+result.isSuccess());
-    if(result.isSuccess()){
-      salesId=-1;
-      try{
-        //log purchase
-        salesId = Database.recordSale(machineId, products, total);
-        System.out.println(salesId);
-
-        //decrement inventory
-        Database.removeItem(machineId,slot);
-
-        //send email alert
-        Email.alertSale(machineId, products, total);
-        final String stotal=total.toString();
-        final String ssalesId=Long.toString(salesId);
-        //this is vtiger user key found in user account and preferences
-        ExecutorService fixedPool = Executors.newFixedThreadPool(1);
-        Runnable aRunnable = new Runnable(){
-          @Override
-            public void run() {
-              String userkey="NiOsG78vNVN6ByO9";
-              String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
-              String username="aramirez@serpol.com";
-              String assignedToId="19x6";
-              String SessionId="";
-              String Status="";
-              String JsonFields;
-              String Module="sales";
-              System.out.println("Getting Session");
-
-              for (int i = 0; i < 5; i++) {
-                SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
-                System.out.print("Checkout Session:"+SessionId);
-                if (!SessionId.substring(0,5).equals("FAIL:")){
-                  break;
-                }
-                try {
-                  Thread.sleep(1000);
-                } catch(InterruptedException ex) {
-                  Thread.currentThread().interrupt();
-                }
-              }
-              System.out.print("End of loop");
-
-              if (!SessionId.substring(0,5).equals("FAIL:")){
-                Transaction transaction = result.getTarget();
-                String FirstName=transaction.getCustomer().getFirstName().toString();
-                String BTreeCustomerName=FirstName;
-                String BTreeid=transaction.getId();
-                String CardType=transaction.getCreditCard().getCardType();
-                String CardNumber=transaction.getCreditCard().getLast4();
-                BigDecimal BTreeAmount = transaction.getAmount();
-                int year=transaction.getCreatedAt().YEAR;
-                int month=transaction.getCreatedAt().MONTH;
-                int day=transaction.getCreatedAt().DAY_OF_MONTH;
-                String PurchaseDate="";
-                if (month<10)
-                  PurchaseDate=year+"-0"+month;
-                else
-                  PurchaseDate=year+"-"+month;
-
-                if (day<10)
-                  PurchaseDate=PurchaseDate+"-0"+day;
-                else
-                  PurchaseDate=PurchaseDate+"-"+day;
-
-                String sTime="";
-
-                int hour=transaction.getCreatedAt().HOUR_OF_DAY;
-                int min=transaction.getCreatedAt().MINUTE;
-
-                if (min<10)
-                  sTime=hour+":0"+min;
-                else
-                  sTime=hour+":"+min;
-
-                PurchaseDate=PurchaseDate+" "+sTime;
-
-                JsonFields="{\"fld_salesname\":\"New Sale\""
-                  +",\"assigned_user_id\":\""+assignedToId+"\""
-                  +",\"fld_machineid\":\""+machineId+"\""
-                  +",\"fld_productid\":\""+products+"\""
-                  +",\"cf_1014\":\""+stotal+"\""
-                  +",\"cf_1016\":\""+BTreeAmount.toString()+"\""
-                  +",\"cf_1020\":\""+CardType+"\""
-                  +",\"cf_1022\":\""+CardNumber+"\""
-                  +",\"cf_1018\":\""+PurchaseDate+"\""
-                  +",\"cf_1024\":\""+ssalesId+"\""
-                  +",\"fld_name\":\""+BTreeCustomerName+"\""
-                  +",\"fld_braintreeid\":\""+BTreeid+"\"}";
-
-
-                Status=VTiger.Create(vtigerURL,SessionId,Module,JsonFields);
-                Status=VTiger.Logout(vtigerURL,SessionId);
-                System.out.println(JsonFields);
-              } else {
-                System.out.println("fail");
-              }
-            }
-        };
-        Future<?> runnableFuture = fixedPool.submit(aRunnable);
-
-        fixedPool.shutdown();
-      }catch(Exception e){
-
-      }
-      response.put("result","success");
-      response.put("salesId", Objects.toString(salesId));
-    }
-    else{
-      response.put("result","failure");
-      response.put("salesId", "-1");
-    }
-
+    response.put("result", purchase != null && purchase.isProcessed() ? "success" : "failure");
+    response.put("salesId", Objects.toString(purchase != null ? purchase.salesId : -1));
     return ok(response);
   }
 
+  private static class PurchaseTransaction {
+    final String nonce;
+    final String customerName;
+    final List<String> productIds;
+    final String machineId;
+    final List<String> slots;
+    final String promoCode;
+    final BigDecimal total;
+    com.braintreegateway.Result<Transaction> result;
+    long salesId = -1;
+    
+    PurchaseTransaction(
+      final String nonce,
+      final String customerName,
+      final String productIds,
+      final String machineId,
+      final String slots)
+    {
+      this.nonce = nonce;
+      this.customerName = customerName;
+      this.productIds = parseList(productIds);
+      this.machineId = machineId;
+      this.slots = parseList(slots);
+      this.promoCode = peelOffPromoCode();
+      this.total = calculateTotalPrice();
+      log("init purchase");
+    }
+
+    private void log(String tag) {
+      logger.info(tag + " nonce=" + nonce);
+      logger.info(tag + " customerName=" + customerName);
+      logger.info(tag + " productIds=" + productIds);
+      logger.info(tag + " machineId=" + machineId);
+      logger.info(tag + " slots=" + slots);
+      logger.info(tag + " promoCode=" + promoCode);
+      logger.info(tag + " total=" + total);
+      logger.info(tag + " result=" + result);
+      logger.info(tag + " salesId=" + salesId);
+    }
+
+    // If there's a promo code, it appears at the end of the product ID list.
+    private String peelOffPromoCode() {
+      String lastProduct = productIds.get(productIds.size() - 1);
+      System.out.println(promoCode);
+      if (lastProduct.startsWith("code")) {
+        lastProduct = lastProduct.substring(4);
+        productIds.remove(productIds.size() - 1);
+        return lastProduct;
+      }
+      return null;
+    }
+
+    private BigDecimal calculateTotalPrice() {
+      BigDecimal total = BigDecimal.ZERO;
+      for (String product : productIds) {
+        // If product ID is invalid, the following will throw an exception.
+        BigDecimal productPrice = new BigDecimal(Database.getProductPrice(product));
+        total = total.add(productPrice);
+      }
+      return applyPromoCode(total);
+    }
+
+    private BigDecimal applyPromoCode(BigDecimal total) {
+      if (promoCode != null) {
+        Promo promo = Ebean.find(Promo.class, promoCode);
+        if (promo == null) {
+          logger.warn("invalid promo code " + promoCode);
+        }
+        else {
+          if (total.compareTo(promo.threshold) < 0) {
+            logger.warn("total=" + total + " does not exceed threshold=" + promo.threshold + " for promo code=" + promoCode);
+          }
+          else {
+            logger.info("processNonce applying promo=" + promo + " to inital total=" + total);
+            total = total.subtract(new BigDecimal(promo.flat_discount));
+            BigDecimal percent = new BigDecimal(100 - +promo.percent_discount);
+            total = total.multiply(percent);
+            total = total.divide(new BigDecimal(100));
+            promo.num_uses = promo.num_uses + 1;
+            Ebean.save(promo);
+            logger.info("processNonce total after promo=" + total);
+          }
+        }
+      }
+      return total;
+    }
+
+    // Perform the transaction.
+    void process() {
+      result = gateway.transaction().sale(new TransactionRequest()
+        .amount(total)
+        .paymentMethodNonce(nonce)
+        .customer()
+          .firstName(customerName)
+          .done()
+        .options()
+          .submitForSettlement(true)
+          .done());
+      log("after braintree transaction");
+    }
+
+    boolean isProcessed() {
+      return result != null && result.isSuccess();
+    }
+
+    // Record the sale.
+    void record() {
+      salesId = Database.recordSale(machineId, productIds, total);
+
+      // Decrement inventory.
+      Database.removeItem(machineId, slots);
+
+      // Send email alert.
+      Email.alertSale(machineId, productIds, total);
+      
+      log("purchase recorded");
+    }
+  }
+
+  private static List<String> parseList(String str)
+  {
+    return new ArrayList<String>(Arrays.asList(str.split(",")));
+  }
+
+  private static void notifyVtiger(final PurchaseTransaction purchase) {
+    Runnable aRunnable = new Runnable(){
+      @Override
+      public void run() {
+        //this is vtiger user key found in user account and preferences
+        String userkey="NiOsG78vNVN6ByO9";
+        String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
+        String username="aramirez@serpol.com";
+        String assignedToId="19x6";
+        String SessionId="";
+        String Status="";
+        String JsonFields;
+        String Module="sales";
+        logger.info("notifyVtiger: Getting Session");
+
+        for (int i = 0; i < 5; i++) {
+          SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
+          logger.info("notifyVtiger: Checkout Session:"+SessionId);
+          if (!SessionId.substring(0,5).equals("FAIL:")){
+            break;
+          }
+          try {
+            Thread.sleep(1000);
+          } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+          }
+        }
+        logger.info("notifyVtiger: End of loop");
+
+        if (!SessionId.substring(0,5).equals("FAIL:")){
+          Transaction transaction = purchase.result.getTarget();
+          String FirstName=transaction.getCustomer().getFirstName().toString();
+          String BTreeCustomerName=FirstName;
+          String BTreeid=transaction.getId();
+          String CardType=transaction.getCreditCard().getCardType();
+          String CardNumber=transaction.getCreditCard().getLast4();
+          BigDecimal BTreeAmount = transaction.getAmount();
+          int year=transaction.getCreatedAt().YEAR;
+          int month=transaction.getCreatedAt().MONTH;
+          int day=transaction.getCreatedAt().DAY_OF_MONTH;
+          String PurchaseDate="";
+          if (month<10)
+            PurchaseDate=year+"-0"+month;
+          else
+            PurchaseDate=year+"-"+month;
+
+          if (day<10)
+            PurchaseDate=PurchaseDate+"-0"+day;
+          else
+            PurchaseDate=PurchaseDate+"-"+day;
+
+          String sTime="";
+
+          int hour=transaction.getCreatedAt().HOUR_OF_DAY;
+          int min=transaction.getCreatedAt().MINUTE;
+
+          if (min<10)
+            sTime=hour+":0"+min;
+          else
+            sTime=hour+":"+min;
+
+          PurchaseDate=PurchaseDate+" "+sTime;
+
+          JsonFields="{\"fld_salesname\":\"New Sale\""
+            +",\"assigned_user_id\":\""+assignedToId+"\""
+            +",\"fld_machineid\":\""+purchase.machineId+"\""
+            +",\"fld_productid\":\""+purchase.productIds+"\""
+            +",\"cf_1014\":\""+purchase.total+"\""
+            +",\"cf_1016\":\""+BTreeAmount.toString()+"\""
+            +",\"cf_1020\":\""+CardType+"\""
+            +",\"cf_1022\":\""+CardNumber+"\""
+            +",\"cf_1018\":\""+PurchaseDate+"\""
+            +",\"cf_1024\":\""+purchase.salesId+"\""
+            +",\"fld_name\":\""+BTreeCustomerName+"\""
+            +",\"fld_braintreeid\":\""+BTreeid+"\"}";
+
+
+          Status=VTiger.Create(vtigerURL,SessionId,Module,JsonFields);
+          Status=VTiger.Logout(vtigerURL,SessionId);
+          logger.info("notifyVtiger: " +  JsonFields);
+        } else {
+          logger.warn("notifyVtiger: fail");
+        }
+      }
+    };
+    ExecutorService fixedPool = Executors.newFixedThreadPool(1);
+    Future<?> runnableFuture = fixedPool.submit(aRunnable);
+    fixedPool.shutdown();
+  }
 
   public static Result productSaleCount(String sku) {
     int id = Integer.parseInt(sku);
