@@ -142,13 +142,18 @@ public class Checkout extends Controller {
   }
 
   public static Result getTokenBT(){
-    ClientTokenRequest clientTokenRequest = new ClientTokenRequest();
-    String token = gateway.clientToken().generate(clientTokenRequest);
-    logger.info("getTokenBT " + token);
-
-    ObjectNode response = Json.newObject();
-    response.put("token", token);
-    return ok(response);
+    logger.info("getTokenBT initiated");
+    try {
+      String token = gateway.clientToken().generate(new ClientTokenRequest());
+      logger.info("getTokenBT generated " + token);
+      ObjectNode response = Json.newObject();
+      response.put("token", token);
+      return ok(response);
+    }
+    catch (Throwable e) {
+      logger.error("getTokenBT error", e);
+      throw e;
+    }
   }
 
   public static Result processNonce(
@@ -224,7 +229,7 @@ public class Checkout extends Controller {
       logger.info(tag + " slots=" + slots);
       logger.info(tag + " promoCode=" + promoCode);
       logger.info(tag + " total=" + total);
-      logger.info(tag + " result=" + result);
+      logger.info(tag + " result=" + (result == null ? "null" : (result.isSuccess() ? "success" : "failed")));
       logger.info(tag + " salesId=" + salesId);
     }
 
@@ -235,7 +240,9 @@ public class Checkout extends Controller {
       if (lastProduct.startsWith("code")) {
         lastProduct = lastProduct.substring(4);
         productIds.remove(productIds.size() - 1);
-        return lastProduct;
+        if (lastProduct.length() > 0) {
+          return lastProduct;
+        }
       }
       return null;
     }
@@ -295,7 +302,7 @@ public class Checkout extends Controller {
 
     // Record the sale.
     void record() {
-      salesId = Database.recordSale(machineId, productIds, total);
+      salesId = Database.recordSale(machineId, productIds, total, promoCode);
 
       // Decrement inventory.
       Database.removeItem(machineId, slots);
@@ -325,7 +332,6 @@ public class Checkout extends Controller {
         String Status="";
         String JsonFields;
         String Module="sales";
-        logger.info("notifyVtiger: Getting Session");
 
         for (int i = 0; i < 5; i++) {
           SessionId=VTiger.GetLoginSessionId(vtigerURL,userkey,username);
@@ -339,7 +345,6 @@ public class Checkout extends Controller {
             Thread.currentThread().interrupt();
           }
         }
-        logger.info("notifyVtiger: End of loop");
 
         if (!SessionId.substring(0,5).equals("FAIL:")){
           Transaction transaction = purchase.result.getTarget();

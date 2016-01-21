@@ -382,12 +382,13 @@ public class Database {
     Ebean.save(customer);
   }
 
-  public static long recordSale(String machine_id, List<String> productIds, BigDecimal product_price) {
+  public static long recordSale(String machine_id, List<String> productIds, BigDecimal product_price, String promoCode) {
     System.out.println("recording sale");
 	  //create the sale
     Sale sale = new Sale();
     sale.machine_id = Long.parseLong(machine_id, 10);
     sale.sales_total = product_price;
+    sale.promo_code = promoCode;
     Ebean.save(sale);
 
     //save products
