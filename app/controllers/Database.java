@@ -287,11 +287,10 @@ public class Database {
     }
   }
 
-  public static void removeItem(String machine_id, String slots) {
+  public static void removeItem(String machine_id, List<String> slots) {
 
 	  System.out.println("removeItem");
-  	List<String> slots_list = new ArrayList<String>(Arrays.asList(slots.split(",")));
-  	for (String slot : slots_list) {
+  	for (String slot : slots) {
       Hook c = Ebean.find(Hook.class).where()
         .eq("machine_id",  machine_id)
         .eq("id", slot)
@@ -383,12 +382,13 @@ public class Database {
     Ebean.save(customer);
   }
 
-  public static long recordSale(String machine_id, List<String> productIds, BigDecimal product_price) {
+  public static long recordSale(String machine_id, List<String> productIds, BigDecimal product_price, String promoCode) {
     System.out.println("recording sale");
 	  //create the sale
     Sale sale = new Sale();
     sale.machine_id = Long.parseLong(machine_id, 10);
     sale.sales_total = product_price;
+    sale.promo_code = promoCode;
     Ebean.save(sale);
 
     //save products
