@@ -30,6 +30,7 @@ public class Sale {
   public long machine_id;
   public BigDecimal sales_total;
   public Timestamp time;
+  public String promo_code;
   
   public static Finder<Long,Sale> find = new Finder<Long,Sale>(
       Long.class, Sale.class);

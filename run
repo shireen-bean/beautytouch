@@ -1,0 +1,1 @@
+./activator run -Dlogger.file=conf/logger.xml
