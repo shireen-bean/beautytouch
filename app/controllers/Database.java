@@ -314,7 +314,7 @@ public class Database {
       Statement statement = connection.createStatement();
 
 
-      String query = "SELECT sales.id, products.item_sku, products.item_img, machines.address, products.item_name, sales.sales_total, sales_products.product_price "+
+      String query = "SELECT sales.id, sales.time, products.item_sku, products.item_img, machines.address, sales.machine_id, products.item_name, sales.sales_total, sales_products.product_price "+
         "FROM machines, products, sales, sales_products " +
         "WHERE " +
         "sales.id='"+salesId+"' "+
@@ -330,6 +330,8 @@ public class Database {
       while (resultSet.next()) {
         receipt.machineAddress = resultSet.getString("address");
         receipt.total = resultSet.getString("sales_total");
+        receipt.time = resultSet.getTimestamp("time");
+        receipt.machine_id = resultSet.getString("machine_id");
 
         Product pm = new Product();
         pm.item_sku = resultSet.getInt("item_sku");

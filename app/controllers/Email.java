@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
 
@@ -13,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -20,6 +22,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import org.apache.commons.lang3.time.DateUtils;
 
 import models.Product;
 import models.Receipt;
@@ -31,6 +35,7 @@ import com.typesafe.plugin.*;
 import play.mvc.*;
 import play.mvc.Http.RequestBody;
 import views.html.receiptEmail;
+import views.html.feedback;
 
 //{
 //	"sales_id": "2",
@@ -107,6 +112,7 @@ public class Email extends Controller {
   }
 
   public static Result sendReceipt(){
+	  
     JsonNode jn = request().body().asJson();
     final int salesId = jn.get("sales_id").asInt();
     final String email = jn.get("email").asText();
@@ -116,6 +122,7 @@ public class Email extends Controller {
     }
 
     /*
+    
        int salesId = 152;
        String email = "alina@beautytouch.co";
     */
@@ -129,6 +136,7 @@ public class Email extends Controller {
 
     //get product details from database
     Receipt receipt = Database.getReceiptDetails(salesId);
+    System.out.println(receipt);
 
 
     MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
@@ -139,22 +147,63 @@ public class Email extends Controller {
     NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
     String address = receipt.machineAddress;
-
-    String productRows = "";
-    for(int i=0;i<receipt.products.size();i++){
-      Product pm = receipt.products.get(i);
-      productRows+=
-        "<div style='width:100%' class='product'>" +
-        "<span class='name'>" + pm.item_name + "</span><span style='float: right;" +
-        "margin-right: 15%;'>" + formatter.format(Double.parseDouble(pm.price)) + "</span></div>";
+    
+    //read in top
+    StringBuilder contentBuilder = new StringBuilder();
+    try {
+        BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_top.scala.html"));
+        String str;
+        while ((str = in.readLine()) != null) {
+            contentBuilder.append(str);
+        }
+        in.close();
+    } catch (IOException e) {
+    	System.out.println(e);
     }
-
-    String imageSource="https://oasysventures.com/assets/images/logoInc.png";
-    String htmlString="<!DOCTYPE html> <html> <head> <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'> <style> body{line-height:24px;font-family: 'roboto condensed', sans-serif;} </style> </head> <body> <table width='100%' border='0' cellspacing='0' cellpadding='20' style='background-image: url(https://s3.amazonaws.com/oasys-images/email-background.png); background-repeat: repeat; background-size: 300px 300px; width: 100%'> <tr><td style='text-align: center;padding: 100px 0px 0px 0px;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/thanks-banner.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding:10px 0px 10px 0px; text-align:left; background-color: white'> <div id='image-container' style='width: 30%; display: inline-block; position: relative;'> <img style='margin-left:15%; max-height: 200px; display: block; margin: auto;' src='https://s3.amazonaws.com/oasys-images/b.png'/> </div> <div id='product-info' style='    width: 70%; float: right; position: relative; margin-top: 30px;'>"
-      + productRows +
-      "<div style='width: 85%; border-top: 2px solid #bbb; padding-bottom: 20px; margin-top: 20px;'class='sale-info'> </div> <div style='width:100%'><span style='font-weight: bolder; font-size: 19px;'>Purchased at</span><span style='float: right; margin-right: 15%;font-weight: bolder; font-size: 19px;'>Total</span></div><div style='width:100%'> <span>" + address + "</span><span style='float: right; margin-right: 15%;'>$" + receipt.total + "</span></div> </div> </div> </td></tr> <tr><td style='padding:0px; text-align: center;'> <img style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8' src='https://s3.amazonaws.com/oasys-images/beauty-hack-header.png'/> </td></tr> <tr><td style='padding:0px; text-align: center;'> <div style='width: 70%; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 5px; background-color: #d9d3e8'>" + receipt.beauty_hack + "</div> </td></tr> <tr><td style='text-align: center;padding: 0px 0px 100px 0px;'> <img style='    width: 70%; display: block; margin-left: auto; margin-right: auto;' src='https://s3.amazonaws.com/oasys-images/hashtag-banner.png'/> </td></tr> </table> </body> </html> <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>";
-
-    mail.sendHtml(htmlString);
+    String content = contentBuilder.toString();
+    //read in products
+    for (int i = 0; i < receipt.products.size(); i++) {
+    	StringBuilder productBuilder = new StringBuilder();
+    	Product p = receipt.products.get(i);
+    	try {
+            BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_product.scala.html"));
+            String str;
+            while ((str = in.readLine()) != null) {
+                productBuilder.append(str);
+            }
+            in.close();
+        } catch (IOException e) {
+        	System.out.println(e);
+        }
+    	String productContent = productBuilder.toString();
+    	productContent = productContent.replace("{{product-name}}", p.item_name);
+    	productContent = productContent.replace("{{product-image}}", p.item_img);
+    	productContent = productContent.replace("{{product-price}}", formatter.format(Double.parseDouble(p.price)));
+    	content = content + productContent;
+    }
+    
+    //read in bottom
+    StringBuilder bottomBuilder = new StringBuilder();
+    try {
+        BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_bottom.scala.html"));
+        String str;
+        while ((str = in.readLine()) != null) {
+            bottomBuilder.append(str);
+        }
+        in.close();
+    } catch (IOException e) {
+    	System.out.println(e);
+    }
+    content = content + bottomBuilder.toString();
+    
+    //replace content
+    content = content.replace("{{product-total}}", receipt.total);
+    content = content.replace("{{purchase-location}}", address);
+    Date saleDate = DateUtils.addHours(receipt.time, 5);
+    content = content.replace("{{purchase-date}}", saleDate.toString());
+    content = content.replace("{{machine-id}}",  receipt.machine_id);
+    
+    mail.sendHtml(content);
     ExecutorService fixedPool = Executors.newFixedThreadPool(1);
     Runnable aRunnable = new Runnable(){
       @Override
@@ -204,7 +253,11 @@ public class Email extends Controller {
 
   }
 
+  public static Result recordFeedback() {
+	  return ok(feedback.render());
+  }
+  
   public static Result test() {
-    return ok(receiptEmail.render());
+    return ok();
   }
 }

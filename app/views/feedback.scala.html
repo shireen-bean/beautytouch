@@ -1,0 +1,80 @@
+
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+@linksVending()
+    <meta charset="UTF-8">  
+    <title>BeautyTouch - Feedback</title>
+    <link href="css/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
+</head>
+<script>
+$(document).ready(function(){
+	$.ajax({
+	      type: "POST",
+	      url: "/logEvent",
+	      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "feedback", "product_sku": getParameterByName("rating")}),
+	      dataType: "json",
+	      headers: {
+	        "content-type": "application/json"
+	      }
+	});
+	//$("#my_image").attr("src","second.jpg");
+	var rating = getParameterByName("rating");
+	console.log(rating);
+	for (var i=0; i < rating; i++) {
+		console.log(i);
+		$('.star').first().attr('src', 'https://s3.amazonaws.com/oasys-images/receipt_images/filled-star.jpg').addClass('filled').removeClass('star');
+	}
+	
+});
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+</script>
+
+<body> 
+
+<!-- Content -->
+
+<div class="container" style="padding-top: 100px;"> 
+
+    <img src="https://s3.amazonaws.com/oasys-images/receipt_images/logo-lockup.jpg" width="150" height="86">
+
+    <br/><br/>
+
+    <!--Filled Stars --> 
+
+    <img class="star" src="https://s3.amazonaws.com/oasys-images/receipt_images/star.jpg" width="40" height="33" border="0" alt="" style="display:inline-block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+
+    <img class="star" src="https://s3.amazonaws.com/oasys-images/receipt_images/star.jpg" width="40" height="33" border="0" alt="" style="display:inline-block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+
+    <img class="star" src="https://s3.amazonaws.com/oasys-images/receipt_images/star.jpg" width="40" height="33" border="0" alt="" style="display:inline-block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+
+    <img class="star" src="https://s3.amazonaws.com/oasys-images/receipt_images/star.jpg" width="40" height="33" border="0" alt="" style="display:inline-block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+
+    <img class="star" src="https://s3.amazonaws.com/oasys-images/receipt_images/star.jpg" width="40" height="33" border="0" alt="" style="display:inline-block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+
+    <br/></br>
+
+    <h3 style="font-style: normal;
+    font-family: Helvetica, sans-serif;
+    letter-spacing: 0px;">
+        Thank you for your feedback!
+    </h3>
+
+    We’re working towards making BeautyTouch
+    a delightful experience for all. 
+
+
+</div>   
+
+</body>
+</html>
+
+<script>
+
+</script>
+
