@@ -151,7 +151,7 @@ public class Email extends Controller {
     //read in top
     StringBuilder contentBuilder = new StringBuilder();
     try {
-        BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_top.scala.html"));
+        BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_top.scala.html"));
         String str;
         while ((str = in.readLine()) != null) {
             contentBuilder.append(str);
@@ -166,7 +166,7 @@ public class Email extends Controller {
     	StringBuilder productBuilder = new StringBuilder();
     	Product p = receipt.products.get(i);
     	try {
-            BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_product.scala.html"));
+            BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_product.scala.html"));
             String str;
             while ((str = in.readLine()) != null) {
                 productBuilder.append(str);
@@ -185,7 +185,7 @@ public class Email extends Controller {
     //read in bottom
     StringBuilder bottomBuilder = new StringBuilder();
     try {
-        BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_bottom.scala.html"));
+        BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_bottom.scala.html"));
         String str;
         while ((str = in.readLine()) != null) {
             bottomBuilder.append(str);
