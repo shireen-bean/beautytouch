@@ -1,0 +1,86 @@
+                </table>
+
+                <!-- Total -->
+                <table width="500" align="center" style="background-color: #FFFFFF; text-align:center;" border="0" cellpadding="0" cellspacing="0">
+                    <tr height="10"><td></td></tr>
+                    <tr>
+                        <td>
+                            <img src="https://s3.amazonaws.com/oasys-images/receipt_images/dash.jpg" width="150" height="1" border="0" alt="" style="display:inline-block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+                        </td>
+                    </tr>
+                    <tr height="90">
+                         <td width="500" height="90" style="min-width:500px; font-size:17px; line-height:24px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: 0.0px; color:#260c0e; text-align:center; text-decoration:none; font-weight:100;">
+                            <strong>
+                                TOTAL:
+                            </strong>
+                                <span style="color:#777777;">
+                                    ${{product-total}}
+                              </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="https://s3.amazonaws.com/oasys-images/receipt_images/dash.jpg" width="150" height="1" border="0" alt="" style="display:inline-block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+                        </td>
+                    </tr>
+                    <!-- Location -->
+                    <tr height="30"><td></td></tr>
+                    <tr>
+                         <td width="500" style="min-width:500px; font-size:16px; line-height:22px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: 0.0px; color:#260c0e; text-align:center; text-decoration:none; font-weight:100;">
+                            You made your purchase on <strong>{{purchase-date}}</strong> <br/>
+                            at <strong>{{purchase-location}}</strong>
+                        </td>
+                    </tr>
+                    <tr height="20"><td></td></tr>
+                </table>
+            </td>
+        </tr>
+</table>
+
+<!-- Map & Hashtag -->
+
+<table align="center" width="600" height="50" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="min-width:600px; text-align:center; background-color: #000000;">
+            <img src="https://s3.amazonaws.com/oasys-images/receipt_images/map-id-{{machine-id}}.png" width="600" height="245" border="0" alt="" style="display:block; font-size:18px; font-family: 'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: .5px; font-weight:100; color:#3272b8; text-decoration:none; text-transform:lowercase;">
+        </td>
+    </tr>
+</table>
+
+<table align="center" width="600" height="50" border="0" cellpadding="0" cellspacing="0" bgcolor="#000000">
+    <tr height="50">
+        <td width="600" style="min-width:600px; text-align:center; background-color: #000000;">
+            <span style="display:block; font-size:16px; line-height:22px; color:#FFFFFF; font-family:'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: 1px; font-weight:100; text-align:center;">
+
+                   It's <strong>#PrettyConvenient</strong>.
+
+            </span>
+        </td>
+    </tr>
+</table>
+
+<table align="center" width="600px" height="1px" border="0px" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="min-width:600px; text-align:center;">
+            <span style="display:block; font-size:13px; line-height:22px; color:#260c0e; font-family:'Helvetiva Neue', 'Helvetica', sans-serif; letter-spacing: 0.75px; font-weight:100; text-align:center;">
+
+                    <br/>
+
+                    &copy; 2016 BeautyTouch <br/>
+
+                    <br/><br/>
+
+            </span>
+        </td>
+    </tr>
+</table>
+
+
+<!-- Important fix for Gmail app -->
+
+<div style="display:none; white-space:nowrap; font:15px courier; color:#ffffff;">
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</div>
+
+</body>
+</html>
