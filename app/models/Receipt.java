@@ -1,6 +1,8 @@
 package models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,4 +20,6 @@ public class Receipt{
     public String machineAddress;
     public String total;
     public String beauty_hack;
+    public Timestamp time;
+    public String machine_id;
 }

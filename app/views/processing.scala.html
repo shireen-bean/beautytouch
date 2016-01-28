@@ -13,6 +13,18 @@ $(document).ready(function(){
 	        "content-type": "application/json"
 	      }
 	});
+	setTimeout(function() {
+		window.location="/paymentFailed?machineId="+getParameterByName("machineId");
+		$.ajax({
+		      type: "POST",
+		      url: "/logEvent",
+		      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "payment_timeout", "product_sku": 0}),
+		      dataType: "json",
+		      headers: {
+		        "content-type": "application/json"
+		      }
+		});
+	}, 30000);
 });
 
 function getParameterByName(name) {
