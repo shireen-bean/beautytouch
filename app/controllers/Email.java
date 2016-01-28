@@ -252,18 +252,11 @@ public class Email extends Controller {
     return ok();
 
   }
-  
-  public static void replace( String target, String replacement, 
-          StringBuilder builder ) { 
-	  int indexOfTarget = -1;
-	  while( ( indexOfTarget = builder.indexOf( target ) ) >= 0 ) { 
-		  builder.replace( indexOfTarget, indexOfTarget + target.length() , replacement );
-	  }
-  }
 
   public static Result recordFeedback() {
 	  return ok(feedback.render());
   }
+  
   public static Result test() {
     return ok();
   }
