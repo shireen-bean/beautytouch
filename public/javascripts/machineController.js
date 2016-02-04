@@ -7,7 +7,7 @@ function machineController($scope,$http) {
     }
 	
 	
-	$http.get('/productListJson').
+	$http.post('/productListJson').
 	  success(function(data, status, headers, config) {
 		  $scope.products = data;
 
