@@ -56,6 +56,7 @@ public class Email extends Controller {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
       "mackenzie@oasysventures.com",
+      "james@oasysventures.com",
       "shireen@oasysventures.com"
     };
     for (String recipient: recipients) {
@@ -78,6 +79,7 @@ public class Email extends Controller {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
       "mackenzie@oasysventures.com",
+      "james@oasysventures.com",
       "shireen@oasysventures.com"
     };
     for (String recipient: recipients) {
@@ -99,6 +101,7 @@ public class Email extends Controller {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
       "mackenzie@oasysventures.com",
+      "james@oasysventures.com",
       "shireen@oasysventures.com"
     };
     for (String recipient: recipients) {
