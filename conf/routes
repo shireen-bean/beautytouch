@@ -12,6 +12,7 @@ POST    /postProductImage           controllers.ProductController.postProductIma
 POST    /postProduct		        controllers.ProductController.postProduct()
 GET     /productList                controllers.ProductList.productList()
 GET     /productListJson            controllers.ProductList.productListJson()
+POST    /productListJson            controllers.ProductList.productListJson()
 GET     /logout                     controllers.Application.logout()
 GET     /machineList                controllers.MachineList.machineList()
 GET     /machineListJson            controllers.MachineList.machineListJson()
