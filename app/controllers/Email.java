@@ -74,7 +74,6 @@ public class Email extends Controller {
     JsonNode jn = request().body().asJson();
     String machineId = jn.get("machine_id").asText();
     String message = jn.get("message").asText();
-    System.out.println(jn);
     String[] recipients = {
       "alina@oasysventures.com",
       "jackie@oasysventures.com",
@@ -92,6 +91,26 @@ public class Email extends Controller {
     return ok();
   }
 
+  public static Result alertSuccess() {
+	    JsonNode jn = request().body().asJson();
+	    String machineId = jn.get("machine_id").asText();
+	    String message = jn.get("message").asText();
+	    String[] recipients = {
+	      "alina@oasysventures.com",
+	      "jackie@oasysventures.com",
+	      "mackenzie@oasysventures.com",
+	      "james@oasysventures.com",
+	      "shireen@oasysventures.com"
+	    };
+	    for (String recipient: recipients) {
+	      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+	      mail.setSubject("Sales Success");
+	      mail.setRecipient(recipient);
+	      mail.setFrom("Oasys <service@oasysventures.com>");
+	      mail.sendHtml("<p>" + message + " at machine " + machineId +".");
+	    }
+	    return ok();
+  }
 
   public static Result sendSuggestion() {
     JsonNode jn = request().body().asJson();
@@ -115,7 +134,7 @@ public class Email extends Controller {
   }
 
   public static Result sendReceipt(){
-	  
+
     JsonNode jn = request().body().asJson();
     final int salesId = jn.get("sales_id").asInt();
     final String email = jn.get("email").asText();
@@ -125,10 +144,10 @@ public class Email extends Controller {
     }
 
     /*
-    
+
        int salesId = 152;
        String email = "alina@beautytouch.co";
-    */
+       */
 
     //add customer to database
     try{
@@ -150,62 +169,62 @@ public class Email extends Controller {
     NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
     String address = receipt.machineAddress;
-    
+
     //read in top
     StringBuilder contentBuilder = new StringBuilder();
     try {
-        BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_top.scala.html"));
-        String str;
-        while ((str = in.readLine()) != null) {
-            contentBuilder.append(str);
-        }
-        in.close();
+      BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_top.scala.html"));
+      String str;
+      while ((str = in.readLine()) != null) {
+        contentBuilder.append(str);
+      }
+      in.close();
     } catch (IOException e) {
-    	System.out.println(e);
+      System.out.println(e);
     }
     String content = contentBuilder.toString();
     //read in products
     for (int i = 0; i < receipt.products.size(); i++) {
-    	StringBuilder productBuilder = new StringBuilder();
-    	Product p = receipt.products.get(i);
-    	try {
-            BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_product.scala.html"));
-            String str;
-            while ((str = in.readLine()) != null) {
-                productBuilder.append(str);
-            }
-            in.close();
-        } catch (IOException e) {
-        	System.out.println(e);
+      StringBuilder productBuilder = new StringBuilder();
+      Product p = receipt.products.get(i);
+      try {
+        BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_product.scala.html"));
+        String str;
+        while ((str = in.readLine()) != null) {
+          productBuilder.append(str);
         }
-    	String productContent = productBuilder.toString();
-    	productContent = productContent.replace("{{product-name}}", p.item_name);
-    	productContent = productContent.replace("{{product-image}}", p.item_img);
-    	productContent = productContent.replace("{{product-price}}", formatter.format(Double.parseDouble(p.price)));
-    	content = content + productContent;
+        in.close();
+      } catch (IOException e) {
+        System.out.println(e);
+      }
+      String productContent = productBuilder.toString();
+      productContent = productContent.replace("{{product-name}}", p.item_name);
+      productContent = productContent.replace("{{product-image}}", p.item_img);
+      productContent = productContent.replace("{{product-price}}", formatter.format(Double.parseDouble(p.price)));
+      content = content + productContent;
     }
-    
+
     //read in bottom
     StringBuilder bottomBuilder = new StringBuilder();
     try {
-        BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_bottom.scala.html"));
-        String str;
-        while ((str = in.readLine()) != null) {
-            bottomBuilder.append(str);
-        }
-        in.close();
+      BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_bottom.scala.html"));
+      String str;
+      while ((str = in.readLine()) != null) {
+        bottomBuilder.append(str);
+      }
+      in.close();
     } catch (IOException e) {
-    	System.out.println(e);
+      System.out.println(e);
     }
     content = content + bottomBuilder.toString();
-    
+
     //replace content
     content = content.replace("{{product-total}}", receipt.total);
     content = content.replace("{{purchase-location}}", address);
     Date saleDate = DateUtils.addHours(receipt.time, 5);
     content = content.replace("{{purchase-date}}", saleDate.toString());
     content = content.replace("{{machine-id}}",  receipt.machine_id);
-    
+
     mail.sendHtml(content);
     ExecutorService fixedPool = Executors.newFixedThreadPool(1);
     Runnable aRunnable = new Runnable(){
@@ -257,9 +276,9 @@ public class Email extends Controller {
   }
 
   public static Result recordFeedback() {
-	  return ok(feedback.render());
+    return ok(feedback.render());
   }
-  
+
   public static Result test() {
     return ok();
   }

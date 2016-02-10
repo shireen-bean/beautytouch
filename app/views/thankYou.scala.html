@@ -1,48 +1,80 @@
 <html>
-<head>
-@linksVending()
-</head>
-<script>
-$(document).ready(function(){
-	$.ajax({
-	      type: "POST",
-	      url: "/logEvent",
-	      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "thankyou_page", "product_sku": 0}),
-	      dataType: "json",
-	      headers: {
-	        "content-type": "application/json"
-	      }
-	});
-});
+  <head>
+    @linksVending()
+  </head>
+  <script>
+    $(document).ready(function(){
+      $.ajax({
+        type: "POST",
+        url: "/logEvent",
+        data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "thankyou_page", "product_sku": 0}),
+        dataType: "json",
+        headers: {
+          "content-type": "application/json"
+        }
+      });
+    });
 
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-</script>
-<body style="background: url(https://s3.amazonaws.com/oasys-images/email-background.png);">
-<div> 
-	<div id="message" style="display:none;" class="productContainer productContainerMessage">
-		<h1 style="text-transform: uppercase;
-    letter-spacing: 9px;
-    background-color:white;
-    margin-top: 20px;
-    margin-bottom: 0;
-    padding: 82px;">Thank you!</h1>
-		<h2 style="margin: 0;
-    text-align: center;
-    text-transform: uppercase;
-    padding: 107px;
-    background-color: white;">Please wait while your product vends.
-		</h2>
-		<br>
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+  </script>
+  <body style="background: url(https://s3.amazonaws.com/oasys-images/email-background.png);">
+    <div ng-app="" ng-controller="thankYouController">
+      <div id="message" style="display:none; background-color:white;" class="productContainer productContainerMessage">
+        <h1 style="text-transform: uppercase; letter-spacing: 9px; margin-top: 20px; margin-bottom: 0; padding: 82px;">Thank you!</h1>
+        <h2 style=" text-align: center; background-color: white; padding: 30px 0px 100px 0px; width: 100%; left: 0; position: absolute; margin: 0px; top: 372px;">Did you receive your purchase?</h2>
+        <button style="top:480px; left:700px" ng-click="productReceived()" class="yes-no add-to-cart-button">Yes!</button>
+        <button style="top:480px; left: 1000px" ng-click="noProduct()" class="yes-no add-to-cart-button">No</button>
+        <p id="confirm-yes" style=" text-align: center; background-color: white; width: 100%; position: absolute; margin: 0px; top: 480px; font-size: 30; font-family: roboto condensed; font-weight: 100; letter-spacing: 1px; display:none">Great! We hope you'll love it!</p>
+        <p id="confirm-no" style="text-align: center; width: 100%; position: absolute; margin: 0px; top: 480px; padding-bottom: 41px; font-size: 30px; font-family: 'roboto condensed'; font-weight: 100; letter-spacing: 1px; background-color: white; display:none">Oh no! Our support team has been notified. <br>Please email <b>info&commat;beautytouch.co</b> or provide your phone number below to tell us more and we'll refund your payment.</p>
+      </div>
+      <div id="phoneInput" style=" display:none; position: absolute; top: 563px; padding-top: 124px; padding: 0px 24px 24px; width: 100%; background-color: white;">
+        <textarea rows="1" cols="30" class="promo-input" ng-model="phoneNumber" readonly></textarea>
+        <button ng-click="submitPhone()" class="add-to-cart-button" style="top: 30px; left: 1200px;">Submit</button>
+        <div id="numpad">
+          <table class="fixed" cellspacing="10">
+            <tr>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+            </tr>
+            <tr id="nums123">
+              <td class="keyButton" colspan="3" ng-click="addNum('1')">1</td>
+              <td class="keyButton" colspan="3" ng-click="addNum('2')">2</td>
+              <td class="keyButton" colspan="3" ng-click="addNum('3')">3</td>
+            </tr>
+            <tr id="nums456">
+              <td class="keyButton" colspan="3" ng-click="addNum('4')">4</td>
+              <td class="keyButton" colspan="3" ng-click="addNum('5')">5</td>
+              <td class="keyButton" colspan="3" ng-click="addNum('6')">6</td>
+            </tr>
+            <tr id="nums789">
+              <td colspan="3" class="keyButton" ng-click="addNum('7')">7</td>
+              <td colspan="3" class="keyButton" ng-click="addNum('8')">8</td>
+              <td colspan="3" class="keyButton" ng-click="addNum('9')">9</td>
+            </tr>
+            <tr id="nums0">
+              <td colspan="3" class="keyButton">&nbsp;</td>
+              <td colspan="3" class="keyButton" ng-click="addNum('0')">0</td>
+              <td colspan="3" class="keyButton" ng-click="deleteNum()">Delete</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
-</div>
 
-<script src="@routes.Assets.at("javascripts/thankYou.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/thankYou.js")" type="text/javascript"></script>
 
-</body>
+  </body>
 </html>
 <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>

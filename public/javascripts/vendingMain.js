@@ -31,6 +31,38 @@ function vendingMain($scope,$http) {
       $('#promo-button').show()
     });
 
+  /*
+  $(function () {
+	    var $els = $('h1[id^=textheader]'),
+	        i = 0,
+	        len = $els.length;
+
+	    $els.slice(1).hide();
+	    setInterval(function () {
+	        $els.eq(i).fadeOut("fast", "linear", function () {
+	            i = (i + 1) % len
+	            $els.eq(i).fadeIn("fast", "linear");
+	        })
+	    }, 3000)
+	});
+	*/
+  
+ /*
+  setInterval(toggleSlide = function() {    
+	    var $active = $('#product-grid td.selected');
+	    if($active.length == 0) {
+	        $active = $('#product-grid td:first');
+	    }
+	    $active.removeClass('selected');
+	    if($active.next('td.product').length > 0) {
+	    	$scope.productSelected($active.next('td.product').attr('id'), false);
+	    	$scope.$digest();
+	    } else {
+	    	$scope.productSelected($('#product-grid td:first').attr('id'), false);
+	    	$scope.$digest();
+	    }
+	}, 5000); 
+	*/
   $(document).ready(function(){
     $scope.machine=JSON.parse($("#machineJsonVariable").html());
     var alreadyListedProd = ",";
@@ -530,7 +562,6 @@ function vendingMain($scope,$http) {
   };
   $scope.addChar = function(char) {
     $scope.suggestion=$scope.suggestion+char;
-    $scope.promoCode=$scope.promoCode+char;
     $scope.pageReset();
   };
   $scope.deleteChar = function() {
