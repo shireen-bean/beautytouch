@@ -2,14 +2,14 @@ function receiptController($scope,$http) {
 	$scope.emailAddress="";
 	$scope.phoneNumber="";
 	$scope.skipReceipt=function(){
-		window.location="/thankYou?machineId="+getParameterByName("machineId");
+		window.location="/thankYou?machineId="+getParameterByName("machineId")+"&salesId="+getParameterByName("salesId");
 	}
 	$scope.submitEmail=function(){
 		if(!validateEmail($scope.emailAddress)){
 			$scope.emailError="Invalid email";
 		}else{
 			console.log("%OASYS,screen=receiptEmail&email="+$scope.emailAddress+"?");
-		window.location="/thankYou?machineId="+getParameterByName("machineId");
+		window.location="/thankYou?machineId="+getParameterByName("machineId")+"&salesId="+getParameterByName("salesId");
 		}
 	}
 	$scope.submitPhoneNumber=function(){
@@ -20,7 +20,7 @@ function receiptController($scope,$http) {
 		}else{
 			var number=$scope.phoneNumber.replaceAll("-","").replaceAll("(","").replaceAll(")","").replaceAll(" ","");
 			console.log("%OASYS,screen=receiptSMS&phoneNumber="+number+"?");
-		window.location="/thankYou?machineId="+getParameterByName("machineId");
+		window.location="/thankYou?machineId="+getParameterByName("machineId")+"&salesId="+getParameterByName("salesId");
 		}
 	}
 	$scope.addNumber=function(number){

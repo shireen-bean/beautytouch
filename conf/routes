@@ -45,6 +45,7 @@ POST    /alertFail					controllers.Email.alertFail()
 POST    /alertSuccess			    controllers.Email.alertSuccess()
 POST    /sendEmailReceipt           controllers.Email.sendReceipt
 POST    /sendSMSReceipt             controllers.SMS.sendReceipt
+POST    /sendSMSConfirm				controllers.SMS.sendConfirm
 POST    /reportProblem              controllers.SMS.reportProblem
 POST    /logEvent                   controllers.MachineController.logEvent
 GET		/activityLog				controllers.MachineController.activityLog(machineId)

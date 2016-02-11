@@ -33,6 +33,36 @@ public class SMS extends Controller {
   //		"phone_number": "amco1027@gmail.com"
   //}
 
+  public static Result sendConfirm() {
+	  System.out.println("sendSMS");
+	  JsonNode jn  = request().body().asJson();
+	  String phoneNumber = jn.get("phone_number").asText();
+	  int salesId = jn.get("sales_id").asInt();
+	  
+	  try {
+		  Database.addCustomer(phoneNumber,  "",  salesId);
+	  } catch (Exception e) {
+		  System.out.println(e.toString());
+	  }
+	  
+	  try {
+		  TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
+		  Account account = client.getAccount();
+		  
+		  MessageFactory messageFactory = account.getMessageFactory();
+		  List<NameValuePair> params = new ArrayList<NameValuePair>();
+	      params.add(new BasicNameValuePair("To", phoneNumber));
+	      params.add(new BasicNameValuePair("From", "+18597590660"));
+	      
+	      String messageBody = "We're sorry your BeautyTouch experience was less than perfect! Thank you for reporting the problem. A customer service representative will be reaching out shortly or you can email us at info@beautytouch.co.";
+	      params.add(new BasicNameValuePair("Body", messageBody));
+	      Message sms = messageFactory.create(params);
+	    }catch(Exception e){
+	      System.out.println(e.toString());
+	    }
+	  return ok();
+  }
+  
   public static Result sendReceipt(){
 
     //get sales id and customer info

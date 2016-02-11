@@ -4,16 +4,40 @@ $(document).ready(function(){
   setTimeout(function() {
         window.location="/vendingMain?machineId="+getParameterByName("machineId");
   }, 30000);
+  console.log(getParameterByName("salesId"));
   
   
 });
 function thankYouController($scope,$http) {
-	$scope.phoneNumber = "609";
+	$scope.phoneNumber = "";
 	$scope.submitPhone = function() {
 		console.log("submit: " + $scope.phoneNumber);
+		$("#confirm-no").hide();
+		$("#phoneInput").hide();
+		$("#confirm-phone").show();
+		$.ajax({
+			type: "POST",
+			url: "/sendSMSConfirm",
+			data: JSON.stringify({"phone_number": $scope.phoneNumber, "sales_id": getParameterByName("salesId")}),
+			dataType: "json",
+			headers: {
+				"content-type": "application/json"
+			},
+		});
+		$.ajax({
+	        type: "POST",
+	        url: "/alertFail",
+	        data: JSON.stringify({"machine_id": getParameterByName("machineId"), "message": "Contact: " + $scope.phoneNumber + " about issue" }),
+	        dataType: "json",
+	        headers: {
+	          "content-type": "application/json"
+	        },
+	      });
+		  setTimeout(function() {
+		        window.location="/vendingMain?machineId="+getParameterByName("machineId");
+		  }, 3000);
 	}
 	$scope.addNum = function(number){
-		console.log("add");
 		if($scope.phoneNumber.length<10){
 			$scope.phoneNumber = $scope.phoneNumber + number;
 			console.log(number + ", " + $scope.phoneNumber);
@@ -55,7 +79,8 @@ function thankYouController($scope,$http) {
 	        headers: {
 	          "content-type": "application/json"
 	        },
-	      });
+	    });
+	      
 	      
 	}
 }
