@@ -147,6 +147,9 @@ function vendingMain($scope,$http) {
   var machineID=getParameterByName("machineId");
 
   $scope.productSelected = function(id, tap) {
+	if ($scope.selectedId == id) {
+		return;
+	}
     $('.add-success').hide(100);
     var inCart = false;
     $.each($scope.cart.product_list, function (index, item) {
