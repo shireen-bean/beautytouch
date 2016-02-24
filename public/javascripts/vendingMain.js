@@ -427,7 +427,7 @@ function vendingMain($scope,$http) {
     });
     setTimeout(function() {
       $('.problem-dialog').hide();
-    }, 30000);
+    }, 45000);
     clearTimeout(pageTimeout);
   };
   $scope.howItWorks = function() {

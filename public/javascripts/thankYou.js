@@ -3,7 +3,7 @@ $(document).ready(function(){
 	
   setTimeout(function() {
         window.location="/vendingMain?machineId="+getParameterByName("machineId");
-  }, 30000);
+  }, 45000);
   console.log(getParameterByName("salesId"));
   
   
@@ -69,7 +69,7 @@ function thankYouController($scope,$http) {
 		
 		setTimeout(function() {
 	        window.location="/vendingMain?machineId="+getParameterByName("machineId");
-	    }, 20000);
+	    }, 35000);
 	    
 		$.ajax({
 	        type: "POST",
