@@ -24,6 +24,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
 import models.Product;
 import models.Receipt;
@@ -135,20 +142,23 @@ public class Email extends Controller {
 
   public static Result sendReceipt(){
 
+	  System.out.println("receipt");
+
     JsonNode jn = request().body().asJson();
     final int salesId = jn.get("sales_id").asInt();
     final String email = jn.get("email").asText();
     String key = jn.get("key").asText();
     if(!Security.validKey(key)){
+    	System.out.println("fail");
       return ok();
     }
+    
 
-    /*
-
+    
+       /*
        int salesId = 152;
-       String email = "alina@beautytouch.co";
+       String email = "alina+test2@beautytouch.co";
        */
-
     //add customer to database
     try{
       Database.addCustomer("",email,salesId);
@@ -174,6 +184,7 @@ public class Email extends Controller {
     StringBuilder contentBuilder = new StringBuilder();
     try {
       BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_top.scala.html"));
+      //BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_top.scala.html"));
       String str;
       while ((str = in.readLine()) != null) {
         contentBuilder.append(str);
@@ -189,6 +200,7 @@ public class Email extends Controller {
       Product p = receipt.products.get(i);
       try {
         BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_product.scala.html"));
+        //BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_product.scala.html"));
         String str;
         while ((str = in.readLine()) != null) {
           productBuilder.append(str);
@@ -208,6 +220,7 @@ public class Email extends Controller {
     StringBuilder bottomBuilder = new StringBuilder();
     try {
       BufferedReader in = new BufferedReader(new FileReader("../../oasys/app/views/receipt_bottom.scala.html"));
+      //BufferedReader in = new BufferedReader(new FileReader("app/views/receipt_bottom.scala.html"));
       String str;
       while ((str = in.readLine()) != null) {
         bottomBuilder.append(str);
@@ -230,6 +243,8 @@ public class Email extends Controller {
     Runnable aRunnable = new Runnable(){
       @Override
         public void run() {
+    	  addToMailChimp(email);
+          addToDelighted(email);
           String userkey="NiOsG78vNVN6ByO9";
           String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
           String username="aramirez@serpol.com";
@@ -273,6 +288,47 @@ public class Email extends Controller {
     fixedPool.shutdown();
     return ok();
 
+  }
+  
+  public static void addToMailChimp(String email) {
+	  HttpClient httpClient = new DefaultHttpClient();
+	  HttpPost httpPost = new HttpPost("https://us12.api.mailchimp.com/3.0/lists/01227e9c11/members");
+	  
+	  JSONObject jsonObject = new JSONObject();
+	  jsonObject.accumulate("email_address", email);
+	  jsonObject.accumulate("status", "subscribed");
+	  try {
+		  String json = jsonObject.toString();
+		  StringEntity se = new StringEntity(json);
+		  httpPost.setEntity(se);
+		  httpPost.setHeader("Authorization", "apikey 2885d7d565c38d48642383308d7c8671-us12");
+          httpPost.setHeader("content-type", "application/json");
+		  HttpResponse httpResponse = httpClient.execute(httpPost);
+		  System.out.println(httpResponse.toString());
+	  } catch (Exception e) {
+		  
+	  }
+	  //TODO: Add to lists for machine, beauty/personal care, etc.
+  }
+  
+  public static void addToDelighted(String email) {
+	  HttpClient httpClient = new DefaultHttpClient();
+	  HttpPost httpPost = new HttpPost("https://api.delighted.com/v1/people.json");
+	  
+	  JSONObject jsonObject = new JSONObject();
+	  jsonObject.accumulate("email", email);
+	  jsonObject.accumulate("delay", 43200);
+	  
+	  try {
+		  String json = jsonObject.toString();
+		  StringEntity se = new StringEntity(json);
+		  httpPost.setEntity(se);
+		  httpPost.setHeader("Authorization", "Basic SVhOSGhpUXVvNkFTNExzQzE5TDc5c2pIcnFkaHZ3MUM6");
+          httpPost.setHeader("content-type", "application/json");
+		  HttpResponse httpResponse = httpClient.execute(httpPost);
+		  System.out.println(httpResponse.toString());
+	  } catch (Exception e) {
+	  }
   }
 
   public static Result recordFeedback() {
