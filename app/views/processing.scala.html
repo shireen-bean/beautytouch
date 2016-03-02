@@ -14,6 +14,11 @@ $(document).ready(function(){
 	      }
 	});
 	setTimeout(function() {
+		$('#long').fadeIn();
+		$('#process-hed').fadeOut();
+		
+	}, 30000);
+	setTimeout(function() {
 		window.location="/paymentFailed?machineId="+getParameterByName("machineId");
 		$.ajax({
 		      type: "POST",
@@ -24,7 +29,8 @@ $(document).ready(function(){
 		        "content-type": "application/json"
 		      }
 		});
-	}, 30000);
+		
+	}, 75000);
 });
 
 function getParameterByName(name) {
@@ -43,9 +49,20 @@ function getParameterByName(name) {
     margin: 0 auto;
     background-color: white;
     height: 100%;">
+    <div id="long" style="display: none; padding-top:85px;">
+    <h2 style="font-size: 70px; margin: 0px; text-align: center; letter-spacing: 7px;">Still Processing</h2><br>
+    <p style="font-size: 28px;
+    font-family: helvetica neue;
+    letter-spacing: 3px;
+    line-height: 35px;
+    padding: 0px 85px">
+    Just taking a little longer than expected.<br>
+    It's worth the wait!
+    </p>
+    </div>
 		<img style="margin-top: 68px;
     width: 43%;" src="https://s3.amazonaws.com/oasys-images/circle.gif">
-		<h2 style="font-size: 70px; margin: 0px; text-align: center; letter-spacing: 7px;">Processing payment</h2><br>
+		<h2 id="process-hed" style="font-size: 70px; margin: 0px; text-align: center; letter-spacing: 7px;">Processing payment</h2><br>
 		<p style="font-size: 28px;
     font-family: helvetica neue;
     letter-spacing: 3px;
