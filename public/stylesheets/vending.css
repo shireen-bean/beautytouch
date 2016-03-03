@@ -99,6 +99,12 @@ html, body{
     left: 608px;
     top: 150px;
 }
+.promo-hed {
+	margin-top: 50px;
+}
+.submit-wrapper {
+	width: 78%;
+}
 
 #how-it-works h2 {
     background-color: #bbb;
@@ -169,10 +175,18 @@ html, body{
     float: right;
     display: block;
 }
+.problem-button.promo {
+	float:left;
+	margin-left:240px;
+}
 .problem-button.secondary {
 	border: 2px solid black;
 	background-color:white;
 	color:black;
+}
+.problem-button.secondary.promo {
+	float:left;
+	margin-left: 10px;
 }
 #report-form {
 	font-family: Roboto Condensed;
@@ -180,6 +194,17 @@ html, body{
   padding-left: 130px;
   padding-right:100px;
 }
+
+#report-form input {
+	float:left;
+	margin-top:20px;
+}
+
+.button-container {
+	width: 100%;
+	margin: 10px auto;
+}
+
 .problem-text {
 font-size: 20px;
     text-align: left;
@@ -479,7 +504,10 @@ font-size: 30px;
     display: inline-block;
     height: 280px;
 }
-
+#product-grid {
+	margin: 0 auto;
+	overflow-y:hidden;
+}
 #brandInfo {
     display: inline-block;
     position: absolute;
@@ -603,6 +631,17 @@ color: black;
     right: 0;
     top: 500;
     width: 22%;
+}
+.swipe-hed {
+	margin-left: 0px;
+	text-align: center;
+}
+.swipe-gif {
+	height: 24%;
+}
+.logo-wrapper {
+	width: 100%;
+	margin-top: 14px;
 }
 .beautytouch {
 	vertical-align: super;
@@ -747,7 +786,9 @@ display: none;
     background-image: -moz-linear-gradient(#aaa, transparent);
     background-image: -o-linear-gradient(#aaa, transparent);
 }
-
+tr {
+	overflow-y:hidden
+}
 .top-left:after {
     right: -3px;
     height: 3px;
@@ -755,6 +796,10 @@ display: none;
     background-image: -webkit-linear-gradient(left, #aaa, #eee);
     background-image: -moz-linear-gradient(left, #aaa, #eee);
     background-image: -o-linear-gradient(left, #aaa, #eee);
+}
+.product-image {
+	max-width:250px;
+	max-height:330px;
 }
 
 .product {
@@ -881,6 +926,8 @@ content: "";
 }
 .cart-list {
 	display: none;
+	list-style-type: none;
+	text-align:  left;
 }
 .cart-product {
 	float:left;
@@ -1152,6 +1199,17 @@ opacity: 1;
     padding: 68px;
     background-color: white;
     text-align: center;
+}
+
+.problem-hed {
+	margin: 50px 112px 0 112px;
+}
+
+.add-success img {
+	padding: 18px;
+	vertical-align: middle;
+	margin-top: -5px;
+	
 }
 
 .add-to-cart-button.desense {

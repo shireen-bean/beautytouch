@@ -1,303 +1,303 @@
 @(jsonString: String)
 <html>
-<head>
-@linksVending()
-<!--script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script-->
-</head>
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=League+Script" />
-<body class="bodyMain" style="overflow: hidden;">
-<div id="machineJsonVariable" style="display:none;">@jsonString</div>
+  <head>
+    @linksVending()
+    <!--script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script-->
+  </head>
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=League+Script" />
+  <body class="bodyMain" style="overflow: hidden;">
+    <div id="machineJsonVariable" style="display:none;">@jsonString</div>
 
-<div id="mainDivAvailableList" ng-app="" ng-controller="vendingMain" style="">
-	<div id="productList">
-	  <div id="header-copy">
-        <div class="bar"></div>
-        <h1 id="textheader1" class="hed" style="font-weight:400; font-size:70px;letter-spacing: 5px;">Touch To Begin Shopping</h1>
-        <!-- h1 id="textheader2" class="hed" style="font-weight:400; font-size:70px;letter-spacing: 5px;">Swipe for more products</h1>
+    <div id="mainDivAvailableList" ng-app="" ng-controller="vendingMain" style="">
+      <div id="productList">
+        <div id="header-copy">
+          <div class="bar"></div>
+          <h1 id="textheader1" class="hed">Touch To Begin Shopping</h1>
+          <!-- h1 id="textheader2" class="hed" style="font-weight:400; font-size:70px;letter-spacing: 5px;">Swipe for more products</h1>
         <h1 id="textheader3" class="hed" style="font-weight:400; font-size:70px;letter-spacing: 5px;">Shop Essentials Here</h1-->
-        <div class="bar"></div>
-        <h3 class="subhed"></h3>
-      </div>
-      <!-- div id="left-arrow" class="fa fa-chevron-left"></div> -->
+          <div class="bar"></div>
+          <h3 class="subhed"></h3>
+        </div>
+        <!-- div id="left-arrow" class="fa fa-chevron-left"></div> -->
       <div id="table-wrapper">
-	  <table id="product-grid" style="margin: 0 auto; overflow-y:hidden;" width="65%" height="100%" border="0" cellpadding="0" cellspacing="0">
-	    <tr style="overflow-y:hidden">
-	      <td id={{product.item_sku}} class="product selected" align="center" valign="top" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-start="product in availableProducts" ng-if="$first">
-		      <div class="top-left brand-wrapper" ng-if="product.brand_id != $parent.brand.id"><span class="brand-name"><span class="brand-flag">{{$parent.brand.id = product.brand_id;""}}</span> {{product.brand.name}}</span>
-		        <div class="product-stuff">
-                  <img  class="product-image" style="max-width:250px;max-height:330px;" src='productImage/{{product.item_img}}'>
-		          <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
-		      	</div>
-		      </div>
-	      </td>
-	      <td id={{product.item_sku}} class="product" align="center" valign="top" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-end ng-if="!$first">
-		      <div class="top-left brand-wrapper" ng-if="product.brand_id != $parent.brand.id"><span class="brand-name"><span class="brand-flag">{{$parent.brand.id = product.brand_id;""}}</span>  {{product.brand.name}}</span>
-		        <div class="product-stuff"><img class="product-image" style="max-width:250px;max-height:330px;" src='productImage/{{product.item_img}}'>
-		        <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
-		        </div>
-		      </div>
-		      <div class="brand-wrapper" ng-if="product.brand_id == $parent.brand.id">
-		        <div class="product-stuff">
-		        <img class="product-image" style="max-width:250px;max-height:330px;" src='productImage/{{product.item_img}}'>
-		        <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
-		        </div>
-		      </div>	   
-	      </td>
-	    </tr>
-	  </table>
-	  </div>
-	  <!-- div id="right-arrow" class="fa fa-chevron-right"></div> -->
-	  <div id="product-info">
-	    <div class="productDetails">
-	      <span id="itemName">{{selectedName}} - {{selectedPrice | currency}}</span>
-	      <span ng-hide="selectedSubtitle == null" id="subtitle">{{selectedSubtitle}}</span>
-		  <ul id="productDescription">
-	        <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
-		  </ul>
-		  <button class="add-to-cart-button" ng-click="addToCart()">Add to Bag</button>
-		  <div class="add-success"><img style="padding: 18px;vertical-align: middle;margin-top: -5px;"src="/assets/images/bag-icon.png"/>{{selectedName}} has been added to your bag!</div>
-		</div>
-	  </div>
-	  <div id="report-problem" class="report-problem">
-	    <h3>Problem with this machine?
-	    <button class="contactButton secondary report" ng-click="reportProblem()">Report a Problem</button>
-        </h3>
-	  </div>
-	  
-	  <div class="thank-you-report" id="thank-you-report">
-	    <h3>Thank you for reporting an issue with this machine.</h3>
-	  </div>
-	  <div style="display:none;" id="learn-more">
-	    <button class="contactButton secondary" ng-click="howItWorks()">Give Feedback</button>
-	  </div>
-	</div>
-		<div id="problem-dialog" class="problem-dialog">
-	    <div class="form" data-role="fieldcontain">
-	    <h2 style="margin: 50px 112px 0 112px;">Uh Oh!<br>
-	    What happened?</h2>
-	    <p class="problem-text">Let us know if something went wrong. We'll do our best to make it right!</p>
-	    </legend>
-	    <div id="report-form" ng-init="formData.problem='other'" action="">
-          <input style="float: left;margin-top: 20px;"ng-model="formData.problem" type="radio" id="vending" name="problem" value="vending"><label for="vending">Product didn't vend<br></label>
-          <label><input style="float: left;margin-top: 20px;" ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
-          <label><input style="float: left;margin-top: 20px;" ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
-          <label><input style="float: left;margin-top: 20px;" ng-model="formData.problem" type="radio" name="problem" value="product">Received incorrect or damaged product<br></label>
-          <label><input style="float: left;margin-top: 20px;" ng-model="formData.problem" type="radio" name="problem" value="machine">Machine is damaged or vandalized<br></label>
-          <input data-role="fieldcontain" style="float: left;margin-top: 20px;" id="other" ng-model="formData.problem" type="radio" name="problem" value="other"><label for="other">Other</label>
-          <p class="contact-info">If you would like to be contacted about this issue please enter your email address:</p>
-          <input id="problem-email" ng-model="formData.email" type="text" name="email">
+        <table id="product-grid" width="65%" height="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td id={{product.item_sku}} class="product selected" align="center" valign="top" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-start="product in availableProducts" ng-if="$first">
+              <div class="top-left brand-wrapper" ng-if="product.brand_id != $parent.brand.id"><span class="brand-name"><span class="brand-flag">{{$parent.brand.id = product.brand_id;""}}</span> {{product.brand.name}}</span>
+                <div class="product-stuff">
+                  <img  class="product-image" src='productImage/{{product.item_img}}'>
+                  <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
+                </div>
+              </div>
+            </td>
+            <td id={{product.item_sku}} class="product" align="center" valign="top" width:"auto" ng-click="productSelected(product.item_sku, true)" ng-repeat-end ng-if="!$first">
+              <div class="top-left brand-wrapper" ng-if="product.brand_id != $parent.brand.id"><span class="brand-name"><span class="brand-flag">{{$parent.brand.id = product.brand_id;""}}</span>  {{product.brand.name}}</span>
+                <div class="product-stuff"><img class="product-image" src='productImage/{{product.item_img}}'>
+                  <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
+                </div>
+              </div>
+              <div class="brand-wrapper" ng-if="product.brand_id == $parent.brand.id">
+                <div class="product-stuff">
+                  <img class="product-image" src='productImage/{{product.item_img}}'>
+                  <p class="category">{{product.category}}</p><p class="cat-price">${{product.price}}</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- div id="right-arrow" class="fa fa-chevron-right"></div> -->
+    <div id="product-info">
+      <div class="productDetails">
+        <span id="itemName">{{selectedName}} - {{selectedPrice | currency}}</span>
+        <span ng-hide="selectedSubtitle == null" id="subtitle">{{selectedSubtitle}}</span>
+        <ul id="productDescription">
+          <li class="description-bullet" ng-repeat="bullet in selectedDescription">{{bullet}}</li>
+        </ul>
+        <button class="add-to-cart-button" ng-click="addToCart()">Add to Bag</button>
+        <div class="add-success"><img src="/assets/images/bag-icon.png"/>{{selectedName}} has been added to your bag!</div>
+      </div>
+    </div>
+    <div id="report-problem" class="report-problem">
+      <h3>Problem with this machine?
+        <button class="contactButton secondary report" ng-click="reportProblem()">Report a Problem</button>
+      </h3>
+    </div>
 
-        
-          <div style="width: 100%;margin: 10px auto;">
-            <button class="problem-button" ng-click="submitReport()">Submit</button>
-	        <button class="problem-button secondary" ng-click="reportBack()">Back</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+    <div class="thank-you-report" id="thank-you-report">
+      <h3>Thank you for reporting an issue with this machine.</h3>
+    </div>
+    <div style="display:none;" id="learn-more">
+      <button class="contactButton secondary" ng-click="howItWorks()">Give Feedback</button>
+    </div>
+  </div>
+  <div id="problem-dialog" class="problem-dialog">
+    <div class="form" data-role="fieldcontain">
+      <h2 class="problem-hed">Uh Oh!<br>
+        What happened?</h2>
+      <p class="problem-text">Let us know if something went wrong. We'll do our best to make it right!</p>
+    </legend>
+    <div id="report-form" ng-init="formData.problem='other'" action="">
+      <input ng-model="formData.problem" type="radio" id="vending" name="problem" value="vending"><label for="vending">Product didn't vend<br></label>
+      <label><input ng-model="formData.problem" type="radio" name="problem" value="jammed">Machine appears to be jammed<br></label>
+      <label><input ng-model="formData.problem" type="radio" name="problem" value="cc-swiper">Problem with credit card swiper<br></label>
+      <label><input ng-model="formData.problem" type="radio" name="problem" value="product">Received incorrect or damaged product<br></label>
+      <label><input ng-model="formData.problem" type="radio" name="problem" value="machine">Machine is damaged or vandalized<br></label>
+      <input data-role="fieldcontain" id="other" ng-model="formData.problem" type="radio" name="problem" value="other"><label for="other">Other</label>
+      <p class="contact-info">If you would like to be contacted about this issue please enter your email address:</p>
+      <input id="problem-email" ng-model="formData.email" type="text" name="email">
 
 
-	<div id="cart">
-	  <div class="your-bag">Your Bag</div><div class="bag-count">{{cart.product_list.length}}</div>
-	  <div class="cart-spacer"></div>
-	  <div class="empty-cart" ng-hide="cart.product_info.length != 0">Add a product to your bag to begin</div>
-	  <ul class="cart-list" style="list-style-type: none;text-align:left">
-	    <li class="cart-item" ng-repeat="item in cart.product_info">
-	      <div class="bag-contents">
-	        <span class="cart-product">{{item.name}}</span><span class="cart-price">${{item.price}}</span>
-	      </div>
-	      <button class="cart-remove" ng-click="removeItem(item.id)">X</button>
-	    </li>
-	  </ul>
-	  <div class="cart-spacer"></div>
-	  <div class="cart-total">
-	  	  Total
-	  	  <div class="cart-total-price">{{cart.adj_total | currency}}</div>
-	  	  </div>
-	  <div class="cart-spacer"></div>
-	  <button id="promo-button" ng-click="enterPromo()">Have a promo code?</button>
-	  <div id="invalid-code" class="invalid-code">Sorry, that code is not valid</div>
-	  <div id="invalid-threshold" class="invalid-code">Your total must be greater than ${{threshold}} to use this code. Keep shopping and try again!</div>
-	  <div id="code-applied" class="code-applied">Code {{cart.promo.code}} has been applied!</div>
-	  <div id="swipeMessage" ng-hide="cart.product_info.length == 0">
-	    <h2 style="margin-left: 0px; text-align: center">Swipe card anytime to purchase</h2>
-	    <img src="https://s3.amazonaws.com/oasys-images/cc_white_left.gif" style="height: 24%;"/>
-	  </div>
-	  <div class="logo">
-	  	  <div class="cart-spacer"></div>
-	  	  <div style="width: 100%; margin-top: 14px;">
-	    <img class="logo-b" src="/assets/images/b.png"/>
-	    <span class="beautytouch">Beautytouch</span>
-	    </div>
-	  </div>
-	</div>
-	<div id="promo-dialog" class="promo-dialog">
-	  <h1 style="margin-top: 50px;" class="hed">Enter your promo code:</h1>
-      <textarea rows="1" cols="30" class="promo-input" ng-model="promoCode" readonly></textarea>
-	  <div id="numpad">
-	   <table class="fixed" cellspacing="10">
-		  <tr>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		  </tr>
-		  <tr id="nums123">
-		    <td class="keyButton" colspan="3" ng-click="addNum('1')">1</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('2')">2</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('3')">3</td>
-		  </tr>
-		  <tr id="nums456">
-		    <td class="keyButton" colspan="3" ng-click="addNum('4')">4</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('5')">5</td>
-		    <td class="keyButton" colspan="3" ng-click="addNum('6')">6</td>
-		  </tr>
-		  <tr id="nums789">
-		    <td colspan="3" class="keyButton" ng-click="addNum('7')">7</td>
-		    <td colspan="3" class="keyButton" ng-click="addNum('8')">8</td>
-		    <td colspan="3" class="keyButton" ng-click="addNum('9')">9</td>
-		  </tr>
-		  <tr id="nums0">
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		    <td colspan="3" class="keyButton" ng-click="addNum('0')">0</td>
-		    <td colspan="3" class="keyButton" ng-click="deleteNum()">Delete</td>
-		  </tr>
-		</table>
-	  </div>
-	  <div style="width:78%">
-        <button class="problem-button" style="float:left;margin-left: 240px;" ng-click="submitPromo()">Submit</button>
-	    <button class="problem-button secondary" style="float:left;margin-left:10px;" ng-click="closePromo()">Back</button>
-	  </div>
-	</div>
-	</div>
+      <div class="button-container">
+        <button class="problem-button" ng-click="submitReport()">Submit</button>
+        <button class="problem-button secondary" ng-click="reportBack()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-	<div id="how-it-works" class="how-it-works">
-	  <h1 style="margin-top: 50px;" class="hed">Want a product on us?</h1>
-      <p>The only thing better than #prettyconvenient is #prettyFREE!<br>Leave your email address below and we'll send you a few easy questions (including where we should send your free product).</p>
-	  <textarea rows="1" cols="50" class="suggestion-input" ng-model="suggestion" readonly></textarea>
-	  <div id="keyboard">
-	   <table class="fixed" cellspacing="10">
-		  <tr>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		  </tr>
-		  <tr id="symbols">
-		    <td class="keyButton" colspan="2" ng-click="addChar('!')">!</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('&commat;')">&commat;</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('#')">#</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('$')">$</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('%')">%</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('&')">&</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('*')">*</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('_')">_</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('-')">-</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('+')">+</td>
-		    <td colspan="4" class="keyButton" ng-click="deleteChar()">delete</td>
-		  </tr>
-		  <tr id="numbers">
-		    <td class="keyButton" colspan="2" >&nbsp;</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(1)">1</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(2)">2</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(3)">3</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(4)">4</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(5)">5</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(6)">6</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(7)">7</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(8)">8</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(9)">9</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(0)">0</td>
-		    <td class="keyButton" colspan="2" >&nbsp;</td>
-		  </tr>
 
-		  <tr id="qwertyuiop">
-		    <td colspan="2" class="keyButton">&nbsp;</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('q')">q</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('w')">w</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('e')">e</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('r')">r</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('t')">t</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('y')">y</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('u')">u</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('i')">i</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('o')">o</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('p')">p</td>
-		    <td colspan="2" class="keyButton">&nbsp;</td>
-		  </tr>
-		  <tr id="asdfghjkl">
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('a')">a</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('s')">s</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('d')">d</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('f')">f</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('g')">g</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('h')">h</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('j')">j</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('k')">k</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('l')">l</td>
-		    <td colspan="3" class="keyButton"ng-click="addChar('&commat;')">&commat;</td>
-		  </tr>
+<div id="cart">
+  <div class="your-bag">Your Bag</div><div class="bag-count">{{cart.product_list.length}}</div>
+  <div class="cart-spacer"></div>
+  <div class="empty-cart" ng-hide="cart.product_info.length != 0">Add a product to your bag to begin</div>
+  <ul class="cart-list">
+    <li class="cart-item" ng-repeat="item in cart.product_info">
+    <div class="bag-contents">
+      <span class="cart-product">{{item.name}}</span><span class="cart-price">${{item.price}}</span>
+    </div>
+    <button class="cart-remove" ng-click="removeItem(item.id)">X</button>
+    </li>
+  </ul>
+  <div class="cart-spacer"></div>
+  <div class="cart-total">
+    Total
+    <div class="cart-total-price">{{cart.adj_total | currency}}</div>
+  </div>
+  <div class="cart-spacer"></div>
+  <button id="promo-button" ng-click="enterPromo()">Have a promo code?</button>
+  <div id="invalid-code" class="invalid-code">Sorry, that code is not valid</div>
+  <div id="invalid-threshold" class="invalid-code">Your total must be greater than ${{threshold}} to use this code. Keep shopping and try again!</div>
+  <div id="code-applied" class="code-applied">Code {{cart.promo.code}} has been applied!</div>
+  <div id="swipeMessage" ng-hide="cart.product_info.length == 0">
+    <h2 class="swipe-hed">Swipe card anytime to purchase</h2>
+    <img src="https://s3.amazonaws.com/oasys-images/cc_white_left.gif" class="swipe-gif"/>
+  </div>
+  <div class="logo">
+    <div class="cart-spacer"></div>
+    <div class="logo-wrapper">
+      <img class="logo-b" src="/assets/images/b.png"/>
+      <span class="beautytouch">Beautytouch</span>
+    </div>
+  </div>
+</div>
+<div id="promo-dialog" class="promo-dialog">
+  <h1 class="promo-hed hed">Enter your promo code:</h1>
+  <textarea rows="1" cols="30" class="promo-input" ng-model="promoCode" readonly></textarea>
+  <div id="numpad">
+    <table class="fixed" cellspacing="10">
+      <tr>
+        <td width="30px"></td>
+        <td width="30px"></td>
+        <td width="30px"></td>
+        <td width="30px"></td>
+        <td width="30px"></td>
+        <td width="30px"></td>
+        <td width="30px"></td>
+        <td width="30px"></td>
+        <td width="30px"></td>
+      </tr>
+      <tr id="nums123">
+        <td class="keyButton" colspan="3" ng-click="addNum('1')">1</td>
+        <td class="keyButton" colspan="3" ng-click="addNum('2')">2</td>
+        <td class="keyButton" colspan="3" ng-click="addNum('3')">3</td>
+      </tr>
+      <tr id="nums456">
+        <td class="keyButton" colspan="3" ng-click="addNum('4')">4</td>
+        <td class="keyButton" colspan="3" ng-click="addNum('5')">5</td>
+        <td class="keyButton" colspan="3" ng-click="addNum('6')">6</td>
+      </tr>
+      <tr id="nums789">
+        <td colspan="3" class="keyButton" ng-click="addNum('7')">7</td>
+        <td colspan="3" class="keyButton" ng-click="addNum('8')">8</td>
+        <td colspan="3" class="keyButton" ng-click="addNum('9')">9</td>
+      </tr>
+      <tr id="nums0">
+        <td colspan="3" class="keyButton">&nbsp;</td>
+        <td colspan="3" class="keyButton" ng-click="addNum('0')">0</td>
+        <td colspan="3" class="keyButton" ng-click="deleteNum()">Delete</td>
+      </tr>
+    </table>
+  </div>
+  <div class="submit-wrapper">
+    <button class="problem-button promo" ng-click="submitPromo()">Submit</button>
+    <button class="problem-button secondary promo" ng-click="closePromo()">Back</button>
+  </div>
+</div>
+  </div>
 
-		  <tr id="zxcvbnm">
+  <div id="how-it-works" class="how-it-works">
+    <h1 class="hed">Want a product on us?</h1>
+    <p>The only thing better than #prettyconvenient is #prettyFREE!<br>Leave your email address below and we'll send you a few easy questions (including where we should send your free product).</p>
+    <textarea rows="1" cols="50" class="suggestion-input" ng-model="suggestion" readonly></textarea>
+    <div id="keyboard">
+      <table class="fixed" cellspacing="10">
+        <tr>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+          <td width="30px"></td>
+        </tr>
+        <tr id="symbols">
+          <td class="keyButton" colspan="2" ng-click="addChar('!')">!</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('&commat;')">&commat;</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('#')">#</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('$')">$</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('%')">%</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('&')">&</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('*')">*</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('_')">_</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('-')">-</td>
+          <td class="keyButton" colspan="2" ng-click="addChar('+')">+</td>
+          <td colspan="4" class="keyButton" ng-click="deleteChar()">delete</td>
+        </tr>
+        <tr id="numbers">
+          <td class="keyButton" colspan="2" >&nbsp;</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(1)">1</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(2)">2</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(3)">3</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(4)">4</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(5)">5</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(6)">6</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(7)">7</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(8)">8</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(9)">9</td>
+          <td class="keyButton" colspan="2" ng-click="addChar(0)">0</td>
+          <td class="keyButton" colspan="2" >&nbsp;</td>
+        </tr>
 
-		    <td colspan="4" class="keyButton">&nbsp;</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('z')">z</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('x')">x</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('c')">c</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('v')">v</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('b')">b</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('n')">n</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('m')">m</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('.')">.</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('?')">?</td>
-		    <td colspan="2" class="keyButton">&nbsp;</td>
-		  </tr>
+        <tr id="qwertyuiop">
+          <td colspan="2" class="keyButton">&nbsp;</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('q')">q</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('w')">w</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('e')">e</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('r')">r</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('t')">t</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('y')">y</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('u')">u</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('i')">i</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('o')">o</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('p')">p</td>
+          <td colspan="2" class="keyButton">&nbsp;</td>
+        </tr>
+        <tr id="asdfghjkl">
+          <td colspan="3" class="keyButton">&nbsp;</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('a')">a</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('s')">s</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('d')">d</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('f')">f</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('g')">g</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('h')">h</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('j')">j</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('k')">k</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('l')">l</td>
+          <td colspan="3" class="keyButton"ng-click="addChar('&commat;')">&commat;</td>
+        </tr>
 
-		  <tr id="providers">
-		    <td class="keyButton" colspan="8" ng-click="addChar('gmail')">gmail</td>
-		    <td class="keyButton" colspan="8" ng-click="addChar('hotmail')">hotmail</td>
-		    <td class="keyButton" colspan="8" ng-click="addChar('yahoo')">yahoo</td>
-		  </tr>
-		  <tr id="domain">
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		    <td colspan="6" class="keyButton" ng-click="addChar('.com')">.com</td>
-		    <td colspan="6" class="keyButton" ng-click="addChar('.net')">.net</td>
-		    <td colspan="6" class="keyButton" ng-click="addChar('.edu')">.edu</td>
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		  </tr>
-		</table>
-	  </div>
-	  <div style="width:78%">
-        <button class="problem-button" ng-click="submitSuggestion()">Submit</button>
-	    <button class="problem-button secondary" ng-click="closeHowItWorks()">Back</button>
-	  </div>
-	</div>
+        <tr id="zxcvbnm">
+
+          <td colspan="4" class="keyButton">&nbsp;</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('z')">z</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('x')">x</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('c')">c</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('v')">v</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('b')">b</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('n')">n</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('m')">m</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('.')">.</td>
+          <td colspan="2" class="keyButton" ng-click="addChar('?')">?</td>
+          <td colspan="2" class="keyButton">&nbsp;</td>
+        </tr>
+
+        <tr id="providers">
+          <td class="keyButton" colspan="8" ng-click="addChar('gmail')">gmail</td>
+          <td class="keyButton" colspan="8" ng-click="addChar('hotmail')">hotmail</td>
+          <td class="keyButton" colspan="8" ng-click="addChar('yahoo')">yahoo</td>
+        </tr>
+        <tr id="domain">
+          <td colspan="3" class="keyButton">&nbsp;</td>
+          <td colspan="6" class="keyButton" ng-click="addChar('.com')">.com</td>
+          <td colspan="6" class="keyButton" ng-click="addChar('.net')">.net</td>
+          <td colspan="6" class="keyButton" ng-click="addChar('.edu')">.edu</td>
+          <td colspan="3" class="keyButton">&nbsp;</td>
+        </tr>
+      </table>
+    </div>
+    <div class="submit-wrapper">
+      <button class="problem-button" ng-click="submitSuggestion()">Submit</button>
+      <button class="problem-button secondary" ng-click="closeHowItWorks()">Back</button>
+    </div>
+  </div>
 
 
 
@@ -307,12 +307,12 @@
 <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
 <script src="@routes.Assets.at("javascripts/vendingMain.js")" type="text/javascript"></script>
 <script type="text/javascript">
-(function() {
-var hm = document.createElement('script'); hm.type ='text/javascript'; hm.async = true;
-hm.src = ('++u-heatmap-it+log-js').replace(/[+]/g,'/').replace(/-/g,'.');
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm, s);
-})();
-</script>
+  (function() {
+   var hm = document.createElement('script'); hm.type ='text/javascript'; hm.async = true;
+   hm.src = ('++u-heatmap-it+log-js').replace(/[+]/g,'/').replace(/-/g,'.');
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm, s);
+   })();
+ </script>
 
 </body>
 </html>
