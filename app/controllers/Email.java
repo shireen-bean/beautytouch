@@ -24,13 +24,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import models.Product;
 import models.Receipt;
@@ -243,7 +247,7 @@ public class Email extends Controller {
     Runnable aRunnable = new Runnable(){
       @Override
         public void run() {
-    	  addToMailChimp(email);
+    	  addToMailChimp(email, receipt.machine_id);
           addToDelighted(email);
           String userkey="NiOsG78vNVN6ByO9";
           String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
@@ -289,14 +293,47 @@ public class Email extends Controller {
     return ok();
 
   }
+  public static Result test(String email, String id) {
+	  System.out.println(id);
+	  addToMailChimp(email, id);
+	  return ok();
+  }
   
-  public static void addToMailChimp(String email) {
+  public static void addToMailChimp(String email, String machine_id) {
+	  
+	  //get interests
 	  HttpClient httpClient = new DefaultHttpClient();
+	  
+	  HttpGet httpGet = new HttpGet("https://us12.api.mailchimp.com/3.0/lists/01227e9c11/interests");
+	  httpGet.setHeader("Authorization", "apikey 2885d7d565c38d48642383308d7c8671-us12");
+	  JSONObject interests = new JSONObject();
+	  try {
+		  HttpResponse response = httpClient.execute(httpGet);
+		  HttpEntity entity = response.getEntity();
+		  String responseString = EntityUtils.toString(entity, "UTF-8");
+
+	      final JSONObject jsonResponse = new JSONObject(responseString);
+		  
+		  JSONArray interestResults = jsonResponse.getJSONArray("interests");
+		  //find group that matches machine_id
+		  for (int i = 0; i < interestResults.length(); i++) {
+			  JSONObject interest = interestResults.getJSONObject(i);
+			  String id = interest.getString("id");
+			  String name = interest.getString("name");
+			  if (name.startsWith(machine_id) ){
+				  interests.accumulate(id, true);
+			  }
+		  }
+		  System.out.println(interests);
+	  } catch (Exception e) {
+		  
+	  }
 	  HttpPost httpPost = new HttpPost("https://us12.api.mailchimp.com/3.0/lists/01227e9c11/members");
 	  
 	  JSONObject jsonObject = new JSONObject();
 	  jsonObject.accumulate("email_address", email);
 	  jsonObject.accumulate("status", "subscribed");
+	  jsonObject.accumulate("interests",  interests);
 	  try {
 		  String json = jsonObject.toString();
 		  StringEntity se = new StringEntity(json);
@@ -306,9 +343,7 @@ public class Email extends Controller {
 		  HttpResponse httpResponse = httpClient.execute(httpPost);
 		  System.out.println(httpResponse.toString());
 	  } catch (Exception e) {
-		  
 	  }
-	  //TODO: Add to lists for machine, beauty/personal care, etc.
   }
   
   public static void addToDelighted(String email) {
@@ -335,7 +370,4 @@ public class Email extends Controller {
     return ok(feedback.render());
   }
 
-  public static Result test() {
-    return ok();
-  }
 }
