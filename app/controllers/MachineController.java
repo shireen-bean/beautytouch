@@ -10,6 +10,11 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.StringReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileWriter;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.text.json.JsonContext;
@@ -25,12 +30,15 @@ import models.Product;
 import models.Sale;
 import models.User;
 import models.Event;
+import play.Logger;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
 
 public class MachineController extends Controller {
+
+  private static final Logger.ALogger logger = Logger.of(MachineController.class);
 
 	public static boolean loggedIn(){
 		if(session("user")==null){
@@ -224,5 +232,55 @@ public class MachineController extends Controller {
     	Integer machine = Integer.parseInt(id);
     	String events = Database.getTapsByMachine(machine);
     	return ok(events);
+    }
+
+    /**
+     * Accept a batch of log entries from a machine.
+     */
+    @BodyParser.Of(value = BodyParser.Text.class, maxLength = 10 * 1024 * 1024)
+    public static Result log(String machine) {
+        try {
+            // Throw an exception if machine ID is invalid.
+            Database.getMachine(machine);
+
+            // Log a "log" event.
+            Database.logEvent(machine, "log");
+
+            // Get POSTed log text.
+            String text = request().body().asText();
+            if (text == null) {
+              throw new Exception("log: no body text?");
+            }
+
+            // Parse log entries, line by line.
+            parseLogEntries(text);
+
+            // Write the whole thing to a file.
+            saveLog(machine, text);
+        }
+        catch (Exception e) {
+            logger.error("/log/" + machine + " error", e); 
+        }
+        // Don't let the client know if something went wrong.
+        return ok();
+    }
+
+    private static void parseLogEntries(String text) throws IOException {
+        BufferedReader lineReader = new BufferedReader(new StringReader(text));
+        String line;
+        while ((line = lineReader.readLine()) != null) {
+            // Do something with each line!
+        }
+    }
+
+    private static void saveLog(String machine, String text) throws IOException {
+        // The directory name should be a configuration option...
+        File dir = new File("/tmp");
+        String fName = "bt-" + machine + "-" + Long.toString(System.currentTimeMillis(), 16) + ".log";
+        if (dir.isDirectory()) {
+            FileWriter writer = new FileWriter(new File(dir, fName));
+            writer.write(text);
+            writer.close();
+        }
     }
 }

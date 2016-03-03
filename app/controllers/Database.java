@@ -126,11 +126,19 @@ public class Database {
         + ", '" + new Timestamp(date.getTime()) +"')");
   }
 
+  public static void logEvent(String machine_id, String event_type) {
+    logEvent(machine_id, event_type, null);
+  }
+
   public static void logEvent(String machine_id, String event_type, String product_sku) {
 
-    Integer product_id = Integer.parseInt(product_sku);
-    if (product_id == 0) {
-      product_id = null;
+    Integer product_id = null;
+    
+    if (product_sku != null) {
+      product_id = Integer.parseInt(product_sku);
+      if (product_id <= 0) {
+        product_id = null;
+      }
     }
 
     Event event = new Event();
