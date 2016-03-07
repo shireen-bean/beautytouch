@@ -56,6 +56,10 @@ import views.html.feedback;
 
 public class Email extends Controller {
 
+  private static final String MC_APIKEY = "apikey 2885d7d565c38d48642383308d7c8671-us12";
+  private static final String DEL_AUTH = "Basic SVhOSGhpUXVvNkFTNExzQzE5TDc5c2pIcnFkaHZ3MUM6";
+  private static final String MC_MASTER_LIST_ID = "01227e9c11";
+
   public static Result alertSale(String machineId, List<String> productIds, BigDecimal price) {
     System.out.println("alertSale");
     String product_names = "";
@@ -103,24 +107,24 @@ public class Email extends Controller {
   }
 
   public static Result alertSuccess() {
-	    JsonNode jn = request().body().asJson();
-	    String machineId = jn.get("machine_id").asText();
-	    String message = jn.get("message").asText();
-	    String[] recipients = {
-	      "alina@oasysventures.com",
-	      "jackie@oasysventures.com",
-	      "mackenzie@oasysventures.com",
-	      "james@oasysventures.com",
-	      "shireen@oasysventures.com"
-	    };
-	    for (String recipient: recipients) {
-	      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-	      mail.setSubject("Sales Success");
-	      mail.setRecipient(recipient);
-	      mail.setFrom("Oasys <service@oasysventures.com>");
-	      mail.sendHtml("<p>" + message + " at machine " + machineId +".");
-	    }
-	    return ok();
+    JsonNode jn = request().body().asJson();
+    String machineId = jn.get("machine_id").asText();
+    String message = jn.get("message").asText();
+    String[] recipients = {
+      "alina@oasysventures.com",
+      "jackie@oasysventures.com",
+      "mackenzie@oasysventures.com",
+      "james@oasysventures.com",
+      "shireen@oasysventures.com"
+    };
+    for (String recipient: recipients) {
+      MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+      mail.setSubject("Sales Success");
+      mail.setRecipient(recipient);
+      mail.setFrom("Oasys <service@oasysventures.com>");
+      mail.sendHtml("<p>" + message + " at machine " + machineId +".");
+    }
+    return ok();
   }
 
   public static Result sendSuggestion() {
@@ -146,23 +150,25 @@ public class Email extends Controller {
 
   public static Result sendReceipt(){
 
-	  System.out.println("receipt");
+    System.out.println("receipt");
+
 
     JsonNode jn = request().body().asJson();
     final int salesId = jn.get("sales_id").asInt();
     final String email = jn.get("email").asText();
     String key = jn.get("key").asText();
     if(!Security.validKey(key)){
-    	System.out.println("fail");
+      System.out.println("fail");
       return ok();
     }
-    
 
-    
-       /*
+
+    /*
+
        int salesId = 152;
-       String email = "alina+test2@beautytouch.co";
+       String email = "alina+test3@beautytouch.co";
        */
+
     //add customer to database
     try{
       Database.addCustomer("",email,salesId);
@@ -247,7 +253,7 @@ public class Email extends Controller {
     Runnable aRunnable = new Runnable(){
       @Override
         public void run() {
-    	  addToMailChimp(email, receipt.machine_id);
+          addToMailChimp(email, receipt.machine_id);
           addToDelighted(email);
           String userkey="NiOsG78vNVN6ByO9";
           String vtigerURL="https://beautytouch.od2.vtiger.com/webservice.php";
@@ -294,76 +300,78 @@ public class Email extends Controller {
 
   }
   public static Result test(String email, String id) {
-	  System.out.println(id);
-	  addToMailChimp(email, id);
-	  return ok();
+    System.out.println(id);
+    String address = "alina+test2@beautytouch.co";
+    addToMailChimp(address, id);
+    return ok();
   }
-  
-  public static void addToMailChimp(String email, String machine_id) {
-	  
-	  //get interests
-	  HttpClient httpClient = new DefaultHttpClient();
-	  
-	  HttpGet httpGet = new HttpGet("https://us12.api.mailchimp.com/3.0/lists/01227e9c11/interests");
-	  httpGet.setHeader("Authorization", "apikey 2885d7d565c38d48642383308d7c8671-us12");
-	  JSONObject interests = new JSONObject();
-	  try {
-		  HttpResponse response = httpClient.execute(httpGet);
-		  HttpEntity entity = response.getEntity();
-		  String responseString = EntityUtils.toString(entity, "UTF-8");
 
-	      final JSONObject jsonResponse = new JSONObject(responseString);
-		  
-		  JSONArray interestResults = jsonResponse.getJSONArray("interests");
-		  //find group that matches machine_id
-		  for (int i = 0; i < interestResults.length(); i++) {
-			  JSONObject interest = interestResults.getJSONObject(i);
-			  String id = interest.getString("id");
-			  String name = interest.getString("name");
-			  if (name.startsWith(machine_id) ){
-				  interests.accumulate(id, true);
-			  }
-		  }
-		  System.out.println(interests);
-	  } catch (Exception e) {
-		  
-	  }
-	  HttpPost httpPost = new HttpPost("https://us12.api.mailchimp.com/3.0/lists/01227e9c11/members");
-	  
-	  JSONObject jsonObject = new JSONObject();
-	  jsonObject.accumulate("email_address", email);
-	  jsonObject.accumulate("status", "subscribed");
-	  jsonObject.accumulate("interests",  interests);
-	  try {
-		  String json = jsonObject.toString();
-		  StringEntity se = new StringEntity(json);
-		  httpPost.setEntity(se);
-		  httpPost.setHeader("Authorization", "apikey 2885d7d565c38d48642383308d7c8671-us12");
-          httpPost.setHeader("content-type", "application/json");
-		  HttpResponse httpResponse = httpClient.execute(httpPost);
-		  System.out.println(httpResponse.toString());
-	  } catch (Exception e) {
-	  }
+  public static void addToMailChimp(String email, String machine_id) {
+
+    //get interests
+    HttpClient httpClient = new DefaultHttpClient();
+    HttpGet httpGet = new HttpGet("https://us12.api.mailchimp.com/3.0/lists/" + MC_MASTER_LIST_ID + "/interests");
+    httpGet.setHeader("Authorization", MC_APIKEY);
+
+    JSONObject interests = new JSONObject();
+    try {
+      HttpResponse response = httpClient.execute(httpGet);
+      HttpEntity entity = response.getEntity();
+      String responseString = EntityUtils.toString(entity, "UTF-8");
+
+      final JSONObject jsonResponse = new JSONObject(responseString);
+      JSONArray interestResults = jsonResponse.getJSONArray("interests");
+      //find group that matches machine_id
+      for (int i = 0; i < interestResults.length(); i++) {
+        JSONObject interest = interestResults.getJSONObject(i);
+        String id = interest.getString("id");
+        String name = interest.getString("name");
+        if (name.startsWith(machine_id) ){
+          interests.accumulate(id, true);
+        }
+      }
+      System.out.println(interests);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    HttpPost httpPost = new HttpPost("https://us12.api.mailchimp.com/3.0/lists/" + MC_MASTER_LIST_ID + "/members");
+
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.accumulate("email_address", email);
+    jsonObject.accumulate("status", "subscribed");
+    jsonObject.accumulate("interests",  interests);
+    try {
+      String json = jsonObject.toString();
+      StringEntity se = new StringEntity(json);
+      httpPost.setEntity(se);
+      httpPost.setHeader("Authorization", MC_APIKEY);
+      httpPost.setHeader("content-type", "application/json");
+      HttpResponse httpResponse = httpClient.execute(httpPost);
+      System.out.println(httpResponse.toString());
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
-  
+
   public static void addToDelighted(String email) {
-	  HttpClient httpClient = new DefaultHttpClient();
-	  HttpPost httpPost = new HttpPost("https://api.delighted.com/v1/people.json");
-	  
-	  JSONObject jsonObject = new JSONObject();
-	  jsonObject.accumulate("email", email);
-	  jsonObject.accumulate("delay", 43200);
-	  
-	  try {
-		  String json = jsonObject.toString();
-		  StringEntity se = new StringEntity(json);
-		  httpPost.setEntity(se);
-		  httpPost.setHeader("Authorization", "Basic SVhOSGhpUXVvNkFTNExzQzE5TDc5c2pIcnFkaHZ3MUM6");
-          httpPost.setHeader("content-type", "application/json");
-		  HttpResponse httpResponse = httpClient.execute(httpPost);
-		  System.out.println(httpResponse.toString());
-	  } catch (Exception e) {
-	  }
+    HttpClient httpClient = new DefaultHttpClient();
+    HttpPost httpPost = new HttpPost("https://api.delighted.com/v1/people.json");
+
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.accumulate("email", email);
+    jsonObject.accumulate("delay", 43200);
+
+    try {
+      String json = jsonObject.toString();
+      StringEntity se = new StringEntity(json);
+      httpPost.setEntity(se);
+      httpPost.setHeader("Authorization", DEL_AUTH);
+      httpPost.setHeader("content-type", "application/json");
+      HttpResponse httpResponse = httpClient.execute(httpPost);
+      System.out.println(httpResponse.toString());
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
 
   public static Result recordFeedback() {
