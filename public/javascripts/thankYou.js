@@ -47,20 +47,16 @@ function thankYouController($scope,$http) {
 		$scope.phoneNumber=$scope.phoneNumber.substring(0,$scope.phoneNumber.length-1);
 	}
 	$scope.productReceived=function(){
-		$("#confirm-yes").show();
-		$(".yes-no").hide();
 		$.ajax({
 	        type: "POST",
 	        url: "/alertSuccess",
-	        data: JSON.stringify({"machine_id": getParameterByName("machineId"), "message": "Product vended" }),
+	        data: JSON.stringify({"machine_id": getParameterByName("machineId"), "message": "Completed purchase" }),
 	        dataType: "json",
 	        headers: {
 	          "content-type": "application/json"
 	        },
 	      });
-		setTimeout(function() {
-	        window.location="/vendingMain?machineId="+getParameterByName("machineId");
-	    }, 3000);
+	     window.location="/vendingMain?machineId="+getParameterByName("machineId");
 	}
 	$scope.noProduct=function() {
 		$("#confirm-no").show();
@@ -74,7 +70,7 @@ function thankYouController($scope,$http) {
 		$.ajax({
 	        type: "POST",
 	        url: "/alertFail",
-	        data: JSON.stringify({"machine_id": getParameterByName("machineId"), "message": "Vending failed" }),
+	        data: JSON.stringify({"machine_id": getParameterByName("machineId"), "message": "Unhappy customer" }),
 	        dataType: "json",
 	        headers: {
 	          "content-type": "application/json"
