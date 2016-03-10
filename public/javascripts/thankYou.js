@@ -1,10 +1,10 @@
 $(document).ready(function(){
 	$("#message").fadeIn();
-	/*
+	
   setTimeout(function() {
         window.location="/vendingMain?machineId="+getParameterByName("machineId");
   }, 45000);
-  */
+  
   console.log(getParameterByName("salesId"));
   
   
