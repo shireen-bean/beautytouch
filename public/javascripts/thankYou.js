@@ -1,9 +1,10 @@
 $(document).ready(function(){
 	$("#message").fadeIn();
-	
+	/*
   setTimeout(function() {
         window.location="/vendingMain?machineId="+getParameterByName("machineId");
   }, 45000);
+  */
   console.log(getParameterByName("salesId"));
   
   
@@ -56,6 +57,8 @@ function thankYouController($scope,$http) {
 	          "content-type": "application/json"
 	        },
 	      });
+
+		 $(".yes-no").hide();
 	     window.location="/vendingMain?machineId="+getParameterByName("machineId");
 	}
 	$scope.noProduct=function() {
