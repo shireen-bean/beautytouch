@@ -177,7 +177,7 @@ public class Email extends Controller {
     }
 
     //get product details from database
-    Receipt receipt = Database.getReceiptDetails(salesId);
+    final Receipt receipt = Database.getReceiptDetails(salesId);
     System.out.println(receipt);
 
 

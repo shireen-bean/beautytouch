@@ -96,14 +96,17 @@ html, body{
     box-shadow: 7px 5px 20px 5px;
     padding-bottom:5%;
     width: 40%;
-    height:60%;
+    height:50%;
 }
 .promo-hed {
 	float:center;
   padding-top: 8%;
 }
 .submit-wrapper {
-	width: 80%;
+	position: absolute;
+    top: 20%;
+    left: 25%;
+    width: 100%;
 }
 
 #how-it-works h2 {
@@ -152,17 +155,32 @@ html, body{
 .promo-input {
     float: center;
     font-size: 200%;
-	box-shadow: 5px 5px #ddd inset;
+	box-shadow: 0.03em 0.03em #ddd inset;
 	font-family: Roboto Condensed;
-    padding-left: 40%
+    padding-left: 4%;
     letter-spacing: 0.04em;
     height: 10%;
-    width:47%;
-    margin-top: 5%;
-    text-align: center;
-   
-    
+    width:30%;
+    margin-top: 2%;
+    margin: 0.5em;
+    text-align: center;  
+    line-height: 100% 
 }
+
+.promo-input.secondary {
+    float: center;
+    font-size: 200%;
+  box-shadow: 0.03em 0.03em #ddd inset;
+  font-family: Roboto Condensed;
+    padding-left: 40%;
+    letter-spacing: 0.04em;
+    height: 10%;
+    width:30%;
+    margin-top: 2%;
+    margin-left:-4%;
+    text-align: center;   
+}
+
 .problem-button {
     font-family: Roboto Condensed;
     background-color: black;
@@ -181,16 +199,15 @@ html, body{
 }
 .problem-button.promo {
 	 float: left;
-    margin-left: 30%;
-    margin-top: 65%;
+    margin-top: 50%;
 }
 .problem-button.secondary {
-	border: 2px solid black;
+	border: 0.03em solid black;
 	background-color:white;
 	color:black;
 }
 .problem-button.secondary.promo {
-	float:right;
+	float:left;
   left:2%;
   top:10%;
 }
@@ -267,13 +284,17 @@ float: center;
 	width: 83%;
 }
 #numpad {
-	margin-left: auto;
-    margin-right: auto;
-    position: absolute;
-    top:25%;
-    left: 27%;
+    margin: auto;
+    top:2%;
     width: 50%;
 }
+
+#numpad-receipt {
+    margin-left:33%;
+    top:2%;
+    width: 50%;
+}
+
 #email-form {
 
 }
@@ -351,7 +372,7 @@ position: absolute;
   text-align: center;
 }
 .phoneInput{
-	width:320px;
+	width:30%;
  }
  .input {
 	 line-height: 100%;
@@ -648,7 +669,7 @@ color: black;
     display: inline-block;
     position: fixed;
     right: 0;
-    top: 45%;
+    top: 50%;
     width: 22%;
 }
 .swipe-hed {
@@ -800,7 +821,7 @@ display: none;
 }
 .top-left:before {
     bottom: -0.01em;
-    width: 0.1em;
+    width: 0.18em;
     background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#aaa), to(transparent));
     background-image: -webkit-linear-gradient(#aaa, transparent);
     background-image: -moz-linear-gradient(#aaa, transparent);
@@ -824,7 +845,7 @@ tr {
 
 .product {
 	    max-height: 100%;
-    min-width: 300;
+    min-width: 200;
     overflow-y:hidden;
     padding-top:1%;
     overflow-x:hidden;
@@ -1080,7 +1101,7 @@ height: 100%;
 
 .product-stuff {
     position: absolute;
-    bottom: 15%;
+    bottom: 25%;
     width:100%;
     margin: 0 auto;
 }
@@ -1111,20 +1132,39 @@ height: 100%;
     background-color: black;
     border: none;
     color: white;
-    font-size: 125%;
-    width: 9em;
-    height: 2.5em;
+    font-size: 90%;
+    width: 7.5em;
+    height: 2.25em;
     /* z-index: 1; */
     letter-spacing: 0.05em;
     margin-left: 2%;
-    margin-top:-1.5%;
+    margin-top:-1.25%;
     text-transform: uppercase;
     float: left;
     display: block;
     font-weight: 300;
 }
+
+.add-to-cart-button.secondary {
+     font-family: Roboto Condensed;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 90%;
+    width: 7.5em;
+    height: 2.25em;
+    /* z-index: 1; */
+    letter-spacing: 0.05em;
+    position:absolute;
+    left:62%;
+    margin-top: 2%;
+    text-transform: uppercase;
+    display: block;
+    font-weight: 300;
+}
+
 #promo-button {
-	width: 78%;
+	width: 50%;
     display: none;
     margin: 10 auto;
     float: none;
@@ -1132,7 +1172,7 @@ height: 100%;
     background-color: black;
     border: none;
     color: white;
-    font-size: 110%;
+    font-size: 80%;
     height: 8%;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -1326,11 +1366,12 @@ h2{
 font-family: Roboto Condensed;
     font-weight: lighter;
     letter-spacing: 0.06em;
-    font-size: 200%;
+    font-size: 155%;
     line-height: 100%;
     text-transform: uppercase;
     text-align: left;
-    margin-left: 30%;
+    margin-left: 5%;
+    margin-right:5%;
     margin-bottom: 1%;
 }
 a{
