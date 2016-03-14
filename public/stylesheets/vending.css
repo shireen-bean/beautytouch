@@ -103,10 +103,10 @@ html, body{
   padding-top: 8%;
 }
 .submit-wrapper {
-	position: absolute;
-    top: 20%;
-    left: 25%;
+    position: fixed;
     width: 100%;
+    height: 45%;
+    margin-left: 5.5%;
 }
 
 #how-it-works h2 {
@@ -198,8 +198,8 @@ html, body{
     margin-bottom:1%;
 }
 .problem-button.promo {
-	 float: left;
-    margin-top: 50%;
+    float: left;
+    width: 10%;
 }
 .problem-button.secondary {
 	border: 0.03em solid black;
@@ -207,9 +207,10 @@ html, body{
 	color:black;
 }
 .problem-button.secondary.promo {
-	float:left;
-  left:2%;
-  top:10%;
+    float: left;
+    left: 2%;
+    top: 10%;
+    width: 10%;
 }
 #report-form {
 	font-family: Roboto Condensed;
@@ -285,8 +286,8 @@ float: center;
 }
 #numpad {
     margin: auto;
-    top:2%;
-    width: 50%;
+    top: 2%;
+    width: 41%;
 }
 
 #numpad-receipt {
