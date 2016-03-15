@@ -16,7 +16,7 @@ $(document).ready(function(){
 	setTimeout(function() {
 		$('#long').fadeIn();
 		$('#process-hed').fadeOut();
-		
+
 	}, 30000);
 	setTimeout(function() {
 		window.location="/paymentFailed?machineId="+getParameterByName("machineId");
@@ -29,7 +29,7 @@ $(document).ready(function(){
 		        "content-type": "application/json"
 		      }
 		});
-		
+
 	}, 75000);
 });
 
@@ -49,31 +49,32 @@ function getParameterByName(name) {
     margin: 0 auto;
     background-color: white;
     height: 100%;">
-    <div id="long" style="display: none; padding-top:85px;">
-    <h2 style="font-size: 70px; margin: 0px; text-align: center; letter-spacing: 7px;">Still Processing</h2><br>
-    <p style="font-size: 28px;
-    font-family: helvetica neue;
-    letter-spacing: 3px;
-    line-height: 35px;
-    padding: 0px 85px">
+    <div id="long" style="display: none; padding-top:5%;">
+    <h2 style="font-size: 400%; margin: 0px; text-align: center; letter-spacing: 0.05em;">Still Processing</h2><br>
+    <p style="font-size: 190%;
+    font-family: Roboto Condensed;
+    letter-spacing: 0.05em;
+    line-height: 150%;
+    padding: -0.1em 0.1em">
     Just taking a little longer than expected.<br>
     It's worth the wait!
     </p>
     </div>
-		<img style="margin-top: 68px;
-    width: 43%;" src="https://s3.amazonaws.com/oasys-images/circle.gif">
-		<h2 id="process-hed" style="font-size: 70px; margin: 0px; text-align: center; letter-spacing: 7px;">Processing payment</h2><br>
-		<p style="font-size: 28px;
-    font-family: helvetica neue;
-    letter-spacing: 3px;
-    line-height: 54px;">#prettyconvenient shopping by <br><img style="width: 4%;" src="/assets/images/b.png"/>
-    <span style="font-size: 50px;
-    letter-spacing: 7px;
-    line-height: 70px;
+		<img style="margin-top: 6%;
+    width: 35%;" src="https://s3.amazonaws.com/oasys-images/circle.gif">
+		<h2 id="process-hed" style="font-size: 350%; margin: -5%; text-align: center; letter-spacing: 0.03em;">Processing payment</h2><br>
+		<p style="font-size: 225%;
+    font-family: Roboto Condensed;
+    letter-spacing: 0.05em;
+    padding-top:8%;
+    line-height: 150%;">#prettyconvenient shopping by <br><img style="width: 4%;" src="/assets/images/b.png"/>
+    <span style="font-size: 100%;
+    letter-spacing: 0.1em;
+    line-height: 100%;
     vertical-align: text-bottom;"> BEAUTYTOUCH</span></p>
-    <p style="font-size: 28px;
-    font-family: helvetica neue;
-    letter-spacing: 3px;"><b></b><p>
+    <p style="font-size: 200%;
+    font-family: Roboto Condensed;
+    letter-spacing: 0.1em;"><b></b><p>
 	</div>
 </body>
 </html>

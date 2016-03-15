@@ -22,19 +22,18 @@ html, body{
 .problem-dialog {
     font-family: Roboto Condensed;
     position: absolute;
-    left: 500px;
-    height: 830px;
-    top: 50px;
-    width: 54%;
+    left: 30%;
+    top: 10%;
+    width: 45%;
     overflow-x: scroll;
-    height: 79%;
+    height: 64%;
     overflow-y: hidden;
-    padding-top: 50px;
+    padding-top: 2%;
     background-color: white;
     z-index: 200;
     display: none;
-    font-size: 30px;
-    line-height: 55px;
+    font-size: 1em;
+    line-height: 2em;
     box-shadow: 7px 5px 20px 5px;
     -webkit-box-shadow: 7px 5px 20px 5px;
 }
@@ -60,13 +59,13 @@ html, body{
     height: 100px;
 }
 .problem-dialog h3{
-	font-size: 49px;
-    letter-spacing: 3px;
+	font-size: 50%;
+    letter-spacing: 0.05em;
     font-family: league script;
     background-color: #bbb;
-    padding-top: 35px;
+    padding-top: 10%;
     margin-top: 0px;
-    height: 85px;
+    height: 7%;
 }
 
 .how-it-works {
@@ -86,35 +85,46 @@ html, body{
 .promo-dialog {
 	font-family: Roboto Condensed;
     position: absolute;
+    top: 10%;
+    left: 40%;
     background-color: white;
     z-index: 0;
     display: none;
-    font-size: 30px;
-    line-height: 43px;
+    font-size: 80%;
+    line-height: 100%;
     box-shadow: 7px 5px 20px 5px;
-    padding-bottom: 50px;
-    width: 900px;
-    text-align: center;
-    height: 600px;
-    left: 608px;
-    top: 150px;
+    padding-bottom:8%;
+    width: 40%;
+    height:50%;
+}
+.promo-hed {
+	float:center;
+  padding-top: 8%;
+  width:100% !important;
+}
+.submit-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 45%;
+    padding-top: 2%;
+    margin-left: 5.5%;
 }
 
 #how-it-works h2 {
     background-color: #bbb;
     margin: 0px;
-    height: 105px;
+    height: ;
     padding-top: 50px;
 }
 .closeButton {
 	transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     float: right;
-    margin-right: 40px;
+    margin-right: 2%;
     position: absolute;
-    top: 37px;
+    top: 4%;
     right: 0px;
-    font-size: 50px !important;
+    font-size: 300% !important;
 
 }
 
@@ -129,77 +139,114 @@ html, body{
     left: 1500px;
 }
 .contact-info {
-	line-height:40px;
-	margin-top:20px;
-	font-size:25px;
-	margin-left:25px;
-	margin-right:25px;
+	line-height:80%;
+	margin-top:1%;
+  margin-right:2%;
+	font-size:100%;
 }
 .suggestion-input {
 	font-size: 30px;
 	box-shadow: 5px 5px #ddd inset;
 	font-family: Roboto Condensed;
     padding-left: 15px;
-    letter-spacing: 1px;
+    letter-spacing: 0.05em;
     height: 50px;
     padding-top: 5px;
 }
 .promo-input {
-    font-size: 30px;
-	box-shadow: 5px 5px #ddd inset;
+    float: center;
+    font-size: 200%;
+	box-shadow: 0.03em 0.03em #ddd inset;
 	font-family: Roboto Condensed;
-    padding-left: 15px;
-    letter-spacing: 1px;
-    height: 50px;
-    margin-top: 30px;
-    padding-top: 5px;
+    padding-left: 4%;
+    letter-spacing: 0.04em;
+    height: 10%;
+    width:30%;
+    margin-top: 2%;
+    margin: 0.5em;
+    text-align: center;  
+    line-height: 100% 
 }
+
+.promo-input.secondary {
+    float: center;
+    font-size: 200%;
+  box-shadow: 0.03em 0.03em #ddd inset;
+  font-family: Roboto Condensed;
+    padding-left: 40%;
+    letter-spacing: 0.04em;
+    height: 10%;
+    width:30%;
+    margin-top: 2%;
+    margin-left:-4%;
+    text-align: center;   
+}
+
 .problem-button {
     font-family: Roboto Condensed;
     background-color: black;
     border: none;
     color: white;
-    font-size: 20px;
-    width: 200px;
-    height: 51px;
+    font-size: 90%;
+    width: 20%;
+    height: 8%;
     /* z-index: 1; */
-    letter-spacing: 3;
-    margin-left: 20px;
+    letter-spacing: 0.05em;
+    margin-left: 3%;
     text-transform: uppercase;
-    float: right;
     display: block;
+    float: left;
+    margin-bottom:1%;
+}
+.problem-button.promo {
+    float: left;
+    width: 10%;
 }
 .problem-button.secondary {
-	border: 2px solid black;
+	border: 0.03em solid black;
 	background-color:white;
 	color:black;
+}
+.problem-button.secondary.promo {
+    float: left;
+    left: 2%;
+    top: 10%;
+    width: 10%;
 }
 #report-form {
 	font-family: Roboto Condensed;
   text-align: left;
-  padding-left: 130px;
-  padding-right:100px;
+  padding-left: 15%;
+  padding-right:7%;
 }
+
+#report-form input {
+	float:left;
+	margin-top:2%;
+}
+
+.button-container {
+	width: 100%;
+	margin: 5% auto;
+}
+
 .problem-text {
-font-size: 20px;
+font-size: 100%;
     text-align: left;
     margin: auto auto;
     width: 78%;
 }
 input[type="radio"]{
   vertical-align:middle;
-  margin-right: 10px;
+  margin-right: 3%;
 }
 .problem-dialog input[type="text"]{
-  height: 45px;
-  border: 2px solid #bbb;
-  margin-left: 20px;
-  width: 500px;
+  height: 8%;
+  border: 0.05em solid #bbb;
+  width: 50%;
   font-family: Roboto Condensed;
-  font-size:25px;
-  padding-left:10px;
-  vertical-align: middle;
-  margin-top: -8px;
+  text-align: center;
+  margin-top: -2%;
 }
 .phoneButton{
     float: left;
@@ -216,32 +263,37 @@ input[type="radio"]{
     box-shadow: 0px 3px 5px #ccc;
 }
 .keyButton{
-float: left;
-    line-height: 50px;
-    height: 50px;
+float: center;
+    line-height: 250%;
+    height: 50%;
     text-align: center;
     font-family: Roboto Condensed;
     display: inline;
     color: white;
-    letter-spacing: 3px;
-    margin: 24px;
+    letter-spacing: 0.05em;
+    margin: 5%;
     text-transform: uppercase;
-    padding: 15px 9px 9px 9px;
+    padding: 0.12em 0.09em 0.09em 0.09em;
     background-color: #898989;
-    font-size: 25px;
-    box-shadow: 5px 5px 5px #ccc;
+    font-size: 100%;
+    box-shadow: 0.03em 0.03em 0.03em #ccc;
     vertical-align: top;
 }
 #keyboard {
 	margin-left: auto;
 	margin-right: auto;
-	width: 1000px;
+	width: 83%;
 }
 #numpad {
-	margin-left: auto;
-    margin-right: auto;
-    width: 400px;
+    margin: auto;
+    top: 2%;
+    width: 41%;
 }
+
+#numpad-receipt {
+
+}
+
 #email-form {
 
 }
@@ -257,32 +309,39 @@ float: left;
 .receiptError{
 	color:red;
 }
-.receipt h2{
-	margin-top:50px;
-	color:#666;
-	font-size:100px;
-	padding:0px;
-	margin-bottom:50px;
-}
 
 .email-prompt {
 	text-align: left;
 	margin: 0px;f
 }
 #receipt-options {
-	margin-bottom:50px;
+	margin-bottom:8%;
 }
+
+.receipt h1{
+  font-size: 200%
+  letter-spacing:0.05em;
+}
+
+.receipt h2{
+  margin-top:10%;
+  color:#666;
+  font-size:80%;
+  padding:0px;
+  margin-bottom:5%;
+}
+
 .receipt h3 {
-	font-size: 30px;
+	font-size: 130%;
 }
 
 .report-problem {
 position: absolute;
-    right: 22%;
-    top: 25px;
-    width: 14%;
+    right: 23%;
+    top: 2.5%;
+    width: 13%;
     font-family: Roboto Condensed;
-    font-size: 15px;
+    font-size: 65%;
 }
 
 #learn-more {
@@ -295,36 +354,37 @@ position: absolute;
 .thank-you-report {
 	display:none;
 	position: absolute;
-	right:57px;
-	top: 944px;
+	right:35%;
+	top: 80%;
 }
 
 #disclaimer-text {
   float: left;
-  margin-left: 25px;
+  margin-left: 5%;
 }
 
 .receipt{
 	color:#666;
 }
 .contactInput{
-	width:900px;
+	width:60%;
+  text-align: center;
 }
 .phoneInput{
-	width:320px;
+	width:30%;
  }
  .input {
-	line-height:50px;
-	font-size: 30px;
-	text-align: left;
-	padding: 10px;
-  border: 2px solid #bbb;
-  font-family: Roboto Condensed;
-  letter-spacing: 3px;
-  text-transform: uppercase;
+	 line-height: 100%;
+    font-size: 150%;
+    text-align: center;
+    padding: 0.3em;
+    border: 2px solid #bbb;
+    font-family: Roboto Condensed;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
  }
 .contactInfo h3{
-	font-size:30px;
+	font-size:100%;
 }
 .contactDoneButton{
   font-size: 30px;
@@ -337,7 +397,7 @@ position: absolute;
   height: 61px;
   z-index: 1;
   color: white;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.02em;
   font-weight: bold;
 }
 #phoneKeyPad{
@@ -358,7 +418,7 @@ position: absolute;
     font-size: 20px;
     width: 200px;
     height: 51px;
-    letter-spacing: 3;
+    letter-spacing: 0.05em;
     margin: 10 auto;
     text-transform: uppercase;
     display: block;
@@ -367,15 +427,14 @@ position: absolute;
 .contactButton {
 	font-family: Roboto Condensed;
   background-color: white;
-  border: 5px solid #8C489F;
+  border: 0.1em solid #8C489F;
   color: #8C489F;
-  font-size: 40px;
-  width: 450px;
-  height: 81px;
+  font-size: 125%;
+  width: 100%;
   z-index: 1;
-  letter-spacing: 3;
+  letter-spacing: 0.05em;
   font-weight: bold;
-  margin: 15px;
+  margin: 0.3em;
   text-transform: uppercase;
 }
 
@@ -388,20 +447,20 @@ position: absolute;
 
 .contactButton.secondary {
     font-family: Roboto Condensed;
-    font-size: 17px;
-    border: 2px solid #bbb;
+    font-size: 125%;
+    border: 0.1em solid #bbb;
     background-color: white;
-    width: 210px;
-    height: 60px;
+    width: 90%;
+    height: 45px;
     z-index: 1;
     color: #888;
     padding: 0;
     font-weight: 300;
-    letter-spacing: 2px;
+    letter-spacing: 0.04em;
 }
 
 .noReceipt .contactButton{
-	top:150px;
+	top:10%;
 }
 .phoneSend {
 font-size: 30px;
@@ -412,7 +471,7 @@ font-size: 30px;
     height: 81px;
     z-index: 1;
     background-color: white;
-    letter-spacing: 1.5px;
+    letter-spacing: 0.03em;
     font-weight: bold;
     margin-top: 5px;
     text-transform: uppercase;
@@ -467,25 +526,33 @@ font-size: 30px;
 }
 
 #productInfo {
-  width: 100%;
+    width: 84%;
+    height: 100%%;
+    position: absolute;
+    left: -3%;
+    top: 65%;
 }
 
 .productDetails {
     background-color: #ebe9f3;
-    padding: 28px;
-    width: 80%;
+    padding: 1%;
+    width: 85%;
+    height: 30%;
     margin: auto auto;
     text-align: left;
     display: inline-block;
-    height: 280px;
+    height: 100%;
 }
-
+#product-grid {
+	margin: 5% auto;
+	overflow-y:hidden;
+}
 #brandInfo {
     display: inline-block;
     position: absolute;
     padding: 50px;
-    margin-top: 50px;
-    width: 1148px;
+    margin-top: 20%;
+    width: 88%;
     background-color: rgba(140, 72, 159, .4);
     color: black;
     z-index: 0;
@@ -501,16 +568,16 @@ font-size: 30px;
 
 #productView{
   position:absolute;
-  width:100%;
-  top:0;
+  width:80%;
+  top:-10%;
   left:0;
-  height:100%;
+  height:80%;
   display: block;
   background-color: white;
 }
 
 .brandLogo {
-width: 200px;
+width: 20%;
     float: left;
     position: absolute;
     left: 50;
@@ -521,17 +588,17 @@ width: 200px;
 }
 
 .brandName {
-  font-size: 30px;
+  font-size: 150%;
   text-align: left;
   float: left;
 }
 
 .brandDescription {
 text-align: left;
-    font-size: 23px;
-    line-height: 28px;
+    font-size: 2%;
+    line-height: 2%;
     color: black;
-    margin-right: 20px;
+    margin-right: 10%;
     float: left;
     font-family: Roboto Condensed;
 }
@@ -572,7 +639,7 @@ text-align: left;
   /* padding-top: 40px; */
   margin-left: auto;
   margin-right: auto;
-  border-radius: 20px;
+  border-radius: 3%;
   text-align: left;
   padding: 20px 40px 40px 40px;
 }
@@ -601,14 +668,25 @@ color: black;
     display: inline-block;
     position: fixed;
     right: 0;
-    top: 500;
+    top: 50%;
     width: 22%;
+}
+.swipe-hed {
+	margin-left: 1%;
+	text-align: center;
+}
+.swipe-gif {
+	height: 25%;
+}
+.logo-wrapper {
+	width: 100%;
+	margin-top: 5%;
 }
 .beautytouch {
 	vertical-align: super;
 }
 .logo-b {
-	height: 3%;
+	height: 5%;
 }
 .logo {
 	width: 22%;
@@ -618,45 +696,47 @@ color: black;
     font-size: 20px;
     text-transform: uppercase;
     font-family: Roboto Condensed;
-    letter-spacing: 3px;
-    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+    margin-bottom: 2%;
     display: inline-block;
     vertical-align: top;
 }
 .empty-cart {
-	font-size: 30px;
-    padding: 37px;
+	 font-size: 150%;
+    padding: 10%;
     color: #bbb;
     font-family: Roboto Condensed;
-    letter-spacing: 3px;
+    letter-spacing: 0.08em;
 }
 .your-bag {
     font-family: Roboto Condensed;
-    letter-spacing: 2px;
-    text-align: left;
-    font-size: 28px;
+    letter-spacing: 0.05em;
+        text-align: left;
+    font-size: 150%;
     width: 100%;
-    padding-left: 46px;
+    padding-left: 12%;
     text-transform: uppercase;
-    padding-bottom: 25px;
-    font-weight: 300;
+    padding-bottom: 8%;
+    font-weight: 10%;
 }
 .bag-count {
-	width: 27px;
-    height: 22px;
+    width: 8%;
+    height: 3%;
     float: left;
     position: absolute;
-    top: 40px;
-    left: 182px;
+    top: 5%;
+    left: 80%;
     color: white;
     text-align: center;
-    padding-top: 6px;
+    padding-top: 2%;
     background-image: url(/assets/images/bag-icon.png);
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 .cart-spacer {
     width: 78%;
     display: inline-block;
-    border-top: 3px solid #bbb;
+    border-top: 0.2em solid #bbb;
     margin: 1 auto;
 }
 .cart-total {
@@ -665,20 +745,20 @@ display: none;
     font-family: Roboto Condensed;
     text-align: left;
     text-transform: uppercase;
-    padding: 15px;
-    letter-spacing: 2px;
-    font-size: 26px;
+    padding: 2%;
+    letter-spacing: 0.05em;
+    font-size: 120%;
 }
 .cart-total-price {
     float: right;
-    margin-right: 27px;
+    margin-right: 1%;
 }
 .fa-credit-card {
-	font-size: 150px !important;
+	font-size: 100% !important;
 }
 
 .fa-arrow-right {
-	font-size: 150px !important;
+	font-size: 100% !important;
 }
 
 .back {
@@ -721,6 +801,7 @@ display: none;
 .bodyMain{
     background:url('../images/test.jpg');
     background-repeat: no-repeat;
+    background-size: cover;
 }
 .bodyMain.receipt{
 	    background-image: none;
@@ -740,38 +821,44 @@ display: none;
     left: -3px;
 }
 .top-left:before {
-    bottom: -3px;
-    width: 3px;
+    bottom: -0.01em;
+    width: 0.18em;
     background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#aaa), to(transparent));
     background-image: -webkit-linear-gradient(#aaa, transparent);
     background-image: -moz-linear-gradient(#aaa, transparent);
     background-image: -o-linear-gradient(#aaa, transparent);
 }
-
+tr {
+	overflow-y:hidden
+}
 .top-left:after {
-    right: -3px;
-    height: 3px;
+    right: -0.01em;
+    height: 0.1em;
     background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#aaa), to(#eee));
     background-image: -webkit-linear-gradient(left, #aaa, #eee);
     background-image: -moz-linear-gradient(left, #aaa, #eee);
     background-image: -o-linear-gradient(left, #aaa, #eee);
 }
+.product-image {
+	max-width:65%;
+	max-height:50%;
+}
 
 .product {
-	    height: 100%;
-    min-width: 250px;
+	    max-height: 100%;
+    min-width: 200;
     overflow-y:hidden;
-    padding-top:3px;
+    padding-top:1%;
     overflow-x:hidden;
 }
 
 .brand-flag:before {
-	right: -3px;
-    height: 3px;
+	right: -0.05em;
+    height: 0.1em;
     content: "";
     position: absolute;
-    top: 35px;
-    left: -3px;
+    top: 1.5em;
+    left: -0.05em;
     background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#aaa), to(#eee));
     background-image: -webkit-linear-gradient(left, #aaa, #eee);
     background-image: -moz-linear-gradient(left, #aaa, #eee);
@@ -790,7 +877,7 @@ content: "";
     z-index: 101;
     left: 196px;
     margin: 0 auto;
-    top: 3px;
+    top: 0.05em;
 }
 .brand-name:after {
     content: "";
@@ -810,8 +897,8 @@ content: "";
 .product.selected .cat-price:after {
 content: "";
     position: absolute;
-    bottom: -25px;
-    border-width: 35px 35px 0;
+    bottom: -1%;
+    border-width: 0;
     border-style: solid;
     border-color: #ebe9f3 transparent;
     display: block;
@@ -822,7 +909,7 @@ content: "";
     left: 0;
     right: 0;
     margin: 0 auto;
-    top: 235%;
+    top: 10%;
 }
 
 
@@ -830,7 +917,7 @@ content: "";
   background: -webkit-radial-gradient(55% 80%, closest-side, white, rgba(255,255,255,.7), rgba(255,255,255,0));
 }
 .whiteO {
-	position:relative; top:0px; width:320px; height:240px; background:#FFF; opacity:0.7;
+	position:relative; top:0px; width:60%; height:40%; background:#FFF; opacity:0.7;
 }
 .subhed {
 	    border: none;
@@ -838,49 +925,52 @@ content: "";
     margin: 0px;
     font-size: 28px;
     font-family: Roboto Condensed;
-    letter-spacing: 1px;
+    letter-spacing: 0.02em;
     font-weight: 300;
 }
 .hed {
 	font-family: Roboto Condensed;
     font-weight: 400;
-    font-size: 54px;
+    font-size: 250%;
     margin: 0px;
+    width: 50%;
     font-weight: lighter;
     text-transform: uppercase;
-    letter-spacing: 8px;
+    letter-spacing: 0.05em;
     display: inline-block;
 }
 .bar {
-	height: 17px;
-    width: 100px;
-    margin: 0px 20px;
+	height: 1em;
+    width: 4em;
+    margin: 0px 1%;
     display: inline-block;
-    border-top: 2px solid #bbb;
+    border-top: 0.15em solid #bbb;
 }
 .cart-remove {
     float: right;
-    margin-right: 12px;
+    margin-right: 1%;
     border: 0px;
-    font-size: 30px;
-    margin-top: -2px;
+    font-size: 50%;
     background-color: white;
     color: #bbb;
     font-family: Roboto Condensed;
 }
 .cart-item {
     float: left;
-    width: 91%;
+    width: 80%;
     font-family: Roboto Condensed;
-    font-size: 24px;
+    font-size: 120%;
     font-weight: lighter;
-    letter-spacing: 3px;
-    margin: 8px;
+    letter-spacing: 0.05em;
+    padding: 0.2em;
     text-transform: uppercase;
     color: #888;
 }
 .cart-list {
 	display: none;
+  margin-top: 2%;
+	list-style-type: none;
+	text-align:  left;
 }
 .cart-product {
 	float:left;
@@ -892,24 +982,24 @@ content: "";
 .bag-contents {
 	width: 85%;
 	float:left;
-	line-height: 30px;
 }
 #header-copy {
 	background-color: white;
-    margin-top: 25px;
+    margin-top: 2%;
+    margin-left: 0%;
     border: 0px;
     font-family: Roboto Condensed;
 }
 .productBuyButton {
 	font-family: Roboto Condensed;
-    font-size: 45px;
+    font-size: 20%;
     border: 0px;
     background-color: black;
     width: 100%;
     height: 75px;
     color: #8C489F;
     text-transform: uppercase;
-    letter-spacing: 3;
+    letter-spacing: 0.05em;
     bottom: 0px;
     left: 0px;
     opacity: 0.7;
@@ -917,15 +1007,16 @@ content: "";
 }
 
 #subtitle {
-    font-size: 19px;
+font-size: 100%;
     font-family: "Roboto Condensed";
     color: rgb(0, 0, 0);
-    line-height: 2.053;
+    line-height: 1.5em;
+    letter-spacing: 0.05em;
     text-align: left;
     width: 100%;
     float: left;
     display: block;
-    padding-left: 20px;
+    padding-left: 2%;
 }
 
 .productBuyButton #price {
@@ -935,21 +1026,22 @@ content: "";
 
 .category {
     width: 100%;
-    max-width: 300px;
+    max-width: 100%;
     font-family: Roboto Condensed;
     text-align: center;
-    font-size: 23px;
-    letter-spacing: 2px;
+    font-size: 80%;
+    letter-spacing: 0.05em;
     margin: 0px;
-    margin-top: 8px;
+    margin-top: 2%;
     color: #888;
     font-weight: 300;
+
 }
 .cat-price {
-	font-size: 32px;
+	font-size: 80%;
     margin: 0px;
     font-family: Roboto Condensed;
-    margin-top: 8px;
+    margin-top: 1%;
     color: #888;
     position: relative;
     width: 100%;
@@ -968,7 +1060,7 @@ content: "";
 height: 100%;
     background-color: white;
     width: 22%;
-    padding-top: 40px;
+    padding-top: 3%;
     box-shadow: -9px 15px 40px #bbb;
     position: fixed;
     right: 0px;
@@ -976,28 +1068,28 @@ height: 100%;
 
 #table-wrapper {
    position: relative;
-    width: 88%;
+    width: 90%;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
-    height: 50%;
+    height: 65%;
     overflow-y: hidden;
-    padding-top: 50px;
+    padding-top: 2%;
     display: inline-block;
     z-index:0
 }
 .new-brand {
   position: relative;
-  margin-left:5px;
+  margin-left:1%;
 }
 .new-brand:before{
     content: "";
     position: absolute;
-    top: -45px;
-    left: 3px;
+    top: -8%;
+    left: 1%;
 }
 .new-brand:before {
-    bottom: -3px;
-    width: 3px;
+    bottom: -1%;
+    width: 1%;
     background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#aaa), to(transparent));
     background-image: -webkit-linear-gradient(#aaa, transparent);
     background-image: -moz-linear-gradient(#aaa, transparent);
@@ -1005,57 +1097,76 @@ height: 100%;
 }
 
 .brand-logo {
-	max-width: 200px;
-	max-height: 50px;
+	max-width: 10%;
+	max-height: 20%;
 }
 
 .product-stuff {
     position: absolute;
-    bottom: 15%;
+    bottom: 25%;
     width:100%;
     margin: 0 auto;
 }
 .brand-wrapper {
-    height: 100%;
-    font-size: 25px;
-    padding: 5px;
+    height: 102%;
+    font-size: 125%;
+    padding: 1%;
     text-align: left;
-    margin-left: 5px;
-    margin-right:20px;
-    padding-left: 10px;
+    margin-left: 1%;
+    margin-right: 2%;
+    padding-left: 2%;
     font-family: Roboto Condensed;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.05em;
     position: relative;
     clear: both;
 }
 
 #product-info{
-    width: 88%;
+    width: 84%;
+    height:26%;
     position: fixed;
-    left: -100px;
-    top: 670px;
+    left: -3%;
+    top: 67%;
 }
 .add-to-cart-button {
-    font-family: Roboto Condensed;
+     font-family: Roboto Condensed;
     background-color: black;
     border: none;
     color: white;
-    font-size: 20px;
-    width: 200px;
-    height: 51px;
+    font-size: 90%;
+    width: 7.5em;
+    height: 2.25em;
     /* z-index: 1; */
-    letter-spacing: 3;
-    margin-left: 20px;
+    letter-spacing: 0.05em;
+    margin-left: 2%;
+    margin-top:-0.25%;
     text-transform: uppercase;
     float: left;
     display: block;
     font-weight: 300;
-    position: absolute;
-    bottom: 40px;
 }
+
+.add-to-cart-button.secondary {
+     font-family: Roboto Condensed;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 90%;
+    width: 7.5em;
+    height: 2.25em;
+    /* z-index: 1; */
+    letter-spacing: 0.05em;
+    position:absolute;
+    left:62%;
+    margin-top: 2%;
+    text-transform: uppercase;
+    display: block;
+    font-weight: 300;
+}
+
 #promo-button {
-	width: 78%;
+	width: 50%;
     display: none;
     margin: 10 auto;
     float: none;
@@ -1063,9 +1174,9 @@ height: 100%;
     background-color: black;
     border: none;
     color: white;
-    font-size: 20px;
-    height: 51px;
-    letter-spacing: 3;
+    font-size: 80%;
+    height: 8%;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     font-weight: 300;
 	
@@ -1076,9 +1187,9 @@ height: 100%;
     margin: 10 auto;
     float: none;
     font-family: Roboto Condensed;
-    font-size: 20px;
-    height: 51px;
-    letter-spacing: 3;
+    font-size: 150%;
+    height: 30%;
+    letter-spacing: 0.05em;
 }
 .left-border {
 	display: inline-block;
@@ -1128,9 +1239,9 @@ height: 100%;
     margin: 10 auto;
     float: none;
     font-family: Roboto Condensed;
-    font-size: 20px;
-    height: 51px;
-    letter-spacing: 3;
+    font-size: 150%;
+    height: 100%;
+    letter-spacing: 0.05em;
 }
 
 .vertical-border {
@@ -1141,17 +1252,29 @@ height: 100%;
 opacity: 1;
     position: absolute;
     display: block;
-    font-size: 32px;
+    font-size: 150%;
     font-family: roboto condensed;
-    letter-spacing: 2px;
-    width: 800px;
-    top: -336px;
+    letter-spacing: 0.05em;
+    width: 60%;
+    top: -100%;
     z-index: 50;
-    left: 389px;
+    left: 25%;
     border: 1px ridge #bbb;
-    padding: 68px;
+    padding: 5%;
     background-color: white;
     text-align: center;
+}
+
+.problem-hed {
+	margin-top: 2%;
+  margin-left:10%;
+}
+
+.add-success img {
+	padding: 18px;
+	vertical-align: middle;
+	margin-top: -0.06em;
+	
 }
 
 .add-to-cart-button.desense {
@@ -1169,7 +1292,7 @@ opacity: 1;
     font-size: 50px;
     height: 81px;
     z-index: 1;
-    letter-spacing: 5px;
+    letter-spacing: 0.1em;
     font-weight: bold;
     /* margin: 15px; */
     text-transform: uppercase;
@@ -1183,44 +1306,45 @@ opacity: 1;
 }
 
 .thumbnail {
-	width: 100px;
+	width: 10%;
 }
 #thumbnails {
 	display: inline-block;
-    margin-top: 40px;
-    margin-left: 50px;
+    margin-top: 2%;
+    margin-left: 3%;
 }
 
 #itemName {
     font-family: Roboto Condensed;
-    font-size: 31px;
-    letter-spacing: 2px;
+    font-size: 120%;
+    letter-spacing: 0.08em;
     color: rgb(0, 0, 0);
     line-height: 1.2;
     text-align: left;
     float: left;
     width: 100%;
-    padding-left: 20px;
+    padding-left: 2%;
+    padding-top:1%;
     text-transform: uppercase;
 }
 
 #productPrice {
 	font-family: Roboto Condensed;
     text-align: left;
-    font-size: 50px;
-    margin: 30px 0 30px 0;
+    font-size: 200%;
+    margin: 0.5em 0 0.5em 0;
     color: #333;
-    border-top: 3px solid black;
-    border-bottom: 3px solid black;
-    padding: 30px;
+    border-top: 0.05em solid black;
+    border-bottom: 0.05em solid black;
+    padding: 10%;
 }
 
 .priceAvailableList{
-  margin-top:10px;
+  margin-top:3%;
   font-weight:100;
 }
 .productContainer{
-  width:33%;
+  width:20%;
   height:90%;
   vertical-align:center;
   float:left;
@@ -1233,23 +1357,24 @@ opacity: 1;
   margin-left:auto;
   margin-right:auto;
   margin-top:7%;
-  height:300px;
+  height:25%;
 }
 h1{
 	font-family: Roboto Condensed;
   font-weight:400;
-  font-size:134px;
+  font-size:200%;
 }
 h2{
 font-family: Roboto Condensed;
     font-weight: lighter;
-    letter-spacing: 4px;
-    font-size: 45px;
-    line-height: 52px;
+    letter-spacing: 0.06em;
+    font-size: 155%;
+    line-height: 100%;
     text-transform: uppercase;
     text-align: left;
-    margin-left: 50px;
-    margin-bottom: 2px;
+    margin-left: 5%;
+    margin-right:5%;
+    margin-bottom: 1%;
 }
 a{
   text-decoration:none;
@@ -1257,7 +1382,7 @@ a{
 .doneButton{
 	font-family: Roboto Condensed;
   color:#08c;
-  font-size:30px;
+  font-size:150%;
   background:none;
   border:none;
   height:100px;
@@ -1267,7 +1392,7 @@ a{
     background:none;
     border:none;
     color:black;
-    font-size:40px;
+    font-size:200%;
     color:black;
     /* 	color:white; */
 }
@@ -1302,28 +1427,30 @@ input[type="text"], textarea, [contenteditable]
   user-select: text;
 }
 
+table {
+	margin: auto;
+}
 .disclaimer{
 }
 
 .btn{
   color:white;
   background: black;
-  border-radius: 5px;
+  border-radius: 1%;
 }
 
 body.bodyMain #productDescription{
-    font-size: 24px;
+ font-size: 100%;
     font-family: "Roboto Condensed";
     color: rgb(0, 0, 0);
-    line-height: 1.316;
-    letter-spacing: 1px;
-    margin-top: 0px;
+    line-height: 1.5em;
+    letter-spacing: 0.05em;
+    margin-top: 0.2em;
     float: left;
     display: block;
     width: 100%;
 }
 
 .description-bullet {
-  padding-top: 5px;
   font-weight: 300;
 }
