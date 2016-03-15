@@ -939,6 +939,9 @@ content: "";
     letter-spacing: 0.05em;
     display: inline-block;
 }
+.receipt-hed {
+	font-size: 190% !important;
+}
 .bar {
 	height: 1em;
     width: 4em;
