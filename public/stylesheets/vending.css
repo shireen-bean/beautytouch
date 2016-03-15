@@ -291,9 +291,7 @@ float: center;
 }
 
 #numpad-receipt {
-    margin-left:33%;
-    top:2%;
-    width: 50%;
+
 }
 
 #email-form {
@@ -935,7 +933,7 @@ content: "";
     font-weight: 400;
     font-size: 250%;
     margin: 0px;
-    width: 33%;
+    width: 50%;
     font-weight: lighter;
     text-transform: uppercase;
     letter-spacing: 0.05em;
