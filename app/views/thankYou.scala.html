@@ -27,20 +27,21 @@
       <div id="message" style="display:none; background-color:white;" class="productContainer productContainerMessage">
 
         <i class="fa fa-plus-circle closeButton" ng-click="productReceived()" id="goodbye"></i>
-        <h1 style="text-transform: uppercase; letter-spacing: 9px; margin-top: 20px; margin-bottom: 0; padding: 82px;">Thank you!</h1>
-        <h2 style=" text-align: center; background-color: white; padding: 30px 0px 100px 0px; width: 100%; left: 0; position: absolute; margin: 0px; top: 372px;">Great choice! We know you'll love it.</h2>
-        <p class="yes-no" style="text-align: center; background-color: white; width: 100%; position: absolute; margin: 0px; top: 480px; font-size: 30; font-family: roboto condensed; font-weight: 100; letter-spacing: 1px; padding:110px 0px"> How was your BeautyTouch experience?<br>
+        <h1 style="text-transform: uppercase; font-size:400%; letter-spacing: 9px; margin-top: -3%; margin-bottom: 0; padding: 82px;">Thank you!</h1>
+        <h2 style=" text-align: center; background-color: white; padding: 30px 0px 100px 0px; width: 100%; left: 0; position: absolute; margin: 0px; top: 35%;">Great choice! We know you'll love it.</h2>
+
+        <p class="yes-no" style="text-align: center; background-color: white; width: 100%; position: absolute; margin: 1em 0px; top: 30%; font-size: 30; font-family: roboto condensed; font-weight: 100; letter-spacing: 1px; padding:1.5em 0px"> How was your BeautyTouch experience?<br>
           <i class="fa fa-smile-o yes-no" style="border: 2px solid #aaa; padding: 30px; border-radius: 20px; margin: 24px; FONT-SIZE: 120PX; box-shadow: 1px 1px 10px #aaa; color: mediumpurple;" ng-click="productReceived()"><!--  span style="font-family: roboto-condensed; padding: 10px">Great!</span>--></i>
           <i class="fa fa-frown-o yes-no" style="    border: 2px solid #aaa; padding: 30px; border-radius: 20px; margin: 24px; font-size: 120px; color: darkgrey; box-shadow: 1px 1px 10px #aaa;" ng-click="noProduct()"><!-- span style="font-family: roboto-condensed; padding: 10px">Help me</span> --></i>
         </p>
     <!-- p id="customer-support" style=" text-align: center; background-color: white; width: 100%; position: absolute; margin: 0px; top: 480px; font-size: 30; font-family: roboto condensed; font-weight: 100; letter-spacing: 1px; padding:110px 0px">If you are unsatisfied with your purchase, please <span style="text-decoration: underline;color: mediumpurple" ng-click="noProduct()" >let us know</u></p> -->
-        <p id="confirm-no" style="text-align: center; width: 100%; position: absolute; margin: 0px; top: 480px; padding-bottom: 41px; font-size: 30px; font-family: 'roboto condensed'; font-weight: 100; letter-spacing: 1px; background-color: white; display:none">Our support team has been notified. <br>Please email <b>info&commat;beautytouch.co</b> or provide your phone number below to tell us more and we'll make it right.</p>
-        <p id="confirm-phone" style="text-align: center; width: 100%; position: absolute; margin: 0px; top: 480px; padding-bottom: 41px; font-size: 30px; font-family: 'roboto condensed'; font-weight: 100; letter-spacing: 1px; background-color: white; display:none">Thank you. A customer service representative will be in touch shortly.</p>
+        <p id="confirm-no" style="text-align: center; width: 100%; position: absolute; margin: 0px; top: 35%; padding-bottom: 10%; font-size: 150%; font-family: 'roboto condensed'; font-weight: 100; letter-spacing: 0.01em; background-color: white; display:none">Our support team has been notified. <br>Please email <b>info&commat;beautytouch.co</b> or provide your phone number below to tell us more and we'll make it right.</p>
+        <p id="confirm-phone" style="text-align: center; width: 100%; position: absolute; margin: 0px; top: 35%; padding-bottom: 10%; font-size: 150%; font-family: 'roboto condensed'; font-weight: 100; letter-spacing: 1px; background-color: white; display:none">Thank you. A customer service representative will be in touch shortly.</p>
       </div>
-      <div id="phoneInput" style=" display:none; position: absolute; top: 563px; padding-top: 124px; padding: 0px 24px 24px; width: 100%; background-color: white;">
-        <textarea rows="1" cols="30" class="promo-input" ng-model="phoneNumber" readonly></textarea>
-        <button ng-click="submitPhone()" class="add-to-cart-button" style="top: 30px; left: 1200px;">Submit</button>
-        <div id="numpad">
+      <div id="phoneInput" style=" display:none; position: absolute; top: 50%; padding-top: 2%; padding: 0px 24px 24px; width: 100%; background-color: white;">
+        <textarea rows="1" cols="30" class="promo-input secondary" ng-model="phoneNumber" readonly></textarea>
+        <button ng-click="submitPhone()" class="add-to-cart-button secondary" style="top: 25%; margin-right: 30%;">Submit</button>
+        <div id="numpad-receipt">
         <table class="fixed" cellspacing="10">
         <tr>
           <td width="30px"></td>

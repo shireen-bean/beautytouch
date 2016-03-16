@@ -26,15 +26,15 @@ function getParameterByName(name) {
 <body class="bodyMain receipt">
 <div ng-app="" ng-controller="receiptController"> 
 	<div>
-	  <div style="margin:40px;"id="receipt-prompt">
+	  <div style="margin:2%;"id="receipt-prompt">
 	    <div class="bar"></div>
-        <h1 class="hed">Where should we send your receipt?</h1>
+        <h1 class="hed receipt-hed">Where should we send your receipt?</h1>
         <div class="bar"></div>
         <h3 class="subhed">(and maybe a sweet discount!)</h3>
 	    <i class="fa fa-plus-circle closeButton" ng-click="skipReceipt()" id="no-receipt"></i>
 	  </div>
 	  <div class="contactInfo" id="email-form">
-	    <p style="font-family: helvetica neue;font-size: 28px;letter-spacing: 2px; margin: 0px 0px 10px 0px;">Email Address: </p>
+	    <p style="font-family: Roboto Condensed;font-size: 140%;letter-spacing: 0.02em; margin: -1em 0px 0.1em 0px;">Email Address: </p>
         <input id="emailInput" class="contactInput input" type="text" ng-model="emailAddress" readonly/>
         <div id="keyboard">
 		  <table class="fixed" cellspacing="10">
