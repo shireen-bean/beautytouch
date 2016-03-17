@@ -42,46 +42,39 @@ import play.mvc.*;
 import views.html.*;
 
 public class Checkout extends Controller {
-  private static boolean gatewayIsSetup = false;
-  private static BraintreeGateway gateway;//
+  private static BraintreeGateway sGateway;
 
   private static final Logger.ALogger logger = Logger.of(Checkout.class);
 
-  public static boolean loggedIn(){
-    if(session("user")==null){
-      return false;
-    }
-    return true;
+  public static boolean loggedIn() {
+    return session("user") != null;
   }
 
-  public static void setupGateway(){
-    String mode = play.api.Play.current().mode().toString();
-    if(mode.equals("Dev")){
-      logger.info("Setting up Dev environment Braintree Gateway");
-      gateway = new BraintreeGateway(
-          Environment.SANDBOX,
-          "twxn6752pgdz9t5w",
-          "8c6fj7fj2zv7s4cv",
-          "7ca3fbd88b4afe21357d170ad5b6cd03"
-          );
-    }else{
-      logger.info("Setting up production environment Braintree Gateway");
-      gateway = new BraintreeGateway(
-          Environment.PRODUCTION,
-          "4s2q3wpqv7czv643",
-          "d7759v5wt29n6jw5",
-          "8a68d2bedf0a15fe57740b33ff4ef337"
-          );
+  public static BraintreeGateway getBraintreeGateway(){
+    if (sGateway == null) {
+      String mode = play.api.Play.current().mode().toString();
+      if(mode.equals("Dev")){
+        logger.info("Setting up Dev environment Braintree Gateway");
+        sGateway = new BraintreeGateway(
+            Environment.SANDBOX,
+            "twxn6752pgdz9t5w",
+            "8c6fj7fj2zv7s4cv",
+            "7ca3fbd88b4afe21357d170ad5b6cd03"
+            );
+      }else{
+        logger.info("Setting up production environment Braintree Gateway");
+        sGateway = new BraintreeGateway(
+            Environment.PRODUCTION,
+            "4s2q3wpqv7czv643",
+            "d7759v5wt29n6jw5",
+            "8a68d2bedf0a15fe57740b33ff4ef337"
+            );
+      }
     }
-    gatewayIsSetup=true;
+    return sGateway;
   }
-
 
   public static Result vendingMain(String machineId){
-    if(!gatewayIsSetup){
-      setupGateway();
-    }
-
     Machine machine = Database.getMachine(machineId);
     JsonNode jsonMachine = Json.toJson(machine);
     String jsonString = jsonMachine.toString();
@@ -144,7 +137,7 @@ public class Checkout extends Controller {
   public static Result getTokenBT(){
     logger.info("getTokenBT initiated");
     try {
-      String token = gateway.clientToken().generate(new ClientTokenRequest());
+      String token = getBraintreeGateway().clientToken().generate(new ClientTokenRequest());
       logger.info("getTokenBT generated " + token);
       ObjectNode response = Json.newObject();
       response.put("token", token);
@@ -284,7 +277,7 @@ public class Checkout extends Controller {
 
     // Perform the transaction.
     void process() {
-      result = gateway.transaction().sale(new TransactionRequest()
+      result = getBraintreeGateway().transaction().sale(new TransactionRequest()
         .amount(total)
         .paymentMethodNonce(nonce)
         .customer()
