@@ -201,7 +201,7 @@ html, body{
     font-size: 200%;
   box-shadow: 0.03em 0.03em #ddd inset;
   font-family: Roboto Condensed;
-    padding-left: 40%;
+  padding-bottom: 2%
     letter-spacing: 0.04em;
     height: 10%;
     width:30%;
@@ -244,8 +244,7 @@ html, body{
 #report-form {
 	font-family: Roboto Condensed;
   text-align: left;
-  padding-left: 15%;
-  padding-right:7%;
+ padding:0 15%;
 }
 
 #report-form input {
