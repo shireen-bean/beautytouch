@@ -49,13 +49,14 @@ html, body{
 .problem-dialog {
     font-family: Roboto Condensed;
     position: absolute;
-    left: 50%;
-    top: 20%;
+    left: 25%;
+    top: 13%;
     width: 45%;
     overflow-x: scroll;
     height: 45%;
     overflow-y: hidden;
     padding-top: 2%;
+    padding-left:3%;
     background-color: white;
     z-index: 200;
     display: none;
@@ -186,12 +187,11 @@ html, body{
     font-size: 200%;
 	box-shadow: 0.03em 0.03em #ddd inset;
 	font-family: Roboto Condensed;
-    padding-left: 4%;
+    padding-top:2%;
     letter-spacing: 0.04em;
     height: 10%;
     width:30%;
-    margin-top: 2%;
-    margin: 0.5em;
+    margin-top: 4%;
     text-align: center;  
     line-height: 100% 
 }
@@ -213,7 +213,7 @@ html, body{
 .problem-button {
     font-family: Roboto Condensed;
     background-color: black;
-    border: none;
+    border: 0.05em;
     color: white;
     font-size: 90%;
     width: 20%;
@@ -314,7 +314,7 @@ float: center;
 
   .keyButton{
     float: center;
-    line-height: 250%;
+    line-height: 476%;
     height: 5em;
     text-align: center;
     font-family: Roboto Condensed;
@@ -897,6 +897,7 @@ display: none;
 .product img {
 	margin: 0 auto;
     display: block;
+    max-height: 10em;
 }
 
 .top-left {
@@ -937,6 +938,7 @@ tr {
     min-width: 15em;
     overflow-y:hidden;
     padding-top:1%;
+    padding-left:1%;
     overflow-x:hidden;
 }
 
@@ -1039,6 +1041,26 @@ content: "";
     letter-spacing: 0.05em;
     display: inline-block;
 }
+
+@media screen
+  and (min-width: 1900px)
+ {
+.hed {
+  font-family: Roboto Condensed;
+    font-weight: 400;
+    font-size: 350%;
+    margin: 0px;
+    width: 50%;
+    font-weight: lighter;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+  }
+}
+
+
+
+
 .receipt-hed {
 	font-size: 190% !important;
 }
@@ -1228,6 +1250,25 @@ height: 100%;
     padding: 1%;
     text-align: left;
     margin-left: 1%;
+    margin-right: 10%;
+    padding-left: 2%;
+    font-family: Roboto Condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    clear: both;
+}
+
+@media screen
+  and (min-width: 1900px)
+ {
+
+.brand-wrapper {
+    height: 102%;
+    font-size: 200%;
+    padding: 1%;
+    text-align: left;
+    margin-left: 1%;
     margin-right: 2%;
     padding-left: 2%;
     font-family: Roboto Condensed;
@@ -1236,6 +1277,10 @@ height: 100%;
     position: relative;
     clear: both;
 }
+
+
+ }
+
 
 #product-info{
     width: 84%;
