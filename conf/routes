@@ -48,7 +48,7 @@ POST    /sendSMSReceipt             controllers.SMS.sendReceipt
 POST    /sendSMSConfirm				controllers.SMS.sendConfirm
 POST    /reportProblem              controllers.SMS.reportProblem
 POST    /logEvent                   controllers.MachineController.logEvent
-POST    /log/:machine               controllers.MachineController.log(machine)
+POST    /log/:machine               controllers.LogController.log(machine)
 GET		/activityLog				controllers.MachineController.activityLog(machineId)
 GET		/activityLogData			controllers.MachineController.activityLogData(machineId,startDate,endDate)
 GET     /salesProduct               controllers.Checkout.salesProduct()
