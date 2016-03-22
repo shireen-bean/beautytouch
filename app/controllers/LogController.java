@@ -1,11 +1,14 @@
 package controllers;
 
-import java.io.BufferedReader;
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.io.File;
 import java.io.FileReader;
+import java.io.Reader;
 import java.io.IOException;
 
 import play.Logger;
+import play.libs.Json;
 import play.mvc.*;
 
 public class LogController extends Controller {
@@ -58,10 +61,20 @@ public class LogController extends Controller {
     try {
       FileReader reader = new FileReader(file);
       try {
-        BufferedReader lineReader = new BufferedReader(new FileReader(file));
+        BoundedLineReader lineReader = new BoundedLineReader(new FileReader(file), 2048);
         String line;
         while ((line = lineReader.readLine()) != null) {
-            // Do something with each line!
+          if (line.trim().length() > 0) {   // ignore blank lines
+            try {
+              JsonNode json = Json.parse(line);
+System.out.println(json);
+              if (json.get("priority") != null && "INFO".equals(json.get("priority").textValue())) {
+System.out.println("info");
+              }
+            }
+            catch (Exception ignore) {
+            }
+          }
         }
       }
       finally {
@@ -75,5 +88,34 @@ public class LogController extends Controller {
 
   private static String logFileName(String machine) {
     return "bt-" + machine + "-" + Long.toString(System.currentTimeMillis(), 16) + ".log";
+  }
+
+  private static class BoundedLineReader {
+    private final Reader reader;
+    private final int maxLineLength;
+    private final StringBuilder buf = new StringBuilder();
+
+    public BoundedLineReader(Reader reader, int maxLineLength) {
+      this.reader = reader;
+      this.maxLineLength = maxLineLength;
+    }
+
+    public String readLine() throws IOException {
+      int c;
+      while ((c = reader.read()) >= 0) {
+        if (buf.length() < maxLineLength) {
+          buf.append((char) c);
+        }
+        if (c == '\n') {
+          break;
+        }
+      }
+      if (buf.length() > 0) {
+        String str = buf.toString();
+        buf.setLength(0);
+        return str;
+      }
+      return null;
+    }
   }
 }
