@@ -18,6 +18,7 @@ import java.io.FileWriter;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.text.json.JsonContext;
+import com.braintreegateway.Request;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -172,7 +173,10 @@ public class MachineController extends Controller {
 
     public static Result logStatus(){
     	//System.out.println(request().body().asJson().toString() + new Timestamp(System.currentTimeMillis()));
+    	System.out.println("request: " + request().body());
+    	System.out.println("headers: " + request().headers());
     	JsonNode jn = request().body().asJson();
+    	System.out.println("json: " + jn.toString());
         int machine_id = jn.get("machine_id").asInt();
         int traffic = jn.get("traffic").asInt();
     	int jammed = jn.get("jammed").asInt();
@@ -236,9 +240,17 @@ public class MachineController extends Controller {
 
     /**
      * Accept a batch of log entries from a machine.
-     */
+     
     @BodyParser.Of(value = BodyParser.Text.class, maxLength = 10 * 1024 * 1024)
+    */
     public static Result log(String machine) {
+    	System.out.println("got log");
+    	System.out.println("request: " + request().body().toString());
+    	System.out.println("headers: " + request().headers());
+    	JsonNode jn = request().body().asJson();
+    	System.out.println("json: " + jn.toString());
+    	String text = jn.get("log_file").asText();
+    	System.out.println("text : " + text);
         try {
             // Throw an exception if machine ID is invalid.
             Database.getMachine(machine);
@@ -247,7 +259,6 @@ public class MachineController extends Controller {
             Database.logEvent(machine, "log");
 
             // Get POSTed log text.
-            String text = request().body().asText();
             if (text == null) {
               throw new Exception("log: no body text?");
             }

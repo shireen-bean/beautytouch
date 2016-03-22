@@ -13,6 +13,7 @@
         <div id="header-copy">
           <div class="bar"></div>
           <h1 id="textheader1" class="hed">Touch To Begin Shopping</h1>
+          <button onClick="submitLog()">Submit Log</button>
           <!-- h1 id="textheader2" class="hed" style="font-weight:400; font-size:70px;letter-spacing: 5px;">Swipe for more products</h1>
           <h1 id="textheader3" class="hed" style="font-weight:400; font-size:70px;letter-spacing: 5px;">Shop Essentials Here</h1-->
           <div class="bar"></div>
@@ -137,15 +138,15 @@
   <div id="numpad">
     <table class="fixed" cellspacing="10">
       <tr>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
+        <td width="40px"></td>
       </tr>
       <tr id="nums123">
         <td class="keyButton" colspan="3" ng-click="addNum('1')">1</td>
@@ -314,8 +315,9 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm
 })();
 </script>
 <script type="text/javascript">
-    function logTap(toast) {
-        Android.logTap(toast);
+    function submitLog() {
+    	console.log('submit');
+        Android.submitLog();
     }
 </script>
 </body>

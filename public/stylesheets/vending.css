@@ -1,5 +1,6 @@
 
 html, body{
+
   font-family: Roboto Condensed;
   text-align:center;
   color:#444;
@@ -13,12 +14,14 @@ html, body{
   /*background:url('../images/marbleShelf.jpg'); */
   backgro"public"und-size:100% 100%;
 }
+
 #productList {
 	display: none;
 	width: 79%;
     height: 100%;
     float: left;
 }
+
 .problem-dialog {
     font-family: Roboto Condensed;
     position: absolute;
@@ -36,6 +39,32 @@ html, body{
     line-height: 2em;
     box-shadow: 7px 5px 20px 5px;
     -webkit-box-shadow: 7px 5px 20px 5px;
+}
+
+
+@media screen
+  and (min-width: 1900px)
+ {
+
+.problem-dialog {
+    font-family: Roboto Condensed;
+    position: absolute;
+    left: 25%;
+    top: 13%;
+    width: 45%;
+    overflow-x: scroll;
+    height: 45%;
+    overflow-y: hidden;
+    padding-top: 2%;
+    padding-left:3%;
+    background-color: white;
+    z-index: 200;
+    display: none;
+    font-size: 1em;
+    line-height: 2em;
+    box-shadow: 7px 5px 20px 5px;
+    -webkit-box-shadow: 7px 5px 20px 5px;
+}
 }
 
 #left-arrow {
@@ -158,12 +187,11 @@ html, body{
     font-size: 200%;
 	box-shadow: 0.03em 0.03em #ddd inset;
 	font-family: Roboto Condensed;
-    padding-left: 4%;
+    padding-top:2%;
     letter-spacing: 0.04em;
     height: 10%;
     width:30%;
-    margin-top: 2%;
-    margin: 0.5em;
+    margin-top: 4%;
     text-align: center;  
     line-height: 100% 
 }
@@ -173,7 +201,7 @@ html, body{
     font-size: 200%;
   box-shadow: 0.03em 0.03em #ddd inset;
   font-family: Roboto Condensed;
-    padding-left: 40%;
+  padding-bottom: 2%
     letter-spacing: 0.04em;
     height: 10%;
     width:30%;
@@ -185,7 +213,7 @@ html, body{
 .problem-button {
     font-family: Roboto Condensed;
     background-color: black;
-    border: none;
+    border: 0.05em;
     color: white;
     font-size: 90%;
     width: 20%;
@@ -216,8 +244,7 @@ html, body{
 #report-form {
 	font-family: Roboto Condensed;
   text-align: left;
-  padding-left: 15%;
-  padding-right:7%;
+ padding:0 15%;
 }
 
 #report-form input {
@@ -279,11 +306,52 @@ float: center;
     box-shadow: 0.03em 0.03em 0.03em #ccc;
     vertical-align: top;
 }
+
+@media screen
+  and (min-width: 1900px)
+ {
+
+  .keyButton{
+    float: center;
+    line-height: 476%;
+    height: 5em;
+    text-align: center;
+    font-family: Roboto Condensed;
+    display: inline;
+    color: white;
+    letter-spacing: 0.05em;
+    margin: 5%;
+    text-transform: uppercase;
+    padding: 0.12em 0.09em 0.09em 0.09em;
+    background-color: #898989;
+    font-size: 100%;
+    box-shadow: 0.03em 0.03em 0.03em #ccc;
+    vertical-align: top;
+}
+}
+
 #keyboard {
 	margin-left: auto;
 	margin-right: auto;
 	width: 83%;
 }
+
+@media screen
+  and (min-width: 1900px)
+ {
+
+#keyboard {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100em;
+}
+
+
+ }
+
+
+
+
 #numpad {
     margin: auto;
     top: 2%;
@@ -366,6 +434,7 @@ position: absolute;
 .receipt{
 	color:#666;
 }
+
 .contactInput{
 	width:60%;
   text-align: center;
@@ -543,6 +612,24 @@ font-size: 30px;
     display: inline-block;
     height: 100%;
 }
+
+@media screen
+  and (min-width: 1900px)
+ {
+
+.productDetails {
+    background-color: #ebe9f3;
+    padding: 1%;
+    width: 85%;
+    height: 30%;
+    margin: auto auto;
+    text-align: left;
+    display: inline-block;
+    height: 100%;
+    font-size: 150%;
+}
+}
+
 #product-grid {
 	margin: 5% auto;
 	overflow-y:hidden;
@@ -809,6 +896,7 @@ display: none;
 .product img {
 	margin: 0 auto;
     display: block;
+    max-height: 10em;
 }
 
 .top-left {
@@ -845,12 +933,25 @@ tr {
 }
 
 .product {
-	    max-height: 100%;
-    min-width: 200;
+	  max-height: 100%;
+    min-width: 15em;
+    overflow-y:hidden;
+    padding-top:1%;
+    padding-left:1%;
+    overflow-x:hidden;
+}
+
+@media screen
+  and (min-width: 1900px)
+ {
+.product {
+    max-height: 100%;
+    min-width: 20em;
     overflow-y:hidden;
     padding-top:1%;
     overflow-x:hidden;
 }
+ }
 
 .brand-flag:before {
 	right: -0.05em;
@@ -865,9 +966,9 @@ tr {
     background-image: -o-linear-gradient(left, #aaa, #eee);
 }
 .brand-name:before {
-content: "";
+    content: "";
     position: absolute;
-    border-width: 28px 21px 0;
+    border-width: 1em 1em 0;
     border-style: solid;
     border-color: #fff transparent;
     display: block;
@@ -875,14 +976,17 @@ content: "";
     transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
     z-index: 101;
-    left: 196px;
+    left: 86%;
     margin: 0 auto;
-    top: 0.05em;
+    top: 1.1%;
+}
+#report-form label {
+	width: 100%;
 }
 .brand-name:after {
-    content: "";
+content: "";
     position: absolute;
-    border-width: 28px 21px 0;
+    border-width: 1.1em 1em 0;
     border-style: solid;
     border-color: #eee transparent;
     display: block;
@@ -890,9 +994,9 @@ content: "";
     transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
     z-index: 100;
-    left: 191px;
+    left: 84%;
     margin: 0 auto;
-    top: 3px;
+    top: 1%;
 }
 .product.selected .cat-price:after {
 content: "";
@@ -939,6 +1043,26 @@ content: "";
     letter-spacing: 0.05em;
     display: inline-block;
 }
+
+@media screen
+  and (min-width: 1900px)
+ {
+.hed {
+  font-family: Roboto Condensed;
+    font-weight: 400;
+    font-size: 350%;
+    margin: 0px;
+    width: 50%;
+    font-weight: lighter;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+  }
+}
+
+
+
+
 .receipt-hed {
 	font-size: 190% !important;
 }
@@ -1107,12 +1231,43 @@ height: 100%;
 .product-stuff {
     position: absolute;
     bottom: 25%;
-    width:100%;
+    width:115%;
     margin: 0 auto;
 }
+
+@media screen
+  and (min-width: 1900px)
+ {
+  .product-stuff {
+    position: absolute;
+    bottom: 25%;
+    width:125%;
+    margin: 0 auto;
+}
+}
+
 .brand-wrapper {
     height: 102%;
     font-size: 125%;
+    padding: 1%;
+    text-align: left;
+    margin-left: 1%;
+    margin-right: 10%;
+    padding-left: 2%;
+    font-family: Roboto Condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    clear: both;
+}
+
+@media screen
+  and (min-width: 1900px)
+ {
+
+.brand-wrapper {
+    height: 102%;
+    font-size: 200%;
     padding: 1%;
     text-align: left;
     margin-left: 1%;
@@ -1124,6 +1279,10 @@ height: 100%;
     position: relative;
     clear: both;
 }
+
+
+ }
+
 
 #product-info{
     width: 84%;
@@ -1184,6 +1343,31 @@ height: 100%;
     font-weight: 300;
 	
 }
+
+@media screen
+  and (min-width: 1900px)
+ {
+
+#promo-button {
+  width: 50%;
+    display: none;
+    margin: 10 auto;
+    float: none;
+    font-family: Roboto Condensed;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 110%;
+    height: 8%;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+ }
+
+
+
+
 .invalid-code {
 	width: 78%;
     display: none;
@@ -1457,3 +1641,4 @@ body.bodyMain #productDescription{
 .description-bullet {
   font-weight: 300;
 }
+
