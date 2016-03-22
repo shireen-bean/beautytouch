@@ -241,7 +241,7 @@ public class MachineController extends Controller {
     /**
      * Accept a batch of log entries from a machine.
      */
-    @BodyParser.Of(value=BodyParser.Raw.class)
+    @BodyParser.Of(value=BodyParser.Raw.class, maxLength=11000000)
     public static Result log(final String machine) throws Exception {
         try {
             // Throw an exception if machine ID is invalid.
