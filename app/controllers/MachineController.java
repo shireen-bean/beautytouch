@@ -10,9 +10,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.io.File;
-import java.io.StringReader;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileWriter;
 
@@ -240,17 +240,9 @@ public class MachineController extends Controller {
 
     /**
      * Accept a batch of log entries from a machine.
-     
-    @BodyParser.Of(value = BodyParser.Text.class, maxLength = 10 * 1024 * 1024)
-    */
-    public static Result log(String machine) {
-    	System.out.println("got log");
-    	System.out.println("request: " + request().body().toString());
-    	System.out.println("headers: " + request().headers());
-    	JsonNode jn = request().body().asJson();
-    	System.out.println("json: " + jn.toString());
-    	String text = jn.get("log_file").asText();
-    	System.out.println("text : " + text);
+     */
+    @BodyParser.Of(value=BodyParser.Raw.class)
+    public static Result log(final String machine) throws Exception {
         try {
             // Throw an exception if machine ID is invalid.
             Database.getMachine(machine);
@@ -258,40 +250,56 @@ public class MachineController extends Controller {
             // Log a "log" event.
             Database.logEvent(machine, "log");
 
-            // Get POSTed log text.
-            if (text == null) {
-              throw new Exception("log: no body text?");
+            if (request().body().isMaxSizeExceeded()) {
+                throw new Exception("max size exceeded");
             }
 
-            // Parse log entries, line by line.
-            parseLogEntries(text);
+            // Access the file that Play used to buffer the content.
+            final File file = request().body().asRaw().asFile();
 
-            // Write the whole thing to a file.
-            saveLog(machine, text);
+            // Process the file in the background.
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Parse log entries, line by line.
+                    parseLogEntries(file, machine);
+
+                    // Move the whole file to the /tmp folder for upload to S3.
+                    // (The directory name should be a configuration option...)
+                    if (!file.renameTo(new File("/tmp", logFileName(machine)))) {
+                      logger.warn("/log/" + machine + " failed to move"); 
+                    }
+                }
+            }).start();
+
+            return ok();
         }
         catch (Exception e) {
             logger.error("/log/" + machine + " error", e); 
-        }
-        // Don't let the client know if something went wrong.
-        return ok();
-    }
-
-    private static void parseLogEntries(String text) throws IOException {
-        BufferedReader lineReader = new BufferedReader(new StringReader(text));
-        String line;
-        while ((line = lineReader.readLine()) != null) {
-            // Do something with each line!
+            return badRequest();
         }
     }
 
-    private static void saveLog(String machine, String text) throws IOException {
-        // The directory name should be a configuration option...
-        File dir = new File("/tmp");
-        String fName = "bt-" + machine + "-" + Long.toString(System.currentTimeMillis(), 16) + ".log";
-        if (dir.isDirectory()) {
-            FileWriter writer = new FileWriter(new File(dir, fName));
-            writer.write(text);
-            writer.close();
+    private static void parseLogEntries(File file, String machine) {
+        try {
+            FileReader reader = new FileReader(file);
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = lineReader.readLine()) != null) {
+                    // Do something with each line!
+                }
+            }
+            finally {
+                reader.close();
+            }
         }
+        catch (IOException e) {
+            logger.error("/log/" + machine + " error", e); 
+        }
+    }
+
+    private static String logFileName(String machine) {
+        return "bt-" + machine + "-" + Long.toString(System.currentTimeMillis(), 16) + ".log";
     }
 }
