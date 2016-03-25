@@ -4,4 +4,5 @@ project/project/
 project/target/
 public/dynamicFiles/
 target/
+*.bak
 *.swp

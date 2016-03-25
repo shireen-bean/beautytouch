@@ -179,6 +179,8 @@ function vendingMain($scope,$http) {
           "content-type": "application/json"
         },
       });
+
+      if (typeof Android != 'undefined') Android.logTap("tap_product", id);
     }
 
 
@@ -271,6 +273,7 @@ function vendingMain($scope,$http) {
       },
     });
 
+    if (typeof Android != 'undefined') Android.logTap("remove_from_cart", item_id);
 
     if (item_id == $scope.selectedId) {
       $('.add-to-cart-button').removeClass('desense');
@@ -379,6 +382,7 @@ function vendingMain($scope,$http) {
             "content-type": "application/json"
           },
         });
+      if (typeof Android != 'undefined') Android.logTap("add_to_cart", $scope.selectedId);
       $scope.cart.product_list.push($scope.selectedId);
       var product_info = {};
       product_info.name = $scope.selectedName;
@@ -425,6 +429,8 @@ function vendingMain($scope,$http) {
         "content-type": "application/json"
       },
     });
+    if (typeof Android != 'undefined') Android.logTap("tap_report", "0");
+    
     setTimeout(function() {
       $('.problem-dialog').hide();
     }, 45000);
@@ -440,6 +446,7 @@ function vendingMain($scope,$http) {
         "content-type": "application/json"
       },
     });
+    if (typeof Android != 'undefined') Android.logTap("tap_about", "0");
     $('.how-it-works').show();
     setTimeout(function() {
       $('.how-it-works').hide();
