@@ -317,7 +317,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm
 <script type="text/javascript">
     function submitLog() {
     	console.log('submit');
-        Android.submitLog();
+    	if (typeof Android != 'undefined') Android.submitLog();
     }
 </script>
 </body>
