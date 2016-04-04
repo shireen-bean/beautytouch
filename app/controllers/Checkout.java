@@ -42,36 +42,58 @@ import play.mvc.*;
 import views.html.*;
 
 public class Checkout extends Controller {
-  private static BraintreeGateway sGateway;
 
   private static final Logger.ALogger logger = Logger.of(Checkout.class);
 
-  public static boolean loggedIn() {
-    return session("user") != null;
-  }
+  private static class BraintreeGatewayManager {
 
-  public static BraintreeGateway getBraintreeGateway(){
-    if (sGateway == null) {
-      String mode = play.api.Play.current().mode().toString();
-      if(mode.equals("Dev")){
-        logger.info("Setting up Dev environment Braintree Gateway");
-        sGateway = new BraintreeGateway(
-            Environment.SANDBOX,
-            "twxn6752pgdz9t5w",
-            "8c6fj7fj2zv7s4cv",
-            "7ca3fbd88b4afe21357d170ad5b6cd03"
-            );
-      }else{
-        logger.info("Setting up production environment Braintree Gateway");
-        sGateway = new BraintreeGateway(
-            Environment.PRODUCTION,
-            "4s2q3wpqv7czv643",
-            "d7759v5wt29n6jw5",
-            "8a68d2bedf0a15fe57740b33ff4ef337"
-            );
+    private BraintreeGateway sGateway;
+
+    BraintreeGateway getBraintreeGateway() {
+      if (sGateway == null) {
+        initGateway();
+      }
+      return sGateway;
+    }
+
+    private synchronized void initGateway() {
+      if (sGateway == null) {     // double-gate to prevent reinitialization
+        String mode = play.api.Play.current().mode().toString();
+        logger.info("Setting Braintree Gateway, mode " + mode);
+        long startTime = System.currentTimeMillis();
+        if(mode.equals("Dev")){
+          sGateway = new BraintreeGateway(
+              Environment.SANDBOX,
+              "twxn6752pgdz9t5w",
+              "8c6fj7fj2zv7s4cv",
+              "7ca3fbd88b4afe21357d170ad5b6cd03"
+              );
+        }else{
+          sGateway = new BraintreeGateway(
+              Environment.PRODUCTION,
+              "4s2q3wpqv7czv643",
+              "d7759v5wt29n6jw5",
+              "8a68d2bedf0a15fe57740b33ff4ef337"
+              );
+        }
+        long elapsed = System.currentTimeMillis() - startTime;
+        logger.info("Braintree Gateway setup took " + elapsed + "ms");
       }
     }
-    return sGateway;
+  }
+
+  private static BraintreeGatewayManager sGatewayManager = new BraintreeGatewayManager();
+
+  private static BraintreeGateway getBraintreeGateway() {
+    return sGatewayManager.getBraintreeGateway();
+  }
+
+  /** 
+   * Force initialization of Braintree Gateway.
+   */
+  public static Result init() {
+    getBraintreeGateway();
+    return ok();
   }
 
   public static Result vendingMain(String machineId){
@@ -165,7 +187,7 @@ public class Checkout extends Controller {
     PurchaseTransaction purchase = null;
     boolean ignoreException = false;
     try {
-      purchase = new PurchaseTransaction(nonce, customerName, productIds, machineId, slots);
+      purchase = new PurchaseTransaction(nonce.substring(1), customerName, productIds, machineId, slots);
       purchase.process();
       if (purchase.isProcessed()) {
         purchase.record();
