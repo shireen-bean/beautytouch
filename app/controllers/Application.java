@@ -9,13 +9,9 @@ import views.html.*;
 
 public class Application extends Controller {
 
-	public static boolean loggedIn(){
-		if(session("user")==null){
-			return false;
-		}
-		return true;
-	}
-	
+    public static boolean loggedIn() {
+        return session("user") != null;
+    }
 	
     public static Result index() {
     	//Form<User> userForm = Form.form(User.class);
