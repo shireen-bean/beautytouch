@@ -6,7 +6,10 @@ $(document).ready(function(){
 	setTimeout(function() {
 		window.location="/vendingMain?machineId="+getParameterByName("machineId");
 	}, 4000);
-	$.ajax({
+  if (typeof Android != 'undefined') {
+    Android.logTap("payment_failed", 0);
+  } else {
+	  $.ajax({
 	      type: "POST",
 	      url: "/logEvent",
 	      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "payment_failed", "product_sku": 0}),
@@ -14,7 +17,8 @@ $(document).ready(function(){
 	      headers: {
 	        "content-type": "application/json"
 	      }
-	});
+	  });
+  }
 	$.ajax({
         type: "POST",
         url: "/alertFail",

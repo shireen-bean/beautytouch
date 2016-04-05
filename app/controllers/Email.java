@@ -106,6 +106,23 @@ public class Email extends Controller {
     return ok();
   }
 
+  public static void emailLogError(String error) {
+	    String[] recipients = {
+	    	      "alina@oasysventures.com",
+	    	      "jackie@oasysventures.com",
+	    	      "mackenzie@oasysventures.com",
+	    	      "james@oasysventures.com",
+	    	      "shireen@oasysventures.com"
+	    	      };
+	    for (String recipient: recipients) {
+	        MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+	    	mail.setSubject("Sales Error");
+	    	mail.setRecipient(recipient);
+	    	mail.setFrom("Oasys <service@oasysventures.com>");
+	    	mail.sendHtml("<p>Error from log file: " + error);
+	    }
+	  
+  }
   public static Result alertSuccess() {
     JsonNode jn = request().body().asJson();
     String machineId = jn.get("machine_id").asText();

@@ -112,28 +112,29 @@ public class Database {
     Ebean.save(product);
   }
 
-  public static void logMachineStatus(int machine_id, int jammed, int traffic)
+  public static void logMachineStatus(int machine_id, int jammed, int traffic, Timestamp time)
     throws SQLException {
     if (connection == null || connection.isClosed()) {
       connection = DB.getConnection();
     }
 
     Date date = new Date();
+    if (time == null) time = new Timestamp(date.getTime());
     Statement statement = connection.createStatement();
     statement.executeUpdate("INSERT INTO machine_log "
         + "(machine_id, jammed, traffic, time) VALUES ( "
         + machine_id + ", " + jammed + ", " + traffic
-        + ", '" + new Timestamp(date.getTime()) +"')");
+        + ", '" + time +"')");
   }
 
   public static void logEvent(String machine_id, String event_type) {
-    logEvent(machine_id, event_type, null);
+    logEvent(machine_id, event_type, null, null);
   }
 
-  public static void logEvent(String machine_id, String event_type, String product_sku) {
+  public static void logEvent(String machine_id, String event_type, String product_sku, Timestamp time) {
 
     Integer product_id = null;
-    
+
     if (product_sku != null) {
       product_id = Integer.parseInt(product_sku);
       if (product_id <= 0) {
@@ -142,6 +143,8 @@ public class Database {
     }
 
     Event event = new Event();
+    if (time != null) event.time = time;
+
     event.machine_id = Long.parseLong(machine_id, 10);
     event.event = event_type;
     event.product_sku = product_id;
@@ -383,7 +386,7 @@ public class Database {
 	      return null;
 	  }
   }
-  
+
   public static void addCustomer(String phone, String email, int salesId) {
     Customer customer = new Customer();
     customer.sales_id = salesId;
@@ -402,7 +405,7 @@ public class Database {
     Ebean.save(sale);
 
     //save products
-    
+
     for (String productId : productIds) {
       SaleProduct product = new SaleProduct();
       product.sales_id = sale.id;
@@ -410,7 +413,7 @@ public class Database {
       product.product_price = new BigDecimal(getProductPrice(productId));
       Ebean.save(product);
     }
-    
+
 
     return sale.id;
   }
@@ -437,7 +440,7 @@ public class Database {
         "WHERE machine_id = '"+machine_id+"' AND " +
         "time "+
         "BETWEEN '"+startDate+"' AND '"+endDate+"' ORDER BY time desc limit 100";
-      
+
 
       ResultSet resultSet = statement.executeQuery(query);
 
@@ -543,7 +546,7 @@ public class Database {
       return almList;
     }
   }
-  
+
   public static List<Sale> getSalesByProduct(int product_id) {
     List<SaleProduct> sales_products = Ebean.find(SaleProduct.class).where()
     		.eq("product_sku", product_id)
@@ -559,28 +562,28 @@ public class Database {
     List<Sale> sales = query.findList();
     return sales;
   }
-  
+
   public static List<Sale> getSalesByMachine(int machine_id) {
 	  List<Sale> sales = Ebean.find(Sale.class).where()
 			  .eq("machine_id", machine_id)
 			  .findList();
 	  return sales;
   }
-  
+
   public static int getNumSalesByProduct(int product_id) {
 	  int num_sales = Ebean.find(SaleProduct.class).where()
 			  .eq("product_sku",  product_id)
 			  .findRowCount();
 	  return num_sales;
   }
-  
+
   public static int getNumTapsByProduct(int product_id) {
 	  int num_taps = Ebean.find(Event.class).where()
 			  .eq("product_sku",  product_id)
 			  .findRowCount();
 	  return num_taps;
   }
-  
+
   public static List<Event> getTapsByProduct(int product_id) {
 	  List<Event> events = Ebean.find(Event.class).where()
 			  .eq("product_sku",  product_id)
@@ -588,11 +591,11 @@ public class Database {
 			  .findList();
 	  return events;
   }
-  
+
   public static String getTapsByMachine(int machine_id) {
-	  String sql = "select count(*) as taps, product_sku from events" 
+	  String sql = "select count(*) as taps, product_sku from events"
 			  + " where event = 'tap_product' and"
-			  + " machine_id = '" + machine_id 
+			  + " machine_id = '" + machine_id
 			  + "' group by product_sku";
 	  List<SqlRow> sqlRows = Ebean.createSqlQuery(sql).findList();
 	  JSONArray jo = new JSONArray();
@@ -620,7 +623,7 @@ public class Database {
 			  .eq("machine_id",  machine_id)
 			  .eq("event", "tap_report")
 			  .findRowCount();
-	  
+
 	  try {
 		jo.put("product", num_taps);
 		jo.put("about",  num_about);
@@ -629,18 +632,18 @@ public class Database {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	  
+
 	  return jo.toString();
   }
-  
+
   public static int getNumSalesByMachine(int machine_id ) {
-	  int num_sales = Ebean.find(Sale.class).where() 
+	  int num_sales = Ebean.find(Sale.class).where()
 			  .eq("machine_id", machine_id)
 			  .order().desc("time")
 			  .findRowCount();
 	  return num_sales;
   }
-  
+
   public static String getAvgSaleByMachine(int machine_id) {
 	  List<Sale> sales = Ebean.find(Sale.class).where()
 			  .eq("machine_id",  machine_id).findList();
@@ -656,5 +659,5 @@ public class Database {
 	  double avg = sum/num_sales;
 	  return df.format(avg);
   }
-  
+
 }

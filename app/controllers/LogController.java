@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.io.IOException;
 
 import play.Logger;
@@ -67,9 +71,40 @@ public class LogController extends Controller {
           if (line.trim().length() > 0) {   // ignore blank lines
             try {
               JsonNode json = Json.parse(line);
-System.out.println(json);
-              if (json.get("priority") != null && "INFO".equals(json.get("priority").textValue())) {
-System.out.println("info");
+              if (json.get("priority") != null) {
+            	  String time = json.get("time").asText();
+            	  SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss,SSS");
+            	  Date parsedDate = dateFormat.parse(time);
+            	  Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            	  if ("INFO".equals(json.get("priority").textValue())) {
+            		  //write to events table
+            		  JsonNode jn = json.get("message");
+            		  System.out.println(jn);
+            		  String machine_id = jn.get("machine_id").asText();
+            		  String event_type = jn.get("event").asText();
+            		  String product_sku = jn.get("product_id").asText();
+            		  Database.logEvent(machine_id, event_type, product_sku, timestamp);
+            	  } else if ("DEBUG".equals(json.get("priority").textValue())) {
+            		  //write to machine_log table
+            		  JsonNode jn = json.get("message");
+            		  int machine_id = jn.get("machine_id").asInt();
+            		  int traffic = jn.get("traffic").asInt();
+            		  int jammed = jn.get("jammed").asInt();
+            		  try {
+            		      Database.logMachineStatus(machine_id, jammed, traffic, timestamp);
+            		  } catch (Exception e) {
+            			  logger.error("SQLException: " + e.toString());
+            		  }
+            	  } else if ("ERROR".equals(json.get("priority").textValue())) {
+            		  //write to file for later 
+            	  } else if ("WARN".equals(json.get("priority").textValue())) {
+            		  //email team to alert
+            		  Email.emailLogError(json.get("message").toString());
+            	  } else {
+            		  //unknown or other priority - TRACE
+            	  }
+              } else {
+            	  //missing priority from json object
               }
             }
             catch (Exception ignore) {

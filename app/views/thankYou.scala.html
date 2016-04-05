@@ -4,6 +4,9 @@
   </head>
   <script>
     $(document).ready(function(){
+      if (typeof Android != 'undefined') {
+        Android.logTap("thankyou_page", 0);
+      } else {
       $.ajax({
         type: "POST",
         url: "/logEvent",
@@ -13,6 +16,7 @@
           "content-type": "application/json"
         }
       });
+    }
     });
 
     function getParameterByName(name) {
