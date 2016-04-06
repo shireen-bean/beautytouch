@@ -15,7 +15,7 @@ public class Test extends Controller {
     public static Result testLog(){
     	try {
     		for(int i=0;i<100;i++){
-    			Database.logMachineStatus(13, 0, Math.round((float)Math.random()));
+    			Database.logMachineStatus(13, 0, Math.round((float)Math.random()), null);
     		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

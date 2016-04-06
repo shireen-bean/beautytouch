@@ -1,13 +1,4 @@
 function vendingMain($scope,$http) {
-	$.ajax({
-		type: "POST",
-		url: "/logEvent",
-		data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "vending_main", "product_sku": 0}),
-		dataType: "json",
-		headers: {
-			"content-type": "application/json"
-		}
-	});
 
   $scope.formData = {};
   $scope.suggestion = "";
@@ -23,6 +14,8 @@ function vendingMain($scope,$http) {
   $scope.selectedBrandLogo = "";
   $scope.cart = { product_info: [], product_list: [], total: 0, slots: [], promo: {code: ""}, discount: 0, adj_total: 0};
 
+
+  logEvent("vending_main", 0);
   $http.get('/promos').
     success(function(data, status, headers, config) {
       $scope.promos = data;
@@ -32,37 +25,37 @@ function vendingMain($scope,$http) {
     });
 
   /*
-  $(function () {
-	    var $els = $('h1[id^=textheader]'),
-	        i = 0,
-	        len = $els.length;
+     $(function () {
+     var $els = $('h1[id^=textheader]'),
+     i = 0,
+     len = $els.length;
 
-	    $els.slice(1).hide();
-	    setInterval(function () {
-	        $els.eq(i).fadeOut("fast", "linear", function () {
-	            i = (i + 1) % len
-	            $els.eq(i).fadeIn("fast", "linear");
-	        })
-	    }, 3000)
-	});
-	*/
-  
- /*
-  setInterval(toggleSlide = function() {    
-	    var $active = $('#product-grid td.selected');
-	    if($active.length == 0) {
-	        $active = $('#product-grid td:first');
-	    }
-	    $active.removeClass('selected');
-	    if($active.next('td.product').length > 0) {
-	    	$scope.productSelected($active.next('td.product').attr('id'), false);
-	    	$scope.$digest();
-	    } else {
-	    	$scope.productSelected($('#product-grid td:first').attr('id'), false);
-	    	$scope.$digest();
-	    }
-	}, 5000); 
-	*/
+     $els.slice(1).hide();
+     setInterval(function () {
+     $els.eq(i).fadeOut("fast", "linear", function () {
+     i = (i + 1) % len
+     $els.eq(i).fadeIn("fast", "linear");
+     })
+     }, 3000)
+     });
+     */
+
+  /*
+     setInterval(toggleSlide = function() {
+     var $active = $('#product-grid td.selected');
+     if($active.length == 0) {
+     $active = $('#product-grid td:first');
+     }
+     $active.removeClass('selected');
+     if($active.next('td.product').length > 0) {
+     $scope.productSelected($active.next('td.product').attr('id'), false);
+     $scope.$digest();
+     } else {
+     $scope.productSelected($('#product-grid td:first').attr('id'), false);
+     $scope.$digest();
+     }
+     }, 5000);
+     */
   $(document).ready(function(){
     $scope.machine=JSON.parse($("#machineJsonVariable").html());
     var alreadyListedProd = ",";
@@ -72,8 +65,8 @@ function vendingMain($scope,$http) {
       if ($scope.machine.hooks[i].item_sku != null) {
         var currentSku = $scope.machine.hooks[i].product.item_sku;
         if(!(alreadyListedProd.indexOf(","+currentSku+",")>=0)){
-            $scope.availableProducts.push($scope.machine.hooks[i].product);
-            alreadyListedProd+=currentSku+",";
+          $scope.availableProducts.push($scope.machine.hooks[i].product);
+          alreadyListedProd+=currentSku+",";
         }
       }
     }
@@ -81,7 +74,7 @@ function vendingMain($scope,$http) {
     console.log(alreadyListedProd);
     console.log($scope.availableProducts);
     $scope.availableProducts.sort(function(a, b) {
-    	return parseInt(a.brand_id) - parseInt(b.brand_id);
+      return parseInt(a.brand_id) - parseInt(b.brand_id);
     });
     $scope.productSelected($scope.availableProducts[0].item_sku, false);
     $scope.$digest();
@@ -93,43 +86,21 @@ function vendingMain($scope,$http) {
 
 
   $(function() {
-	  $('#table-wrapper').scroll( function() {
-		  if ($('#product-grid').width() == ($('#table-wrapper').scrollLeft() + $('#table-wrapper').width())) {
-			  $('#left-arrow').css('color', '#333');
-	    	  $('#right-arrow').css('color', '#ddd');
-	      } else if ($('#table-wrapper').scrollLeft() == 0) {
-	    	  $('#left-arrow').css('color', '#ddd');
-	    	  $('#right-arrow').css('color', '#333');
-	      } else {
-	    	  $('#left-arrow').css('color', '#333');
-	    	  $('#right-arrow').css('color', '#333');
-	      }
-	  });
-	  
-  });
-  
-  /*
-  
-  $('#right-arrow').click( function() {
-	  //$('#table-wrapper').scrollLeft($('#table-wrapper').scrollLeft() + 250);
-	  //$("#scroll").text($('#table-wrapper').scrollLeft());
-	  // Offset is negative to scroll left, positive to scroll right...
+    $('#table-wrapper').scroll( function() {
+      if ($('#product-grid').width() == ($('#table-wrapper').scrollLeft() + $('#table-wrapper').width())) {
+        $('#left-arrow').css('color', '#333');
+        $('#right-arrow').css('color', '#ddd');
+      } else if ($('#table-wrapper').scrollLeft() == 0) {
+        $('#left-arrow').css('color', '#ddd');
+        $('#right-arrow').css('color', '#333');
+      } else {
+        $('#left-arrow').css('color', '#333');
+        $('#right-arrow').css('color', '#333');
+      }
+    });
 
-	  if ($("#table-wrapper").width() < ($("#product-grid").position().left + $("#product-grid").width())) {
-		  var offset = $("#product-grid").position().left - 250;
-		  $('#product-grid').css('webkitTransform', 'translateX(' + offset + 'px)');
-	  }
   });
-  $('#left-arrow').click( function() {
-	  //$('#table-wrapper').scrollLeft($('#table-wrapper').scrollLeft() - 250);
-	  //$("#scroll").text($('#table-wrapper').scrollLeft());
-	  // Offset is negative to scroll left, positive to scroll right...
-	  if ($("#product-grid").position().left < 0) {
-	    var offset = $("#product-grid").position().left + 250;
-	    $('#product-grid').css('webkitTransform', 'translateX(' + offset + 'px)');
-	  }
-  });
-*/
+
   var pageTimeout = setTimeout(function() {
     window.location="/vendingMain?machineId="+getParameterByName("machineId");
   }, 1800000);
@@ -147,9 +118,9 @@ function vendingMain($scope,$http) {
   var machineID=getParameterByName("machineId");
 
   $scope.productSelected = function(id, tap) {
-	if ($scope.selectedId == id) {
-		return;
-	}
+    if ($scope.selectedId == id) {
+      return;
+    }
     $('.add-success').hide(100);
     var inCart = false;
     $.each($scope.cart.product_list, function (index, item) {
@@ -170,17 +141,7 @@ function vendingMain($scope,$http) {
       $('.add-to-cart-button').addClass('desense');
 
     if (tap == true){
-      $.ajax({
-        type: "POST",
-        url: "/logEvent",
-        data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_product", "product_sku": id}),
-        dataType: "json",
-        headers: {
-          "content-type": "application/json"
-        },
-      });
-
-      if (typeof Android != 'undefined') Android.logTap("tap_product", id);
+      logEvent("tap_product", id);
     }
 
 
@@ -231,15 +192,8 @@ function vendingMain($scope,$http) {
 
       $('#code-applied').hide();
       $('#promo-button').show();
-      $.ajax({
-        type: "POST",
-        url: "/logEvent",
-        data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_product", "product_sku": id}),
-        dataType: "json",
-        headers: {
-          "content-type": "application/json"
-        },
-      });
+
+      logEvent("timeout_product", id);
       $scope.$digest();
     }, 60000)
   };
@@ -263,26 +217,16 @@ function vendingMain($scope,$http) {
       }
     });
     $scope.cart.product_info.splice(item_index, 1);
-    $.ajax({
-      type: "POST",
-      url: "/logEvent",
-      data: JSON.stringify({ "machine_id": machineID, "event_type": "remove_from_cart", "product_sku": item_id}),
-      dataType: "json",
-      headers: {
-        "content-type": "application/json"
-      },
-    });
-
-    if (typeof Android != 'undefined') Android.logTap("remove_from_cart", item_id);
+    logEvent("remove_from_cart", item_id);
 
     if (item_id == $scope.selectedId) {
       $('.add-to-cart-button').removeClass('desense');
       $('.add-success').hide(100);
     }
 
-    if ($scope.cart.product_list.length != 0) { 
-    	if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
-        console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
+    if ($scope.cart.product_list.length != 0) {
+      if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
+      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
     } else {
       console.log("%OASYS,screen=list&?");
     }
@@ -302,15 +246,8 @@ function vendingMain($scope,$http) {
 
       $('#code-applied').hide();
       $('#promo-button').show();
-      $.ajax({
-        type: "POST",
-        url: "/logEvent",
-        data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_remove", "product_sku": 0}),
-        dataType: "json",
-        headers: {
-          "content-type": "application/json"
-        },
-      });
+
+      logEvent("timeout_remove", 0);
       $scope.$digest();
     }, 60000)
 
@@ -348,17 +285,11 @@ function vendingMain($scope,$http) {
         $scope.promoCode = "";
         $scope.cart.slots = [];
 
-	      $('#code-applied').hide();
-	      $('#promo-button').show();
-        $.ajax({
-          type: "POST",
-          url: "/logEvent",
-          data: JSON.stringify({ "machine_id": machineID, "event_type": "timeout_add", "product_sku": 0}),
-          dataType: "json",
-          headers: {
-            "content-type": "application/json"
-          },
-        });
+        $('#code-applied').hide();
+        $('#promo-button').show();
+
+
+        logEvent("timeout_add", 0);
         $scope.$digest();
       }, 60000)
 
@@ -373,16 +304,7 @@ function vendingMain($scope,$http) {
       });
 
       if (inCart) return;
-      $.ajax({
-          type: "POST",
-          url: "/logEvent",
-          data: JSON.stringify({ "machine_id": machineID, "event_type": "add_to_cart", "product_sku": $scope.selectedId}),
-          dataType: "json",
-          headers: {
-            "content-type": "application/json"
-          },
-        });
-      if (typeof Android != 'undefined') Android.logTap("add_to_cart", $scope.selectedId);
+      logEvent("add_to_cart", $scope.selectedId);
       $scope.cart.product_list.push($scope.selectedId);
       var product_info = {};
       product_info.name = $scope.selectedName;
@@ -398,7 +320,7 @@ function vendingMain($scope,$http) {
       var slots = "";
       var products = "";
 
-  	  if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
+      if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
       console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
 
       $('.add-success').show(500);
@@ -420,33 +342,14 @@ function vendingMain($scope,$http) {
   };
   $scope.reportProblem = function(issue, screen) {
     $('.problem-dialog').show();
-    $.ajax({
-      type: "POST",
-      url: "/logEvent",
-      data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_report", "product_sku": 0}),
-      dataType: "json",
-      headers: {
-        "content-type": "application/json"
-      },
-    });
-    if (typeof Android != 'undefined') Android.logTap("tap_report", "0");
-    
+    logEvent("tap_report", 0);
     setTimeout(function() {
       $('.problem-dialog').hide();
     }, 45000);
     clearTimeout(pageTimeout);
   };
   $scope.howItWorks = function() {
-    $.ajax({
-      type: "POST",
-      url: "/logEvent",
-      data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_about", "product_sku": 0}),
-      dataType: "json",
-      headers: {
-        "content-type": "application/json"
-      },
-    });
-    if (typeof Android != 'undefined') Android.logTap("tap_about", "0");
+    logEvent("tap_about", 0);
     $('.how-it-works').show();
     setTimeout(function() {
       $('.how-it-works').hide();
@@ -454,15 +357,7 @@ function vendingMain($scope,$http) {
     $scope.pageReset();
   }
   $scope.enterPromo = function() {
-    $.ajax({
-      type: "POST",
-      url: "/logEvent",
-      data: JSON.stringify({ "machine_id": machineID, "event_type": "tap_promo", "product_sku": 0 }),
-      dataType: "json",
-      headers: {
-        "content-type": "application/json"
-      },
-    });
+    logEvent("tap_promo", 0);
     $('.promo-dialog').show();
     setTimeout(function() {
       $('.promo-dialog').hide();
@@ -470,9 +365,9 @@ function vendingMain($scope,$http) {
     $scope.pageReset();
   }
   $scope.closePromo = function() {
-	 $('.promo-dialog').val("");
-	 $scope.promoCode = "";
-	 $('.promo-dialog').hide();
+    $('.promo-dialog').val("");
+    $scope.promoCode = "";
+    $('.promo-dialog').hide();
   }
   $scope.closeHowItWorks = function() {
     console.log('here');
@@ -483,72 +378,72 @@ function vendingMain($scope,$http) {
   }
   $scope.submitPromo = function() {
     //verify code
-	var codeToApply;
-	var noCode = true;
-	$.each($scope.promos, function (index, item) {
-		if ($scope.promoCode == item.code) {
-			codeToApply = item;
-			noCode = false;
-			return false;
-		}
-	});
-	if (noCode == true){
-		//invalid code
-		$('#invalid-code').show();
-		$('#promo-button').hide();
-		$scope.promoCode = "";
-		$('.promo-dialog').val("");
-		setTimeout(function() {
-		      $('#invalid-code').hide();
-		      $('#promo-button').show();
-		}, 5000);
-	} else {
-    //apply code to total
-		//calculate discount
-		console.log(codeToApply);
-		$scope.cart.promo = codeToApply;
-		$scope.cart.discount = $scope.calcDiscount();
-		$scope.cart.adj_total = +$scope.cart.total - +$scope.cart.discount;
-		if ($scope.cart.adj_total < $scope.cart.total) {
-		  $('#code-applied').show();
-		  $('#promo-button').hide();
-		}
+    var codeToApply;
+    var noCode = true;
+    $.each($scope.promos, function (index, item) {
+      if ($scope.promoCode == item.code) {
+        codeToApply = item;
+        noCode = false;
+        return false;
+      }
+    });
+    if (noCode == true){
+      //invalid code
+      $('#invalid-code').show();
+      $('#promo-button').hide();
+      $scope.promoCode = "";
+      $('.promo-dialog').val("");
+      setTimeout(function() {
+        $('#invalid-code').hide();
+        $('#promo-button').show();
+      }, 5000);
+    } else {
+      //apply code to total
+      //calculate discount
+      console.log(codeToApply);
+      $scope.cart.promo = codeToApply;
+      $scope.cart.discount = $scope.calcDiscount();
+      $scope.cart.adj_total = +$scope.cart.total - +$scope.cart.discount;
+      if ($scope.cart.adj_total < $scope.cart.total) {
+        $('#code-applied').show();
+        $('#promo-button').hide();
+      }
 
-	}
-	//if cart isn't empty, new console message
-	if ($scope.cart.product_list.length != 0) {
-		 if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
-	    console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
-	}
+    }
+    //if cart isn't empty, new console message
+    if ($scope.cart.product_list.length != 0) {
+      if (! $scope.cart.promo.code) {$scope.cart.promo.code = "";}
+      console.log("%OASYS,screen=pay&machineId="+machineID+"&productId="+$scope.cart.product_list.toString()+",code"+$scope.cart.promo.code+"&slot="+$scope.cart.slots.toString()+"?");
+    }
     $('.promo-dialog').hide();
     $scope.pageReset;
   };
   $scope.calcDiscount = function() {
-	  var threshold = $scope.cart.promo.threshold;
-	  console.log(threshold);
-	  if (typeof threshold !== "undefined") {
-	    if ($scope.cart.total >= threshold) {
-		    var discount = $scope.cart.promo.flat_discount;
-            var percDis = +$scope.cart.total * +$scope.cart.promo.percent_discount;
-            percDis = +percDis / 100;
-            discount = +discount + +percDis;
-            return discount;
-	    } else {
-	    	$scope.threshold = $scope.cart.promo.threshold;
-		    $('#invalid-threshold').show();
-			$('#promo-button').hide();
-			$scope.promoCode = "";
-			$('.promo-dialog').val("");
-			$scope.cart.promo = {};
-			setTimeout(function() {
-			      $('#invalid-threshold').hide();
-			      $('#promo-button').show();
-			}, 5000);
-		  return 0;
-	    }
-	  } else {
-		  return 0;
-	  }
+    var threshold = $scope.cart.promo.threshold;
+    console.log(threshold);
+    if (typeof threshold !== "undefined") {
+      if ($scope.cart.total >= threshold) {
+        var discount = $scope.cart.promo.flat_discount;
+        var percDis = +$scope.cart.total * +$scope.cart.promo.percent_discount;
+        percDis = +percDis / 100;
+        discount = +discount + +percDis;
+        return discount;
+      } else {
+        $scope.threshold = $scope.cart.promo.threshold;
+        $('#invalid-threshold').show();
+        $('#promo-button').hide();
+        $scope.promoCode = "";
+        $('.promo-dialog').val("");
+        $scope.cart.promo = {};
+        setTimeout(function() {
+          $('#invalid-threshold').hide();
+          $('#promo-button').show();
+        }, 5000);
+        return 0;
+      }
+    } else {
+      return 0;
+    }
   }
   $scope.reportBack = function() {
     $('.problem-dialog').hide();
@@ -610,8 +505,24 @@ function vendingMain($scope,$http) {
 
 }
 
-
-
+function logEvent(eventString, product_id) {
+  if (typeof Android != 'undefined') {
+	  console.log("android tap");
+    Android.logTap(eventString, product_id);
+  } else {
+    //ajax request
+	  console.log("ajax");
+    $.ajax({
+      type: "POST",
+      url: "/logEvent",
+      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": eventString,  "product_sku": product_id }),
+      dataType: "json",
+      headers: {
+        "content-type": "application/json"
+      }
+    });
+  }
+}
 
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

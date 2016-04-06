@@ -1,158 +1,162 @@
 <html>
-<head>
-@linksVending()
-</head>
-<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
-<script>
-$(document).ready(function(){
-	$.ajax({
-	      type: "POST",
-	      url: "/logEvent",
-	      data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "receipt_page", "product_sku": 0}),
-	      dataType: "json",
-	      headers: {
-	        "content-type": "application/json"
-	      }
-	});
-});
+  <head>
+    @linksVending()
+  </head>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
+  <script>
+    $(document).ready(function(){
+      if (typeof Android != 'undefined') {
+        Android.logTap("receipt_page", 0);
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "/logEvent",
+          data: JSON.stringify({ "machine_id": getParameterByName("machineId"), "event_type": "receipt_page", "product_sku": 0}),
+          dataType: "json",
+          headers: {
+            "content-type": "application/json"
+          }
+        });
+      }
+    });
 
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-</script>
-<body class="bodyMain receipt">
-<div ng-app="" ng-controller="receiptController"> 
-	<div>
-	  <div style="margin:2%;"id="receipt-prompt">
-	    <div class="bar"></div>
-        <h1 class="hed receipt-hed">Where should we send your receipt?</h1>
-        <div class="bar"></div>
-        <h3 class="subhed">(and maybe a sweet discount!)</h3>
-	    <i class="fa fa-plus-circle closeButton" ng-click="skipReceipt()" id="no-receipt"></i>
-	  </div>
-	  <div class="contactInfo" id="email-form">
-	    <p style="font-family: Roboto Condensed;font-size: 140%;letter-spacing: 0.02em; margin: -1em 0px 0.1em 0px;">Email Address: </p>
-        <input id="emailInput" class="contactInput input" type="text" ng-model="emailAddress" readonly/>
-        <div id="keyboard">
-		  <table class="fixed" cellspacing="10">
-		    <tr>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    <td width="30px"></td>
-		    </tr>
-		    <tr id="symbols">
-		    <td class="keyButton" colspan="2" ng-click="addChar('!')">!</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('&commat;')">&commat;</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('#')">#</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('$')">$</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('%')">%</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('&')">&</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('*')">*</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('_')">_</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('-')">-</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar('+')">+</td>
-		    <td colspan="4" class="keyButton" ng-click="deleteChar()">delete</td>
-		    </tr>
-		    <tr id="numbers">
-		    <td class="keyButton" colspan="2" >&nbsp;</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(1)">1</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(2)">2</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(3)">3</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(4)">4</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(5)">5</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(6)">6</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(7)">7</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(8)">8</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(9)">9</td>
-		    <td class="keyButton" colspan="2" ng-click="addChar(0)">0</td>
-		    <td class="keyButton" colspan="2" >&nbsp;</td>
-		    </tr>
-		    <tr id="qwertyuiop">
-		    <td colspan="2" class="keyButton">&nbsp;</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('q')">q</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('w')">w</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('e')">e</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('r')">r</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('t')">t</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('y')">y</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('u')">u</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('i')">i</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('o')">o</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('p')">p</td>
-		    <td colspan="2" class="keyButton">&nbsp;</td>
-		    </tr>
-		    <tr id="asdfghjkl">
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('a')">a</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('s')">s</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('d')">d</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('f')">f</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('g')">g</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('h')">h</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('j')">j</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('k')">k</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('l')">l</td>
-		    <td colspan="3" class="keyButton"ng-click="addChar('&commat;')">&commat;</td>
-		    </tr>
-		    <tr id="zxcvbnm">
-		    <td colspan="4" class="keyButton">&nbsp;</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('z')">z</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('x')">x</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('c')">c</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('v')">v</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('b')">b</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('n')">n</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('m')">m</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('.')">.</td>
-		    <td colspan="2" class="keyButton" ng-click="addChar('?')">?</td>
-		    <td colspan="2" class="keyButton">&nbsp;</td>
-		    </tr>
-		    <tr id="providers">
-		    <td class="keyButton" colspan="8" ng-click="addChar('gmail')">gmail</td>
-		    <td class="keyButton" colspan="8" ng-click="addChar('hotmail')">hotmail</td>
-		    <td class="keyButton" colspan="8" ng-click="addChar('yahoo')">yahoo</td>
-		    </tr>
-		    <tr id="domain">
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		    <td colspan="6" class="keyButton" ng-click="addChar('.com')">.com</td>
-		    <td colspan="6" class="keyButton" ng-click="addChar('.net')">.net</td>
-		    <td colspan="6" class="keyButton" ng-click="addChar('.edu')">.edu</td>
-		    <td colspan="3" class="keyButton">&nbsp;</td>
-		    </tr>
-		  </table>
-		</div>
-        <button class="contactButton email" ng-click="submitEmail()">Submit</button>
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+    </script>
+    <body class="bodyMain receipt">
+      <div ng-app="" ng-controller="receiptController">
+        <div>
+          <div style="margin:2%;"id="receipt-prompt">
+            <div class="bar"></div>
+            <h1 class="hed receipt-hed">Where should we send your receipt?</h1>
+            <div class="bar"></div>
+            <h3 class="subhed">(and maybe a sweet discount!)</h3>
+            <i class="fa fa-plus-circle closeButton" ng-click="skipReceipt()" id="no-receipt"></i>
+          </div>
+          <div class="contactInfo" id="email-form">
+            <p style="font-family: Roboto Condensed;font-size: 140%;letter-spacing: 0.02em; margin: -1em 0px 0.1em 0px;">Email Address: </p>
+            <input id="emailInput" class="contactInput input" type="text" ng-model="emailAddress" readonly/>
+            <div id="keyboard">
+              <table class="fixed" cellspacing="10">
+                <tr>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                  <td width="30px"></td>
+                </tr>
+                <tr id="symbols">
+                  <td class="keyButton" colspan="2" ng-click="addChar('!')">!</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('&commat;')">&commat;</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('#')">#</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('$')">$</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('%')">%</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('&')">&</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('*')">*</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('_')">_</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('-')">-</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar('+')">+</td>
+                  <td colspan="4" class="keyButton" ng-click="deleteChar()">delete</td>
+                </tr>
+                <tr id="numbers">
+                  <td class="keyButton" colspan="2" >&nbsp;</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(1)">1</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(2)">2</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(3)">3</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(4)">4</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(5)">5</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(6)">6</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(7)">7</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(8)">8</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(9)">9</td>
+                  <td class="keyButton" colspan="2" ng-click="addChar(0)">0</td>
+                  <td class="keyButton" colspan="2" >&nbsp;</td>
+                </tr>
+                <tr id="qwertyuiop">
+                  <td colspan="2" class="keyButton">&nbsp;</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('q')">q</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('w')">w</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('e')">e</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('r')">r</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('t')">t</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('y')">y</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('u')">u</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('i')">i</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('o')">o</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('p')">p</td>
+                  <td colspan="2" class="keyButton">&nbsp;</td>
+                </tr>
+                <tr id="asdfghjkl">
+                  <td colspan="3" class="keyButton">&nbsp;</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('a')">a</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('s')">s</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('d')">d</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('f')">f</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('g')">g</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('h')">h</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('j')">j</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('k')">k</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('l')">l</td>
+                  <td colspan="3" class="keyButton"ng-click="addChar('&commat;')">&commat;</td>
+                </tr>
+                <tr id="zxcvbnm">
+                  <td colspan="4" class="keyButton">&nbsp;</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('z')">z</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('x')">x</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('c')">c</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('v')">v</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('b')">b</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('n')">n</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('m')">m</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('.')">.</td>
+                  <td colspan="2" class="keyButton" ng-click="addChar('?')">?</td>
+                  <td colspan="2" class="keyButton">&nbsp;</td>
+                </tr>
+                <tr id="providers">
+                  <td class="keyButton" colspan="8" ng-click="addChar('gmail')">gmail</td>
+                  <td class="keyButton" colspan="8" ng-click="addChar('hotmail')">hotmail</td>
+                  <td class="keyButton" colspan="8" ng-click="addChar('yahoo')">yahoo</td>
+                </tr>
+                <tr id="domain">
+                  <td colspan="3" class="keyButton">&nbsp;</td>
+                  <td colspan="6" class="keyButton" ng-click="addChar('.com')">.com</td>
+                  <td colspan="6" class="keyButton" ng-click="addChar('.net')">.net</td>
+                  <td colspan="6" class="keyButton" ng-click="addChar('.edu')">.edu</td>
+                  <td colspan="3" class="keyButton">&nbsp;</td>
+                </tr>
+              </table>
+            </div>
+            <button class="contactButton email" ng-click="submitEmail()">Submit</button>
+          </div>
+        </div>
+        <br>
+        <div style="clear:both;"></div>
       </div>
-	</div>
-    <br>
-	 <div style="clear:both;"></div>
-</div>
 
-<script src="@routes.Assets.at("javascripts/receipt.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/receipt.js")" type="text/javascript"></script>
 
-</body>
-</html>
+    </body>
+  </html>
