@@ -187,7 +187,7 @@ public class Checkout extends Controller {
     PurchaseTransaction purchase = null;
     boolean ignoreException = false;
     try {
-      purchase = new PurchaseTransaction(nonce.substring(1), customerName, productIds, machineId, slots);
+      purchase = new PurchaseTransaction(nonce, customerName, productIds, machineId, slots);
       purchase.process();
       if (purchase.isProcessed()) {
         purchase.record();
